@@ -1,0 +1,114 @@
+const express = require('express');
+const router = express.Router();
+const paypal = require('@paypal/checkout-server-sdk');
+const fs = require('fs');
+const path = require('path');
+
+// PayPal client configuration
+const environment = new paypal.core.SandboxEnvironment(
+    process.env.PAYPAL_CLIENT_ID,
+    process.env.PAYPAL_CLIENT_SECRET
+);
+const client = new paypal.core.PayPalHttpClient(environment);
+
+// Apple Pay merchant validation
+router.post('/validate-merchant', async (req, res) => {
+    try {
+        const validationURL = req.body.validationURL;
+        
+        // Read your merchant identity certificate
+        const merchantIdentityCert = fs.readFileSync(
+            path.join(__dirname, '../certificates/merchant-identity.pem')
+        );
+        
+        // Read your merchant identity key
+        const merchantIdentityKey = fs.readFileSync(
+            path.join(__dirname, '../certificates/merchant-identity.key')
+        );
+        
+        // Create validation request
+        const validationRequest = {
+            merchantIdentifier: 'merchant.com.premiumwebcreators',
+            domainName: 'premiumwebcreators.com',
+            displayName: 'Premium Web Creators',
+            initiative: 'web',
+            initiativeContext: 'premiumwebcreators.com'
+        };
+        
+        // Send validation request to Apple
+        const response = await fetch(validationURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(validationRequest),
+            cert: merchantIdentityCert,
+            key: merchantIdentityKey
+        });
+        
+        const merchantSession = await response.json();
+        res.json(merchantSession);
+    } catch (error) {
+        console.error('Merchant validation failed:', error);
+        res.status(500).json({ error: 'Merchant validation failed' });
+    }
+});
+
+// Process Apple Pay payment
+router.post('/process-apple-pay', async (req, res) => {
+    try {
+        const { payment, amount, type } = req.body;
+        
+        // Create PayPal order
+        const order = await createPayPalOrder(amount, type);
+        
+        // Capture PayPal payment
+        const capture = await capturePayPalPayment(order.id);
+        
+        if (capture.status === 'COMPLETED') {
+            // Update user access in your database
+            await updateUserAccess(type);
+            
+            res.json({ success: true });
+        } else {
+            res.status(400).json({ success: false, error: 'Payment failed' });
+        }
+    } catch (error) {
+        console.error('Payment processing failed:', error);
+        res.status(500).json({ success: false, error: 'Payment processing failed' });
+    }
+});
+
+// Create PayPal order
+async function createPayPalOrder(amount, type) {
+    const request = new paypal.orders.OrdersCreateRequest();
+    request.prefer("return=representation");
+    request.requestBody({
+        intent: 'CAPTURE',
+        purchase_units: [{
+            amount: {
+                currency_code: 'USD',
+                value: amount.toString()
+            },
+            description: type === 'all' ? 'All Tutorials Access' : 'Single Tutorial Access'
+        }]
+    });
+    
+    const order = await client.execute(request);
+    return order.result;
+}
+
+// Capture PayPal payment
+async function capturePayPalPayment(orderId) {
+    const request = new paypal.orders.OrdersCaptureRequest(orderId);
+    const capture = await client.execute(request);
+    return capture.result;
+}
+
+// Update user access in database
+async function updateUserAccess(type) {
+    // Implement your database update logic here
+    // This should grant access to the appropriate tutorials
+}
+
+module.exports = router; 
