@@ -98,8 +98,14 @@ let paypalButtons = {
     allTutorials: null
 };
 
-// PayPal Integration with Apple Pay support
 paypal.Buttons({
+    style: {
+        layout: 'vertical',
+        color: 'blue',
+        shape: 'rect',
+        label: 'pay',
+        tagline: false
+    },
     createOrder: function(data, actions) {
         return actions.order.create({
             purchase_units: [{
@@ -153,16 +159,15 @@ paypal.Buttons({
     }
 }).render('#paypal-button-container');
 
-// Apple Pay through PayPal
-paypal.ApplePay({
+paypal.Buttons({
     createOrder: function(data, actions) {
         return actions.order.create({
             purchase_units: [{
                 amount: {
-                    value: '29.99',
+                    value: '7.99',
                     currency_code: 'USD'
                 },
-                description: `Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
+                description: 'All AI Money-Making Tutorials Access'
             }],
             application_context: {
                 shipping_preference: 'NO_SHIPPING'
@@ -173,29 +178,22 @@ paypal.ApplePay({
         return actions.order.capture().then(function(details) {
             // Store payment details
             const paymentData = {
-                type: 'single',
-                tutorialId: currentTutorialId,
+                type: 'all',
                 transactionId: details.id,
                 timestamp: new Date().getTime()
             };
             
-            // Store purchased tutorials
-            const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
-            if (!purchasedTutorials.includes(currentTutorialId)) {
-                purchasedTutorials.push(currentTutorialId);
-            }
-            
             // Store all payment data
             localStorage.setItem('paymentData', JSON.stringify(paymentData));
-            localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
             localStorage.setItem('paymentDate', new Date().getTime().toString());
             localStorage.setItem('paymentStatus', 'active');
+            localStorage.setItem('allAccess', 'true');
             
-            // Enable access to the specific tutorial
-            enableAccess(currentTutorialId);
+            // Enable access to all tutorials
+            enableAccessToAllTutorials();
             
             // Show success message
-            showMessage('Payment successful! You now have access to this tutorial for 30 days.', 'success');
+            showMessage('Payment successful! You now have access to all tutorials for 30 days.', 'success');
             closeModal();
         });
     },
@@ -206,7 +204,7 @@ paypal.ApplePay({
     onCancel: function() {
         showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
     }
-}).render('#apple-pay-button-container');
+}).render('#allTutorialsButton');
 
 // Modal Functions
 const modal = document.getElementById('premiumModal');
