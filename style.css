@@ -1,0 +1,795 @@
+/* Global Styles */
+:root {
+    --primary-color: #2D3436;
+    --secondary-color: #0984E3;
+    --accent-color: #FFD700;
+    --text-color: #2D3436;
+    --light-text: #636E72;
+    --background: #FFFFFF;
+    --dark-background: #2D3436;
+    --card-background: #F5F6FA;
+    --success-color: #00B894;
+    --error-color: #D63031;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--secondary-color);
+}
+
+.mobile-menu {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    background-color: var(--accent-color);
+    color: var(--dark-background);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Introduction Section */
+.intro {
+    padding: 5rem 0;
+    background-color: var(--card-background);
+}
+
+.intro h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--secondary-color);
+}
+
+.intro p {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--light-text);
+}
+
+/* Tutorials Section */
+.tutorials {
+    padding: 5rem 0;
+}
+
+.tutorials h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--secondary-color);
+}
+
+.tutorial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.tutorial-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.tutorial-card:hover {
+    transform: translateY(-5px);
+}
+
+.tutorial-icon {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.tutorial-card h3 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.tutorial-card p {
+    color: var(--light-text);
+    margin-bottom: 1.5rem;
+}
+
+.read-more {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.read-more:hover {
+    background-color: #0773C5;
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 5rem 0;
+    background-color: var(--card-background);
+}
+
+.testimonials h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--secondary-color);
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-content p {
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    color: var(--light-text);
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-author img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.testimonial-author h4 {
+    color: var(--text-color);
+    margin-bottom: 0.2rem;
+}
+
+.testimonial-author p {
+    color: var(--light-text);
+    font-style: normal;
+}
+
+/* FAQ Section */
+.faq {
+    padding: 5rem 0;
+}
+
+.faq h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--secondary-color);
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.faq-item p {
+    color: var(--light-text);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--light-text);
+}
+
+.pricing-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.pricing-card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+}
+
+.pricing-card.featured {
+    border: 2px solid var(--secondary-color);
+    position: relative;
+}
+
+.pricing-card.featured::before {
+    content: "BEST VALUE";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--secondary-color);
+    color: white;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.pricing-card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.pricing-card .price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.pricing-card .description {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.preview-content {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+.preview-content h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.preview-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.preview-content li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-background);
+    color: white;
+    padding: 3rem 0 1rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .tutorial-grid,
+    .testimonial-grid,
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        margin: 30% auto;
+        width: 95%;
+    }
+
+    .pricing-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tutorial-card,
+.testimonial-card,
+.faq-item {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Message Notifications */
+.message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    z-index: 1001;
+    animation: slideIn 0.3s ease-out;
+}
+
+.message.success {
+    background-color: var(--success-color);
+}
+
+.message.error {
+    background-color: var(--error-color);
+}
+
+.message.info {
+    background-color: var(--secondary-color);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile Menu Active State */
+.nav-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links.active a {
+    margin: 0.5rem 0;
+}
+
+.tutorial-preview {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.tutorial-preview h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.preview-text {
+    color: var(--light-text);
+    line-height: 1.8;
+}
+
+.preview-text::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(transparent, var(--card-background));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* Premium Content Protection */
+.premmium-content {
+    position: relative;
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.premmium-content::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(transparent, var(--card-background));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.premmium-content.unlocked {
+    max-height: none;
+}
+
+.premmium-content.unlocked::after {
+    display: none;
+}
+
+/* Tutorial Page Styles */
+.tutorial-content {
+    max-width: 1000px;
+    margin: 100px auto 50px;
+    padding: 0 20px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    margin-bottom: 30px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.back-button:hover {
+    color: #0773C5;
+}
+
+.tutorial-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.tutorial-header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.tutorial-header p {
+    font-size: 1.2rem;
+    color: var(--light-text);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tutorial-section {
+    margin-bottom: 50px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tutorial-section h2 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+.tool-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.tool-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+    background: var(--card-background);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.tool-list li:hover {
+    transform: translateY(-5px);
+}
+
+.tool-list i {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-top: 3px;
+}
+
+.tool-list strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.tool-list p {
+    color: var(--light-text);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.step-list {
+    list-style: none;
+    padding: 0;
+}
+
+.step-list li {
+    margin-bottom: 30px;
+    padding-left: 30px;
+    position: relative;
+}
+
+.step-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+}
+
+.step-list strong {
+    display: block;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.step-list ul {
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.step-list ul li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.step-list ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+}
+
+.example-box {
+    background: var(--card-background);
+    padding: 30px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.example-box h4 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.example-box p {
+    margin-bottom: 15px;
+    color: var(--light-text);
+}
+
+.example-box ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.example-box ul li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.example-box ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .tutorial-content {
+        margin-top: 80px;
+    }
+
+    .tutorial-header h1 {
+        font-size: 2rem;
+    }
+
+    .tutorial-section {
+        padding: 20px;
+    }
+
+    .tool-list {
+        grid-template-columns: 1fr;
+    }
+} 

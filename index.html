@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Money-Making Guide | 5 Proven Methods</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AXDK478h31Aam7cRATx7rNV4kkRzBXahoUoxBacw5e-EfbY1VzuRW_BUx11uDEFlteA4HRkECdXTYA7V&currency=USD"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">AI Money Guide</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#tutorials">Tutorials</a>
+            <a href="#testimonials">Testimonials</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Make Money with AI</h1>
+            <p>Discover the 5 best ways to earn money using artificial intelligence</p>
+            <button class="cta-button" onclick="document.getElementById('tutorials').scrollIntoView({ behavior: 'smooth' })">Start Learning</button>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="intro">
+        <div class="container">
+            <h2>Why AI is Your Next Money-Making Opportunity</h2>
+            <p>In today's digital age, artificial intelligence is revolutionizing how we work and earn money. Whether you're a complete beginner or an experienced entrepreneur, these AI-powered methods can help you generate significant income from the comfort of your home.</p>
+        </div>
+    </section>
+
+    <!-- Tutorials Preview Section -->
+    <section id="tutorials" class="tutorials">
+        <div class="container">
+            <h2>5 AI Money-Making Methods</h2>
+            <div class="tutorial-grid">
+                <!-- Tutorial Card 1 -->
+                <div class="tutorial-card">
+                    <i class="fas fa-robot tutorial-icon"></i>
+                    <h3>AI-Powered Freelancing</h3>
+                    <p>Learn how to leverage AI tools to offer high-quality freelancing services and earn $500-$5,000 monthly.</p>
+                    <button class="read-more" onclick="checkPaymentStatus(1)">Read More</button>
+                </div>
+
+                <!-- Tutorial Card 2 -->
+                <div class="tutorial-card">
+                    <i class="fas fa-chart-line tutorial-icon"></i>
+                    <h3>Affiliate Marketing with AI</h3>
+                    <p>Discover how to use AI to create and promote affiliate content that generates passive income.</p>
+                    <button class="read-more" onclick="checkPaymentStatus(2)">Read More</button>
+                </div>
+
+                <!-- Tutorial Card 3 -->
+                <div class="tutorial-card">
+                    <i class="fas fa-pen-fancy tutorial-icon"></i>
+                    <h3>Content Creation with AI</h3>
+                    <p>Master the art of creating engaging content using AI tools and monetize your creativity.</p>
+                    <button class="read-more" onclick="checkPaymentStatus(3)">Read More</button>
+                </div>
+
+                <!-- Tutorial Card 4 -->
+                <div class="tutorial-card">
+                    <i class="fas fa-store tutorial-icon"></i>
+                    <h3>Selling AI-Based Digital Products</h3>
+                    <p>Learn how to create and sell digital products enhanced by AI technology.</p>
+                    <button class="read-more" onclick="checkPaymentStatus(4)">Read More</button>
+                </div>
+
+                <!-- Tutorial Card 5 -->
+                <div class="tutorial-card">
+                    <i class="fas fa-handshake tutorial-icon"></i>
+                    <h3>AI-Powered Consulting Services</h3>
+                    <p>Start a consulting business helping others implement AI solutions in their businesses.</p>
+                    <button class="read-more" onclick="checkPaymentStatus(5)">Read More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2>Success Stories</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"I started using AI for content creation and now make $3,000 monthly!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://via.placeholder.com/50" alt="Sarah M.">
+                            <div>
+                                <h4>Sarah M.</h4>
+                                <p>Content Creator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The AI freelancing guide helped me land my first $500 project!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://via.placeholder.com/50" alt="John D.">
+                            <div>
+                                <h4>John D.</h4>
+                                <p>Freelancer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>How much can I earn with these methods?</h3>
+                    <p>Earnings vary based on your dedication and implementation. Our students typically earn between $500-$5,000 monthly.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Do I need technical experience?</h3>
+                    <p>No! Our guides are designed for beginners and include step-by-step instructions.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is the payment secure?</h3>
+                    <p>Yes, we use PayPal's secure payment system to process all transactions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="premiumModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Unlock Premium Content</h2>
+            <div class="tutorial-preview">
+                <h3 id="previewTitle">Loading preview...</h3>
+                <div id="previewContent" class="preview-text">
+                    <!-- Preview content will be loaded here -->
+                </div>
+            </div>
+            <div class="pricing-options">
+                <div class="pricing-card">
+                    <h3>Single Tutorial</h3>
+                    <p class="price">$2.99</p>
+                    <p class="description">Access this specific tutorial</p>
+                    <div id="singleTutorialButton"></div>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>All Tutorials</h3>
+                    <p class="price">$7.99</p>
+                    <p class="description">Access all 5 tutorials (Save 47%)</p>
+                    <div id="allTutorialsButton"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AI Money Guide</h3>
+                    <p>Your trusted source for AI-powered money-making strategies.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#home">Home</a>
+                    <a href="#tutorials">Tutorials</a>
+                    <a href="#testimonials">Testimonials</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: support@aimoneyguide.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AI Money Guide. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
