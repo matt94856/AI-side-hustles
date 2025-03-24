@@ -99,21 +99,14 @@ let paypalButtons = {
 };
 
 paypal.Buttons({
-    style: {
-        layout: 'vertical',
-        color: 'blue',
-        shape: 'rect',
-        label: 'pay',
-        tagline: false
-    },
     createOrder: function(data, actions) {
         return actions.order.create({
             purchase_units: [{
                 amount: {
-                    value: '29.99',
+                    value: '2.99',
                     currency_code: 'USD'
                 },
-                description: `Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
+                description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
             }],
             application_context: {
                 shipping_preference: 'NO_SHIPPING'
@@ -157,7 +150,7 @@ paypal.Buttons({
     onCancel: function() {
         showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
     }
-}).render('#paypal-button-container');
+}).render('#singleTutorialButton');
 
 paypal.Buttons({
     createOrder: function(data, actions) {
