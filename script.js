@@ -368,4 +368,127 @@ function checkPaymentStatus(tutorialId) {
         showMessage('Please purchase access to view this tutorial', 'error');
         showModal(tutorialId);
     }
+}
+
+// Check if Apple Pay is available
+function checkApplePaySupport() {
+    if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+        return true;
+    }
+    return false;
+}
+
+// Initialize Apple Pay
+function initializeApplePay() {
+    if (!checkApplePaySupport()) {
+        return;
+    }
+
+    const paymentRequest = {
+        countryCode: 'US',
+        currencyCode: 'USD',
+        supportedNetworks: ['visa', 'masterCard', 'amex'],
+        merchantCapabilities: ['supports3DS'],
+        total: {
+            label: 'AI Money Guide',
+            amount: '29.99'
+        }
+    };
+
+    const session = new ApplePaySession(3, paymentRequest);
+    
+    session.onvalidatemerchant = async (event) => {
+        try {
+            // In a real implementation, you would validate the merchant with your server
+            // For now, we'll just complete the validation
+            session.completeMerchantValidation({
+                merchantSessionIdentifier: 'merchant.com.aimoneyguide',
+                displayName: 'AI Money Guide',
+                domainName: window.location.hostname
+            });
+        } catch (error) {
+            console.error('Apple Pay validation error:', error);
+            session.abort();
+        }
+    };
+
+    session.onpaymentauthorized = async (event) => {
+        try {
+            // Process the payment
+            const payment = event.payment;
+            const tutorialId = getCurrentTutorialId();
+            
+            // Store payment details
+            const paymentDetails = {
+                tutorialId: tutorialId,
+                transactionId: payment.token.paymentData.transactionIdentifier,
+                paymentMethod: 'apple_pay',
+                date: new Date().toISOString(),
+                status: 'completed'
+            };
+            
+            // Store in local storage
+            const payments = JSON.parse(localStorage.getItem('payments') || '[]');
+            payments.push(paymentDetails);
+            localStorage.setItem('payments', JSON.stringify(payments));
+            
+            // Store purchased tutorial
+            const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
+            if (!purchasedTutorials.includes(tutorialId)) {
+                purchasedTutorials.push(tutorialId);
+                localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+            }
+            
+            // Complete the payment
+            session.completePayment(ApplePaySession.STATUS_SUCCESS);
+            
+            // Show success message
+            showMessage('Payment successful! You now have access to this tutorial for 30 days.', 'success');
+            
+            // Redirect to tutorial
+            setTimeout(() => {
+                window.location.href = `tutorial${tutorialId}.html`;
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Apple Pay processing error:', error);
+            session.completePayment(ApplePaySession.STATUS_FAILURE);
+            showMessage('Payment failed. Please try again.', 'error');
+        }
+    };
+
+    session.oncancel = (event) => {
+        console.log('Apple Pay payment cancelled');
+    };
+
+    return session;
+}
+
+// Update the showModal function to include Apple Pay button
+function showModal(tutorialId) {
+    const modal = document.getElementById('paymentModal');
+    const tutorialTitle = document.getElementById('tutorialTitle');
+    const tutorialPrice = document.getElementById('tutorialPrice');
+    
+    // Set tutorial details
+    tutorialTitle.textContent = `Purchase Tutorial ${tutorialId}`;
+    tutorialPrice.textContent = '$29.99';
+    
+    // Show modal
+    modal.style.display = 'block';
+    
+    // Add Apple Pay button if supported
+    const paymentButtons = document.getElementById('paymentButtons');
+    if (checkApplePaySupport()) {
+        const applePayButton = document.createElement('button');
+        applePayButton.className = 'apple-pay-button';
+        applePayButton.innerHTML = '<i class="fab fa-apple"></i> Pay with Apple Pay';
+        applePayButton.onclick = () => {
+            const session = initializeApplePay();
+            if (session) {
+                session.begin();
+            }
+        };
+        paymentButtons.appendChild(applePayButton);
+    }
 } 

@@ -792,4 +792,298 @@ footer {
     .tool-list {
         grid-template-columns: 1fr;
     }
+}
+
+/* Tutorial Page Additional Styles */
+.key-points {
+    background: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.key-points h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.key-points ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.key-points ul li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.key-points ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.tool-card {
+    background: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+}
+
+.tool-card i {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.tool-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.tool-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 15px 0;
+}
+
+.tool-card ul li {
+    margin-bottom: 8px;
+    color: var(--light-text);
+}
+
+.tool-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: var(--secondary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.tool-link:hover {
+    background: #0773C5;
+}
+
+.step-card {
+    background: var(--card-background);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.step-card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.pro-tip {
+    background: rgba(0, 123, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.pro-tip i {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-top: 3px;
+}
+
+.success-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.metric {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0, 123, 255, 0.1);
+    border-radius: 8px;
+}
+
+.metric .number {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+.metric .label {
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.tip-card {
+    background: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.tip-card i {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.tip-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.timeline {
+    margin-top: 20px;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--secondary-color);
+}
+
+.day {
+    min-width: 80px;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.task {
+    background: var(--card-background);
+    padding: 15px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.task h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.resource-card {
+    background: var(--card-background);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.resource-card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.resource-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.resource-card ul li {
+    margin-bottom: 10px;
+}
+
+.resource-card ul li a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.resource-card ul li a:hover {
+    color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .timeline-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .day {
+        min-width: auto;
+    }
+
+    .success-metrics {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Apple Pay Button Styles */
+.apple-pay-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 300px;
+    transition: background-color 0.3s ease;
+}
+
+.apple-pay-button:hover {
+    background-color: #333;
+}
+
+.apple-pay-button i {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+/* Payment Buttons Container */
+#paymentButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
 } 
