@@ -147,22 +147,25 @@
     <div id="premiumModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Unlock Full Access</h2>
-            <p>Get complete access to all tutorials and resources for 30 days</p>
-            <div class="pricing-options">
-                <div class="pricing-option">
-                    <h3>Single Tutorial</h3>
-                    <p class="price">$29.99</p>
-                    <p class="duration">30-day access</p>
-                    <div id="paypal-button-container"></div>
-                    <div id="apple-pay-button-container" style="display: none;"></div>
+            <h2>Unlock Premium Content</h2>
+            <div class="tutorial-preview">
+                <h3 id="previewTitle">Loading preview...</h3>
+                <div id="previewContent" class="preview-text">
+                    <!-- Preview content will be loaded here -->
                 </div>
-                <div class="pricing-option featured">
+            </div>
+            <div class="pricing-options">
+                <div class="pricing-card">
+                    <h3>Single Tutorial</h3>
+                    <p class="price">$2.99</p>
+                    <p class="description">Access this specific tutorial</p>
+                    <div id="singleTutorialButton"></div>
+                </div>
+                <div class="pricing-card featured">
                     <h3>All Tutorials</h3>
-                    <p class="price">$99.99</p>
-                    <p class="duration">30-day access</p>
-                    <div id="paypal-button-container-all"></div>
-                    <div id="apple-pay-button-container-all" style="display: none;"></div>
+                    <p class="price">$7.99</p>
+                    <p class="description">Access all 5 tutorials (Save 47%)</p>
+                    <div id="allTutorialsButton"></div>
                 </div>
             </div>
         </div>

@@ -314,31 +314,30 @@ body {
 
 .pricing-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
-    margin-top: 2rem;
+    margin: 2rem 0;
 }
 
-.pricing-option {
-    background: white;
-    border-radius: 10px;
+.pricing-card {
+    background: var(--card-background);
     padding: 2rem;
+    border-radius: 10px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
-.pricing-option:hover {
+.pricing-card:hover {
     transform: translateY(-5px);
 }
 
-.pricing-option.featured {
+.pricing-card.featured {
     border: 2px solid var(--secondary-color);
     position: relative;
 }
 
-.pricing-option.featured::before {
-    content: "Best Value";
+.pricing-card.featured::before {
+    content: "BEST VALUE";
     position: absolute;
     top: -12px;
     left: 50%;
@@ -350,19 +349,19 @@ body {
     font-size: 0.8rem;
 }
 
-.pricing-option h3 {
+.pricing-card h3 {
     color: var(--secondary-color);
     margin-bottom: 1rem;
 }
 
-.pricing-option .price {
+.pricing-card .price {
     font-size: 2rem;
     font-weight: bold;
     color: var(--primary-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.pricing-option .duration {
+.pricing-card .description {
     color: #666;
     margin-bottom: 1.5rem;
 }
@@ -1050,21 +1049,4 @@ footer {
     .success-metrics {
         grid-template-columns: 1fr;
     }
-}
-
-/* Apple Pay Button Styles */
-#apple-pay-button-container,
-#apple-pay-button-container-all {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.apple-pay-button {
-    -webkit-appearance: -apple-pay-button;
-    -apple-pay-button-type: buy;
-    -apple-pay-button-style: black;
-    height: 45px;
-    width: 200px;
-    margin: 0 auto;
-    cursor: pointer;
 } 
