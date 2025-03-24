@@ -1049,4 +1049,56 @@ footer {
     .success-metrics {
         grid-template-columns: 1fr;
     }
+}
+
+/* Payment Modal Styles */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.payment-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.payment-option img {
+    height: 40px;
+    object-fit: contain;
+}
+
+.payment-info {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.payment-info p {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.payment-info i {
+    color: #4CAF50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .payment-options {
+        gap: 1rem;
+    }
+    
+    .payment-option img {
+        height: 32px;
+    }
 } 

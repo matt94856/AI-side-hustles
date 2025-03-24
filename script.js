@@ -98,15 +98,16 @@ let paypalButtons = {
     allTutorials: null
 };
 
+// PayPal Integration with Apple Pay support
 paypal.Buttons({
     createOrder: function(data, actions) {
         return actions.order.create({
             purchase_units: [{
                 amount: {
-                    value: '2.99',
+                    value: '29.99',
                     currency_code: 'USD'
                 },
-                description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
+                description: `Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
             }],
             application_context: {
                 shipping_preference: 'NO_SHIPPING'
@@ -150,17 +151,18 @@ paypal.Buttons({
     onCancel: function() {
         showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
     }
-}).render('#singleTutorialButton');
+}).render('#paypal-button-container');
 
-paypal.Buttons({
+// Apple Pay through PayPal
+paypal.ApplePay({
     createOrder: function(data, actions) {
         return actions.order.create({
             purchase_units: [{
                 amount: {
-                    value: '7.99',
+                    value: '29.99',
                     currency_code: 'USD'
                 },
-                description: 'All AI Money-Making Tutorials Access'
+                description: `Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
             }],
             application_context: {
                 shipping_preference: 'NO_SHIPPING'
@@ -171,22 +173,29 @@ paypal.Buttons({
         return actions.order.capture().then(function(details) {
             // Store payment details
             const paymentData = {
-                type: 'all',
+                type: 'single',
+                tutorialId: currentTutorialId,
                 transactionId: details.id,
                 timestamp: new Date().getTime()
             };
             
+            // Store purchased tutorials
+            const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
+            if (!purchasedTutorials.includes(currentTutorialId)) {
+                purchasedTutorials.push(currentTutorialId);
+            }
+            
             // Store all payment data
             localStorage.setItem('paymentData', JSON.stringify(paymentData));
+            localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
             localStorage.setItem('paymentDate', new Date().getTime().toString());
             localStorage.setItem('paymentStatus', 'active');
-            localStorage.setItem('allAccess', 'true');
             
-            // Enable access to all tutorials
-            enableAccessToAllTutorials();
+            // Enable access to the specific tutorial
+            enableAccess(currentTutorialId);
             
             // Show success message
-            showMessage('Payment successful! You now have access to all tutorials for 30 days.', 'success');
+            showMessage('Payment successful! You now have access to this tutorial for 30 days.', 'success');
             closeModal();
         });
     },
@@ -197,7 +206,7 @@ paypal.Buttons({
     onCancel: function() {
         showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
     }
-}).render('#allTutorialsButton');
+}).render('#apple-pay-button-container');
 
 // Modal Functions
 const modal = document.getElementById('premiumModal');
