@@ -368,4 +368,126 @@ function checkPaymentStatus(tutorialId) {
         showMessage('Please purchase access to view this tutorial', 'error');
         showModal(tutorialId);
     }
-} 
+}
+
+// Apple Pay Configuration
+const applePayConfig = {
+    merchantIdentifier: 'merchant.com.premiumwebcreators',
+    merchantCapabilities: ['supports3DS'],
+    supportedNetworks: ['visa', 'masterCard', 'amex'],
+    merchantName: 'Premium Web Creators'
+};
+
+// Check if Apple Pay is available
+async function checkApplePayAvailability() {
+    if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+        return true;
+    }
+    return false;
+}
+
+// Initialize Apple Pay buttons
+async function initializeApplePay() {
+    const isAvailable = await checkApplePayAvailability();
+    if (isAvailable) {
+        document.getElementById('apple-pay-button-container').style.display = 'block';
+        document.getElementById('apple-pay-button-container-all').style.display = 'block';
+        
+        // Create Apple Pay button for single tutorial
+        const applePayButton = new ApplePayButton({
+            buttonStyle: 'black',
+            buttonType: 'buy',
+            container: document.getElementById('apple-pay-button-container'),
+            onClick: () => handleApplePay(29.99, 'single')
+        });
+
+        // Create Apple Pay button for all tutorials
+        const applePayButtonAll = new ApplePayButton({
+            buttonStyle: 'black',
+            buttonType: 'buy',
+            container: document.getElementById('apple-pay-button-container-all'),
+            onClick: () => handleApplePay(99.99, 'all')
+        });
+    }
+}
+
+// Handle Apple Pay payment
+async function handleApplePay(amount, type) {
+    const session = new ApplePaySession(3, applePayConfig);
+    
+    session.begin();
+    
+    session.onvalidatemerchant = async (event) => {
+        try {
+            const merchantSession = await validateMerchant(event.validationURL);
+            session.completeMerchantValidation(merchantSession);
+        } catch (error) {
+            session.abort();
+        }
+    };
+    
+    session.onpaymentauthorized = async (event) => {
+        try {
+            // Process the payment with PayPal
+            const paymentResult = await processApplePayPayment(event.payment, amount, type);
+            if (paymentResult.success) {
+                session.completePayment(ApplePaySession.STATUS_SUCCESS);
+                handlePaymentSuccess(type);
+            } else {
+                session.completePayment(ApplePaySession.STATUS_FAILURE);
+            }
+        } catch (error) {
+            session.completePayment(ApplePaySession.STATUS_FAILURE);
+        }
+    };
+    
+    session.oncancel = () => {
+        // Handle cancellation
+    };
+}
+
+// Validate merchant with Apple Pay
+async function validateMerchant(validationURL) {
+    try {
+        const response = await fetch('/api/validate-merchant', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                validationURL: validationURL
+            })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Merchant validation failed:', error);
+        throw error;
+    }
+}
+
+// Process Apple Pay payment through PayPal
+async function processApplePayPayment(payment, amount, type) {
+    try {
+        const response = await fetch('/api/process-apple-pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                payment: payment,
+                amount: amount,
+                type: type
+            })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error('Payment processing failed:', error);
+        throw error;
+    }
+}
+
+// Initialize payment options when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    initializePayPal();
+    initializeApplePay();
+}); 
