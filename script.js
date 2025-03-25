@@ -346,65 +346,120 @@ function updateProgressBar() {
     }
 }
 
-// Initialize PayPal only if the button exists
+// Initialize PayPal only if the buttons exist
 function initializePayPal() {
-    const paypalButton = document.querySelector('#paypal-button-container');
-    if (!paypalButton) return; // Skip if no PayPal button found
+    const singleTutorialButton = document.querySelector('#singleTutorialButton');
+    const allTutorialsButton = document.querySelector('#allTutorialsButton');
+    
+    if (!singleTutorialButton && !allTutorialsButton) return; // Skip if no PayPal buttons found
 
     if (typeof paypal !== 'undefined') {
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: '2.99',
-                            currency_code: 'USD'
-                        },
-                        description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
-                    }],
-                    application_context: {
-                        shipping_preference: 'NO_SHIPPING'
-                    }
-                });
-            },
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    // Store payment details
-                    const paymentData = {
-                        type: 'single',
-                        tutorialId: currentTutorialId,
-                        transactionId: details.id,
-                        timestamp: new Date().getTime()
-                    };
-                    
-                    // Store purchased tutorials
-                    const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
-                    if (!purchasedTutorials.includes(currentTutorialId)) {
-                        purchasedTutorials.push(currentTutorialId);
-                    }
-                    
-                    // Store all payment data
-                    localStorage.setItem('paymentData', JSON.stringify(paymentData));
-                    localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
-                    localStorage.setItem('paymentDate', new Date().getTime().toString());
-                    localStorage.setItem('paymentStatus', 'active');
-                    
-                    // Enable access to the specific tutorial
-                    enableAccess(currentTutorialId);
-                    
-                    // Show success message
-                    showMessage('Payment successful! You now have access to this tutorial for 30 days.', 'success');
-                    closeModal();
-                });
-            },
-            onError: function(err) {
-                console.error('Payment error:', err);
-                showMessage('There was an error processing your payment. Please try again.', 'error');
-            },
-            onCancel: function() {
-                showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
-            }
-        }).render('#singleTutorialButton');
+        // Single Tutorial Button
+        if (singleTutorialButton) {
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '2.99',
+                                currency_code: 'USD'
+                            },
+                            description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
+                        }],
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING'
+                        }
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        // Store payment details
+                        const paymentData = {
+                            type: 'single',
+                            tutorialId: currentTutorialId,
+                            transactionId: details.id,
+                            timestamp: new Date().getTime()
+                        };
+                        
+                        // Store purchased tutorials
+                        const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
+                        if (!purchasedTutorials.includes(currentTutorialId)) {
+                            purchasedTutorials.push(currentTutorialId);
+                        }
+                        
+                        // Store all payment data
+                        localStorage.setItem('paymentData', JSON.stringify(paymentData));
+                        localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+                        localStorage.setItem('paymentDate', new Date().getTime().toString());
+                        localStorage.setItem('paymentStatus', 'active');
+                        
+                        // Enable access to the specific tutorial
+                        enableAccess(currentTutorialId);
+                        
+                        // Show success message
+                        showMessage('Payment successful! You now have access to this tutorial for 30 days.', 'success');
+                        closeModal();
+                    });
+                },
+                onError: function(err) {
+                    console.error('Payment error:', err);
+                    showMessage('There was an error processing your payment. Please try again.', 'error');
+                },
+                onCancel: function() {
+                    showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
+                }
+            }).render('#singleTutorialButton');
+        }
+
+        // All Tutorials Button
+        if (allTutorialsButton) {
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '7.99',
+                                currency_code: 'USD'
+                            },
+                            description: 'Access to All 5 AI Money-Making Tutorials'
+                        }],
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING'
+                        }
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        // Store payment details
+                        const paymentData = {
+                            type: 'all',
+                            transactionId: details.id,
+                            timestamp: new Date().getTime()
+                        };
+                        
+                        // Store all payment data
+                        localStorage.setItem('paymentData', JSON.stringify(paymentData));
+                        localStorage.setItem('allAccess', 'true');
+                        localStorage.setItem('paymentDate', new Date().getTime().toString());
+                        localStorage.setItem('paymentStatus', 'active');
+                        
+                        // Enable access to all tutorials
+                        enableAccessToAllTutorials();
+                        
+                        // Show success message
+                        showMessage('Payment successful! You now have access to all tutorials for 30 days.', 'success');
+                        closeModal();
+                    });
+                },
+                onError: function(err) {
+                    console.error('Payment error:', err);
+                    showMessage('There was an error processing your payment. Please try again.', 'error');
+                },
+                onCancel: function() {
+                    showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
+                }
+            }).render('#allTutorialsButton');
+        }
     }
 }
 
