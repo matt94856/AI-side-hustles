@@ -98,6 +98,142 @@
         .back-button:hover {
             background-color: #0773C5;
         }
+
+        /* Interactive Elements */
+        .interactive-exercise {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .fill-blanks {
+            margin: 1rem 0;
+        }
+
+        .fill-blanks input {
+            border: none;
+            border-bottom: 2px solid var(--secondary-color);
+            padding: 5px;
+            margin: 0 5px;
+            font-size: 1rem;
+        }
+
+        .drag-drop-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .draggable-items, .drop-targets {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            min-height: 200px;
+        }
+
+        .draggable-item {
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: var(--card-background);
+            border-radius: 4px;
+            cursor: move;
+        }
+
+        .drop-target {
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            min-height: 50px;
+        }
+
+        /* Badges and Gamification */
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            border-radius: 20px;
+            color: white;
+            font-weight: 500;
+            margin: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .achievement-badge i {
+            font-size: 1.2rem;
+        }
+
+        /* AI Tool Demonstrations */
+        .ai-demo {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .ai-demo-steps {
+            margin: 1rem 0;
+        }
+
+        .ai-demo-step {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--card-background);
+            border-radius: 8px;
+        }
+
+        .ai-demo-step .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Code Examples */
+        .code-example {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .code-example pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .code-example .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .code-example .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
     </style>
 </head>
 <body>
@@ -123,27 +259,469 @@
 
         <div class="tutorial-header">
             <h1>Affiliate Marketing with AI</h1>
-            <p>Learn how to leverage AI tools to create high-converting affiliate content and earn $1,000-$10,000 monthly</p>
+            <p>Master the art of AI-powered affiliate marketing and earn $1,000-$10,000 monthly</p>
         </div>
-
-        <div class="tutorial-section">
-            <h2>Introduction</h2>
-            <p>AI tools have transformed affiliate marketing, making it easier to create compelling content, optimize for conversions, and scale your earnings. This comprehensive guide will show you how to build a successful affiliate marketing business using artificial intelligence.</p>
-            <div class="key-points">
-                <h3>What You'll Learn:</h3>
-                <ul>
-                    <li>How to choose profitable affiliate niches</li>
-                    <li>Essential AI tools for content creation and optimization</li>
-                    <li>Creating high-converting affiliate content</li>
-                    <li>SEO and traffic generation strategies</li>
-                    <li>Conversion optimization techniques</li>
-                    <li>Scaling your affiliate business</li>
-                </ul>
+        <div class="progress-container">
+            <div class="progress-stats">
+                <div class="progress-stat">
+                    <span class="stat-value">0/7</span>
+                    <span class="stat-label">Modules Complete</span>
+                </div>
+                <div class="progress-stat">
+                    <span class="stat-value">0%</span>
+                    <span class="stat-label">Course Progress</span>
+                </div>
+                <div class="progress-stat">
+                    <span class="stat-value">0</span>
+                    <span class="stat-label">Points Earned</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" style="width: 0%"></div>
+            </div>
+            <div class="progress-badges">
+                <div class="badge locked">
+                    <i class="fas fa-star"></i>
+                    <span>Module 1</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-tools"></i>
+                    <span>Module 2</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-road"></i>
+                    <span>Module 3</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-trophy"></i>
+                    <span>Module 4</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Module 5</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-tasks"></i>
+                    <span>Module 6</span>
+                </div>
+                <div class="badge locked">
+                    <i class="fas fa-book"></i>
+                    <span>Module 7</span>
+                </div>
             </div>
         </div>
 
+        <!-- Module 1: Introduction to Affiliate Marketing -->
         <div class="tutorial-section">
-            <h2>Recommended AI Tools</h2>
+            <h2>Module 1: Understanding Affiliate Marketing</h2>
+            
+            <div class="beginner-explanation">
+                <h3>What is Affiliate Marketing?</h3>
+                <p>Think of affiliate marketing like being a trusted recommender. When you tell a friend about a great product and they buy it, the company rewards you with a commission. It's that simple!</p>
+                
+                <div class="interactive-exercise">
+                    <h4>Quick Check: Understanding Affiliate Marketing</h4>
+                    <form class="quiz-form">
+                        <div class="quiz-question" data-correct="Promoting products and earning commissions">
+                            <p>What is the primary way affiliate marketers earn money?</p>
+                            <label><input type="radio" name="q1" value="Creating their own products">Creating their own products</label>
+                            <label><input type="radio" name="q1" value="Promoting products and earning commissions">Promoting products and earning commissions</label>
+                            <label><input type="radio" name="q1" value="Buying and reselling products">Buying and reselling products</label>
+                            <label><input type="radio" name="q1" value="Managing online stores">Managing online stores</label>
+                            <div class="question-feedback"></div>
+                        </div>
+                        <button type="submit" class="quiz-submit">Check Answer</button>
+                        <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
+                        <div class="quiz-score"></div>
+                    </form>
+                </div>
+
+                <div class="key-terms">
+                    <h4>Essential Terms to Know</h4>
+                    <div class="term-card">
+                        <h5>Affiliate Link</h5>
+                        <p>A special URL that tracks your referrals. When someone clicks your link and makes a purchase, you get credit for the sale.</p>
+                        <div class="example-box">
+                            <p>Example: https://amazon.com/product?ref=your_id</p>
+                        </div>
+                    </div>
+                    
+                    <div class="term-card">
+                        <h5>Commission Rate</h5>
+                        <p>The percentage of the sale you earn as a reward. Different products have different rates.</p>
+                        <div class="example-box">
+                            <p>Example: A $100 product with 10% commission = $10 earnings</p>
+                        </div>
+                    </div>
+
+                    <div class="term-card">
+                        <h5>Conversion Rate</h5>
+                        <p>The percentage of visitors who click your link and make a purchase.</p>
+                        <div class="example-box">
+                            <p>Example: 100 visitors → 3 purchases = 3% conversion rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="completion-checkbox">
+                    <label><input type="checkbox" class="module-complete" data-module="1"> Mark Module 1 as Complete</label>
+                </div>
+            </div>
+
+            <div class="ai-integration">
+                <h3>How AI Transforms Affiliate Marketing</h3>
+                
+                <div class="ai-demo">
+                    <h4>ChatGPT Demo: Creating Product Reviews</h4>
+                    <div class="ai-demo-steps">
+                        <div class="ai-demo-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h5>Prompt Engineering</h5>
+                                <p>Here's a proven prompt template for product reviews:</p>
+                                <div class="code-example">
+                                    <pre>Write a detailed review of [Product Name] covering:
+- Key features and benefits
+- Pros and cons
+- Who it's best for
+- Real user experiences
+- Comparison with alternatives
+Use a conversational tone and include specific examples.</pre>
+                                    <button class="copy-btn">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ai-demo-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h5>Enhancing AI Output</h5>
+                                <p>Always enhance AI-generated content by:</p>
+                                <ul>
+                                    <li>Adding personal experiences</li>
+                                    <li>Including unique insights</li>
+                                    <li>Adding recent updates</li>
+                                    <li>Incorporating user feedback</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="practical-application">
+                <h3>Build Your First Affiliate Site</h3>
+                
+                <div class="code-tutorials">
+                    <h3>Building Your First Affiliate Website - A Beginner's Guide</h3>
+                    
+                    <div class="code-section">
+                        <h4>Step 1: Basic Website Structure (HTML)</h4>
+                        <p class="code-explanation">
+                            Here's a simple website structure broken down into easy-to-understand parts:
+                        </p>
+                        <div class="code-example">
+                            <pre>
+&lt;!-- This is the basic structure of your webpage --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;!-- This section contains information about your webpage --&gt;
+    &lt;title&gt;My Affiliate Website&lt;/title&gt;
+    &lt;meta name="description" content="Honest product reviews and recommendations"&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;!-- Header section with navigation menu --&gt;
+    &lt;header&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href="#reviews"&gt;Reviews&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#guides"&gt;Guides&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;!-- Main content area --&gt;
+    &lt;main&gt;
+        &lt;!-- Product Review Example --&gt;
+        &lt;article class="product-review"&gt;
+            &lt;h1&gt;Review: [Product Name]&lt;/h1&gt;
+            
+            &lt;!-- Product Rating --&gt;
+            &lt;div class="product-rating"&gt;
+                ⭐⭐⭐⭐⭐ (5/5)
+            &lt;/div&gt;
+
+            &lt;!-- Your Review Content --&gt;
+            &lt;div class="product-content"&gt;
+                &lt;p&gt;Your honest review goes here...&lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Affiliate Link Button --&gt;
+            &lt;div class="affiliate-cta"&gt;
+                &lt;a href="your-affiliate-link" class="cta-button"&gt;
+                    Check Price on Amazon
+                &lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/article&gt;
+    &lt;/main&gt;
+
+    &lt;!-- Footer with Disclosure --&gt;
+    &lt;footer&gt;
+        &lt;p&gt;Affiliate Disclosure: I may earn a commission if you purchase through my links&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                            <button class="copy-btn">Copy Code</button>
+                        </div>
+                        <div class="code-notes">
+                            <h5>Understanding the Code:</h5>
+                            <ul>
+                                <li><strong>DOCTYPE and HTML tags:</strong> These tell browsers this is a webpage</li>
+                                <li><strong>Head section:</strong> Contains page information and links to CSS</li>
+                                <li><strong>Body section:</strong> Where all your visible content goes</li>
+                                <li><strong>Header & Nav:</strong> Your menu and navigation links</li>
+                                <li><strong>Main content:</strong> Your product reviews and affiliate content</li>
+                                <li><strong>Footer:</strong> Important disclosures and additional info</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>Step 2: Making It Look Good (CSS)</h4>
+                        <p class="code-explanation">
+                            Here's simple CSS to style your affiliate website. Each style is explained:
+                        </p>
+                        <div class="code-example">
+                            <pre>
+/* Basic styles to make your site look professional */
+
+/* Makes the page look clean and organized */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Makes your product review stand out */
+.product-review {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Styles your star rating */
+.product-rating {
+    font-size: 24px;
+    color: gold;
+    margin: 20px 0;
+}
+
+/* Makes your "Buy Now" button attractive */
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background: #ff9900;  /* Amazon-style orange */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Button hover effect */
+.cta-button:hover {
+    background: #ff8800;
+    transform: translateY(-2px);
+}</pre>
+                            <button class="copy-btn">Copy Code</button>
+                        </div>
+                        <div class="code-notes">
+                            <h5>CSS Explained:</h5>
+                            <ul>
+                                <li><strong>body:</strong> Sets the overall page style</li>
+                                <li><strong>product-review:</strong> Creates a clean card-like design</li>
+                                <li><strong>product-rating:</strong> Styles your star ratings</li>
+                                <li><strong>cta-button:</strong> Creates an attractive "Buy Now" button</li>
+                                <li><strong>hover effect:</strong> Makes the button interactive</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <h4>Using AI to Help Build Your Website</h4>
+                        <p class="code-explanation">
+                            AI tools can significantly speed up your website development process. Here's how to leverage them effectively:
+                        </p>
+                        
+                        <div class="ai-demo">
+                            <h4>AI Development Assistants</h4>
+                            <div class="ai-demo-steps">
+                                <div class="ai-demo-step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <h5>ChatGPT</h5>
+                                        <p>Use ChatGPT to:</p>
+                                        <ul>
+                                            <li>Generate HTML structure for specific sections</li>
+                                            <li>Create CSS styles for your elements</li>
+                                            <li>Debug your code issues</li>
+                                            <li>Get explanations of code functionality</li>
+                                        </ul>
+                                        <div class="code-example">
+                                            <pre>
+Prompt Example:
+"Can you help me create HTML and CSS for a product review card that includes:
+- Product image
+- Title
+- Rating stars
+- Price
+- Buy now button
+Make it responsive and modern-looking."</pre>
+                                            <button class="copy-btn">Copy</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ai-demo-step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <h5>Cursor AI</h5>
+                                        <p>Use Cursor AI in your IDE to:</p>
+                                        <ul>
+                                            <li>Get real-time code suggestions</li>
+                                            <li>Autocomplete code blocks</li>
+                                            <li>Refactor and improve your code</li>
+                                            <li>Find and fix bugs quickly</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="pro-tip">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <p>Always review and customize AI-generated code to match your specific needs and ensure it follows best practices. Add your own comments and modifications to make it unique to your site.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study">
+                    <h3>Success Story: Sarah's Tech Review Site</h3>
+                    <div class="case-study-content">
+                        <div class="case-study-header">
+                            <img src="images/sarah-profile.jpg" alt="Sarah's Success Story">
+                            <div class="case-study-stats">
+                                <div class="stat">
+                                    <span class="label">Starting Point</span>
+                                    <span class="value">$0/month</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">After 6 Months</span>
+                                    <span class="value">$3,500/month</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Traffic Growth</span>
+                                    <span class="value">15,000 monthly visitors</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="strategy-breakdown">
+                            <h4>Sarah's Winning Strategy</h4>
+                            <ol>
+                                <li>
+                                    <strong>Niche Selection</strong>
+                                    <p>Focused on smart home devices with high commission rates (8-12%)</p>
+                                </li>
+                                <li>
+                                    <strong>Content Strategy</strong>
+                                    <p>Created in-depth comparison articles using AI tools + personal testing</p>
+                                </li>
+                                <li>
+                                    <strong>SEO Optimization</strong>
+                                    <p>Used Surfer SEO to optimize content for search engines</p>
+                                </li>
+                                <li>
+                                    <strong>User Experience</strong>
+                                    <p>Added video demonstrations and interactive comparison tables</p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Quiz -->
+                <div class="module-quiz">
+                    <h3>Module 1 Quiz: Affiliate Marketing Fundamentals</h3>
+                    <form class="quiz-form">
+                        <div class="quiz-question" data-correct="Market research and niche selection">
+                            <p>What is the first step in starting an AI-powered affiliate marketing business?</p>
+                            <label><input type="radio" name="q1">Creating content immediately</label>
+                            <label><input type="radio" name="q1">Market research and niche selection</label>
+                            <label><input type="radio" name="q1">Setting up social media accounts</label>
+                            <label><input type="radio" name="q1">Building an email list</label>
+                            <div class="question-feedback"></div>
+                        </div>
+
+                        <div class="quiz-question" data-correct="ChatGPT">
+                            <p>Which AI tool is most effective for generating affiliate product reviews?</p>
+                            <label><input type="radio" name="q2">Midjourney</label>
+                            <label><input type="radio" name="q2">ChatGPT</label>
+                            <label><input type="radio" name="q2">DALL-E</label>
+                            <label><input type="radio" name="q2">Stable Diffusion</label>
+                            <div class="question-feedback"></div>
+                        </div>
+
+                        <div class="quiz-question" data-correct="Value-based content">
+                            <p>What type of content performs best in affiliate marketing?</p>
+                            <label><input type="radio" name="q3">Direct sales pitches</label>
+                            <label><input type="radio" name="q3">Value-based content</label>
+                            <label><input type="radio" name="q3">Pure product descriptions</label>
+                            <label><input type="radio" name="q3">Generic blog posts</label>
+                            <div class="question-feedback"></div>
+                        </div>
+
+                        <button type="submit" class="quiz-submit">Submit Answers</button>
+                        <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
+                        <div class="quiz-score"></div>
+                    </form>
+                </div>
+
+                <!-- Practical Challenge -->
+                <div class="practical-challenge">
+                    <h3>Module 1 Challenge: Create Your First Affiliate Page</h3>
+                    <div class="challenge-content">
+                        <p>Put your learning into practice by creating a simple affiliate product review page.</p>
+                        <div class="challenge-steps">
+                            <ol>
+                                <li>Choose a product you're familiar with</li>
+                                <li>Use the HTML template provided above</li>
+                                <li>Write a review using ChatGPT + your insights</li>
+                                <li>Add your affiliate links</li>
+                                <li>Style it using the CSS provided</li>
+                            </ol>
+                        </div>
+                        <div class="submission-area">
+                            <h4>Submit Your Work</h4>
+                            <input type="file" accept=".html,.css" class="file-upload">
+                            <button class="upload-btn">Submit Challenge</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: Recommended AI Tools -->
+        <div class="tutorial-section">
+            <h2>Module 2: Recommended AI Tools</h2>
             <div class="tool-grid">
                 <div class="tool-card">
                     <i class="fas fa-robot"></i>
@@ -193,10 +771,14 @@
                     <a href="https://www.midjourney.com" target="_blank" class="tool-link">Get Started</a>
                 </div>
             </div>
+            <div class="completion-checkbox">
+                <label><input type="checkbox" class="module-complete" data-module="2"> Mark Module 2 as Complete</label>
+            </div>
         </div>
 
+        <!-- Module 3: Step-by-Step Guide -->
         <div class="tutorial-section">
-            <h2>Step-by-Step Guide</h2>
+            <h2>Module 3: Step-by-Step Guide</h2>
             
             <div class="step-card">
                 <h3>Step 1: Choose Your Affiliate Niche</h3>
@@ -375,10 +957,14 @@
                     <p>Regularly test different elements and track your results to continuously improve conversion rates.</p>
                 </div>
             </div>
+            <div class="completion-checkbox">
+                <label><input type="checkbox" class="module-complete" data-module="3"> Mark Module 3 as Complete</label>
+            </div>
         </div>
 
+        <!-- Module 4: Real Success Story -->
         <div class="tutorial-section">
-            <h2>Real Success Story</h2>
+            <h2>Module 4: Real Success Story</h2>
             <div class="example-box">
                 <h4>Mike's Journey to $5,000 Monthly</h4>
                 <p>"I started my affiliate marketing journey using AI tools to create content. Within six months, I was earning $5,000 monthly through a combination of product reviews and comparison guides. The key was using AI to scale my content while maintaining quality."</p>
@@ -404,10 +990,14 @@
                     </div>
                 </div>
             </div>
+            <div class="completion-checkbox">
+                <label><input type="checkbox" class="module-complete" data-module="4"> Mark Module 4 as Complete</label>
+            </div>
         </div>
 
+        <!-- Module 5: Pro Tips for Success -->
         <div class="tutorial-section">
-            <h2>Pro Tips for Success</h2>
+            <h2>Module 5: Pro Tips for Success</h2>
             <div class="tips-grid">
                 <div class="tip-card">
                     <i class="fas fa-check-circle"></i>
@@ -440,10 +1030,14 @@
                     <p>Don't rely on a single affiliate program or product category.</p>
                 </div>
             </div>
+            <div class="completion-checkbox">
+                <label><input type="checkbox" class="module-complete" data-module="5"> Mark Module 5 as Complete</label>
+            </div>
         </div>
 
+        <!-- Module 6: Next Steps -->
         <div class="tutorial-section">
-            <h2>Next Steps</h2>
+            <h2>Module 6: Next Steps</h2>
             <div class="action-plan">
                 <h3>Your 30-Day Action Plan</h3>
                 <div class="timeline">
@@ -504,10 +1098,14 @@
                     </div>
                 </div>
             </div>
+            <div class="completion-checkbox">
+                <label><input type="checkbox" class="module-complete" data-module="6"> Mark Module 6 as Complete</label>
+            </div>
         </div>
 
+        <!-- Module 7: Resources & Tools -->
         <div class="tutorial-section">
-            <h2>Resources & Tools</h2>
+            <h2>Module 7: Resources & Tools</h2>
             <div class="resources-grid">
                 <div class="resource-card">
                     <h3>Learning Resources</h3>
@@ -534,9 +1132,263 @@
                     </ul>
                 </div>
             </div>
+            <div class="completion-checkbox">
+                <label><input type="checkbox" class="module-complete" data-module="7"> Mark Module 7 as Complete</label>
+            </div>
+        </div>
+
+        <!-- New Section: Deployment and Promotion -->
+        <div class="tutorial-section">
+            <h2>Deployment and Promotion Guide</h2>
+            
+            <div class="deployment-steps">
+                <h3>Setting Up Your Website (Free Method)</h3>
+                <div class="step-card">
+                    <h4><i class="fab fa-github"></i> GitHub Setup</h4>
+                    <ol>
+                        <li>Create a GitHub account at github.com</li>
+                        <li>Create a new repository for your affiliate site</li>
+                        <li>Upload your website files:
+                            <div class="code-example">
+                                <pre>
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin your-repo-url
+git push -u origin main</pre>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="step-card">
+                    <h4><i class="fas fa-rocket"></i> Netlify Deployment</h4>
+                    <ol>
+                        <li>Sign up for a free Netlify account</li>
+                        <li>Click "New site from Git"</li>
+                        <li>Connect your GitHub repository</li>
+                        <li>Configure build settings (if needed)</li>
+                        <li>Click "Deploy site"</li>
+                        <li>Get your free .netlify.app domain</li>
+                        <li>Optional: Add a custom domain</li>
+                    </ol>
+                    <div class="pro-tip">
+                        <i class="fas fa-lightbulb"></i>
+                        <p>Netlify automatically rebuilds your site whenever you push changes to GitHub, making updates easy!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promotion-strategies">
+                <h3>Multi-Platform Promotion Strategy</h3>
+                
+                <div class="platform-cards">
+                    <div class="platform-card">
+                        <h4><i class="fab fa-wix"></i> Wix</h4>
+                        <ul>
+                            <li>Create a professional landing page</li>
+                            <li>Use Wix's SEO tools</li>
+                            <li>Integrate blog content</li>
+                            <li>Add email capture forms</li>
+                            <li>Connect social media feeds</li>
+                        </ul>
+                    </div>
+
+                    <div class="platform-card">
+                        <h4><i class="fab fa-instagram"></i> Instagram</h4>
+                        <ul>
+                            <li>Create a business account</li>
+                            <li>Post product reviews and tutorials</li>
+                            <li>Use Instagram Shopping features</li>
+                            <li>Share authentic behind-the-scenes content</li>
+                            <li>Leverage Instagram Reels</li>
+                        </ul>
+                    </div>
+
+                    <div class="platform-card">
+                        <h4><i class="fab fa-youtube"></i> YouTube</h4>
+                        <ul>
+                            <li>Create detailed product reviews</li>
+                            <li>Share tutorial videos</li>
+                            <li>Make comparison videos</li>
+                            <li>Include affiliate links in descriptions</li>
+                            <li>Create playlists by product category</li>
+                        </ul>
+                    </div>
+
+                    <div class="platform-card">
+                        <h4><i class="fab fa-tiktok"></i> TikTok</h4>
+                        <ul>
+                            <li>Create short, engaging product demos</li>
+                            <li>Share quick tips and hacks</li>
+                            <li>Use trending sounds and effects</li>
+                            <li>Participate in challenges</li>
+                            <li>Direct traffic to your bio link</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-strategy">
+                    <h4>Cross-Platform Content Strategy</h4>
+                    <div class="strategy-tips">
+                        <ul>
+                            <li><strong>Content Repurposing:</strong> Turn YouTube reviews into short TikToks and Instagram Reels</li>
+                            <li><strong>Consistent Branding:</strong> Use the same handle and visual style across platforms</li>
+                            <li><strong>Platform-Specific Optimization:</strong> Adapt content format and timing for each platform</li>
+                            <li><strong>Community Building:</strong> Engage with comments and create platform-specific communities</li>
+                            <li><strong>Analytics Tracking:</strong> Monitor performance across all platforms to optimize strategy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Progress tracking
+            let totalModules = 7;
+            let completedModules = [];
+            let totalPoints = 0;
+            const pointsPerModule = 100;
+            
+            // Load saved progress from local storage
+            const savedProgress = JSON.parse(localStorage.getItem('tutorial2Progress')) || {};
+            completedModules = Array.isArray(savedProgress.completedModules) ? savedProgress.completedModules : [];
+            totalPoints = savedProgress.totalPoints || 0;
+            const completedQuizzes = savedProgress.completedQuizzes || [];
+            const completedProjects = savedProgress.completedProjects || [];
+            
+            function updateProgress() {
+                const progressBar = document.querySelector('.progress');
+                const progressPercentage = (completedModules.length / totalModules) * 100;
+                progressBar.style.width = progressPercentage + '%';
+                
+                // Update stats
+                document.querySelector('.progress-stat:nth-child(1) .stat-value').textContent = 
+                    completedModules.length + '/' + totalModules;
+                document.querySelector('.progress-stat:nth-child(2) .stat-value').textContent = 
+                    Math.round(progressPercentage) + '%';
+                document.querySelector('.progress-stat:nth-child(3) .stat-value').textContent = 
+                    totalPoints;
+                
+                // Update badges
+                const badges = document.querySelectorAll('.badge');
+                badges.forEach((badge, index) => {
+                    if (index < completedModules.length) {
+                        badge.classList.remove('locked');
+                        badge.classList.add('unlocked');
+                    }
+                });
+
+                // Save progress to local storage
+                localStorage.setItem('tutorial2Progress', JSON.stringify({
+                    completedModules,
+                    totalPoints,
+                    completedQuizzes,
+                    completedProjects
+                }));
+            }
+
+            // Quiz functionality
+            const quizForms = document.querySelectorAll('.quiz-form');
+            
+            quizForms.forEach((form, index) => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const questions = this.querySelectorAll('.quiz-question');
+                    let correctAnswers = 0;
+                    
+                    questions.forEach(question => {
+                        const selectedAnswer = question.querySelector('input:checked');
+                        const correctAnswer = question.dataset.correct;
+                        const feedback = question.querySelector('.question-feedback');
+                        
+                        if (!selectedAnswer) {
+                            feedback.textContent = 'Please select an answer.';
+                            feedback.className = 'question-feedback incorrect';
+                            return;
+                        }
+                        
+                        if (selectedAnswer.nextSibling.textContent.trim() === correctAnswer) {
+                            feedback.textContent = 'Correct! Great job!';
+                            feedback.className = 'question-feedback correct';
+                            correctAnswers++;
+                        } else {
+                            feedback.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
+                            feedback.className = 'question-feedback incorrect';
+                        }
+                    });
+
+                    const scoreDiv = this.querySelector('.quiz-score');
+                    const submitBtn = this.querySelector('.quiz-submit');
+                    const retryBtn = this.querySelector('.quiz-retry');
+                    
+                    if (correctAnswers === questions.length) {
+                        scoreDiv.textContent = 'Quiz Passed! 🎉';
+                        scoreDiv.className = 'quiz-score passed';
+                        // Mark quiz as completed
+                        if (!completedQuizzes.includes(index)) {
+                            completedQuizzes.push(index);
+                        }
+                        // Check if the completion checkbox is also checked
+                        const moduleCheckbox = this.closest('.tutorial-section').querySelector('.module-complete');
+                        if (moduleCheckbox && moduleCheckbox.checked && !completedModules.includes(index)) {
+                            completedModules.push(index);
+                            totalPoints += pointsPerModule;
+                            updateProgress();
+                        }
+                    } else {
+                        scoreDiv.textContent = 'Try again!';
+                        scoreDiv.className = 'quiz-score failed';
+                    }
+                    
+                    submitBtn.style.display = 'none';
+                    retryBtn.style.display = 'block';
+                });
+                
+                const retryBtn = form.querySelector('.quiz-retry');
+                if (retryBtn) {
+                    retryBtn.addEventListener('click', function() {
+                        form.reset();
+                        form.querySelectorAll('.question-feedback').forEach(feedback => {
+                            feedback.textContent = '';
+                        });
+                        form.querySelector('.quiz-score').textContent = '';
+                        this.style.display = 'none';
+                        form.querySelector('.quiz-submit').style.display = 'block';
+                    });
+                }
+            });
+
+            // Completion checkbox functionality
+            const completionCheckboxes = document.querySelectorAll('.module-complete');
+            completionCheckboxes.forEach((checkbox, index) => {
+                checkbox.addEventListener('change', function() {
+                    const moduleQuiz = this.closest('.tutorial-section').querySelector('.quiz-form');
+                    const quizPassed = moduleQuiz ? completedQuizzes.includes(index) : true;
+                    if (this.checked && quizPassed && !completedModules.includes(index)) {
+                        completedModules.push(index);
+                        totalPoints += pointsPerModule;
+                    } else if ((!this.checked || !quizPassed) && completedModules.includes(index)) {
+                        completedModules = completedModules.filter(i => i !== index);
+                        totalPoints -= pointsPerModule;
+                    }
+                    updateProgress();
+                });
+            });
+
+            // Initialize checkboxes based on saved progress
+            completionCheckboxes.forEach((checkbox, index) => {
+                if (completedModules.includes(index)) {
+                    checkbox.checked = true;
+                }
+            });
+
+            updateProgress();
+        });
+    </script>
 </body>
 </html> 
