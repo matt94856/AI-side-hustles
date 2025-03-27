@@ -1372,6 +1372,16 @@
         @media only screen and (max-width: 767px) {
             .navbar {
                 padding: 0.6rem 1rem;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 999;
+                transition: transform 0.3s ease;
+            }
+            
+            .navbar.hidden {
+                transform: translateY(-100%);
             }
             
             .logo {
@@ -1652,7 +1662,7 @@
         <div class="countdown-section">
             <div class="limited-time">
                 <div class="countdown-timer">
-                    <span class="countdown-label">LIMITED TIME OFFER:</span>
+                    <span class="countdown-label">60% OFF: <del style="opacity: 0.7; margin: 0 5px;">$49.99</del> $19.99</span>
                     <div class="countdown-digits">
                         <div class="time-block"><span id="hours">23</span><span class="time-label">Hours</span></div>
                         <div class="time-block"><span id="minutes">59</span><span class="time-label">Minutes</span></div>
@@ -2088,6 +2098,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuBtn = document.querySelector('.mobile-menu');
             const navLinks = document.querySelector('.nav-links');
+            const navbar = document.querySelector('.navbar');
+            let lastScrollTop = 0;
             
             if (mobileMenuBtn) {
                 mobileMenuBtn.addEventListener('click', function() {
@@ -2103,8 +2115,24 @@
                 });
             });
             
-            // Load only required images on mobile
+            // Hide navbar on scroll down, show on scroll up (mobile only)
             if (window.innerWidth < 768) {
+                window.addEventListener('scroll', function() {
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    if (scrollTop > lastScrollTop && scrollTop > 60) {
+                        // Scrolling down & past navbar height
+                        navbar.classList.add('hidden');
+                        navLinks.classList.remove('active'); // Close mobile menu when scrolling
+                    } else {
+                        // Scrolling up
+                        navbar.classList.remove('hidden');
+                    }
+                    
+                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                }, {passive: true});
+                
+                // Load only required images on mobile
                 const lazyImages = document.querySelectorAll('img[data-src]');
                 lazyImages.forEach(img => {
                     img.src = img.getAttribute('data-src');
