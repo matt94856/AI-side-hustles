@@ -1366,6 +1366,181 @@
             max-width: 500px;
             margin: 0 auto;
         }
+
+        /* Mobile Responsiveness Improvements */
+        /* These styles will only apply on mobile devices */
+        @media only screen and (max-width: 767px) {
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            
+            .nav-links a {
+                padding: 1rem 2rem;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .mobile-menu {
+                display: block;
+                cursor: pointer;
+                font-size: 1.5rem;
+                color: white;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-headline {
+                font-size: 1.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .hero-features {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.8rem;
+            }
+            
+            .cta-container {
+                flex-direction: column;
+            }
+            
+            .market-stat-counter {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+                font-size: 0.85rem;
+            }
+            
+            .primary-cta {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .limited-time {
+                width: 90%;
+                padding: 0.8rem;
+            }
+            
+            .countdown-timer {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .time-block {
+                padding: 0.3rem 0.5rem;
+            }
+            
+            .time-label {
+                font-size: 0.6rem;
+            }
+            
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tutorials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tutorial-card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .bundle-content {
+                flex-direction: column;
+            }
+            
+            .bundle-pricing {
+                width: 100%;
+                margin-top: 1rem;
+            }
+            
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-section {
+                margin-bottom: 1.5rem;
+            }
+            
+            /* Increase tap target sizes */
+            button, 
+            .enroll-now, 
+            .bundle-cta,
+            .nav-links a {
+                min-height: 44px;
+                padding: 12px 20px;
+            }
+            
+            /* Desktop recommendation message for mobile */
+            .desktop-recommendation {
+                display: block;
+                background-color: rgba(74, 157, 231, 0.1);
+                border: 1px solid rgba(74, 157, 231, 0.3);
+                border-radius: 8px;
+                padding: 12px;
+                margin: 1rem 0;
+                text-align: center;
+                font-size: 0.9rem;
+                color: var(--accent-color);
+            }
+            
+            .desktop-recommendation i {
+                margin-right: 6px;
+            }
+        }
+        
+        /* Hide desktop recommendation on desktop */
+        .desktop-recommendation {
+            display: none;
+        }
+        
+        /* Media query for tablets */
+        @media only screen and (min-width: 768px) and (max-width: 1023px) {
+            .tutorials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Hide mobile menu button on desktop */
+        .mobile-menu {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -1681,7 +1856,7 @@
                 <div class="bundle-header">
                     <h3>Complete AI Income Bundle</h3>
                     <div class="bundle-tag">BEST VALUE</div>
-                            </div>
+                </div>
                 <div class="bundle-content">
                     <div class="bundle-description">
                         <p>Get access to all 5 AI courses and start building multiple income streams today!</p>
@@ -1691,12 +1866,16 @@
                             <li><i class="fas fa-check-circle"></i> Lifetime access to all future updates</li>
                             <li><i class="fas fa-check-circle"></i> Priority email support</li>
                         </ul>
-                        </div>
+                    </div>
                     <div class="bundle-pricing">
                         <div class="price-comparison">
                             <span class="regular-price">Regular: $49.99</span>
                             <span class="discount-price">Today: $19.99</span>
-                    </div>
+                        </div>
+                        <!-- Desktop recommendation for mobile devices -->
+                        <div class="desktop-recommendation">
+                            <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend using a desktop computer.
+                        </div>
                         <button class="bundle-cta" onclick="checkPaymentStatus('all')">
                             <span>Get All 5 Courses</span>
                             <i class="fas fa-arrow-right"></i>
@@ -1711,7 +1890,7 @@
     <section id="faq" class="faq">
         <div class="container">
             <div class="section-header">
-            <h2>Frequently Asked Questions</h2>
+                <h2>Frequently Asked Questions</h2>
                 <p class="section-description">Get answers to common questions about our AI income courses</p>
             </div>
             
@@ -1720,7 +1899,7 @@
                     <div class="faq-question">
                         <h3>How much can I realistically earn with these methods?</h3>
                         <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                </div>
+                    </div>
                     <div class="faq-answer">
                         <p>Earnings vary based on your dedication, implementation, and time invested. Our most successful students earn between $3,000-$10,000 monthly by combining multiple AI income methods. Complete beginners typically start with $500-$2,000 in their first month when following our exact systems.</p>
                     </div>
@@ -1730,7 +1909,7 @@
                     <div class="faq-question">
                         <h3>Do I need technical experience or coding skills?</h3>
                         <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                </div>
+                    </div>
                     <div class="faq-answer">
                         <p>Absolutely not! Our courses are specifically designed for beginners with zero technical background. We provide step-by-step instructions with video demonstrations for every technical aspect, making the process simple to follow even if you've never used AI tools before.</p>
                     </div>
@@ -1758,9 +1937,9 @@
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                    <h3>Is the payment secure?</h3>
+                        <h3>Is the payment secure?</h3>
                         <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                </div>
+                    </div>
                     <div class="faq-answer">
                         <p>Yes, we use PayPal's secure payment system to process all transactions. Your financial information is never stored on our servers, and all payment details are encrypted using industry-standard protocols.</p>
                     </div>
@@ -1800,12 +1979,20 @@
                     <h3>Single Tutorial</h3>
                     <p class="price">$7.99</p>
                     <p class="description">Access this specific tutorial</p>
+                    <!-- Desktop recommendation for mobile devices -->
+                    <div class="desktop-recommendation">
+                        <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend using a desktop computer.
+                    </div>
                     <div id="singleTutorialButton"></div>
                 </div>
                 <div class="pricing-card featured">
                     <h3>All Tutorials</h3>
                     <p class="price">$19.99</p>
                     <p class="description">Access all tutorials (Save 50%)</p>
+                    <!-- Desktop recommendation for mobile devices -->
+                    <div class="desktop-recommendation">
+                        <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend using a desktop computer.
+                    </div>
                     <div id="allTutorialsButton"></div>
                 </div>
             </div>
@@ -1838,6 +2025,37 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <!-- Additional Mobile Script -->
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+            
+            // Close mobile menu when clicking on a nav link
+            const navLinkElements = document.querySelectorAll('.nav-links a');
+            navLinkElements.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('active');
+                });
+            });
+            
+            // Load only required images on mobile
+            if (window.innerWidth < 768) {
+                const lazyImages = document.querySelectorAll('img[data-src]');
+                lazyImages.forEach(img => {
+                    img.src = img.getAttribute('data-src');
+                });
+            }
+        });
+    </script>
     
     <!-- Countdown Timer Script -->
     <script>
