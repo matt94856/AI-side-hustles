@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: AI Marketing Techniques - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Check if user can access this module
+        window.addEventListener('load', function() {
+            const module1Progress = JSON.parse(localStorage.getItem('module1Progress')) || [];
+            if (module1Progress.length < 4) {
+                alert('Please complete Module 1 before accessing this module.');
+                window.location.href = 'tutorial2-module1.html';
+            }
+        });
+
+        // Function to handle navigation
+        function handleNavigation(moduleNumber) {
+            if (moduleNumber === 1) return true; // Module 1 is always accessible
+            
+            // Get current module's progress
+            const currentModuleProgress = JSON.parse(localStorage.getItem('module2Progress')) || [];
+            const prevModuleProgress = JSON.parse(localStorage.getItem(`module${moduleNumber-1}Progress`)) || [];
+            
+            if (prevModuleProgress.length < 4) {
+                alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
+                // Stay on current module
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .top-nav {
+            background: #1a1a1a;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: flex-start;
+            height: 60px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+        }
+
+        .module-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .module-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .lesson-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+
+        .lesson-content {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .lesson-content h3 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .lesson-content h3:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 1.2em;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .lesson-content li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+
+        .quiz-option.selected {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0.5rem 1rem 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .resource-link i {
+            margin-right: 0.5rem;
+        }
+
+        .project-submission {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .file-upload {
+            margin-top: 1rem;
+        }
+
+        .file-upload label {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: white;
+            color: var(--accent-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload label:hover {
+            transform: translateY(-2px);
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: white;
+            color: var(--accent-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submission-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .submission-status.success {
+            background: rgba(76, 175, 80, 0.2);
+            color: white;
+        }
+
+        .submission-status.error {
+            background: rgba(244, 67, 54, 0.2);
+            color: white;
+        }
+
+        .module-progress {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+            width: 250px;
+            text-align: center;
+        }
+
+        .module-progress h3 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .continue-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .continue-btn i {
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="tutorial2.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="tutorial2-module1.html" class="nav-link">
+            <i class="fas fa-book"></i>
+            Module 1
+        </a>
+        <a href="tutorial2-module2.html" class="nav-link active">
+            <i class="fas fa-laptop-code"></i>
+            Module 2
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial2-module3.html')" class="nav-link">
+            <i class="fas fa-bullhorn"></i>
+            Module 3
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(4) && (window.location.href='tutorial2-module4.html')" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Module 4
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(5) && (window.location.href='tutorial2-module5.html')" class="nav-link">
+            <i class="fas fa-cogs"></i>
+            Module 5
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(6) && (window.location.href='tutorial2-module6.html')" class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            Module 6
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(7) && (window.location.href='tutorial2-module7.html')" class="nav-link">
+            <i class="fas fa-trophy"></i>
+            Module 7
+        </a>
+        <a href="tutorial2.html" class="nav-link">
+            <i class="fas fa-check-circle"></i>
+            Complete
+        </a>
+    </nav>
+
+    <div class="module-progress">
+        <h3>Module Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p><span class="completed-count">0</span>/4 Lessons Complete</p>
+    </div>
+
+    <div class="module-content">
+        <div class="module-header">
+            <h1 class="module-title">Module 2: AI Marketing Techniques</h1>
+            <p class="module-description">Master cutting-edge AI tools and platforms to enhance your affiliate marketing campaigns and automate your workflow.</p>
+        </div>
+
+        <div class="lesson-section" id="lesson1">
+            <h2 class="lesson-title">
+                <i class="fas fa-robot"></i>
+                Lesson 1: Content Creation with AI
+            </h2>
+            <div class="lesson-content">
+                <h3>AI Writing Tools</h3>
+                <p>Learn how to leverage AI writing tools to create engaging content for your affiliate marketing:</p>
+                <ul>
+                    <li>Product descriptions and reviews</li>
+                    <li>Blog posts and articles</li>
+                    <li>Social media content</li>
+                    <li>Email marketing copy</li>
+                    <li>Landing page content</li>
+                </ul>
+
+                <h3>Essential AI Tools</h3>
+                <div class="resource-links">
+                    <a href="https://chat.openai.com" target="_blank" class="resource-link">
+                        <i class="fas fa-comment-alt"></i> ChatGPT
+                    </a>
+                    <a href="https://www.copy.ai" target="_blank" class="resource-link">
+                        <i class="fas fa-copy"></i> Copy.ai
+                    </a>
+                    <a href="https://www.jasper.ai" target="_blank" class="resource-link">
+                        <i class="fas fa-pen"></i> Jasper
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What's the best practice when using AI for content creation?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Edit and personalize AI-generated content</div>
+                            <div class="quiz-option">Use AI output without any changes</div>
+                            <div class="quiz-option">Generate multiple articles at once</div>
+                            <div class="quiz-option">Copy content from competitors</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson2">
+            <h2 class="lesson-title">
+                <i class="fas fa-image"></i>
+                Lesson 2: Visual Content Creation
+            </h2>
+            <div class="lesson-content">
+                <h3>AI Image Generation</h3>
+                <p>Create stunning visuals for your marketing campaigns:</p>
+                <ul>
+                    <li>Product showcase images</li>
+                    <li>Social media graphics</li>
+                    <li>Banner ads and thumbnails</li>
+                    <li>Infographics and diagrams</li>
+                    <li>Brand assets</li>
+                </ul>
+
+                <h3>Visual AI Tools</h3>
+                <div class="resource-links">
+                    <a href="https://www.midjourney.com" target="_blank" class="resource-link">
+                        <i class="fas fa-palette"></i> Midjourney
+                    </a>
+                    <a href="https://www.dall-e.com" target="_blank" class="resource-link">
+                        <i class="fas fa-paint-brush"></i> DALL-E
+                    </a>
+                    <a href="https://www.canva.com" target="_blank" class="resource-link">
+                        <i class="fas fa-object-group"></i> Canva
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>Which type of image performs best for affiliate marketing?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Authentic, lifestyle product demonstrations</div>
+                            <div class="quiz-option">Abstract art</div>
+                            <div class="quiz-option">Stock photos only</div>
+                            <div class="quiz-option">Text-heavy images</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson3">
+            <h2 class="lesson-title">
+                <i class="fas fa-chart-line"></i>
+                Lesson 3: Market Research & Analysis
+            </h2>
+            <div class="lesson-content">
+                <h3>AI-Powered Research</h3>
+                <p>Use AI tools to understand your market and competitors:</p>
+                <ul>
+                    <li>Competitor analysis</li>
+                    <li>Trend identification</li>
+                    <li>Audience insights</li>
+                    <li>Product research</li>
+                    <li>Price optimization</li>
+                </ul>
+
+                <h3>Research Tools</h3>
+                <div class="resource-links">
+                    <a href="https://www.semrush.com" target="_blank" class="resource-link">
+                        <i class="fas fa-search"></i> SEMrush
+                    </a>
+                    <a href="https://trends.google.com" target="_blank" class="resource-link">
+                        <i class="fas fa-chart-bar"></i> Google Trends
+                    </a>
+                    <a href="https://answerthepublic.com" target="_blank" class="resource-link">
+                        <i class="fas fa-question-circle"></i> AnswerThePublic
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What's the most important aspect of market research?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Understanding customer needs and pain points</div>
+                            <div class="quiz-option">Finding the cheapest products</div>
+                            <div class="quiz-option">Copying competitor strategies</div>
+                            <div class="quiz-option">Using all available tools</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson4">
+            <h2 class="lesson-title">
+                <i class="fas fa-brain"></i>
+                Lesson 4: Personalization & Automation
+            </h2>
+            <div class="lesson-content">
+                <h3>AI-Driven Personalization</h3>
+                <p>Implement smart automation and personalization:</p>
+                <ul>
+                    <li>Dynamic content personalization</li>
+                    <li>Automated email sequences</li>
+                    <li>Smart retargeting</li>
+                    <li>Chatbot implementation</li>
+                    <li>Customer journey optimization</li>
+                </ul>
+
+                <div class="project-submission">
+                    <h3>AI Marketing Strategy</h3>
+                    <p>Submit your comprehensive AI marketing plan. Include:</p>
+                    <ul>
+                        <li>Content creation workflow with AI tools</li>
+                        <li>Visual content examples</li>
+                        <li>Market research findings</li>
+                        <li>Personalization strategy</li>
+                    </ul>
+                    <div class="file-upload">
+                        <label for="project-file">
+                            <i class="fas fa-upload"></i> Choose Files
+                        </label>
+                        <input type="file" id="project-file" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
+                        <button class="submit-btn" onclick="submitProject()">
+                            Submit Project
+                        </button>
+                        <div class="submission-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial2-module3.html')" class="continue-btn">
+            Continue to Module 3: Traffic & Sales
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all module progress from localStorage
+            const module2Progress = JSON.parse(localStorage.getItem('module2Progress')) || [];
+            const lessonProgress = JSON.parse(localStorage.getItem('module2LessonProgress')) || {};
+            
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalLessons = 4;
+            
+            function updateProgress() {
+                const newPercentage = (module2Progress.length / totalLessons) * 100;
+                progressFill.style.width = `${newPercentage}%`;
+                completedCount.textContent = module2Progress.length;
+            }
+
+            // Quiz functionality
+            document.querySelectorAll('.quiz-question').forEach(question => {
+                const options = question.querySelectorAll('.quiz-option');
+                const feedback = question.querySelector('.quiz-feedback');
+                
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        if (this.classList.contains('selected')) return;
+                        
+                        // Remove selection from other options
+                        options.forEach(opt => {
+                            opt.classList.remove('selected', 'correct', 'incorrect');
+                        });
+                        
+                        this.classList.add('selected');
+                        
+                        const isCorrect = this.hasAttribute('data-correct');
+                        feedback.textContent = isCorrect ? 'Correct!' : 'Try again';
+                        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+                        
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            // Determine which lesson this is
+                            const lessonSection = this.closest('.lesson-section');
+                            const lessonId = lessonSection.id;
+                            
+                            // Initialize lesson progress if not exists
+                            if (!lessonProgress[lessonId]) {
+                                lessonProgress[lessonId] = {};
+                            }
+                            
+                            // Mark quiz as complete
+                            lessonProgress[lessonId].quizComplete = true;
+                            localStorage.setItem('module2LessonProgress', JSON.stringify(lessonProgress));
+                            
+                            // Add to module progress if not already included
+                            if (!module2Progress.includes(lessonId)) {
+                                module2Progress.push(lessonId);
+                                localStorage.setItem('module2Progress', JSON.stringify(module2Progress));
+                                updateProgress();
+                            }
+                        } else {
+                            this.classList.add('incorrect');
+                        }
+                    });
+                });
+            });
+
+            // Initialize progress on page load
+            updateProgress();
+
+            // Project submission handling
+            window.submitProject = function() {
+                const fileInput = document.getElementById('project-file');
+                const statusDiv = document.querySelector('.submission-status');
+                
+                if (fileInput.files.length === 0) {
+                    statusDiv.textContent = 'Please select files to submit';
+                    statusDiv.className = 'submission-status error';
+                    return;
+                }
+
+                statusDiv.textContent = 'Project submitted successfully!';
+                statusDiv.className = 'submission-status success';
+                
+                if (!module2Progress.includes('lesson4')) {
+                    module2Progress.push('lesson4');
+                    localStorage.setItem('module2Progress', JSON.stringify(module2Progress));
+                    updateProgress();
+                }
+            };
+        });
+    </script>
+</body>
+</html> 

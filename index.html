@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Money Guide - Learn How to Make Money with AI</title>
+    <title>AI Hustle Hub - Learn How to Make Money with AI</title>
     <meta name="description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting.">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="AI Money Guide - Learn How to Make Money with AI">
+    <meta property="og:title" content="AI Hustle Hub - Learn How to Make Money with AI">
     <meta property="og:description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting.">
-    <meta property="og:image" content="https://github.com/matt94856/AI-side-hustles/main/AI_logo.png">
+    <meta property="og:image" content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png">
     <meta property="og:url" content="https://premiumwebcreators.com">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AI Money Guide">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AI Money Guide - Learn How to Make Money with AI">
+    <meta name="twitter:title" content="AI Hustle Hub - Learn How to Make Money with AI">
     <meta name="twitter:description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting.">
-    <meta name="twitter:image" content="https://github.com/matt94856/AI-side-hustles/main/AI_logo.png">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png">
     
     <!-- Additional Meta Tags for Better Link Preview -->
     <meta name="theme-color" content="#1a1a1a">
@@ -30,11 +30,167 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        /* Existing styles */
+        
+        .navbar {
+            background: var(--gradient-primary);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            background: var(--gradient-accent);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .tutorial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(74, 144, 226, 0.1);
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .tutorial-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .tutorial-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+            padding: 1rem;
+            border-radius: 50%;
+        }
+
+        .completion-time {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .key-learnings {
+            background: rgba(74, 144, 226, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .key-learnings ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-learnings li {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .key-learnings i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+
+        .course-structure {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .course-structure p {
+            margin: 0.5rem 0;
+        }
+
+        .read-more {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .consumer-favorites {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .consumer-favorites p {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .consumer-favorites i {
+            margin-right: 0.5rem;
+            color: white;
+        }
+
+        /* Rest of existing styles */
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="logo">AI Money Guide</div>
+        <div class="logo">AI Hustle Hub</div>
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#tutorials">Tutorials</a>
@@ -68,6 +224,9 @@
         <div class="container">
             <h2>5 AI Money-Making Methods</h2>
             <p class="section-description">Each tutorial is carefully structured with practical exercises, real-world examples, and step-by-step guidance. Complete all modules to master AI-powered income generation.</p>
+            <div class="consumer-favorites">
+                <p><i class="fas fa-star"></i> Consumer Favorites: Affiliate Marketing and Content Creation tutorials are our most popular courses!</p>
+            </div>
             <div class="tutorial-grid">
                 <!-- Tutorial Card 1 -->
                 <div class="tutorial-card">

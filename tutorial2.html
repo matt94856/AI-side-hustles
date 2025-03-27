@@ -3,1391 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Affiliate Marketing with AI Guide | AI Money Guide</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AI Hustle Hub - Affiliate Marketing Course</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .tutorial-content {
-            padding: 120px 20px 40px;
-            max-width: 800px;
-            margin: 0 auto;
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
         }
 
-        .tutorial-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .tutorial-header h1 {
-            color: var(--secondary-color);
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .tutorial-section {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .tutorial-section h2 {
-            color: var(--secondary-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .tutorial-section p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .tool-list {
-            list-style: none;
+        * {
+            margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        .tool-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: var(--card-background);
-            border-radius: 5px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
         }
 
-        .tool-list i {
-            color: var(--secondary-color);
-            margin-right: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .step-list {
-            list-style: decimal;
-            padding-left: 1.5rem;
-        }
-
-        .step-list li {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .example-box {
-            background: var(--card-background);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-
-        .example-box h4 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .back-button {
-            display: inline-block;
-            background: var(--secondary-color);
+        .header {
+            background: var(--gradient-primary);
+            padding: 2rem;
             color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
+            text-align: center;
+            position: relative;
             margin-bottom: 2rem;
-            transition: background-color 0.3s ease;
         }
 
-        .back-button:hover {
-            background-color: #0773C5;
-        }
-
-        /* Interactive Elements */
-        .interactive-exercise {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .fill-blanks {
-            margin: 1rem 0;
-        }
-
-        .fill-blanks input {
-            border: none;
-            border-bottom: 2px solid var(--secondary-color);
-            padding: 5px;
-            margin: 0 5px;
-            font-size: 1rem;
-        }
-
-        .drag-drop-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 1rem 0;
-        }
-
-        .draggable-items, .drop-targets {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            min-height: 200px;
-        }
-
-        .draggable-item {
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            background: var(--card-background);
-            border-radius: 4px;
-            cursor: move;
-        }
-
-        .drop-target {
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            border: 2px dashed #ccc;
-            border-radius: 4px;
-            min-height: 50px;
-        }
-
-        /* Badges and Gamification */
-        .achievement-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            border-radius: 20px;
-            color: white;
-            font-weight: 500;
-            margin: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .achievement-badge i {
-            font-size: 1.2rem;
-        }
-
-        /* AI Tool Demonstrations */
-        .ai-demo {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-
-        .ai-demo-steps {
-            margin: 1rem 0;
-        }
-
-        .ai-demo-step {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: var(--card-background);
-            border-radius: 8px;
-        }
-
-        .ai-demo-step .step-number {
-            width: 30px;
-            height: 30px;
-            background: var(--secondary-color);
-            color: white;
-            border-radius: 50%;
+        .brand {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        /* Code Examples */
-        .code-example {
-            background: #1e1e1e;
-            color: #fff;
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .course-progress {
+            background: white;
             padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            font-family: 'Courier New', monospace;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+            margin: -3rem auto 2rem;
+            text-align: center;
             position: relative;
+            z-index: 1;
         }
 
-        .code-example pre {
-            margin: 0;
-            white-space: pre-wrap;
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
         }
 
-        .code-example .copy-btn {
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.completed {
+            border: 2px solid #4CAF50;
+        }
+
+        .module-card.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .module-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-status {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
         }
 
-        .code-example .copy-btn:hover {
-            background: rgba(255,255,255,0.2);
+        .module-status.completed {
+            color: #4CAF50;
+        }
+
+        .module-status.locked {
+            color: #999;
+        }
+
+        .module-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .module-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-card.locked .module-link {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">AI Money Guide</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#tutorials">Tutorials</a>
-            <a href="index.html#testimonials">Testimonials</a>
-            <a href="index.html#faq">FAQ</a>
+    <header class="header">
+        <div class="brand">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <i class="fas fa-robot"></i>
+                <h1>AI Hustle Hub</h1>
+            </a>
         </div>
-        <div class="mobile-menu">
-            <i class="fas fa-bars"></i>
-        </div>
-    </nav>
+        <p class="header-description">
+            Master the art of affiliate marketing using cutting-edge AI tools and strategies. Learn how to automate, optimize, and scale your affiliate business for maximum success.
+        </p>
+    </header>
 
-    <!-- Tutorial Content -->
-    <div class="tutorial-content">
-        <a href="index.html" class="back-button">
-            <i class="fas fa-arrow-left"></i> Back to Home
-        </a>
-
-        <div class="tutorial-header">
-            <h1>Affiliate Marketing with AI</h1>
-            <p>Master the art of AI-powered affiliate marketing and earn $1,000-$10,000 monthly</p>
+    <div class="course-progress">
+        <h3>Course Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
         </div>
-        <div class="progress-container">
-            <div class="progress-stats">
-                <div class="progress-stat">
-                    <span class="stat-value">0/7</span>
-                    <span class="stat-label">Modules Complete</span>
-                </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0%</span>
-                    <span class="stat-label">Course Progress</span>
-                </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0</span>
-                    <span class="stat-label">Points Earned</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress" style="width: 0%"></div>
-            </div>
-            <div class="progress-badges">
-                <div class="badge locked">
-                    <i class="fas fa-star"></i>
-                    <span>Module 1</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-tools"></i>
-                    <span>Module 2</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-road"></i>
-                    <span>Module 3</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-trophy"></i>
-                    <span>Module 4</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Module 5</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-tasks"></i>
-                    <span>Module 6</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-book"></i>
-                    <span>Module 7</span>
-                </div>
-            </div>
+        <p><span class="completed-count">2</span>/7 Modules Complete</p>
+    </div>
+
+    <div class="modules-grid">
+        <div class="module-card completed">
+            <i class="fas fa-book module-icon"></i>
+            <i class="fas fa-check-circle module-status completed"></i>
+            <h2 class="module-title">Module 1: Foundations of Affiliate Marketing</h2>
+            <p class="module-description">Learn the fundamentals of affiliate marketing, including key terms, business models, and how to identify profitable niches. Perfect for beginners starting their journey.</p>
+            <a href="tutorial2-module1.html" class="module-link">Review Module</a>
         </div>
 
-        <!-- Module 1: Introduction to Affiliate Marketing -->
-        <div class="tutorial-section">
-            <h2>Module 1: Understanding Affiliate Marketing</h2>
-            
-            <div class="beginner-explanation">
-                <h3>What is Affiliate Marketing?</h3>
-                <p>Think of affiliate marketing like being a trusted recommender. When you tell a friend about a great product and they buy it, the company rewards you with a commission. It's that simple!</p>
-                
-                <div class="interactive-exercise">
-                    <h4>Quick Check: Understanding Affiliate Marketing</h4>
-                    <form class="quiz-form">
-                        <div class="quiz-question" data-correct="Promoting products and earning commissions">
-                            <p>What is the primary way affiliate marketers earn money?</p>
-                            <label><input type="radio" name="q1" value="Creating their own products">Creating their own products</label>
-                            <label><input type="radio" name="q1" value="Promoting products and earning commissions">Promoting products and earning commissions</label>
-                            <label><input type="radio" name="q1" value="Buying and reselling products">Buying and reselling products</label>
-                            <label><input type="radio" name="q1" value="Managing online stores">Managing online stores</label>
-                            <div class="question-feedback"></div>
-                        </div>
-                        <button type="submit" class="quiz-submit">Check Answer</button>
-                        <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        <div class="quiz-score"></div>
-                    </form>
-                </div>
-
-                <div class="key-terms">
-                    <h4>Essential Terms to Know</h4>
-                    <div class="term-card">
-                        <h5>Affiliate Link</h5>
-                        <p>A special URL that tracks your referrals. When someone clicks your link and makes a purchase, you get credit for the sale.</p>
-                        <div class="example-box">
-                            <p>Example: https://amazon.com/product?ref=your_id</p>
-                        </div>
-                    </div>
-                    
-                    <div class="term-card">
-                        <h5>Commission Rate</h5>
-                        <p>The percentage of the sale you earn as a reward. Different products have different rates.</p>
-                        <div class="example-box">
-                            <p>Example: A $100 product with 10% commission = $10 earnings</p>
-                        </div>
-                    </div>
-
-                    <div class="term-card">
-                        <h5>Conversion Rate</h5>
-                        <p>The percentage of visitors who click your link and make a purchase.</p>
-                        <div class="example-box">
-                            <p>Example: 100 visitors → 3 purchases = 3% conversion rate</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="completion-checkbox">
-                    <label><input type="checkbox" class="module-complete" data-module="1"> Mark Module 1 as Complete</label>
-                </div>
-            </div>
-
-            <div class="ai-integration">
-                <h3>How AI Transforms Affiliate Marketing</h3>
-                
-                <div class="ai-demo">
-                    <h4>ChatGPT Demo: Creating Product Reviews</h4>
-                    <div class="ai-demo-steps">
-                        <div class="ai-demo-step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h5>Prompt Engineering</h5>
-                                <p>Here's a proven prompt template for product reviews:</p>
-                                <div class="code-example">
-                                    <pre>Write a detailed review of [Product Name] covering:
-- Key features and benefits
-- Pros and cons
-- Who it's best for
-- Real user experiences
-- Comparison with alternatives
-Use a conversational tone and include specific examples.</pre>
-                                    <button class="copy-btn">Copy</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ai-demo-step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h5>Enhancing AI Output</h5>
-                                <p>Always enhance AI-generated content by:</p>
-                                <ul>
-                                    <li>Adding personal experiences</li>
-                                    <li>Including unique insights</li>
-                                    <li>Adding recent updates</li>
-                                    <li>Incorporating user feedback</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="practical-application">
-                <h3>Build Your First Affiliate Site</h3>
-                
-                <div class="code-tutorials">
-                    <h3>Building Your First Affiliate Website - A Beginner's Guide</h3>
-                    
-                    <div class="code-section">
-                        <h4>Step 1: Basic Website Structure (HTML)</h4>
-                        <p class="code-explanation">
-                            Here's a simple website structure broken down into easy-to-understand parts:
-                        </p>
-                        <div class="code-example">
-                            <pre>
-&lt;!-- This is the basic structure of your webpage --&gt;
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;!-- This section contains information about your webpage --&gt;
-    &lt;title&gt;My Affiliate Website&lt;/title&gt;
-    &lt;meta name="description" content="Honest product reviews and recommendations"&gt;
-    &lt;link rel="stylesheet" href="style.css"&gt;
-&lt;/head&gt;
-
-&lt;body&gt;
-    &lt;!-- Header section with navigation menu --&gt;
-    &lt;header&gt;
-        &lt;nav&gt;
-            &lt;ul&gt;
-                &lt;li&gt;&lt;a href="#reviews"&gt;Reviews&lt;/a&gt;&lt;/li&gt;
-                &lt;li&gt;&lt;a href="#guides"&gt;Guides&lt;/a&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-        &lt;/nav&gt;
-    &lt;/header&gt;
-
-    &lt;!-- Main content area --&gt;
-    &lt;main&gt;
-        &lt;!-- Product Review Example --&gt;
-        &lt;article class="product-review"&gt;
-            &lt;h1&gt;Review: [Product Name]&lt;/h1&gt;
-            
-            &lt;!-- Product Rating --&gt;
-            &lt;div class="product-rating"&gt;
-                ⭐⭐⭐⭐⭐ (5/5)
-            &lt;/div&gt;
-
-            &lt;!-- Your Review Content --&gt;
-            &lt;div class="product-content"&gt;
-                &lt;p&gt;Your honest review goes here...&lt;/p&gt;
-            &lt;/div&gt;
-
-            &lt;!-- Affiliate Link Button --&gt;
-            &lt;div class="affiliate-cta"&gt;
-                &lt;a href="your-affiliate-link" class="cta-button"&gt;
-                    Check Price on Amazon
-                &lt;/a&gt;
-            &lt;/div&gt;
-        &lt;/article&gt;
-    &lt;/main&gt;
-
-    &lt;!-- Footer with Disclosure --&gt;
-    &lt;footer&gt;
-        &lt;p&gt;Affiliate Disclosure: I may earn a commission if you purchase through my links&lt;/p&gt;
-    &lt;/footer&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre>
-                            <button class="copy-btn">Copy Code</button>
-                        </div>
-                        <div class="code-notes">
-                            <h5>Understanding the Code:</h5>
-                            <ul>
-                                <li><strong>DOCTYPE and HTML tags:</strong> These tell browsers this is a webpage</li>
-                                <li><strong>Head section:</strong> Contains page information and links to CSS</li>
-                                <li><strong>Body section:</strong> Where all your visible content goes</li>
-                                <li><strong>Header & Nav:</strong> Your menu and navigation links</li>
-                                <li><strong>Main content:</strong> Your product reviews and affiliate content</li>
-                                <li><strong>Footer:</strong> Important disclosures and additional info</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="code-section">
-                        <h4>Step 2: Making It Look Good (CSS)</h4>
-                        <p class="code-explanation">
-                            Here's simple CSS to style your affiliate website. Each style is explained:
-                        </p>
-                        <div class="code-example">
-                            <pre>
-/* Basic styles to make your site look professional */
-
-/* Makes the page look clean and organized */
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
-    background-color: #f9f9f9;
-}
-
-/* Makes your product review stand out */
-.product-review {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* Styles your star rating */
-.product-rating {
-    font-size: 24px;
-    color: gold;
-    margin: 20px 0;
-}
-
-/* Makes your "Buy Now" button attractive */
-.cta-button {
-    display: inline-block;
-    padding: 15px 30px;
-    background: #ff9900;  /* Amazon-style orange */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* Button hover effect */
-.cta-button:hover {
-    background: #ff8800;
-    transform: translateY(-2px);
-}</pre>
-                            <button class="copy-btn">Copy Code</button>
-                        </div>
-                        <div class="code-notes">
-                            <h5>CSS Explained:</h5>
-                            <ul>
-                                <li><strong>body:</strong> Sets the overall page style</li>
-                                <li><strong>product-review:</strong> Creates a clean card-like design</li>
-                                <li><strong>product-rating:</strong> Styles your star ratings</li>
-                                <li><strong>cta-button:</strong> Creates an attractive "Buy Now" button</li>
-                                <li><strong>hover effect:</strong> Makes the button interactive</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="code-section">
-                        <h4>Using AI to Help Build Your Website</h4>
-                        <p class="code-explanation">
-                            AI tools can significantly speed up your website development process. Here's how to leverage them effectively:
-                        </p>
-                        
-                        <div class="ai-demo">
-                            <h4>AI Development Assistants</h4>
-                            <div class="ai-demo-steps">
-                                <div class="ai-demo-step">
-                                    <div class="step-number">1</div>
-                                    <div class="step-content">
-                                        <h5>ChatGPT</h5>
-                                        <p>Use ChatGPT to:</p>
-                                        <ul>
-                                            <li>Generate HTML structure for specific sections</li>
-                                            <li>Create CSS styles for your elements</li>
-                                            <li>Debug your code issues</li>
-                                            <li>Get explanations of code functionality</li>
-                                        </ul>
-                                        <div class="code-example">
-                                            <pre>
-Prompt Example:
-"Can you help me create HTML and CSS for a product review card that includes:
-- Product image
-- Title
-- Rating stars
-- Price
-- Buy now button
-Make it responsive and modern-looking."</pre>
-                                            <button class="copy-btn">Copy</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="ai-demo-step">
-                                    <div class="step-number">2</div>
-                                    <div class="step-content">
-                                        <h5>Cursor AI</h5>
-                                        <p>Use Cursor AI in your IDE to:</p>
-                                        <ul>
-                                            <li>Get real-time code suggestions</li>
-                                            <li>Autocomplete code blocks</li>
-                                            <li>Refactor and improve your code</li>
-                                            <li>Find and fix bugs quickly</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="pro-tip">
-                                    <i class="fas fa-lightbulb"></i>
-                                    <p>Always review and customize AI-generated code to match your specific needs and ensure it follows best practices. Add your own comments and modifications to make it unique to your site.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="case-study">
-                    <h3>Success Story: Sarah's Tech Review Site</h3>
-                    <div class="case-study-content">
-                        <div class="case-study-header">
-                            <img src="images/sarah-profile.jpg" alt="Sarah's Success Story">
-                            <div class="case-study-stats">
-                                <div class="stat">
-                                    <span class="label">Starting Point</span>
-                                    <span class="value">$0/month</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="label">After 6 Months</span>
-                                    <span class="value">$3,500/month</span>
-                                </div>
-                                <div class="stat">
-                                    <span class="label">Traffic Growth</span>
-                                    <span class="value">15,000 monthly visitors</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="strategy-breakdown">
-                            <h4>Sarah's Winning Strategy</h4>
-                            <ol>
-                                <li>
-                                    <strong>Niche Selection</strong>
-                                    <p>Focused on smart home devices with high commission rates (8-12%)</p>
-                                </li>
-                                <li>
-                                    <strong>Content Strategy</strong>
-                                    <p>Created in-depth comparison articles using AI tools + personal testing</p>
-                                </li>
-                                <li>
-                                    <strong>SEO Optimization</strong>
-                                    <p>Used Surfer SEO to optimize content for search engines</p>
-                                </li>
-                                <li>
-                                    <strong>User Experience</strong>
-                                    <p>Added video demonstrations and interactive comparison tables</p>
-                                </li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interactive Quiz -->
-                <div class="module-quiz">
-                    <h3>Module 1 Quiz: Affiliate Marketing Fundamentals</h3>
-                    <form class="quiz-form">
-                        <div class="quiz-question" data-correct="Market research and niche selection">
-                            <p>What is the first step in starting an AI-powered affiliate marketing business?</p>
-                            <label><input type="radio" name="q1">Creating content immediately</label>
-                            <label><input type="radio" name="q1">Market research and niche selection</label>
-                            <label><input type="radio" name="q1">Setting up social media accounts</label>
-                            <label><input type="radio" name="q1">Building an email list</label>
-                            <div class="question-feedback"></div>
-                        </div>
-
-                        <div class="quiz-question" data-correct="ChatGPT">
-                            <p>Which AI tool is most effective for generating affiliate product reviews?</p>
-                            <label><input type="radio" name="q2">Midjourney</label>
-                            <label><input type="radio" name="q2">ChatGPT</label>
-                            <label><input type="radio" name="q2">DALL-E</label>
-                            <label><input type="radio" name="q2">Stable Diffusion</label>
-                            <div class="question-feedback"></div>
-                        </div>
-
-                        <div class="quiz-question" data-correct="Value-based content">
-                            <p>What type of content performs best in affiliate marketing?</p>
-                            <label><input type="radio" name="q3">Direct sales pitches</label>
-                            <label><input type="radio" name="q3">Value-based content</label>
-                            <label><input type="radio" name="q3">Pure product descriptions</label>
-                            <label><input type="radio" name="q3">Generic blog posts</label>
-                            <div class="question-feedback"></div>
-                        </div>
-
-                        <button type="submit" class="quiz-submit">Submit Answers</button>
-                        <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        <div class="quiz-score"></div>
-                    </form>
-                </div>
-
-                <!-- Practical Challenge -->
-                <div class="practical-challenge">
-                    <h3>Module 1 Challenge: Create Your First Affiliate Page</h3>
-                    <div class="challenge-content">
-                        <p>Put your learning into practice by creating a simple affiliate product review page.</p>
-                        <div class="challenge-steps">
-                            <ol>
-                                <li>Choose a product you're familiar with</li>
-                                <li>Use the HTML template provided above</li>
-                                <li>Write a review using ChatGPT + your insights</li>
-                                <li>Add your affiliate links</li>
-                                <li>Style it using the CSS provided</li>
-                            </ol>
-                        </div>
-                        <div class="submission-area">
-                            <h4>Submit Your Work</h4>
-                            <input type="file" accept=".html,.css" class="file-upload">
-                            <button class="upload-btn">Submit Challenge</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="module-card active">
+            <i class="fas fa-laptop-code module-icon"></i>
+            <i class="fas fa-spinner module-status"></i>
+            <h2 class="module-title">Module 2: AI Marketing Techniques</h2>
+            <p class="module-description">Master AI-powered content creation, visual design, market research, and personalization strategies to enhance your marketing efforts.</p>
+            <a href="tutorial2-module2.html" class="module-link">Continue Learning</a>
         </div>
 
-        <!-- Module 2: Recommended AI Tools -->
-        <div class="tutorial-section">
-            <h2>Module 2: Recommended AI Tools</h2>
-            <div class="tool-grid">
-                <div class="tool-card">
-                    <i class="fas fa-robot"></i>
-                    <h3>ChatGPT</h3>
-                    <p>For content writing and optimization</p>
-                    <ul>
-                        <li>Cost: $20/month (GPT-4)</li>
-                        <li>Best for: Writing, research, optimization</li>
-                        <li>Key features: Natural language processing</li>
-                    </ul>
-                    <a href="https://chat.openai.com" target="_blank" class="tool-link">Get Started</a>
-                </div>
-
-                <div class="tool-card">
-                    <i class="fas fa-search"></i>
-                    <h3>Surfer SEO</h3>
-                    <p>For SEO optimization and content planning</p>
-                    <ul>
-                        <li>Cost: $49/month</li>
-                        <li>Best for: SEO, keyword research</li>
-                        <li>Key features: Content optimization</li>
-                    </ul>
-                    <a href="https://surferseo.com" target="_blank" class="tool-link">Get Started</a>
-                </div>
-
-                <div class="tool-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Jasper AI</h3>
-                    <p>For marketing copy and ad creation</p>
-                    <ul>
-                        <li>Cost: $29/month</li>
-                        <li>Best for: Marketing copy, ads</li>
-                        <li>Key features: Copywriting templates</li>
-                    </ul>
-                    <a href="https://jasper.ai" target="_blank" class="tool-link">Get Started</a>
-                </div>
-
-                <div class="tool-card">
-                    <i class="fas fa-paint-brush"></i>
-                    <h3>Midjourney</h3>
-                    <p>For creating product images and visuals</p>
-                    <ul>
-                        <li>Cost: $10-30/month</li>
-                        <li>Best for: Product images, visuals</li>
-                        <li>Key features: High-quality image generation</li>
-                    </ul>
-                    <a href="https://www.midjourney.com" target="_blank" class="tool-link">Get Started</a>
-                </div>
-            </div>
-            <div class="completion-checkbox">
-                <label><input type="checkbox" class="module-complete" data-module="2"> Mark Module 2 as Complete</label>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-bullhorn module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 3: Traffic & Sales</h2>
+            <p class="module-description">Learn how to drive targeted traffic and optimize conversions using AI tools for SEO, social media, and sales funnel optimization.</p>
+            <a href="tutorial2-module3.html" class="module-link">Start Module</a>
         </div>
 
-        <!-- Module 3: Step-by-Step Guide -->
-        <div class="tutorial-section">
-            <h2>Module 3: Step-by-Step Guide</h2>
-            
-            <div class="step-card">
-                <h3>Step 1: Choose Your Affiliate Niche</h3>
-                <p>Select a profitable niche that aligns with your interests:</p>
-                <ul>
-                    <li><strong>Product Categories</strong>
-                        <ul>
-                            <li>Technology and gadgets</li>
-                            <li>Health and wellness</li>
-                            <li>Home and lifestyle</li>
-                            <li>Education and courses</li>
-                            <li>Finance and investing</li>
-                        </ul>
-                    </li>
-                    <li><strong>Market Research</strong>
-                        <ul>
-                            <li>Competition analysis</li>
-                            <li>Commission rates</li>
-                            <li>Product quality</li>
-                            <li>Market demand</li>
-                        </ul>
-                    </li>
-                    <li><strong>Platform Selection</strong>
-                        <ul>
-                            <li>Amazon Associates</li>
-                            <li>Clickbank</li>
-                            <li>Commission Junction</li>
-                            <li>ShareASale</li>
-                            <li>Individual brands</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="pro-tip">
-                    <i class="fas fa-lightbulb"></i>
-                    <p>Choose a niche with high commission rates and strong affiliate programs. Research potential earnings before committing.</p>
-                </div>
-            </div>
-
-            <div class="step-card">
-                <h3>Step 2: Set Up Your Affiliate Website</h3>
-                <p>Create a professional platform for your affiliate content:</p>
-                <ul>
-                    <li><strong>Website Setup</strong>
-                        <ul>
-                            <li>Choose a domain name</li>
-                            <li>Select hosting provider</li>
-                            <li>Install WordPress</li>
-                            <li>Choose a theme</li>
-                        </ul>
-                    </li>
-                    <li><strong>Technical Setup</strong>
-                        <ul>
-                            <li>SSL certificate</li>
-                            <li>SEO plugins</li>
-                            <li>Analytics tools</li>
-                            <li>Security measures</li>
-                        </ul>
-                    </li>
-                    <li><strong>Content Structure</strong>
-                        <ul>
-                            <li>Create categories</li>
-                            <li>Plan content calendar</li>
-                            <li>Set up affiliate links</li>
-                            <li>Create disclosure pages</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="pro-tip">
-                    <i class="fas fa-lightbulb"></i>
-                    <p>Use a fast, mobile-friendly theme and optimize your site for search engines from the start.</p>
-                </div>
-            </div>
-
-            <div class="step-card">
-                <h3>Step 3: Create High-Converting Content</h3>
-                <p>Develop content that drives sales:</p>
-                <ul>
-                    <li><strong>Content Types</strong>
-                        <ul>
-                            <li>Product reviews</li>
-                            <li>Comparison guides</li>
-                            <li>Best-of lists</li>
-                            <li>How-to guides</li>
-                            <li>Case studies</li>
-                        </ul>
-                    </li>
-                    <li><strong>Content Optimization</strong>
-                        <ul>
-                            <li>Keyword research</li>
-                            <li>SEO optimization</li>
-                            <li>Conversion elements</li>
-                            <li>User experience</li>
-                        </ul>
-                    </li>
-                    <li><strong>Visual Content</strong>
-                        <ul>
-                            <li>Product images</li>
-                            <li>Infographics</li>
-                            <li>Videos</li>
-                            <li>Comparison tables</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="pro-tip">
-                    <i class="fas fa-lightbulb"></i>
-                    <p>Use AI tools to generate initial content, but always add your personal experience and expertise.</p>
-                </div>
-            </div>
-
-            <div class="step-card">
-                <h3>Step 4: Drive Traffic to Your Site</h3>
-                <p>Implement strategies to attract visitors:</p>
-                <ul>
-                    <li><strong>SEO Strategies</strong>
-                        <ul>
-                            <li>Keyword optimization</li>
-                            <li>Link building</li>
-                            <li>Technical SEO</li>
-                            <li>Content structure</li>
-                        </ul>
-                    </li>
-                    <li><strong>Social Media</strong>
-                        <ul>
-                            <li>Platform selection</li>
-                            <li>Content sharing</li>
-                            <li>Community engagement</li>
-                            <li>Traffic generation</li>
-                        </ul>
-                    </li>
-                    <li><strong>Email Marketing</strong>
-                        <ul>
-                            <li>List building</li>
-                            <li>Newsletter creation</li>
-                            <li>Automation setup</li>
-                            <li>Campaign management</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="pro-tip">
-                    <i class="fas fa-lightbulb"></i>
-                    <p>Focus on building organic traffic through SEO and social media before investing in paid advertising.</p>
-                </div>
-            </div>
-
-            <div class="step-card">
-                <h3>Step 5: Optimize for Conversions</h3>
-                <p>Maximize your affiliate earnings:</p>
-                <ul>
-                    <li><strong>Conversion Elements</strong>
-                        <ul>
-                            <li>Call-to-action buttons</li>
-                            <li>Product reviews</li>
-                            <li>Social proof</li>
-                            <li>Urgency elements</li>
-                        </ul>
-                    </li>
-                    <li><strong>Testing and Analytics</strong>
-                        <ul>
-                            <li>A/B testing</li>
-                            <li>Heat mapping</li>
-                            <li>Conversion tracking</li>
-                            <li>Performance analysis</li>
-                        </ul>
-                    </li>
-                    <li><strong>User Experience</strong>
-                        <ul>
-                            <li>Site speed</li>
-                            <li>Mobile optimization</li>
-                            <li>Navigation structure</li>
-                            <li>Content readability</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="pro-tip">
-                    <i class="fas fa-lightbulb"></i>
-                    <p>Regularly test different elements and track your results to continuously improve conversion rates.</p>
-                </div>
-            </div>
-            <div class="completion-checkbox">
-                <label><input type="checkbox" class="module-complete" data-module="3"> Mark Module 3 as Complete</label>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-chart-line module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 4: Scaling Up</h2>
+            <p class="module-description">Discover advanced strategies to scale your affiliate business, including automation, outsourcing, and expanding your income streams.</p>
+            <a href="tutorial2-module4.html" class="module-link">Start Module</a>
         </div>
 
-        <!-- Module 4: Real Success Story -->
-        <div class="tutorial-section">
-            <h2>Module 4: Real Success Story</h2>
-            <div class="example-box">
-                <h4>Mike's Journey to $5,000 Monthly</h4>
-                <p>"I started my affiliate marketing journey using AI tools to create content. Within six months, I was earning $5,000 monthly through a combination of product reviews and comparison guides. The key was using AI to scale my content while maintaining quality."</p>
-                <p><strong>Key Strategies:</strong></p>
-                <ul>
-                    <li>Focused on tech products</li>
-                    <li>Used AI for content creation</li>
-                    <li>Built strong SEO foundation</li>
-                    <li>Created comprehensive guides</li>
-                </ul>
-                <div class="success-metrics">
-                    <div class="metric">
-                        <span class="number">6</span>
-                        <span class="label">Months to Success</span>
-                    </div>
-                    <div class="metric">
-                        <span class="number">$5,000</span>
-                        <span class="label">Monthly Earnings</span>
-                    </div>
-                    <div class="metric">
-                        <span class="number">50+</span>
-                        <span class="label">Product Reviews</span>
-                    </div>
-                </div>
-            </div>
-            <div class="completion-checkbox">
-                <label><input type="checkbox" class="module-complete" data-module="4"> Mark Module 4 as Complete</label>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-cogs module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 5: Automation</h2>
+            <p class="module-description">Learn to automate your affiliate marketing workflows using AI tools, saving time and increasing efficiency.</p>
+            <a href="tutorial2-module5.html" class="module-link">Start Module</a>
         </div>
 
-        <!-- Module 5: Pro Tips for Success -->
-        <div class="tutorial-section">
-            <h2>Module 5: Pro Tips for Success</h2>
-            <div class="tips-grid">
-                <div class="tip-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h4>Quality First</h4>
-                    <p>Always prioritize quality content over quantity. Build trust with your audience.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-sync"></i>
-                    <h4>Stay Updated</h4>
-                    <p>Keep track of product updates and industry trends to maintain relevance.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-bullhorn"></i>
-                    <h4>Build Authority</h4>
-                    <p>Establish yourself as an expert in your niche through consistent, valuable content.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-cogs"></i>
-                    <h4>Optimize Everything</h4>
-                    <p>Continuously optimize your content, site speed, and conversion elements.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-star"></i>
-                    <h4>Honest Reviews</h4>
-                    <p>Maintain transparency and honesty in your product reviews and recommendations.</p>
-                </div>
-                <div class="tip-card">
-                    <i class="fas fa-chart-pie"></i>
-                    <h4>Diversify Income</h4>
-                    <p>Don't rely on a single affiliate program or product category.</p>
-                </div>
-            </div>
-            <div class="completion-checkbox">
-                <label><input type="checkbox" class="module-complete" data-module="5"> Mark Module 5 as Complete</label>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-chart-bar module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 6: Analytics & Optimization</h2>
+            <p class="module-description">Master data analysis and performance tracking to optimize your campaigns for maximum ROI.</p>
+            <a href="tutorial2-module6.html" class="module-link">Start Module</a>
         </div>
 
-        <!-- Module 6: Next Steps -->
-        <div class="tutorial-section">
-            <h2>Module 6: Next Steps</h2>
-            <div class="action-plan">
-                <h3>Your 30-Day Action Plan</h3>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="day">Day 1-5</div>
-                        <div class="task">
-                            <h4>Initial Setup</h4>
-                            <ul>
-                                <li>Choose your niche</li>
-                                <li>Set up your website</li>
-                                <li>Join affiliate programs</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="day">Day 6-12</div>
-                        <div class="task">
-                            <h4>Content Creation</h4>
-                            <ul>
-                                <li>Create first product reviews</li>
-                                <li>Set up content calendar</li>
-                                <li>Optimize for SEO</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="day">Day 13-20</div>
-                        <div class="task">
-                            <h4>Traffic Building</h4>
-                            <ul>
-                                <li>Start link building</li>
-                                <li>Set up social media</li>
-                                <li>Begin email marketing</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="day">Day 21-25</div>
-                        <div class="task">
-                            <h4>Optimization</h4>
-                            <ul>
-                                <li>Test conversion elements</li>
-                                <li>Analyze performance</li>
-                                <li>Make improvements</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="day">Day 26-30</div>
-                        <div class="task">
-                            <h4>Scaling</h4>
-                            <ul>
-                                <li>Expand content</li>
-                                <li>Build backlinks</li>
-                                <li>Plan next month</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="completion-checkbox">
-                <label><input type="checkbox" class="module-complete" data-module="6"> Mark Module 6 as Complete</label>
-            </div>
-        </div>
-
-        <!-- Module 7: Resources & Tools -->
-        <div class="tutorial-section">
-            <h2>Module 7: Resources & Tools</h2>
-            <div class="resources-grid">
-                <div class="resource-card">
-                    <h3>Learning Resources</h3>
-                    <ul>
-                        <li><a href="https://www.affiliateinsider.com" target="_blank">Affiliate Insider</a></li>
-                        <li><a href="https://www.affiliatemarketing.com" target="_blank">Affiliate Marketing</a></li>
-                        <li><a href="https://www.searchenginejournal.com" target="_blank">Search Engine Journal</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <h3>Affiliate Networks</h3>
-                    <ul>
-                        <li><a href="https://www.amazon.com/associates" target="_blank">Amazon Associates</a></li>
-                        <li><a href="https://www.clickbank.com" target="_blank">Clickbank</a></li>
-                        <li><a href="https://www.shareasale.com" target="_blank">ShareASale</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <h3>AI Tools</h3>
-                    <ul>
-                        <li><a href="https://chat.openai.com" target="_blank">ChatGPT</a></li>
-                        <li><a href="https://surferseo.com" target="_blank">Surfer SEO</a></li>
-                        <li><a href="https://jasper.ai" target="_blank">Jasper AI</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="completion-checkbox">
-                <label><input type="checkbox" class="module-complete" data-module="7"> Mark Module 7 as Complete</label>
-            </div>
-        </div>
-
-        <!-- New Section: Deployment and Promotion -->
-        <div class="tutorial-section">
-            <h2>Deployment and Promotion Guide</h2>
-            
-            <div class="deployment-steps">
-                <h3>Setting Up Your Website (Free Method)</h3>
-                <div class="step-card">
-                    <h4><i class="fab fa-github"></i> GitHub Setup</h4>
-                    <ol>
-                        <li>Create a GitHub account at github.com</li>
-                        <li>Create a new repository for your affiliate site</li>
-                        <li>Upload your website files:
-                            <div class="code-example">
-                                <pre>
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin your-repo-url
-git push -u origin main</pre>
-                                <button class="copy-btn">Copy</button>
-                            </div>
-                        </li>
-                    </ol>
-                </div>
-
-                <div class="step-card">
-                    <h4><i class="fas fa-rocket"></i> Netlify Deployment</h4>
-                    <ol>
-                        <li>Sign up for a free Netlify account</li>
-                        <li>Click "New site from Git"</li>
-                        <li>Connect your GitHub repository</li>
-                        <li>Configure build settings (if needed)</li>
-                        <li>Click "Deploy site"</li>
-                        <li>Get your free .netlify.app domain</li>
-                        <li>Optional: Add a custom domain</li>
-                    </ol>
-                    <div class="pro-tip">
-                        <i class="fas fa-lightbulb"></i>
-                        <p>Netlify automatically rebuilds your site whenever you push changes to GitHub, making updates easy!</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="promotion-strategies">
-                <h3>Multi-Platform Promotion Strategy</h3>
-                
-                <div class="platform-cards">
-                    <div class="platform-card">
-                        <h4><i class="fab fa-wix"></i> Wix</h4>
-                        <ul>
-                            <li>Create a professional landing page</li>
-                            <li>Use Wix's SEO tools</li>
-                            <li>Integrate blog content</li>
-                            <li>Add email capture forms</li>
-                            <li>Connect social media feeds</li>
-                        </ul>
-                    </div>
-
-                    <div class="platform-card">
-                        <h4><i class="fab fa-instagram"></i> Instagram</h4>
-                        <ul>
-                            <li>Create a business account</li>
-                            <li>Post product reviews and tutorials</li>
-                            <li>Use Instagram Shopping features</li>
-                            <li>Share authentic behind-the-scenes content</li>
-                            <li>Leverage Instagram Reels</li>
-                        </ul>
-                    </div>
-
-                    <div class="platform-card">
-                        <h4><i class="fab fa-youtube"></i> YouTube</h4>
-                        <ul>
-                            <li>Create detailed product reviews</li>
-                            <li>Share tutorial videos</li>
-                            <li>Make comparison videos</li>
-                            <li>Include affiliate links in descriptions</li>
-                            <li>Create playlists by product category</li>
-                        </ul>
-                    </div>
-
-                    <div class="platform-card">
-                        <h4><i class="fab fa-tiktok"></i> TikTok</h4>
-                        <ul>
-                            <li>Create short, engaging product demos</li>
-                            <li>Share quick tips and hacks</li>
-                            <li>Use trending sounds and effects</li>
-                            <li>Participate in challenges</li>
-                            <li>Direct traffic to your bio link</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="content-strategy">
-                    <h4>Cross-Platform Content Strategy</h4>
-                    <div class="strategy-tips">
-                        <ul>
-                            <li><strong>Content Repurposing:</strong> Turn YouTube reviews into short TikToks and Instagram Reels</li>
-                            <li><strong>Consistent Branding:</strong> Use the same handle and visual style across platforms</li>
-                            <li><strong>Platform-Specific Optimization:</strong> Adapt content format and timing for each platform</li>
-                            <li><strong>Community Building:</strong> Engage with comments and create platform-specific communities</li>
-                            <li><strong>Analytics Tracking:</strong> Monitor performance across all platforms to optimize strategy</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-trophy module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 7: Advanced Strategies</h2>
+            <p class="module-description">Take your affiliate marketing to the next level with advanced AI applications and expert techniques.</p>
+            <a href="tutorial2-module7.html" class="module-link">Start Module</a>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Progress tracking
-            let totalModules = 7;
-            let completedModules = [];
-            let totalPoints = 0;
-            const pointsPerModule = 100;
+            // Check progress of each module
+            const module1Progress = JSON.parse(localStorage.getItem('module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('module4Progress')) || [];
+            const module5Progress = JSON.parse(localStorage.getItem('module5Progress')) || [];
+            const module6Progress = JSON.parse(localStorage.getItem('module6Progress')) || [];
+            const module7Progress = JSON.parse(localStorage.getItem('module7Progress')) || [];
             
-            // Load saved progress from local storage
-            const savedProgress = JSON.parse(localStorage.getItem('tutorial2Progress')) || {};
-            completedModules = Array.isArray(savedProgress.completedModules) ? savedProgress.completedModules : [];
-            totalPoints = savedProgress.totalPoints || 0;
-            const completedQuizzes = savedProgress.completedQuizzes || [];
-            const completedProjects = savedProgress.completedProjects || [];
+            // Count completed modules (a module is complete when all 4 lessons are done)
+            const completedModules = [
+                module1Progress.length === 4,
+                module2Progress.length === 4,
+                module3Progress.length === 4,
+                module4Progress.length === 4,
+                module5Progress.length === 4,
+                module6Progress.length === 4,
+                module7Progress.length === 4
+            ].filter(Boolean);
             
-            function updateProgress() {
-                const progressBar = document.querySelector('.progress');
-                const progressPercentage = (completedModules.length / totalModules) * 100;
-                progressBar.style.width = progressPercentage + '%';
-                
-                // Update stats
-                document.querySelector('.progress-stat:nth-child(1) .stat-value').textContent = 
-                    completedModules.length + '/' + totalModules;
-                document.querySelector('.progress-stat:nth-child(2) .stat-value').textContent = 
-                    Math.round(progressPercentage) + '%';
-                document.querySelector('.progress-stat:nth-child(3) .stat-value').textContent = 
-                    totalPoints;
-                
-                // Update badges
-                const badges = document.querySelectorAll('.badge');
-                badges.forEach((badge, index) => {
-                    if (index < completedModules.length) {
-                        badge.classList.remove('locked');
-                        badge.classList.add('unlocked');
-                    }
-                });
-
-                // Save progress to local storage
-                localStorage.setItem('tutorial2Progress', JSON.stringify({
-                    completedModules,
-                    totalPoints,
-                    completedQuizzes,
-                    completedProjects
-                }));
-            }
-
-            // Quiz functionality
-            const quizForms = document.querySelectorAll('.quiz-form');
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalModules = 7;
+            const percentage = (completedModules.length / totalModules) * 100;
             
-            quizForms.forEach((form, index) => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const questions = this.querySelectorAll('.quiz-question');
-                    let correctAnswers = 0;
-                    
-                    questions.forEach(question => {
-                        const selectedAnswer = question.querySelector('input:checked');
-                        const correctAnswer = question.dataset.correct;
-                        const feedback = question.querySelector('.question-feedback');
-                        
-                        if (!selectedAnswer) {
-                            feedback.textContent = 'Please select an answer.';
-                            feedback.className = 'question-feedback incorrect';
-                            return;
-                        }
-                        
-                        if (selectedAnswer.nextSibling.textContent.trim() === correctAnswer) {
-                            feedback.textContent = 'Correct! Great job!';
-                            feedback.className = 'question-feedback correct';
-                            correctAnswers++;
-                        } else {
-                            feedback.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
-                            feedback.className = 'question-feedback incorrect';
-                        }
-                    });
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedModules.length;
 
-                    const scoreDiv = this.querySelector('.quiz-score');
-                    const submitBtn = this.querySelector('.quiz-submit');
-                    const retryBtn = this.querySelector('.quiz-retry');
-                    
-                    if (correctAnswers === questions.length) {
-                        scoreDiv.textContent = 'Quiz Passed! 🎉';
-                        scoreDiv.className = 'quiz-score passed';
-                        // Mark quiz as completed
-                        if (!completedQuizzes.includes(index)) {
-                            completedQuizzes.push(index);
-                        }
-                        // Check if the completion checkbox is also checked
-                        const moduleCheckbox = this.closest('.tutorial-section').querySelector('.module-complete');
-                        if (moduleCheckbox && moduleCheckbox.checked && !completedModules.includes(index)) {
-                            completedModules.push(index);
-                            totalPoints += pointsPerModule;
-                            updateProgress();
-                        }
-                    } else {
-                        scoreDiv.textContent = 'Try again!';
-                        scoreDiv.className = 'quiz-score failed';
-                    }
-                    
-                    submitBtn.style.display = 'none';
-                    retryBtn.style.display = 'block';
-                });
+            // Update module cards based on completion
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleProgress = JSON.parse(localStorage.getItem(`module${index + 1}Progress`)) || [];
+                const isCompleted = moduleProgress.length === 4;
+                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
-                const retryBtn = form.querySelector('.quiz-retry');
-                if (retryBtn) {
-                    retryBtn.addEventListener('click', function() {
-                        form.reset();
-                        form.querySelectorAll('.question-feedback').forEach(feedback => {
-                            feedback.textContent = '';
-                        });
-                        form.querySelector('.quiz-score').textContent = '';
-                        this.style.display = 'none';
-                        form.querySelector('.quiz-submit').style.display = 'block';
-                    });
+                const moduleLink = card.querySelector('.module-link');
+                if (isCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('completed');
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    moduleLink.textContent = 'Review Module';
+                    moduleLink.href = `tutorial2-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('active');
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = 'Start Module';
+                    moduleLink.href = `tutorial2-module${index + 1}.html`;
+                } else {
+                    card.classList.add('locked');
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
+                    moduleLink.href = '#';
                 }
             });
-
-            // Completion checkbox functionality
-            const completionCheckboxes = document.querySelectorAll('.module-complete');
-            completionCheckboxes.forEach((checkbox, index) => {
-                checkbox.addEventListener('change', function() {
-                    const moduleQuiz = this.closest('.tutorial-section').querySelector('.quiz-form');
-                    const quizPassed = moduleQuiz ? completedQuizzes.includes(index) : true;
-                    if (this.checked && quizPassed && !completedModules.includes(index)) {
-                        completedModules.push(index);
-                        totalPoints += pointsPerModule;
-                    } else if ((!this.checked || !quizPassed) && completedModules.includes(index)) {
-                        completedModules = completedModules.filter(i => i !== index);
-                        totalPoints -= pointsPerModule;
-                    }
-                    updateProgress();
-                });
-            });
-
-            // Initialize checkboxes based on saved progress
-            completionCheckboxes.forEach((checkbox, index) => {
-                if (completedModules.includes(index)) {
-                    checkbox.checked = true;
-                }
-            });
-
-            updateProgress();
         });
     </script>
 </body>

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6: Analytics & Optimization - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Check if user can access this module
+        window.addEventListener('load', function() {
+            const module5Progress = JSON.parse(localStorage.getItem('module5Progress')) || [];
+            if (module5Progress.length < 4) {
+                alert('Please complete Module 5 before accessing this module.');
+                window.location.href = 'tutorial2-module5.html';
+            }
+        });
+
+        // Function to handle navigation
+        function handleNavigation(moduleNumber) {
+            if (moduleNumber === 1) return true; // Module 1 is always accessible
+            
+            // Get current module's progress
+            const currentModuleProgress = JSON.parse(localStorage.getItem('module6Progress')) || [];
+            const prevModuleProgress = JSON.parse(localStorage.getItem(`module${moduleNumber-1}Progress`)) || [];
+            
+            if (prevModuleProgress.length < 4) {
+                alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
+                // Stay on current module
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        /* Quiz styling */
+        .quiz-container {
+            margin: 2rem 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: #f8f9fa;
+        }
+
+        .quiz-option.selected {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .quiz-option.correct {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .quiz-option.incorrect {
+            background: #dc3545;
+            color: white;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .quiz-feedback.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .quiz-feedback.error {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+
+        /* Continue button styling */
+        .continue-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .continue-btn i {
+            margin-left: 0.5rem;
+        }
+
+        /* Resource links styling */
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .resource-link i {
+            color: var(--accent-color);
+        }
+
+        /* Project submission styling */
+        .project-submission {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .project-submission h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .project-submission p {
+            margin-bottom: 1rem;
+        }
+
+        .project-submission ul {
+            margin-bottom: 1.5rem;
+        }
+
+        .file-upload {
+            margin-top: 1.5rem;
+        }
+
+        .file-upload label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload input[type="file"] {
+            margin-bottom: 1rem;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .top-nav {
+            background: #1a1a1a;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: flex-start;
+            height: 60px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+        }
+
+        .module-progress {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+            width: 250px;
+            text-align: center;
+        }
+
+        .module-progress h3 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Update module content styling */
+        .module-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .lesson-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .lesson-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+
+        .lesson-content {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .lesson-content h3 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .lesson-content h3:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 1.2em;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .lesson-content li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: -1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="tutorial2.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="tutorial2-module1.html" class="nav-link">
+            <i class="fas fa-book"></i>
+            Module 1
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial2-module2.html')" class="nav-link">
+            <i class="fas fa-laptop-code"></i>
+            Module 2
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial2-module3.html')" class="nav-link">
+            <i class="fas fa-bullhorn"></i>
+            Module 3
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(4) && (window.location.href='tutorial2-module4.html')" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Module 4
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(5) && (window.location.href='tutorial2-module5.html')" class="nav-link">
+            <i class="fas fa-cogs"></i>
+            Module 5
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(6) && (window.location.href='tutorial2-module6.html')" class="nav-link active">
+            <i class="fas fa-chart-bar"></i>
+            Module 6
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(7) && (window.location.href='tutorial2-module7.html')" class="nav-link">
+            <i class="fas fa-trophy"></i>
+            Module 7
+        </a>
+        <a href="tutorial2.html" class="nav-link">
+            <i class="fas fa-check-circle"></i>
+            Complete
+        </a>
+    </nav>
+
+    <div class="module-progress">
+        <h3>Module Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p><span class="completed-count">0</span>/4 Lessons Complete</p>
+    </div>
+
+    <div class="module-content">
+        <div class="module-header">
+            <h1 class="module-title">Module 6: Analytics & Optimization</h1>
+            <p class="module-description">Learn how to analyze data, track performance, and optimize your affiliate marketing campaigns using AI-powered analytics tools.</p>
+        </div>
+
+        <div class="lesson-section" id="lesson1">
+            <h2 class="lesson-title">
+                <i class="fas fa-chart-line"></i>
+                Lesson 1: Analytics Fundamentals
+            </h2>
+            <div class="lesson-content">
+                <h3>Understanding Analytics</h3>
+                <p>Analytics helps you make data-driven decisions. Here's what you need to know:</p>
+                <ul>
+                    <li>Key metrics to track (traffic, conversions, revenue)</li>
+                    <li>Understanding data visualization</li>
+                    <li>Setting up tracking systems</li>
+                    <li>Interpreting analytics data</li>
+                    <li>Making data-driven decisions</li>
+                </ul>
+
+                <h3>Analytics Tools</h3>
+                <div class="resource-links">
+                    <a href="https://analytics.google.com" target="_blank" class="resource-link">
+                        <i class="fas fa-chart-bar"></i> Google Analytics
+                    </a>
+                    <a href="https://www.hotjar.com" target="_blank" class="resource-link">
+                        <i class="fas fa-fire"></i> Hotjar
+                    </a>
+                    <a href="https://www.similarweb.com" target="_blank" class="resource-link">
+                        <i class="fas fa-globe"></i> SimilarWeb
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What is the most important metric to track in affiliate marketing?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Conversion rate</div>
+                            <div class="quiz-option">Number of followers</div>
+                            <div class="quiz-option">Website traffic</div>
+                            <div class="quiz-option">Social media likes</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson2">
+            <h2 class="lesson-title">
+                <i class="fas fa-search"></i>
+                Lesson 2: Performance Tracking
+            </h2>
+            <div class="lesson-content">
+                <h3>Tracking Performance</h3>
+                <p>Learn how to track and measure your success:</p>
+                <ul>
+                    <li>Setting up conversion tracking</li>
+                    <li>Monitoring key performance indicators</li>
+                    <li>Analyzing user behavior</li>
+                    <li>Identifying trends and patterns</li>
+                    <li>Measuring ROI</li>
+                </ul>
+
+                <h3>Tracking Tools</h3>
+                <div class="resource-links">
+                    <a href="https://www.clickfunnels.com" target="_blank" class="resource-link">
+                        <i class="fas fa-funnel-dollar"></i> ClickFunnels
+                    </a>
+                    <a href="https://www.ahrefs.com" target="_blank" class="resource-link">
+                        <i class="fas fa-link"></i> Ahrefs
+                    </a>
+                    <a href="https://www.semrush.com" target="_blank" class="resource-link">
+                        <i class="fas fa-search"></i> SEMrush
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What does ROI stand for in affiliate marketing?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Return on Investment</div>
+                            <div class="quiz-option">Rate of Interest</div>
+                            <div class="quiz-option">Return on Income</div>
+                            <div class="quiz-option">Rate of Income</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson3">
+            <h2 class="lesson-title">
+                <i class="fas fa-bullseye"></i>
+                Lesson 3: Optimization Techniques
+            </h2>
+            <div class="lesson-content">
+                <h3>Optimizing Your Campaigns</h3>
+                <p>Learn how to improve your performance:</p>
+                <ul>
+                    <li>A/B testing strategies</li>
+                    <li>Landing page optimization</li>
+                    <li>Content performance analysis</li>
+                    <li>User experience improvements</li>
+                    <li>Conversion rate optimization</li>
+                </ul>
+
+                <h3>Optimization Tools</h3>
+                <div class="resource-links">
+                    <a href="https://www.optimizely.com" target="_blank" class="resource-link">
+                        <i class="fas fa-flask"></i> Optimizely
+                    </a>
+                    <a href="https://www.vwo.com" target="_blank" class="resource-link">
+                        <i class="fas fa-chart-pie"></i> VWO
+                    </a>
+                    <a href="https://www.luckyorange.com" target="_blank" class="resource-link">
+                        <i class="fas fa-orange"></i> Lucky Orange
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What is the purpose of A/B testing?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Comparing different versions to find the best performing one</div>
+                            <div class="quiz-option">Testing website speed</div>
+                            <div class="quiz-option">Checking email deliverability</div>
+                            <div class="quiz-option">Measuring social media engagement</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson4">
+            <h2 class="lesson-title">
+                <i class="fas fa-chart-pie"></i>
+                Lesson 4: Data Analysis & Reporting
+            </h2>
+            <div class="lesson-content">
+                <h3>Analyzing Data</h3>
+                <p>Learn how to analyze and report your findings:</p>
+                <ul>
+                    <li>Data analysis techniques</li>
+                    <li>Creating meaningful reports</li>
+                    <li>Identifying insights</li>
+                    <li>Making recommendations</li>
+                    <li>Presenting data effectively</li>
+                </ul>
+
+                <div class="project-submission">
+                    <h3>Analytics Report</h3>
+                    <p>Submit your comprehensive analytics report. Include:</p>
+                    <ul>
+                        <li>Key performance metrics</li>
+                        <li>Data analysis findings</li>
+                        <li>Optimization recommendations</li>
+                        <li>Action plan for improvements</li>
+                    </ul>
+                    <div class="file-upload">
+                        <label for="project-file">
+                            <i class="fas fa-upload"></i> Choose Files
+                        </label>
+                        <input type="file" id="project-file" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
+                        <button class="submit-btn" onclick="submitProject()">
+                            Submit Project
+                        </button>
+                        <div class="submission-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:void(0)" onclick="handleNavigation(7) && (window.location.href='tutorial2-module7.html')" class="continue-btn">
+            Continue to Module 7: Advanced Strategies
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get completed lessons from localStorage
+            const moduleProgress = JSON.parse(localStorage.getItem('module6Progress')) || [];
+            
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalLessons = 4;
+            const percentage = (moduleProgress.length / totalLessons) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = moduleProgress.length;
+
+            // Quiz functionality
+            const quizContainers = document.querySelectorAll('.quiz-container');
+            
+            quizContainers.forEach(container => {
+                const options = container.querySelectorAll('.quiz-option');
+                const feedback = container.querySelector('.quiz-feedback');
+                
+                options.forEach(option => {
+                    option.addEventListener('click', () => {
+                        // If quiz is already answered correctly, don't allow new selections
+                        if (container.querySelector('.quiz-option.correct')) {
+                            return;
+                        }
+                        
+                        options.forEach(opt => {
+                            opt.classList.remove('selected', 'incorrect');
+                            opt.style.pointerEvents = '';
+                        });
+                        option.classList.add('selected');
+                        
+                        const isCorrect = option.getAttribute('data-correct') === 'true';
+                        
+                        if (isCorrect) {
+                            option.classList.add('correct');
+                            options.forEach(opt => opt.style.pointerEvents = 'none');
+                            feedback.textContent = 'Correct!';
+                            feedback.className = 'quiz-feedback success';
+                            const lessonSection = container.closest('.lesson-section');
+                            const lessonId = lessonSection.id;
+                            if (!moduleProgress.includes(lessonId)) {
+                                moduleProgress.push(lessonId);
+                                localStorage.setItem('module6Progress', JSON.stringify(moduleProgress));
+                                const newPercentage = (moduleProgress.length / totalLessons) * 100;
+                                progressFill.style.width = `${newPercentage}%`;
+                                completedCount.textContent = moduleProgress.length;
+                            }
+                        } else {
+                            option.classList.add('incorrect');
+                            feedback.textContent = 'Try again';
+                            feedback.className = 'quiz-feedback error';
+                        }
+                    });
+                });
+            });
+
+            // Project submission handling
+            window.submitProject = function() {
+                const fileInput = document.getElementById('project-file');
+                const statusDiv = document.querySelector('.submission-status');
+                
+                if (fileInput.files.length === 0) {
+                    statusDiv.textContent = 'Please select files to submit';
+                    statusDiv.className = 'submission-status error';
+                    return;
+                }
+
+                statusDiv.textContent = 'Project submitted successfully!';
+                statusDiv.className = 'submission-status success';
+                
+                if (!moduleProgress.includes('lesson4')) {
+                    moduleProgress.push('lesson4');
+                    localStorage.setItem('module6Progress', JSON.stringify(moduleProgress));
+                    const newPercentage = (moduleProgress.length / totalLessons) * 100;
+                    progressFill.style.width = `${newPercentage}%`;
+                    completedCount.textContent = moduleProgress.length;
+                }
+            };
+        });
+    </script>
+</body>
+</html>
