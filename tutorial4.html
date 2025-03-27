@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C2MB0QRJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C2MB0QRJH');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hustle Hub - Selling AI-Based Digital Products</title>
@@ -295,23 +304,24 @@
             document.querySelectorAll('.module-card').forEach((card, index) => {
                 const moduleProgress = JSON.parse(localStorage.getItem(`tutorial4_module${index + 1}Progress`)) || [];
                 const isCompleted = moduleProgress.length === 4;
-                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial4_module${index}Progress`)) || [];
+                const prevModuleProgress = index === 0 ? [] : JSON.parse(localStorage.getItem(`tutorial4_module${index}Progress`)) || [];
                 const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
                 const moduleLink = card.querySelector('.module-link');
                 if (isCompleted) {
-                    card.classList.remove('locked');
+                    card.classList.remove('locked', 'active');
                     card.classList.add('completed');
                     card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
                     moduleLink.textContent = 'Review Module';
                     moduleLink.href = `tutorial4-module${index + 1}.html`;
                 } else if (isPrevCompleted) {
-                    card.classList.remove('locked');
+                    card.classList.remove('locked', 'completed');
                     card.classList.add('active');
                     card.querySelector('.module-status').className = 'module-status fas fa-spinner';
-                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.textContent = 'Start Module';
                     moduleLink.href = `tutorial4-module${index + 1}.html`;
                     } else {
+                    card.classList.remove('active', 'completed');
                     card.classList.add('locked');
                     card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
                     moduleLink.textContent = 'Complete Previous Modules';

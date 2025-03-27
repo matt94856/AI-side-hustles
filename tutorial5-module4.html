@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C2MB0QRJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C2MB0QRJH');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 1: AI Consulting Foundations - AI Hustle Hub</title>
+    <title>Module 4: Service Delivery - AI Hustle Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -28,53 +37,38 @@
             background: #f5f5f5;
         }
 
-        .progress-tracker {
-            display: none;
-        }
-
-        .progress-container {
-            display: none;
-        }
-
-        .progress-step {
-            display: none;
-        }
-
-        .progress-line {
-            display: none;
-        }
-
-        .progress-line-fill {
-            display: none;
-        }
-
-        .back-to-home {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1001;
-            background: var(--gradient-accent);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
+        .top-nav {
+            background: var(--gradient-primary);
+            padding: 1rem 2rem;
             display: flex;
             align-items: center;
-            transition: transform 0.3s ease;
+            gap: 2rem;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
-        .back-to-home:hover {
-            transform: scale(1.05);
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .back-to-home i {
-            margin-right: 0.5rem;
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 1.2rem;
         }
 
         .module-content {
-            max-width: 1000px;
-            margin: 100px auto 40px;
+            max-width: 1200px;
+            margin: 2rem auto;
             padding: 2rem;
             background: white;
             border-radius: 15px;
@@ -100,134 +94,43 @@
         }
 
         .lesson-section {
-            margin-bottom: 3rem;
-            padding: 2rem;
             background: #f8f9fa;
             border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 2rem;
+            margin-bottom: 2rem;
             border: 1px solid #e9ecef;
         }
 
-        .lesson-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
         .lesson-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--primary-color);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--accent-color);
+            gap: 1rem;
         }
 
         .lesson-title i {
             color: var(--accent-color);
-            margin-right: 0.8rem;
         }
 
         .lesson-content {
-            color: #444;
-            line-height: 1.8;
-        }
-
-        .lesson-content h3 {
-            color: var(--primary-color);
-            margin: 2rem 0 1rem;
-            font-size: 1.3rem;
-            position: relative;
-            padding-left: 1rem;
-        }
-
-        .lesson-content h3:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 1.2em;
-            background: var(--accent-color);
-            border-radius: 2px;
-        }
-
-        .lesson-content p {
-            margin-bottom: 1rem;
-        }
-
-        .lesson-content ul {
-            list-style: none;
-            padding-left: 1.5rem;
-        }
-
-        .lesson-content li {
-            margin-bottom: 0.8rem;
-            position: relative;
-        }
-
-        .lesson-content li:before {
-            content: "•";
-            color: var(--accent-color);
-            position: absolute;
-            left: -1.5rem;
+            margin-bottom: 2rem;
         }
 
         .practical-exercise {
-            background: var(--gradient-accent);
-            color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-
-        .exercise-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-        }
-
-        .exercise-steps {
-            list-style: none;
-        }
-
-        .exercise-steps li {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .exercise-steps li i {
-            margin-right: 1rem;
-            margin-top: 0.3rem;
-        }
-
-        .next-lesson {
-            display: inline-block;
-            background: var(--gradient-accent);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 500;
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
             margin-top: 2rem;
-            transition: transform 0.3s ease;
+            border-radius: 0 15px 15px 0;
         }
 
-        .next-lesson:hover {
-            transform: translateY(-2px);
-        }
-
-        .next-lesson i {
-            margin-left: 0.5rem;
-        }
-
-        .quiz-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .quiz-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
         }
 
         .quiz-question {
@@ -235,18 +138,17 @@
         }
 
         .quiz-options {
-            display: flex;
-            flex-direction: column;
+            display: grid;
             gap: 1rem;
-            margin: 1rem 0;
         }
 
         .quiz-option {
+            background: white;
             padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
         }
 
         .quiz-option:hover {
@@ -288,67 +190,7 @@
             display: block;
         }
 
-        .code-example {
-            background: #1e1e1e;
-            color: #fff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            position: relative;
-        }
-
-        .code-example pre {
-            margin: 0;
-            white-space: pre-wrap;
-            font-family: 'Courier New', monospace;
-        }
-
-        .copy-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .copy-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .ai-demo {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-
-        .ai-demo-step {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: white;
-            border-radius: 8px;
-        }
-
-        .ai-demo-step .step-number {
-            width: 30px;
-            height: 30px;
-            background: var(--accent-color);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .progress-indicator {
+        .progress-section {
             position: fixed;
             top: 80px;
             right: 20px;
@@ -357,11 +199,6 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 999;
-        }
-
-        .progress-indicator h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
         }
 
         .progress-bar {
@@ -375,219 +212,46 @@
         .progress-fill {
             height: 100%;
             background: var(--accent-color);
+            width: 0%;
             transition: width 0.3s ease;
         }
 
-        .lesson-complete {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            background: #4CAF50;
-            color: white;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-
-        .term-grid, .tool-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .term-card, .tool-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .term-card:hover, .tool-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .term-card h4, .tool-card h4 {
-            color: var(--accent-color);
-            margin-bottom: 0.8rem;
-        }
-
-        .project-submission {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-            border: 2px dashed var(--accent-color);
-        }
-
-        .file-upload {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            margin: 1rem 0;
-        }
-
-        .file-upload input[type="file"] {
-            display: none;
-        }
-
-        .file-upload label {
-            background: var(--gradient-accent);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .file-upload label:hover {
-            transform: scale(1.05);
-        }
-
-        .submission-status {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 5px;
-            display: none;
-        }
-
-        .submission-status.success {
-            background: rgba(76, 175, 80, 0.1);
-            color: #4CAF50;
-            display: block;
-        }
-
-        .submission-status.error {
-            background: rgba(244, 67, 54, 0.1);
-            color: #f44336;
-            display: block;
-        }
-
-        .resource-link {
+        .next-lesson {
             display: inline-flex;
             align-items: center;
-            padding: 0.5rem 1rem;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 5px;
-            color: var(--accent-color);
+            background: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
             text-decoration: none;
-            margin: 0.5rem 0;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
         }
 
-        .resource-link:hover {
-            background: #e9ecef;
+        .next-lesson:hover {
             transform: translateY(-2px);
         }
 
-        .resource-link i {
-            margin-right: 0.5rem;
-            color: var(--accent-color);
+        .next-lesson i {
+            margin-left: 0.5rem;
         }
 
-        .resource-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
+        @media (max-width: 768px) {
+            .module-content {
+                padding: 1rem;
+            }
 
-        .module-progress {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            z-index: 999;
-            width: 250px;
-        }
+            .module-title {
+                font-size: 2rem;
+            }
 
-        .module-progress h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .lesson-progress {
-            margin: 1rem 0;
-        }
-
-        .lesson-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin: 0.5rem 0;
-            padding: 0.5rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .lesson-status i {
-            color: #ccc;
-            transition: all 0.3s ease;
-        }
-
-        .lesson-status.completed i {
-            color: #4CAF50;
-        }
-
-        .lesson-status:hover {
-            background: #f8f9fa;
-        }
-
-        .top-nav {
-            background: #1a1a1a;
-            padding: 0.5rem 1rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            white-space: nowrap;
-            justify-content: flex-start;
-            height: 60px;
-        }
-
-        .nav-link {
-            color: #888;
-            text-decoration: none;
-            padding: 0.4rem 0.5rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.2rem;
-            flex-shrink: 0;
-            font-size: 0.9rem;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link i {
-            font-size: 0.9rem;
-        }
-
-        .module-content {
-            margin-top: 80px;
+            .progress-section {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -597,27 +261,27 @@
             <i class="fas fa-home"></i>
             Home
         </a>
-        <a href="tutorial5-module1.html" class="nav-link active">
+        <a href="tutorial5-module1.html" class="nav-link">
             <i class="fas fa-brain"></i>
             Module 1
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial5-module2.html')" class="nav-link">
-            <i class="fas fa-cogs"></i>
+        <a href="tutorial5-module2.html" class="nav-link">
+            <i class="fas fa-handshake"></i>
             Module 2
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial5-module3.html')" class="nav-link">
-            <i class="fas fa-users"></i>
+        <a href="tutorial5-module3.html" class="nav-link">
+            <i class="fas fa-clipboard-check"></i>
             Module 3
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(4) && (window.location.href='tutorial5-module4.html')" class="nav-link">
-            <i class="fas fa-file-invoice-dollar"></i>
+        <a href="tutorial5-module4.html" class="nav-link active">
+            <i class="fas fa-chart-bar"></i>
             Module 4
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(5) && (window.location.href='tutorial5-module5.html')" class="nav-link">
-            <i class="fas fa-chart-line"></i>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(5)" class="nav-link">
+            <i class="fas fa-users-cog"></i>
             Module 5
         </a>
-        <a href="tutorial5.html" class="nav-link">
+        <a href="javascript:void(0)" onclick="handleTutorialCompletion()" class="nav-link">
             <i class="fas fa-check-circle"></i>
             Complete
         </a>
@@ -625,181 +289,326 @@
 
     <div class="module-content">
         <div class="module-header">
-            <h1 class="module-title">Module 1: AI Consulting Foundations</h1>
-            <p class="module-description">Understand the fundamentals of AI consulting, including the types of services you can offer and the skills required to succeed.</p>
+            <h1 class="module-title">Module 4: Service Delivery</h1>
+            <p class="module-description">Learn how to effectively deliver high-quality AI consulting services that exceed client expectations and drive measurable business results.</p>
         </div>
 
-        <div class="lesson-section" id="lesson1">
+        <div class="lesson-section">
             <h2 class="lesson-title">
-                <i class="fas fa-lightbulb"></i>
-                Lesson 1: What is AI Consulting?
+                <i class="fas fa-bullseye"></i>
+                Lesson 1: Setting Clear Deliverables
             </h2>
             <div class="lesson-content">
-                <p>Learn the basics of AI consulting and discover the various services you can offer to businesses looking to implement AI solutions.</p>
+                <h3>The Importance of Well-Defined Deliverables</h3>
+                <p>Clear, measurable deliverables are the foundation of successful AI consulting engagements. They establish shared expectations, provide a basis for evaluation, and ensure alignment between consultant and client objectives.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Key Components of Effective Deliverables:</h3>
+                <ul>
+                    <li><strong>Specificity:</strong> Clearly defined scope and parameters</li>
+                    <li><strong>Measurability:</strong> Quantifiable success metrics</li>
+                    <li><strong>Achievability:</strong> Realistic given constraints and resources</li>
+                    <li><strong>Relevance:</strong> Direct connection to business objectives</li>
+                    <li><strong>Time-bound:</strong> Clear deadlines and milestones</li>
+                </ul>
+
+                <h3>Common AI Consulting Deliverables:</h3>
+                <p>Different engagements require different deliverable types, from strategic recommendations to fully implemented AI solutions. Understanding the appropriate deliverable format is essential for setting expectations.</p>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Create a comprehensive deliverables framework for an AI consulting engagement. For each project phase, define specific deliverable types, formats, and success criteria. Develop a template for documenting deliverables that includes scope, acceptance criteria, and dependencies.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>Which of the following is most likely to cause project failure in AI consulting?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Vague, undefined deliverables without measurable success criteria</div>
+                            <div class="quiz-option">Using the latest technology stack</div>
+                            <div class="quiz-option">Involving too many stakeholders in planning</div>
+                            <div class="quiz-option">Frequent communication with clients</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="lesson-section" id="lesson2">
+        <div class="lesson-section">
             <h2 class="lesson-title">
-                <i class="fas fa-puzzle-piece"></i>
-                Lesson 2: Essential AI Knowledge for Consultants
+                <i class="fas fa-exchange-alt"></i>
+                Lesson 2: Client Communication Strategy
             </h2>
             <div class="lesson-content">
-                <p>Develop the core AI knowledge needed to provide valuable consulting services, even without being a technical expert.</p>
-                
-                <!-- Lesson content would go here -->
+                <h3>Effective Communication Frameworks</h3>
+                <p>Strategic communication is vital to successful AI consulting. It bridges knowledge gaps, manages expectations, builds trust, and ensures alignment throughout the engagement.</p>
+
+                <h3>Key Communication Elements:</h3>
+                <ul>
+                    <li><strong>Regular Cadence:</strong> Scheduled check-ins and updates</li>
+                    <li><strong>Structured Format:</strong> Standardized reporting templates</li>
+                    <li><strong>Right Level of Detail:</strong> Tailored to audience technical knowledge</li>
+                    <li><strong>Multi-Channel Approach:</strong> Formal reports, demos, presentations, etc.</li>
+                    <li><strong>Proactive Updates:</strong> Sharing challenges early rather than hiding them</li>
+                </ul>
+
+                <h3>Translating Technical Concepts:</h3>
+                <p>AI consultants must effectively translate complex technical concepts into business language. This skill is essential for ensuring stakeholder understanding and buy-in.</p>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Develop a comprehensive communication plan for an AI consulting project. Include communication frequency, formats, channels, and stakeholder mapping. Create templates for weekly status reports, executive updates, and technical briefings. Write sample language demonstrating how to explain a complex AI concept to non-technical executives.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>When communicating about a delay in an AI project, what is the most effective approach?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">Wait until the next scheduled update to mention it</div>
+                            <div class="quiz-option">Downplay the significance to avoid client concern</div>
+                            <div class="quiz-option" data-correct="true">Communicate proactively with impact assessment and mitigation plans</div>
+                            <div class="quiz-option">Blame external factors like vendors or data quality</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="lesson-section" id="lesson3">
+        <div class="lesson-section">
             <h2 class="lesson-title">
-                <i class="fas fa-briefcase"></i>
-                Lesson 3: AI Consulting Service Areas
+                <i class="fas fa-tachometer-alt"></i>
+                Lesson 3: Quality Assurance in AI Consulting
             </h2>
             <div class="lesson-content">
-                <p>Explore the different types of AI consulting services you can offer, from strategy development to implementation oversight.</p>
-                
-                <!-- Lesson content would go here -->
+                <h3>The Unique QA Challenges in AI</h3>
+                <p>AI solutions present unique quality assurance challenges compared to traditional software. Effective QA processes must address model performance, bias, explainability, and business alignment.</p>
+
+                <h3>Key QA Components:</h3>
+                <ul>
+                    <li><strong>Technical Validation:</strong> Model accuracy, precision, recall, etc.</li>
+                    <li><strong>Business Validation:</strong> Alignment with business objectives</li>
+                    <li><strong>Ethical Assessment:</strong> Bias testing, fairness measures</li>
+                    <li><strong>Explainability Review:</strong> Understanding of model decisions</li>
+                    <li><strong>Integration Testing:</strong> Compatibility with existing systems</li>
+                </ul>
+
+                <h3>QA Processes and Tools:</h3>
+                <p>Implementing structured QA processes with appropriate tools and methodologies ensures consistent quality delivery and reduces project risk.</p>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Design a comprehensive QA framework for AI consulting projects. Create checklists for evaluating both technical performance and business alignment. Develop templates for documenting test cases, acceptance criteria, and validation processes. Include guidance for evaluating ethical considerations and model explainability.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>Which of the following is a unique aspect of quality assurance for AI solutions compared to traditional software?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">Unit testing of code</div>
+                            <div class="quiz-option">User interface design</div>
+                            <div class="quiz-option">Database performance</div>
+                            <div class="quiz-option" data-correct="true">Evaluation of potential algorithmic bias</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="lesson-section" id="lesson4">
+        <div class="lesson-section">
             <h2 class="lesson-title">
-                <i class="fas fa-check-square"></i>
-                Lesson 4: Building Your AI Consultant Toolkit
+                <i class="fas fa-hands-helping"></i>
+                Lesson 4: Value Demonstration & Knowledge Transfer
             </h2>
             <div class="lesson-content">
-                <p>Assemble the essential tools, resources, and frameworks you'll need to deliver effective AI consulting services.</p>
-                
-                <!-- Lesson content would go here -->
+                <h3>Quantifying Business Impact</h3>
+                <p>Demonstrating the tangible value of AI solutions is essential for client satisfaction and relationship building. Successful consultants establish clear metrics and showcase both quantitative and qualitative impacts.</p>
+
+                <h3>Value Demonstration Framework:</h3>
+                <ul>
+                    <li><strong>Baseline Establishment:</strong> Clear measurement of pre-implementation state</li>
+                    <li><strong>ROI Calculation:</strong> Quantifiable financial and operational impact</li>
+                    <li><strong>Case Study Development:</strong> Compelling narratives of outcomes</li>
+                    <li><strong>Before/After Comparisons:</strong> Visual and data-driven illustrations</li>
+                    <li><strong>Stakeholder Testimonials:</strong> End-user experiences and feedback</li>
+                </ul>
+
+                <h3>Effective Knowledge Transfer:</h3>
+                <p>Long-term success depends on effective knowledge transfer that enables clients to maintain, use, and extend AI solutions after the engagement ends.</p>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Create a value demonstration and knowledge transfer plan for an AI consulting project. Include ROI calculation methodologies, a case study template, and a framework for documenting qualitative impacts. Develop a comprehensive knowledge transfer strategy including documentation standards, training plans, and ongoing support options.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What is the most important aspect of successful knowledge transfer in AI consulting?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">Providing extensive technical documentation</div>
+                            <div class="quiz-option">Teaching clients how to code AI solutions</div>
+                            <div class="quiz-option" data-correct="true">Building client capability to effectively use and maintain the solution</div>
+                            <div class="quiz-option">Limiting knowledge sharing to protect IP and ensure future work</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial5-module2.html')" class="next-lesson">
-            Continue to Module 2
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(5)" class="next-lesson">
+            Continue to Module 5
             <i class="fas fa-arrow-right"></i>
         </a>
     </div>
 
-    <div class="module-progress">
+    <div class="progress-section">
         <h3>Module Progress</h3>
         <div class="progress-bar">
-            <div class="progress-fill" style="width: 0%"></div>
+            <div class="progress-fill"></div>
         </div>
         <p><span class="completed-count">0</span>/4 Lessons Complete</p>
     </div>
 
     <script>
-        // Function to handle navigation
-        function handleNavigation(moduleNumber) {
-            if (moduleNumber === 1) return true; // Module 1 is always accessible
-            
-            // Get current module's progress
-            const currentModuleProgress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
-            const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial5_module${moduleNumber-1}Progress`)) || [];
-            
-            if (prevModuleProgress.length < 4) {
-                alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
-                // Stay on current module
-                return false;
-            }
-            return true;
-        }
+        let module4Progress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
+        const totalLessons = 4;
+        const progressFill = document.querySelector('.progress-fill');
+        const completedCount = document.querySelector('.completed-count');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all module progress from localStorage
-            const moduleProgress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
-            const lessonProgress = JSON.parse(localStorage.getItem('tutorial5_module4LessonProgress')) || {};
-            
-            // Update progress bar
-            const progressFill = document.querySelector('.progress-fill');
-            const progressText = document.querySelector('.module-progress p');
-            const completedCount = document.querySelector('.completed-count');
-            const totalLessons = 4;
-            
-            function updateProgress() {
-                const newPercentage = (moduleProgress.length / totalLessons) * 100;
-                progressFill.style.width = `${newPercentage}%`;
-                completedCount.textContent = moduleProgress.length;
-            }
+        function updateProgress() {
+            const completedLessons = module4Progress.length;
+            const percentage = (completedLessons / totalLessons) * 100;
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedLessons;
 
-            // Quiz functionality
-            document.querySelectorAll('.quiz-question').forEach(question => {
-                const options = question.querySelectorAll('.quiz-option');
-                const feedback = question.querySelector('.quiz-feedback');
-                
-                options.forEach(option => {
-                    option.addEventListener('click', function() {
-                        if (this.classList.contains('selected')) return;
-                        
-                        // Remove selection from other options
-                        options.forEach(opt => {
-                            opt.classList.remove('selected', 'correct', 'incorrect');
-                        });
-                        
-                        this.classList.add('selected');
-                        
-                        const isCorrect = this.hasAttribute('data-correct');
-                        feedback.textContent = isCorrect ? 'Correct!' : 'Try again';
-                        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
-                        
-                        if (isCorrect) {
-                            this.classList.add('correct');
-                            // Determine which lesson this is
-                            const lessonSection = this.closest('.lesson-section');
-                            const lessonId = lessonSection.id;
-                            
-                            // Initialize lesson progress if not exists
-                            if (!lessonProgress[lessonId]) {
-                                lessonProgress[lessonId] = {};
-                            }
-                            
-                            // Mark quiz as complete
-                            lessonProgress[lessonId].quizComplete = true;
-                            localStorage.setItem('tutorial5_module4LessonProgress', JSON.stringify(lessonProgress));
-                            
-                            // Add to module progress if not already included
-                            if (!moduleProgress.includes(lessonId)) {
-                                moduleProgress.push(lessonId);
-                                localStorage.setItem('tutorial5_module1Progress', JSON.stringify(moduleProgress));
-                                updateProgress();
-                            }
-                        } else {
-                            this.classList.add('incorrect');
-                        }
-                    });
-                });
-            });
-
-            // Project submission handling
-            window.submitProject = function() {
-                const fileInput = document.getElementById('project-file');
-                const statusDiv = document.querySelector('.submission-status');
-                
-                if (fileInput.files.length === 0) {
-                    statusDiv.textContent = 'Please select a file to submit';
-                    statusDiv.className = 'submission-status error';
-                    return;
-                }
-
-                // Simulate file upload
-                setTimeout(() => {
-                    statusDiv.textContent = 'Project submitted successfully!';
-                    statusDiv.className = 'submission-status success';
-                    
-                    // Mark final lesson as complete
-                    const lessonId = 'lesson4';
-                    if (!moduleProgress.includes(lessonId)) {
-                        moduleProgress.push(lessonId);
-                        localStorage.setItem('tutorial5_module1Progress', JSON.stringify(moduleProgress));
-                        updateProgress();
-                    }
-                }, 1500);
+            // Update tutorial progress
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                completed: false
             };
 
-            // Initialize progress on page load
+            try {
+                const savedProgress = localStorage.getItem('tutorial5Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            // Mark module as complete if all lessons are done
+            tutorialProgress.module4 = completedLessons >= totalLessons;
+            localStorage.setItem('tutorial5Progress', JSON.stringify(tutorialProgress));
+        }
+
+        // Handle quiz interactions
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionContainer = this.closest('.quiz-question');
+                const feedback = questionContainer.querySelector('.quiz-feedback');
+                
+                if (this.classList.contains('selected')) return;
+                
+                // Remove selection from other options
+                questionContainer.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected', 'correct', 'incorrect');
+                });
+                
+                this.classList.add('selected');
+                
+                const isCorrect = this.hasAttribute('data-correct');
+                feedback.textContent = isCorrect ? 'Correct!' : 'Try again';
+                feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+                
+                if (isCorrect) {
+                    this.classList.add('correct');
+                    const lessonNumber = this.closest('.lesson-section').querySelector('.lesson-title').textContent.match(/Lesson (\d+)/)[1];
+                    if (!module4Progress.includes(lessonNumber)) {
+                        module4Progress.push(lessonNumber);
+                        localStorage.setItem('tutorial5_module4Progress', JSON.stringify(module4Progress));
+                        updateProgress();
+                    }
+                } else {
+                    this.classList.add('incorrect');
+                }
+            });
+        });
+
+        function handleModuleNavigation(targetModule) {
+            // Get current progress
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                completed: false
+            };
+
+            try {
+                const savedProgress = localStorage.getItem('tutorial5Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            // Check if navigation should be allowed
+            const currentModule = 4; // This is Module 4
+            const previousModuleComplete = targetModule === 4 || tutorialProgress[`module${targetModule - 1}`];
+
+            if (previousModuleComplete || tutorialProgress[`module${targetModule}`]) {
+                // Allow navigation to next module or any completed module
+                window.location.href = `tutorial5-module${targetModule}.html`;
+            } else {
+                // Keep user on current module
+                alert('Please complete the previous module first.');
+                window.location.href = `tutorial5-module${currentModule}.html`;
+            }
+        }
+
+        function handleTutorialCompletion() {
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                completed: false
+            };
+
+            try {
+                const savedProgress = localStorage.getItem('tutorial5Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            const allModulesComplete = Object.values(tutorialProgress).slice(0, 5).every(value => value);
+            
+            if (allModulesComplete) {
+                window.location.href = 'tutorial5.html';
+            } else {
+                alert('Please complete all modules before completing the tutorial.');
+                window.location.href = 'tutorial5-module4.html';
+            }
+        }
+
+        // Initialize progress on page load
+        document.addEventListener('DOMContentLoaded', function() {
             updateProgress();
         });
     </script>

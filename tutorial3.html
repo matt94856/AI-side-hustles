@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C2MB0QRJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C2MB0QRJH');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hustle Hub - Content Creation with AI</title>
@@ -206,10 +215,10 @@
 
     <div class="course-progress">
         <h3>Course Progress</h3>
-        <div class="progress-bar">
+            <div class="progress-bar">
             <div class="progress-fill"></div>
         </div>
-        <p><span class="completed-count">0</span>/4 Modules Complete</p>
+        <p><span class="completed-count">0</span>/5 Modules Complete</p>
                 </div>
 
     <div class="modules-grid">
@@ -227,7 +236,7 @@
             <h2 class="module-title">Module 2: Writing with AI</h2>
             <p class="module-description">Master AI writing tools like ChatGPT and learn how to create various types of content including blog posts, social media, emails, and more.</p>
             <a href="tutorial3-module2.html" class="module-link">Start Module</a>
-        </div>
+                    </div>
 
         <div class="module-card locked">
             <i class="fas fa-image module-icon"></i>
@@ -243,58 +252,81 @@
             <h2 class="module-title">Module 4: Monetizing Your AI Content</h2>
             <p class="module-description">Discover strategies for monetizing your AI-enhanced content through various channels including sponsorships, affiliate marketing, and digital products.</p>
             <a href="tutorial3-module4.html" class="module-link">Start Module</a>
-            </div>
         </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-cogs module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 5: Advanced AI Content Strategy</h2>
+            <p class="module-description">Master advanced techniques and strategies for long-term success with AI content creation across multi-channel campaigns.</p>
+            <a href="tutorial3-module5.html" class="module-link">Start Module</a>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Check progress of each module
-            const module1Progress = JSON.parse(localStorage.getItem('tutorial3_module1Progress')) || [];
-            const module2Progress = JSON.parse(localStorage.getItem('tutorial3_module2Progress')) || [];
-            const module3Progress = JSON.parse(localStorage.getItem('tutorial3_module3Progress')) || [];
-            const module4Progress = JSON.parse(localStorage.getItem('tutorial3_module4Progress')) || [];
+            // Get the course progress from localStorage
+            const courseProgress = JSON.parse(localStorage.getItem('tutorial3Progress')) || {
+                modules: {
+                    module1: false,
+                    module2: false,
+                    module3: false,
+                    module4: false,
+                    module5: false
+                },
+                completed: false
+            };
             
-            // Count completed modules (a module is complete when all 4 lessons are done)
-            const completedModules = [
-                module1Progress.length === 4,
-                module2Progress.length === 4,
-                module3Progress.length === 4,
-                module4Progress.length === 4
-            ].filter(Boolean);
+            // Count completed modules
+            const completedModules = Object.values(courseProgress.modules).filter(Boolean).length;
             
             // Update progress bar
             const progressFill = document.querySelector('.progress-fill');
             const completedCount = document.querySelector('.completed-count');
-            const totalModules = 4;
-            const percentage = (completedModules.length / totalModules) * 100;
+            const totalModules = 5;
+            const percentage = (completedModules / totalModules) * 100;
             
             progressFill.style.width = `${percentage}%`;
-            completedCount.textContent = completedModules.length;
+            completedCount.textContent = completedModules;
 
-            // Update module cards based on completion
+            // Function to check if a module is accessible
+            function isModuleAccessible(moduleNum) {
+                if (moduleNum === 1) return true;
+                const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial3_module${moduleNum-1}Progress`)) || [];
+                return prevModuleProgress.length >= 4;
+            }
+
+            // Update module cards based on completion and accessibility
             document.querySelectorAll('.module-card').forEach((card, index) => {
-                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial3_module${index + 1}Progress`)) || [];
-                const isCompleted = moduleProgress.length === 4;
-                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial3_module${index}Progress`)) || [];
-                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
+                const moduleNum = index + 1;
+                const isCompleted = courseProgress.modules[`module${moduleNum}`];
+                const isAccessible = isModuleAccessible(moduleNum);
                 
                 const moduleLink = card.querySelector('.module-link');
+                const statusIcon = card.querySelector('.module-status');
+
+                // Remove all state classes first
+                card.classList.remove('locked', 'completed', 'active');
+                
                 if (isCompleted) {
-                    card.classList.remove('locked');
+                    // Completed module
                     card.classList.add('completed');
-                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    statusIcon.className = 'module-status completed fas fa-check-circle';
                     moduleLink.textContent = 'Review Module';
-                    moduleLink.href = `tutorial3-module${index + 1}.html`;
-                } else if (isPrevCompleted) {
-                    card.classList.remove('locked');
+                    moduleLink.href = `tutorial3-module${moduleNum}.html`;
+                    moduleLink.onclick = null;
+                } else if (isAccessible) {
+                    // Accessible but not completed module
                     card.classList.add('active');
-                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
-                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
-                    moduleLink.href = `tutorial3-module${index + 1}.html`;
+                    statusIcon.className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = moduleNum === 1 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial3-module${moduleNum}.html`;
+                    moduleLink.onclick = null;
                     } else {
+                    // Locked module
                     card.classList.add('locked');
-                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
-                    moduleLink.textContent = 'Complete Previous Modules';
+                    statusIcon.className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Module';
                     moduleLink.href = '#';
                     moduleLink.onclick = function(e) {
                         e.preventDefault();
@@ -302,6 +334,12 @@
                     };
                 }
             });
+
+            // Check if all modules are complete
+            if (completedModules === totalModules && !courseProgress.completed) {
+                courseProgress.completed = true;
+                localStorage.setItem('tutorial3Progress', JSON.stringify(courseProgress));
+            }
         });
     </script>
 </body>

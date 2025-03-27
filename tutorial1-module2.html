@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C2MB0QRJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C2MB0QRJH');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 2: Essential AI Tools for Freelancers - AI Hustle Hub</title>
@@ -1783,8 +1792,8 @@ Please:
                                 <span class="tool-name">Notion AI</span>
                                 <span class="tool-purpose">Content Organization</span>
                             </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
 
                     <div class="stack-card">
                         <h4><i class="fas fa-paint-brush"></i> Graphic Designers</h4>
@@ -2144,8 +2153,8 @@ Please:
 
                 <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial1-module3.html')" class="next-lesson">
                     Continue to Module 3
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+            <i class="fas fa-arrow-right"></i>
+        </a>
             </div>
         </div>
     </div>
@@ -2218,20 +2227,20 @@ Please:
             const questionDiv = option.closest('.quiz-question');
             const options = questionDiv.querySelectorAll('.quiz-option');
             const feedback = questionDiv.querySelector('.quiz-feedback');
-            
-            // Remove selection from other options
-            options.forEach(opt => {
-                opt.classList.remove('selected', 'correct', 'incorrect');
-            });
-            
+                        
+                        // Remove selection from other options
+                        options.forEach(opt => {
+                            opt.classList.remove('selected', 'correct', 'incorrect');
+                        });
+                        
             // Add selected class to clicked option
             option.classList.add('selected');
-            
+                        
             // Check if option is correct
             const isCorrect = option.hasAttribute('data-correct');
-            
+                        
             // Update feedback
-            if (isCorrect) {
+                        if (isCorrect) {
                 option.classList.add('correct');
                 feedback.textContent = "Correct!";
                 feedback.className = "quiz-feedback correct";
@@ -2269,8 +2278,8 @@ Please:
                 const lessonId = lessonSection.id;
                 const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module2Progress')) || [];
                 
-                if (!moduleProgress.includes(lessonId)) {
-                    moduleProgress.push(lessonId);
+                            if (!moduleProgress.includes(lessonId)) {
+                                moduleProgress.push(lessonId);
                     localStorage.setItem('tutorial1_module2Progress', JSON.stringify(moduleProgress));
                     updateProgressUI();
                 }
@@ -2291,23 +2300,23 @@ Please:
         
         // Project submission
         function submitProject() {
-            const fileInput = document.getElementById('project-file');
-            const statusDiv = document.querySelector('.submission-status');
-            
-            if (fileInput.files.length === 0) {
-                statusDiv.textContent = 'Please select a file to submit';
-                statusDiv.className = 'submission-status error';
-                return;
-            }
-            
-            // Simulate file upload
+                const fileInput = document.getElementById('project-file');
+                const statusDiv = document.querySelector('.submission-status');
+                
+                if (fileInput.files.length === 0) {
+                    statusDiv.textContent = 'Please select a file to submit';
+                    statusDiv.className = 'submission-status error';
+                    return;
+                }
+
+                // Simulate file upload
             statusDiv.textContent = 'Uploading...';
             statusDiv.className = 'submission-status';
             
-            setTimeout(() => {
-                statusDiv.textContent = 'Project submitted successfully!';
-                statusDiv.className = 'submission-status success';
-                
+                setTimeout(() => {
+                    statusDiv.textContent = 'Project submitted successfully!';
+                    statusDiv.className = 'submission-status success';
+                    
                 // Mark lesson as complete
                 const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module2Progress')) || [];
                 if (!moduleProgress.includes('lesson4')) {
@@ -2327,7 +2336,7 @@ Please:
                 
                 // Automatically mark the module as complete upon project submission
                 markModuleComplete(2);
-            }, 1500);
+                }, 1500);
         }
         
         // Copy buttons for code examples

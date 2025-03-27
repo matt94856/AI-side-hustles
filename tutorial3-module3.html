@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C2MB0QRJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C2MB0QRJH');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 1: Fundamentals of AI Content Creation - AI Hustle Hub</title>
+    <title>Module 3: Visual Content with AI - AI Hustle Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -597,7 +606,7 @@
             <i class="fas fa-home"></i>
             Home
         </a>
-        <a href="tutorial3-module1.html" class="nav-link active">
+        <a href="tutorial3-module1.html" class="nav-link">
             <i class="fas fa-pen-fancy"></i>
             Module 1
         </a>
@@ -605,17 +614,13 @@
             <i class="fas fa-pencil-ruler"></i>
             Module 2
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial3-module3.html')" class="nav-link">
-            <i class="fas fa-comment-dots"></i>
+        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial3-module3.html')" class="nav-link active">
+            <i class="fas fa-image"></i>
             Module 3
         </a>
         <a href="javascript:void(0)" onclick="handleNavigation(4) && (window.location.href='tutorial3-module4.html')" class="nav-link">
-            <i class="fas fa-photo-video"></i>
+            <i class="fas fa-dollar-sign"></i>
             Module 4
-        </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(5) && (window.location.href='tutorial3-module5.html')" class="nav-link">
-            <i class="fas fa-chart-line"></i>
-            Module 5
         </a>
         <a href="tutorial3.html" class="nav-link">
             <i class="fas fa-check-circle"></i>
@@ -625,60 +630,856 @@
 
     <div class="module-content">
         <div class="module-header">
-            <h1 class="module-title">Module 1: Fundamentals of AI Content Creation</h1>
-            <p class="module-description">Learn the basics of using AI tools to generate high-quality content for various platforms and purposes.</p>
+            <h1 class="module-title">Module 3: Visual Content with AI</h1>
+            <p class="module-description">Explore AI tools for creating images, graphics, and videos that complement your written content and significantly enhance audience engagement.</p>
         </div>
 
         <div class="lesson-section" id="lesson1">
             <h2 class="lesson-title">
-                <i class="fas fa-brain"></i>
-                Lesson 1: Understanding AI Content Generation
+                <i class="fas fa-palette"></i>
+                Lesson 1: AI Image Generation Fundamentals
             </h2>
             <div class="lesson-content">
-                <p>This lesson introduces the fundamentals of AI content creation and how it's transforming the digital content landscape.</p>
+                <p>Learn the basics of creating stunning images with AI tools like Midjourney, DALL-E, and Stable Diffusion without any artistic background.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Understanding AI Image Generation</h3>
+                <p>AI image generators create visuals based on text descriptions (prompts) by analyzing patterns from millions of images they were trained on. These tools have revolutionized visual creation, allowing anyone to produce professional-quality images without traditional artistic skills.</p>
+                
+                <ul>
+                    <li>Text-to-image models convert your written descriptions into visual output</li>
+                    <li>Different AI models have distinct aesthetic styles and capabilities</li>
+                    <li>Results depend heavily on the quality and specificity of your prompts</li>
+                    <li>Generated images can be further refined through editing or additional prompts</li>
+                </ul>
+
+                <h3>Popular AI Image Generation Tools</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Midjourney</h4>
+                        <p>Discord-based tool known for artistic, detailed images</p>
+                        <ul>
+                            <li>Strong aesthetic quality</li>
+                            <li>Excellent for artistic and stylized images</li>
+                            <li>Simple variation and upscaling commands</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>DALL-E</h4>
+                        <p>OpenAI's image generator with natural language understanding</p>
+                        <ul>
+                            <li>Excellent at following complex instructions</li>
+                            <li>Built-in editing capabilities</li>
+                            <li>Photorealistic results available</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Stable Diffusion</h4>
+                        <p>Open-source model with many specialized versions</p>
+                        <ul>
+                            <li>Can be run locally on your computer</li>
+                            <li>Highly customizable workflow</li>
+                            <li>Multiple interfaces and implementations</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Adobe Firefly</h4>
+                        <p>Adobe's AI image creator focused on commercial use</p>
+                        <ul>
+                            <li>Trained on licensed content</li>
+                            <li>Integrates with Adobe products</li>
+                            <li>Commercial usage rights</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>The Art of Prompt Engineering for Images</h3>
+                <p>Creating effective prompts is crucial for getting the images you want. Here's how to structure them:</p>
+                
+                <div class="code-example">
+                    <pre>Basic Prompt Structure:
+
+[Subject] in [Environment], [Lighting], [Perspective], [Style], [Quality]
+
+Example:
+"A futuristic cyberpunk city at sunset, neon lights, aerial view, digital art, highly detailed, 8K"</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+                
+                <p>Key elements to include in your prompts:</p>
+                <ol>
+                    <li><strong>Subject:</strong> What/who is the main focus?</li>
+                    <li><strong>Setting/Environment:</strong> Where is the subject located?</li>
+                    <li><strong>Lighting:</strong> What kind of lighting sets the mood?</li>
+                    <li><strong>Style:</strong> What artistic style should the image have?</li>
+                    <li><strong>Perspective:</strong> What viewpoint or camera angle?</li>
+                    <li><strong>Quality Modifiers:</strong> Terms like "detailed," "high resolution," "8K," etc.</li>
+                    <li><strong>Color Palette:</strong> Specific colors or mood you want</li>
+                    <li><strong>Artists/Influences:</strong> Reference specific artists or styles</li>
+                </ol>
+
+                <h3>Common Image Styles and Modifiers</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Photorealistic</h4>
+                        <p>Looks like a real photograph with natural lighting and details</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Digital Art</h4>
+                        <p>Clean, polished artwork created digitally with clear lines</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Watercolor</h4>
+                        <p>Soft, flowing style mimicking traditional watercolor painting</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>3D Render</h4>
+                        <p>Computer-generated 3D model with defined shapes and lighting</p>
+                    </div>
+                </div>
+
+                <h3>Working with AI Image Tools: Step-by-Step</h3>
+                <ol>
+                    <li><strong>Select Your Tool:</strong> Choose based on your needs (artistic quality, realism, etc.)</li>
+                    <li><strong>Write Your Prompt:</strong> Be detailed but concise</li>
+                    <li><strong>Generate Initial Images:</strong> Create several versions</li>
+                    <li><strong>Refine Your Prompt:</strong> Adjust based on initial results</li>
+                    <li><strong>Create Variations:</strong> Use the tool's features to explore alternatives</li>
+                    <li><strong>Upscale/Enhance:</strong> Improve resolution and details</li>
+                    <li><strong>Save and Export:</strong> Download in appropriate format</li>
+                </ol>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Practical Exercise: Your First AI Images</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Tool Selection:</strong> Create a free account on DALL-E (via ChatGPT) or another AI image generator
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Basic Prompt:</strong> Create an image with a simple prompt like "Mountain landscape at sunset"
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Enhanced Prompt:</strong> Add more details like "Mountain landscape at sunset, golden light, dramatic clouds, wide angle, cinematic, 8K, highly detailed"
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Style Experiment:</strong> Try the same prompt but add a specific style: "...in the style of watercolor painting"
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Compare Results:</strong> Note the differences between your basic and enhanced prompts
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Ethical and Legal Considerations</h3>
+                <ul>
+                    <li>Check each platform's terms regarding commercial usage rights</li>
+                    <li>Be cautious with celebrity likenesses or copyrighted characters</li>
+                    <li>Avoid generating misleading or deceptive images</li>
+                    <li>Consider disclosing AI-generated imagery when publishing</li>
+                    <li>Be aware of potential biases in generated images</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Image Generation</h3>
+                    <div class="quiz-question">
+                        <p>Which of the following elements would be MOST important to include in a prompt for generating a specific architectural style?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Lighting conditions and time of day
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Reference to specific architectural movements or examples
+                            </div>
+                            <div class="quiz-option">
+                                Camera lens type and settings
+                            </div>
+                            <div class="quiz-option">
+                                Weather conditions in the image
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>Which AI image generation tool runs on a Discord server?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">
+                                Midjourney
+                            </div>
+                            <div class="quiz-option">
+                                DALL-E
+                            </div>
+                            <div class="quiz-option">
+                                Adobe Firefly
+                            </div>
+                            <div class="quiz-option">
+                                Canva
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="lesson-section" id="lesson2">
             <h2 class="lesson-title">
-                <i class="fas fa-tools"></i>
-                Lesson 2: AI Content Creation Tools Overview
+                <i class="fas fa-paint-brush"></i>
+                Lesson 2: Designing Graphics and Visual Assets
             </h2>
             <div class="lesson-content">
-                <p>Explore the most powerful AI content creation tools available today and how to choose the right ones for your needs.</p>
+                <p>Master the creation of professional graphics, illustrations, and visual assets for your content marketing, social media, and web presence.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Essential Visual Assets for Content Creators</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Social Media Graphics</h4>
+                        <p>Platform-specific visuals for posts, stories, and profiles</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Website Assets</h4>
+                        <p>Hero images, banners, thumbnails, and background elements</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Infographics</h4>
+                        <p>Visual representations of information, data, and knowledge</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Brand Elements</h4>
+                        <p>Logos, icons, color schemes, and visual identity elements</p>
+                    </div>
+                </div>
+
+                <h3>AI-Enhanced Design Tools</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Canva + Magic Design</h4>
+                        <p>All-in-one design platform with AI capabilities</p>
+                        <ul>
+                            <li>Text-to-image generation</li>
+                            <li>Magic resize for multiple platforms</li>
+                            <li>Background removal and Magic Eraser</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Adobe Express</h4>
+                        <p>Simplified Adobe design tool with Firefly integration</p>
+                        <ul>
+                            <li>Text effects and generative fill</li>
+                            <li>Template-based design</li>
+                            <li>Commercial usage rights</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Designs.ai</h4>
+                        <p>Suite of AI design tools for multi-purpose content</p>
+                        <ul>
+                            <li>Logo maker and video creator</li>
+                            <li>Speech-to-text capabilities</li>
+                            <li>Smart templates</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Midjourney + Design Software</h4>
+                        <p>Workflow combining AI generation with editing tools</p>
+                        <ul>
+                            <li>Create base images in Midjourney</li>
+                            <li>Refine in Photoshop or similar</li>
+                            <li>Maximum creative control</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Creating Cohesive Visual Sets</h3>
+                <p>One of the advantages of AI tools is the ability to quickly generate multiple related assets that share a consistent style. Here's how to approach this:</p>
+                
+                <ol>
+                    <li><strong>Define Your Style:</strong> Create a reference image that establishes your desired aesthetic</li>
+                    <li><strong>Use Style Continuity:</strong> Incorporate consistent phrases in your prompts ("same style as previous")</li>
+                    <li><strong>Maintain Color Palette:</strong> Specify the same color scheme across assets</li>
+                    <li><strong>Create Variations:</strong> Generate multiple options of the same concept for selection</li>
+                    <li><strong>Document Successful Prompts:</strong> Save prompts that produce good results for future use</li>
+                </ol>
+
+                <div class="code-example">
+                    <pre>Cohesive Set Prompt Template:
+
+"Create a [type of graphic] for [purpose] featuring [subject/theme].
+Use a [color palette description] color scheme with a [style] aesthetic.
+The graphic should maintain the same visual style as my brand which features [brand style characteristics].
+Include space for text that says [text content]."
+
+Example:
+"Create a Facebook cover image for a digital marketing agency featuring abstract technology elements.
+Use a blue and purple gradient color scheme with a clean, modern aesthetic.
+The graphic should maintain the same visual style as my brand which features geometric shapes and subtle grid patterns.
+Include space for text that says 'Digital Solutions for Tomorrow's Challenges'."</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <h3>Social Media Graphics Creation</h3>
+                <p>Best practices for creating social media graphics with AI:</p>
+                <ul>
+                    <li>Design for the specific dimensions of each platform (1080x1080 for Instagram, 1200x630 for Facebook, etc.)</li>
+                    <li>Use consistent visual elements across posts to build brand recognition</li>
+                    <li>Incorporate white space for text overlay in your prompts</li>
+                    <li>Create templates that can be easily modified for regular posting</li>
+                    <li>Design graphics in sets for carousel posts and multi-platform campaigns</li>
+                </ul>
+
+                <h3>Infographics and Data Visualization</h3>
+                <p>While AI tools can't create complete data visualizations directly from data, they can help with:</p>
+                <ol>
+                    <li><strong>Background Elements:</strong> Generate visually appealing backgrounds and textures</li>
+                    <li><strong>Thematic Icons:</strong> Create consistent icon sets for different data points</li>
+                    <li><strong>Visual Metaphors:</strong> Develop images that represent concepts in your data</li>
+                    <li><strong>Layout Inspiration:</strong> Generate reference designs for your infographic layout</li>
+                    <li><strong>Final Refinement:</strong> Enhance manually created charts and graphs with AI-generated design elements</li>
+                </ol>
+
+                <h3>Adapting AI-Generated Images for Commercial Use</h3>
+                <ul>
+                    <li>Understand the licensing terms of your AI tool (Adobe Firefly and Microsoft Designer are designed for commercial use)</li>
+                    <li>Make substantial modifications to generic AI outputs to create unique work</li>
+                    <li>Combine multiple AI-generated elements with original design work</li>
+                    <li>Consider using AI-generated images as references rather than final assets for commercial projects</li>
+                    <li>Document your creative process and modifications for transparency</li>
+                </ul>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Practical Exercise: Create a Brand Asset Set</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Define Your Brand:</strong> Choose a color palette and style for a fictional or real brand
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Create a Social Profile Image:</strong> Generate a profile picture or logo concept with AI
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Design a Banner/Cover:</strong> Create a matching header image in the same style
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Generate Post Templates:</strong> Create 2-3 templates for regular social media content
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Refine in Design Software:</strong> If available, enhance your images in Canva or similar
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Tips for Professional-Looking Results</h3>
+                <ul>
+                    <li>Embrace simplicity - avoid cluttered designs with too many elements</li>
+                    <li>Maintain appropriate text space in your image compositions</li>
+                    <li>Use consistent styles across your brand assets</li>
+                    <li>Consider accessibility (color contrast, readability, etc.)</li>
+                    <li>Follow platform-specific best practices and dimensions</li>
+                    <li>When in doubt, study successful brands in your industry for inspiration</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Graphics Creation</h3>
+                    <div class="quiz-question">
+                        <p>When creating a set of brand assets using AI tools, which approach is most effective for maintaining visual consistency?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Using different AI tools for each asset
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Using similar prompt elements and specifying the same style across assets
+                            </div>
+                            <div class="quiz-option">
+                                Generating random images and selecting those that look similar
+                            </div>
+                            <div class="quiz-option">
+                                Avoiding AI tools entirely for brand asset creation
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="lesson-section" id="lesson3">
             <h2 class="lesson-title">
-                <i class="fas fa-keyboard"></i>
-                Lesson 3: Effective Prompt Engineering
+                <i class="fas fa-video"></i>
+                Lesson 3: AI Video Creation Tools
             </h2>
             <div class="lesson-content">
-                <p>Master the art of crafting effective prompts to get the best results from AI content generation tools.</p>
+                <p>Explore the rapidly evolving world of AI video generation tools that can help you create engaging video content without complex editing skills.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>The AI Video Revolution</h3>
+                <p>AI video tools are transforming content creation by dramatically reducing the skills, time, and resources needed to produce professional-quality videos. These tools fall into several categories:</p>
+                
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Text-to-Video</h4>
+                        <p>Generate video clips from text descriptions or prompts</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>AI Avatars</h4>
+                        <p>Virtual presenters that can deliver your script on camera</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Video Editing AI</h4>
+                        <p>Tools that automate editing, enhancement, and post-production</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Animation Tools</h4>
+                        <p>AI-powered animation creators for motion graphics and effects</p>
+                    </div>
+                </div>
+
+                <h3>Popular AI Video Creation Tools</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Synthesia</h4>
+                        <p>AI avatar video creator with 140+ digital presenters</p>
+                        <ul>
+                            <li>Text-to-speech in 120+ languages</li>
+                            <li>Customizable backgrounds and templates</li>
+                            <li>No filming or recording equipment needed</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Runway Gen-2</h4>
+                        <p>Advanced text-to-video and image-to-video generation</p>
+                        <ul>
+                            <li>Create videos from text descriptions</li>
+                            <li>Transform still images into motion</li>
+                            <li>Apply motion to your AI-generated images</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>HeyGen</h4>
+                        <p>AI video platform focused on multilingual content creation</p>
+                        <ul>
+                            <li>Create, translate, and dub videos</li>
+                            <li>Realistic avatars and voices</li>
+                            <li>Custom avatar creation available</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Descript</h4>
+                        <p>All-in-one audio/video editor with powerful AI features</p>
+                        <ul>
+                            <li>Transcription and text-based editing</li>
+                            <li>Voice cloning technology</li>
+                            <li>Remove filler words and mistakes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Creating Videos with AI Avatars</h3>
+                <p>AI avatars provide a quick way to create presenter-led videos without needing to appear on camera yourself:</p>
+                
+                <ol>
+                    <li><strong>Script Preparation:</strong> Write a conversational script with natural language</li>
+                    <li><strong>Avatar Selection:</strong> Choose an avatar that matches your brand and content style</li>
+                    <li><strong>Voice Configuration:</strong> Select voice type, language, and speaking style</li>
+                    <li><strong>Background Selection:</strong> Choose appropriate backdrop for your video</li>
+                    <li><strong>Visual Elements:</strong> Add supporting visuals like images or slides</li>
+                    <li><strong>Review and Generate:</strong> Preview and make adjustments before final rendering</li>
+                </ol>
+
+                <div class="code-example">
+                    <pre>Sample Avatar Video Script Structure:
+
+[INTRO - 15-20 seconds]
+"Hi there! Welcome to [Channel/Brand Name]. I'm [Avatar Name], and today we're going to explore [Topic].
+This video will cover [3-4 key points you'll address]."
+
+[MAIN CONTENT - Organized in sections]
+"First, let's talk about [Point 1].
+[2-3 sentences explaining Point 1]
+[Include direction for visual element: [SHOW IMAGE: description]]
+
+Now, moving on to [Point 2]..."
+
+[CALL TO ACTION - 10-15 seconds]
+"If you found this helpful, be sure to [desired action]. And don't forget to [secondary action]."
+
+[OUTRO - 5-10 seconds]
+"Thanks for watching, and I'll see you in the next video!"</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <h3>Text-to-Video Generation Tips</h3>
+                <p>Text-to-video tools like Runway Gen-2 can create impressive video clips from text descriptions:</p>
+                <ul>
+                    <li>Be specific about camera movement (static, panning, zooming, etc.)</li>
+                    <li>Describe the scene, lighting, and atmosphere in detail</li>
+                    <li>Specify if you want slow motion, time-lapse, or normal speed</li>
+                    <li>Keep clips short (5-10 seconds) for best results</li>
+                    <li>Generate multiple variations and select the best</li>
+                    <li>Use generated clips as b-roll or supporting content in longer videos</li>
+                </ul>
+
+                <h3>Enhancing Videos with AI Editing Tools</h3>
+                <p>AI can significantly improve your video editing workflow:</p>
+                <ol>
+                    <li><strong>Automatic Transcription:</strong> Generate accurate subtitles and enable text-based editing</li>
+                    <li><strong>Content-Aware Editing:</strong> Remove filler words, uhms, and awkward pauses</li>
+                    <li><strong>Auto-Cutting:</strong> Generate cuts and transitions based on content</li>
+                    <li><strong>Music Generation:</strong> Create royalty-free background tracks</li>
+                    <li><strong>Voice Enhancement:</strong> Improve audio quality and reduce background noise</li>
+                    <li><strong>Visual Enhancement:</strong> Upscale resolution, stabilize footage, and improve lighting</li>
+                </ol>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Practical Exercise: Create Your First AI Video</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Choose Your Platform:</strong> Sign up for a free trial of Synthesia, HeyGen, or similar avatar platform
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Write a Script:</strong> Create a 30-60 second script introducing a topic you're knowledgeable about
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Select Avatar & Background:</strong> Choose an appropriate presenter and setting for your content
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Add Visuals:</strong> Incorporate 2-3 supporting images or graphics (AI-generated or stock)
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Generate & Review:</strong> Create your video and note areas for improvement
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Ethical Considerations in AI Video Creation</h3>
+                <ul>
+                    <li>Clearly disclose when content is AI-generated to maintain audience trust</li>
+                    <li>Be mindful of deepfake concerns when using realistic avatars</li>
+                    <li>Respect copyright and licensing for any incorporated materials</li>
+                    <li>Consider the potential impact on human creators and jobs</li>
+                    <li>Follow platform guidelines regarding acceptable content generation</li>
+                </ul>
+
+                <h3>Combining Different AI Video Techniques</h3>
+                <p>For more sophisticated content, combine multiple AI video approaches:</p>
+                <ul>
+                    <li>Use avatar videos for presenter sections and introductions</li>
+                    <li>Incorporate text-to-video generated clips as b-roll footage</li>
+                    <li>Enhance with AI-generated animations and graphics</li>
+                    <li>Apply AI editing tools for final polish and refinement</li>
+                    <li>Add AI-generated music and sound effects</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Video Creation</h3>
+                    <div class="quiz-question">
+                        <p>Which AI video tool would be MOST appropriate for creating a product demonstration where you need to explain features while showing the product?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">
+                                An AI avatar platform with the ability to add visual elements and slides
+                            </div>
+                            <div class="quiz-option">
+                                A text-to-video generator that creates artistic clips
+                            </div>
+                            <div class="quiz-option">
+                                An AI music generator for background tracks
+                            </div>
+                            <div class="quiz-option">
+                                An AI video enhancer that improves existing footage
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>When creating a script for an AI avatar video, which approach is recommended?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Using highly technical language with complex terminology
+                            </div>
+                            <div class="quiz-option">
+                                Writing extremely long paragraphs without breaks
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Using conversational language with natural phrasing and clear sections
+                            </div>
+                            <div class="quiz-option">
+                                Including detailed camera movement instructions between each sentence
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="lesson-section" id="lesson4">
             <h2 class="lesson-title">
-                <i class="fas fa-edit"></i>
-                Lesson 4: Editing and Refining AI-Generated Content
+                <i class="fas fa-object-group"></i>
+                Lesson 4: Advanced Visual Content Strategies
             </h2>
             <div class="lesson-content">
-                <p>Learn essential techniques for editing and enhancing AI-generated content to make it unique, accurate, and engaging.</p>
+                <p>Develop a cohesive visual strategy that combines AI-generated images, graphics, and videos for maximum audience impact and brand consistency.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Integrating Multiple Visual Content Types</h3>
+                <p>A comprehensive visual content strategy leverages different media formats to engage audiences across various platforms and touchpoints:</p>
+                
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Content Ecosystem</h4>
+                        <p>Interconnected visual assets that support and reinforce each other</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Cross-Platform Adaptation</h4>
+                        <p>Tailoring visual content for different channels while maintaining consistency</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Visual Storytelling</h4>
+                        <p>Using imagery to communicate narratives and evoke emotions</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Brand Recognition</h4>
+                        <p>Building visual identity through consistent style and elements</p>
             </div>
         </div>
 
-        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial3-module2.html')" class="next-lesson">
-            Continue to Module 2
+                <h3>Creating a Visual Content Calendar</h3>
+                <p>Plan your AI-generated visual content systematically:</p>
+                <ol>
+                    <li><strong>Audit Current Content:</strong> Evaluate existing visuals and identify gaps</li>
+                    <li><strong>Set Content Goals:</strong> Define objectives for different visual assets</li>
+                    <li><strong>Identify Key Themes:</strong> Develop monthly or quarterly visual themes</li>
+                    <li><strong>Map Content Types:</strong> Determine which visuals work best for different platforms</li>
+                    <li><strong>Schedule Creation:</strong> Allocate time for generating and refining AI content</li>
+                    <li><strong>Plan Distribution:</strong> Coordinate posting across channels</li>
+                    <li><strong>Measure Performance:</strong> Track engagement metrics for different visual formats</li>
+                </ol>
+
+                <div class="code-example">
+                    <pre>Visual Content Calendar Structure:
+
+MONTH/QUARTER THEME: [Overall Content Theme]
+
+WEEKLY FOCUS AREAS:
+Week 1: [Subtopic 1]
+Week 2: [Subtopic 2]
+Week 3: [Subtopic 3]
+Week 4: [Subtopic 4]
+
+PLATFORM-SPECIFIC CONTENT:
+Instagram:
+- [Number] feed posts (image type, creation method)
+- [Number] stories (image/video type, creation method)
+- [Number] Reels (video type, creation method)
+
+LinkedIn:
+- [Number] thought leadership images
+- [Number] data visualization graphics
+- [Number] company culture videos
+
+Website:
+- [Number] blog featured images
+- [Number] product/service visuals
+- [Number] banner updates
+
+Email:
+- [Number] newsletter header images
+- [Number] promotional graphics</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <h3>Visual Brand Style Guide for AI Generation</h3>
+                <p>Develop a set of guidelines for maintaining consistency across AI-generated visuals:</p>
+                <ul>
+                    <li><strong>Color Palette:</strong> Primary, secondary, and accent colors with hex codes</li>
+                    <li><strong>Typography:</strong> Font pairings and hierarchies</li>
+                    <li><strong>Visual Style:</strong> Preferred artistic approaches (photorealistic, illustrated, minimalist, etc.)</li>
+                    <li><strong>Common Elements:</strong> Recurring motifs, patterns, or visual themes</li>
+                    <li><strong>Image Composition:</strong> Guidelines for framing, white space, and subject placement</li>
+                    <li><strong>Prompt Templates:</strong> Standardized prompt structures for different visual needs</li>
+                </ul>
+
+                <h3>Repurposing AI Visual Content</h3>
+                <p>Maximize your AI-generated assets by adapting them for multiple uses:</p>
+                
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Image → Social Series</h4>
+                        <p>Break down a detailed AI image into components for multiple posts</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Video → Stills + GIFs</h4>
+                        <p>Extract key frames and animated segments from longer videos</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Single Asset → Multi-Platform</h4>
+                        <p>Resize and reformat one visual for different platform requirements</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Collection → Infographic</h4>
+                        <p>Combine multiple related visuals into a comprehensive information graphic</p>
+                    </div>
+                </div>
+
+                <h3>Measuring Visual Content Performance</h3>
+                <p>Track these metrics to evaluate the effectiveness of your AI-generated visuals:</p>
+                <ul>
+                    <li><strong>Engagement Rate:</strong> Interactions relative to reach or impressions</li>
+                    <li><strong>Click-Through Rate:</strong> Percentage of viewers who click on visual content</li>
+                    <li><strong>Conversion Impact:</strong> Visual content's influence on desired actions</li>
+                    <li><strong>Audience Growth:</strong> New followers attributed to visual content campaigns</li>
+                    <li><strong>Retention Metrics:</strong> Time spent with content featuring different visuals</li>
+                    <li><strong>Cost Efficiency:</strong> Resources saved by using AI versus traditional visual creation</li>
+                </ul>
+
+                <h3>Advanced AI Visual Techniques</h3>
+                <ol>
+                    <li><strong>Style Transfer:</strong> Apply consistent visual styles across multiple AI-generated assets</li>
+                    <li><strong>Composite Generation:</strong> Combine AI-generated elements from different sources</li>
+                    <li><strong>Series Creation:</strong> Generate thematically linked visuals with consistent elements</li>
+                    <li><strong>Sequential Storytelling:</strong> Create visual narratives that unfold across multiple assets</li>
+                    <li><strong>Transmedia Adaptation:</strong> Transform content between static, animated, and video formats</li>
+                </ol>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Practical Exercise: Mini Visual Campaign</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Choose a Theme:</strong> Select a specific topic or message for a short campaign
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Create Style Guide:</strong> Define color palette, style, and visual elements
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Generate Assets:</strong> Create one image, one graphic, and one short video
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Adapt for Platforms:</strong> Modify each asset for two different platforms
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Plan Distribution:</strong> Create a simple release schedule for your content
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>Future-Proofing Your Visual Strategy</h3>
+                <ul>
+                    <li>Stay informed about emerging AI visual generation technologies</li>
+                    <li>Develop workflows that can adapt to new tools and capabilities</li>
+                    <li>Balance AI efficiency with human creative direction and oversight</li>
+                    <li>Build a library of successful prompts, styles, and approaches</li>
+                    <li>Regularly review and update your visual strategy based on performance data</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Visual Content Strategy</h3>
+                    <div class="quiz-question">
+                        <p>What is the most efficient approach for maintaining visual consistency across AI-generated content for different platforms?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Creating each piece individually without reference to others
+                            </div>
+                            <div class="quiz-option">
+                                Using completely different styles for each platform
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Developing a visual style guide with standard prompt elements and consistent visual cues
+                            </div>
+                            <div class="quiz-option">
+                                Only focusing on one platform at a time
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+
+                <div class="project-submission">
+                    <h3><i class="fas fa-file-upload"></i> Module Project: Visual Content Portfolio</h3>
+                    <p>Create a complete visual content package that demonstrates your ability to use AI tools for a cohesive visual strategy.</p>
+                    
+                    <h4>Project Requirements:</h4>
+                    <ul>
+                        <li>Create a visual content set for a real or fictional brand/project of your choice</li>
+                        <li>Include at least 3 AI-generated images using techniques from Lessons 1-2</li>
+                        <li>Create at least 1 short AI-generated video using techniques from Lesson 3</li>
+                        <li>Develop a simple visual style guide that documents your approach</li>
+                        <li>Include a brief explanation of how these assets support a cohesive content strategy</li>
+                    </ul>
+                    
+                    <h4>Submission Guidelines:</h4>
+                    <ul>
+                        <li>Compile all visual assets, prompts used, and your style guide into a single PDF</li>
+                        <li>For the video component, include screenshots and a link to view it online</li>
+                        <li>Provide a short written reflection (250-500 words) on your experience using AI visual tools</li>
+                        <li>Note any challenges encountered and how you overcame them</li>
+                    </ul>
+                    
+                    <div class="file-upload">
+                        <label for="project-file">Upload Project (PDF)</label>
+                        <input type="file" id="project-file" accept=".pdf">
+                        <button onclick="submitProject()">Submit Project</button>
+                    </div>
+                    <div class="submission-status"></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="tutorial3-module4.html" class="next-lesson" id="next-module-btn">
+            Continue to Module 4
             <i class="fas fa-arrow-right"></i>
         </a>
     </div>
@@ -692,37 +1493,76 @@
     </div>
 
     <script>
-        // Function to handle navigation
-        function handleNavigation(moduleNumber) {
-            if (moduleNumber === 1) return true; // Module 1 is always accessible
-            
-            // Get current module's progress
-            const currentModuleProgress = JSON.parse(localStorage.getItem('tutorial3_module3Progress')) || [];
-            const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial3_module${moduleNumber-1}Progress`)) || [];
-            
-            if (prevModuleProgress.length < 4) {
-                alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
-                // Stay on current module
-                return false;
-            }
-            return true;
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
-            // Get all module progress from localStorage
-            const moduleProgress = JSON.parse(localStorage.getItem('tutorial3_module3Progress')) || [];
-            const lessonProgress = JSON.parse(localStorage.getItem('tutorial3_module3LessonProgress')) || {};
+            // Check if user should have access to this module
+            const prevModuleProgress = JSON.parse(localStorage.getItem('tutorial3_module2Progress')) || [];
+            if (prevModuleProgress.length < 4) {
+                alert('Please complete Module 2 before accessing Module 3.');
+                window.location.href = 'tutorial3-module2.html';
+                return;
+            }
+
+            // Initialize progress tracking
+            let module3Progress = [];
+            try {
+                const savedProgress = localStorage.getItem('tutorial3_module3Progress');
+                if (savedProgress) {
+                    module3Progress = JSON.parse(savedProgress);
+                    if (!Array.isArray(module3Progress)) {
+                        module3Progress = [];
+                    }
+                }
+            } catch (e) {
+                module3Progress = [];
+            }
+            localStorage.setItem('tutorial3_module3Progress', JSON.stringify(module3Progress));
+
+            let lessonProgress = {};
+            try {
+                const savedLessonProgress = localStorage.getItem('tutorial3_module3LessonProgress');
+                if (savedLessonProgress) {
+                    lessonProgress = JSON.parse(savedLessonProgress);
+                }
+            } catch (e) {
+                lessonProgress = {};
+            }
+            localStorage.setItem('tutorial3_module3LessonProgress', JSON.stringify(lessonProgress));
             
             // Update progress bar
             const progressFill = document.querySelector('.progress-fill');
-            const progressText = document.querySelector('.module-progress p');
             const completedCount = document.querySelector('.completed-count');
             const totalLessons = 4;
             
             function updateProgress() {
-                const newPercentage = (moduleProgress.length / totalLessons) * 100;
-                progressFill.style.width = `${newPercentage}%`;
-                completedCount.textContent = moduleProgress.length;
+                const completedLessons = module3Progress.length;
+                const percentage = (completedLessons / totalLessons) * 100;
+                progressFill.style.width = `${percentage}%`;
+                completedCount.textContent = completedLessons;
+
+                // Update tutorial progress
+                let tutorialProgress = {
+                    modules: {
+                        module1: false,
+                        module2: false,
+                        module3: false,
+                        module4: false,
+                        module5: false
+                    },
+                    completed: false
+                };
+
+                try {
+                    const savedTutorialProgress = localStorage.getItem('tutorial3Progress');
+                    if (savedTutorialProgress) {
+                        tutorialProgress = JSON.parse(savedTutorialProgress);
+                    }
+                } catch (e) {
+                    // Use default tutorialProgress if parsing fails
+                }
+
+                // Mark module as complete if all lessons are done
+                tutorialProgress.modules.module3 = completedLessons >= totalLessons;
+                localStorage.setItem('tutorial3Progress', JSON.stringify(tutorialProgress));
             }
 
             // Quiz functionality
@@ -734,11 +1574,7 @@
                     option.addEventListener('click', function() {
                         if (this.classList.contains('selected')) return;
                         
-                        // Remove selection from other options
-                        options.forEach(opt => {
-                            opt.classList.remove('selected', 'correct', 'incorrect');
-                        });
-                        
+                        options.forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
                         this.classList.add('selected');
                         
                         const isCorrect = this.hasAttribute('data-correct');
@@ -747,23 +1583,19 @@
                         
                         if (isCorrect) {
                             this.classList.add('correct');
-                            // Determine which lesson this is
                             const lessonSection = this.closest('.lesson-section');
                             const lessonId = lessonSection.id;
                             
-                            // Initialize lesson progress if not exists
                             if (!lessonProgress[lessonId]) {
                                 lessonProgress[lessonId] = {};
                             }
                             
-                            // Mark quiz as complete
                             lessonProgress[lessonId].quizComplete = true;
                             localStorage.setItem('tutorial3_module3LessonProgress', JSON.stringify(lessonProgress));
                             
-                            // Add to module progress if not already included
-                            if (!moduleProgress.includes(lessonId)) {
-                                moduleProgress.push(lessonId);
-                                localStorage.setItem('tutorial3_module3Progress', JSON.stringify(moduleProgress));
+                            if (!module3Progress.includes(lessonId)) {
+                                module3Progress.push(lessonId);
+                                localStorage.setItem('tutorial3_module3Progress', JSON.stringify(module3Progress));
                                 updateProgress();
                             }
                         } else {
@@ -784,20 +1616,29 @@
                     return;
                 }
 
-                // Simulate file upload
-                setTimeout(() => {
                     statusDiv.textContent = 'Project submitted successfully!';
                     statusDiv.className = 'submission-status success';
                     
-                    // Mark final lesson as complete
                     const lessonId = 'lesson4';
-                    if (!moduleProgress.includes(lessonId)) {
-                        moduleProgress.push(lessonId);
-                        localStorage.setItem('tutorial3_module3Progress', JSON.stringify(moduleProgress));
+                if (!module3Progress.includes(lessonId)) {
+                    module3Progress.push(lessonId);
+                    localStorage.setItem('tutorial3_module3Progress', JSON.stringify(module3Progress));
                         updateProgress();
                     }
-                }, 1500);
             };
+
+            // Navigation handling
+            const nextModuleBtn = document.getElementById('next-module-btn');
+            if (nextModuleBtn) {
+                nextModuleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (module3Progress.length >= totalLessons) {
+                        window.location.href = 'tutorial3-module4.html';
+                    } else {
+                        alert('Please complete all lessons before proceeding to the next module.');
+                    }
+                });
+            }
 
             // Initialize progress on page load
             updateProgress();

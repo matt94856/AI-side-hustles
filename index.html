@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C2MB0QRJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C2MB0QRJH');
+</script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>AI Hustle Hub - Learn How to Make Money with AI</title>
     <meta name="description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting.">
     
@@ -10,21 +19,35 @@
     <meta property="og:title" content="AI Hustle Hub - Learn How to Make Money with AI">
     <meta property="og:description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting.">
     <meta property="og:image" content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://premiumwebcreators.com">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AI Money Guide">
+    <meta property="og:locale" content="en_US">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="AI Hustle Hub - Learn How to Make Money with AI">
     <meta name="twitter:description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png">
+    <meta name="twitter:site" content="@AIHustleHub">
+    <meta name="twitter:creator" content="@AIHustleHub">
     
     <!-- Additional Meta Tags for Better Link Preview -->
     <meta name="theme-color" content="#1a1a1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="AI Hustle Hub">
+    
+    <!-- Additional Meta Tags for Social Media In-App Browsers -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">
     
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -40,6 +63,75 @@
             --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             --gradient-accent: linear-gradient(135deg, #4A9DE7 0%, #6CB9F0 100%);
             --gradient-secondary: linear-gradient(135deg, #2D82C7 0%, #1E73BE 100%);
+        }
+
+        /* Fix for social media in-app browsers */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                /* Prevent content from being hidden under in-app browser UI */
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-top: env(safe-area-inset-top);
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+                /* Ensure proper height calculation */
+                min-height: -webkit-fill-available;
+                /* Prevent overscroll issues */
+                overscroll-behavior-y: none;
+                /* Ensure smooth scrolling */
+                -webkit-overflow-scrolling: touch;
+                /* Prevent unwanted text selection */
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            /* Fix for iOS Safari 100vh issue */
+            .hero {
+                height: 100vh;
+                height: -webkit-fill-available;
+            }
+        }
+
+        /* Fix for Instagram/Facebook in-app browser */
+        @media screen and (max-width: 100vh) {
+            body {
+                /* Prevent content cutoff */
+                height: 100%;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Adjust fixed elements for in-app browsers */
+        .navbar {
+                padding-top: max(env(safe-area-inset-top), 0.6rem);
+                padding-bottom: 0.6rem;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            /* Ensure content doesn't get hidden under fixed elements */
+            .main-content {
+                padding-top: max(env(safe-area-inset-top) + 60px, 80px);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+
+            /* Fix for bottom elements in social media browsers */
+            .countdown-section {
+                padding-bottom: max(env(safe-area-inset-bottom), 0.6rem);
+            }
+        }
+
+        /* Additional fixes for social media in-app browsers */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(env(safe-area-inset-left), 0px);
+                padding-right: max(env(safe-area-inset-right), 0px);
+            }
         }
 
         /* Existing styles with improvements */
@@ -1922,7 +2014,7 @@
                 <div class="bundle-header">
                     <h3>Complete AI Income Bundle</h3>
                     <div class="bundle-tag">BEST VALUE</div>
-                </div>
+                            </div>
                 <div class="bundle-content">
                     <div class="bundle-description">
                         <p>Get access to all 5 AI courses and start building multiple income streams today!</p>
@@ -1932,16 +2024,16 @@
                             <li><i class="fas fa-check-circle"></i> Lifetime access to all future updates</li>
                             <li><i class="fas fa-check-circle"></i> Priority email support</li>
                         </ul>
-                    </div>
+                        </div>
                     <div class="bundle-pricing">
                         <div class="price-comparison">
                             <span class="regular-price">Regular: $49.99</span>
                             <span class="discount-price">Today: $19.99</span>
-                        </div>
+                    </div>
                         <!-- Desktop recommendation for mobile devices -->
                         <div class="desktop-recommendation">
                             <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend using a desktop computer.
-                        </div>
+                </div>
                         <button class="bundle-cta" onclick="checkPaymentStatus('all')">
                             <span>Get All 5 Courses</span>
                             <i class="fas fa-arrow-right"></i>
@@ -1956,7 +2048,7 @@
     <section id="faq" class="faq">
         <div class="container">
             <div class="section-header">
-                <h2>Frequently Asked Questions</h2>
+            <h2>Frequently Asked Questions</h2>
                 <p class="section-description">Get answers to common questions about our AI income courses</p>
             </div>
             
@@ -1965,7 +2057,7 @@
                     <div class="faq-question">
                         <h3>How much can I realistically earn with these methods?</h3>
                         <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                    </div>
+                </div>
                     <div class="faq-answer">
                         <p>Earnings vary based on your dedication, implementation, and time invested. Our most successful students earn between $3,000-$10,000 monthly by combining multiple AI income methods. Complete beginners typically start with $500-$2,000 in their first month when following our exact systems.</p>
                     </div>
@@ -1975,7 +2067,7 @@
                     <div class="faq-question">
                         <h3>Do I need technical experience or coding skills?</h3>
                         <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                    </div>
+                </div>
                     <div class="faq-answer">
                         <p>Absolutely not! Our courses are specifically designed for beginners with zero technical background. We provide step-by-step instructions with video demonstrations for every technical aspect, making the process simple to follow even if you've never used AI tools before.</p>
                     </div>
@@ -2003,9 +2095,9 @@
                 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <h3>Is the payment secure?</h3>
+                    <h3>Is the payment secure?</h3>
                         <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-                    </div>
+                </div>
                     <div class="faq-answer">
                         <p>Yes, we use PayPal's secure payment system to process all transactions. Your financial information is never stored on our servers, and all payment details are encrypted using industry-standard protocols.</p>
                     </div>

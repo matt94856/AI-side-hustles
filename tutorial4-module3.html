@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C2MB0QRJH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C2MB0QRJH');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 1: Introduction to AI Digital Products - AI Hustle Hub</title>
+    <title>Module 3: AI Business Analytics & Optimization - AI Hustle Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -597,31 +606,31 @@
             <i class="fas fa-home"></i>
             Home
         </a>
-        <a href="tutorial4-module1.html" class="nav-link active">
-            <i class="fas fa-store"></i>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(1)" class="nav-link">
+            <i class="fas fa-robot"></i>
             Module 1
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial4-module2.html')" class="nav-link">
-            <i class="fas fa-lightbulb"></i>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(2)" class="nav-link">
+            <i class="fas fa-tools"></i>
             Module 2
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial4-module3.html')" class="nav-link">
-            <i class="fas fa-code"></i>
+        <a href="tutorial4-module3.html" class="nav-link active">
+            <i class="fas fa-chart-bar"></i>
             Module 3
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(4) && (window.location.href='tutorial4-module4.html')" class="nav-link">
-            <i class="fas fa-shopping-cart"></i>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(4)" class="nav-link">
+            <i class="fas fa-cogs"></i>
             Module 4
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(5) && (window.location.href='tutorial4-module5.html')" class="nav-link">
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(5)" class="nav-link">
             <i class="fas fa-chart-line"></i>
             Module 5
         </a>
-        <a href="javascript:void(0)" onclick="handleNavigation(6) && (window.location.href='tutorial4-module6.html')" class="nav-link">
-            <i class="fas fa-user-shield"></i>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(6)" class="nav-link">
+            <i class="fas fa-shield-alt"></i>
             Module 6
         </a>
-        <a href="tutorial4.html" class="nav-link">
+        <a href="javascript:void(0)" onclick="handleTutorialCompletion()" class="nav-link">
             <i class="fas fa-check-circle"></i>
             Complete
         </a>
@@ -629,60 +638,388 @@
 
     <div class="module-content">
         <div class="module-header">
-            <h1 class="module-title">Module 1: Introduction to AI Digital Products</h1>
-            <p class="module-description">Discover the lucrative world of AI-based digital products and identify profitable opportunities in this growing market.</p>
+            <h1 class="module-title">Module 3: AI Business Analytics & Optimization</h1>
+            <p class="module-description">Learn how to leverage AI for business analytics, performance optimization, and data-driven decision making to maximize your business potential.</p>
         </div>
 
         <div class="lesson-section" id="lesson1">
             <h2 class="lesson-title">
-                <i class="fas fa-robot"></i>
-                Lesson 1: Understanding AI Digital Products
+                <i class="fas fa-chart-bar"></i>
+                Lesson 1: AI-Powered Business Analytics
             </h2>
             <div class="lesson-content">
-                <p>Learn about the different types of AI digital products you can create and sell online, from software tools to educational resources.</p>
+                <p>Discover how to use AI tools to analyze business data, identify trends, and generate actionable insights.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Key Analytics Components</h3>
+                <ul>
+                    <li><strong>Data Collection:</strong> Automated gathering of business metrics and KPIs</li>
+                    <li><strong>Data Processing:</strong> Cleaning and preparing data for analysis</li>
+                    <li><strong>Pattern Recognition:</strong> Identifying trends and correlations</li>
+                    <li><strong>Predictive Analytics:</strong> Forecasting future trends and outcomes</li>
+                </ul>
+
+                <h3>Analytics Tools & Techniques</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Machine Learning Analytics</h4>
+                        <p>Using ML algorithms for pattern detection</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Natural Language Processing</h4>
+                        <p>Analyzing customer feedback and sentiment</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Time Series Analysis</h4>
+                        <p>Tracking metrics over time periods</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Automated Reporting</h4>
+                        <p>Generating insights automatically</p>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Practical Exercise: Setting Up Analytics</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Metrics Definition:</strong> Identify key business metrics
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Data Sources:</strong> Set up data collection points
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Tool Selection:</strong> Choose appropriate AI analytics tools
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Integration:</strong> Connect data sources to analytics tools
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Validation:</strong> Test analytics setup with sample data
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Business Analytics</h3>
+                    <div class="quiz-question">
+                        <p>Which aspect of AI analytics provides the most value for business decision making?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Beautiful visualizations
+                            </div>
+                            <div class="quiz-option">
+                                Real-time updates
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Predictive insights
+                            </div>
+                            <div class="quiz-option">
+                                Automated reports
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="lesson-section" id="lesson2">
             <h2 class="lesson-title">
-                <i class="fas fa-search-dollar"></i>
-                Lesson 2: Market Research and Opportunity Identification
+                <i class="fas fa-bullseye"></i>
+                Lesson 2: Performance Optimization
             </h2>
             <div class="lesson-content">
-                <p>Discover how to identify profitable niches and validate your AI product ideas before investing time in development.</p>
+                <p>Learn how to use AI tools to optimize business performance, improve efficiency, and reduce costs.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Optimization Areas</h3>
+                <ul>
+                    <li><strong>Process Efficiency:</strong> Streamlining workflows and operations</li>
+                    <li><strong>Resource Allocation:</strong> Optimizing resource distribution</li>
+                    <li><strong>Cost Management:</strong> Identifying cost-saving opportunities</li>
+                    <li><strong>Revenue Optimization:</strong> Maximizing revenue streams</li>
+                    <li><strong>Customer Experience:</strong> Enhancing service delivery</li>
+                </ul>
+
+                <h3>Optimization Techniques</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>AI Process Mining</h4>
+                        <p>Analyzing and optimizing business processes</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Predictive Maintenance</h4>
+                        <p>Optimizing resource maintenance</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Dynamic Pricing</h4>
+                        <p>Optimizing pricing strategies</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Inventory Optimization</h4>
+                        <p>Managing stock levels efficiently</p>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Practical Exercise: Performance Optimization</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Performance Audit:</strong> Identify optimization opportunities
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Goal Setting:</strong> Define optimization targets
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Tool Implementation:</strong> Deploy optimization solutions
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Monitoring:</strong> Track optimization metrics
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Refinement:</strong> Adjust based on results
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Performance Optimization</h3>
+                    <div class="quiz-question">
+                        <p>What is the most critical first step in AI-driven performance optimization?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Implementing new tools
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Identifying optimization opportunities
+                            </div>
+                            <div class="quiz-option">
+                                Setting up monitoring
+                            </div>
+                            <div class="quiz-option">
+                                Training employees
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="lesson-section" id="lesson3">
             <h2 class="lesson-title">
-                <i class="fas fa-users"></i>
-                Lesson 3: Understanding Your Target Audience
+                <i class="fas fa-brain"></i>
+                Lesson 3: AI-Driven Decision Making
             </h2>
             <div class="lesson-content">
-                <p>Learn how to identify, understand, and connect with the ideal customers for your AI digital products.</p>
+                <p>Master the art of using AI insights for strategic business decision making and planning.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Decision Making Framework</h3>
+                <ul>
+                    <li><strong>Data Analysis:</strong> Processing relevant business data</li>
+                    <li><strong>Pattern Recognition:</strong> Identifying trends and correlations</li>
+                    <li><strong>Risk Assessment:</strong> Evaluating potential outcomes</li>
+                    <li><strong>Scenario Planning:</strong> Modeling different scenarios</li>
+                    <li><strong>Action Planning:</strong> Developing implementation strategies</li>
+                </ul>
+
+                <h3>Decision Support Tools</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Predictive Models</h4>
+                        <p>Forecasting future outcomes</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Scenario Analysis</h4>
+                        <p>Evaluating different options</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Risk Assessment</h4>
+                        <p>Analyzing potential risks</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Impact Analysis</h4>
+                        <p>Measuring decision outcomes</p>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Practical Exercise: Decision Making System</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Problem Definition:</strong> Identify decision requirements
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Data Collection:</strong> Gather relevant information
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Analysis Setup:</strong> Configure analysis tools
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Scenario Testing:</strong> Evaluate different options
+                            </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <strong>Implementation:</strong> Execute chosen strategy
+                            </span>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Decision Making</h3>
+                    <div class="quiz-question">
+                        <p>What is the most important factor in AI-driven decision making?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Fast processing
+                            </div>
+                            <div class="quiz-option">
+                                Complex algorithms
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Quality of input data
+                            </div>
+                            <div class="quiz-option">
+                                Automated execution
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="lesson-section" id="lesson4">
             <h2 class="lesson-title">
                 <i class="fas fa-rocket"></i>
-                Lesson 4: AI Product Types and Business Models
+                Lesson 4: Implementation & Integration
             </h2>
             <div class="lesson-content">
-                <p>Explore different AI product formats and revenue models to find the best fit for your skills and market opportunities.</p>
+                <p>Learn how to implement and integrate AI analytics and optimization solutions into your business operations.</p>
                 
-                <!-- Lesson content would go here -->
+                <h3>Implementation Steps</h3>
+                <ul>
+                    <li><strong>Strategy Development:</strong> Planning the implementation approach</li>
+                    <li><strong>Tool Selection:</strong> Choosing appropriate AI solutions</li>
+                    <li><strong>Integration Planning:</strong> Designing system connections</li>
+                    <li><strong>Testing & Validation:</strong> Ensuring proper functionality</li>
+                    <li><strong>Monitoring & Maintenance:</strong> Maintaining optimal performance</li>
+                </ul>
+
+                <h3>Integration Considerations</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>System Compatibility</h4>
+                        <p>Ensuring smooth integration</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Data Flow</h4>
+                        <p>Managing information exchange</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Security Measures</h4>
+                        <p>Protecting sensitive data</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Performance Impact</h4>
+                        <p>Monitoring system effects</p>
             </div>
         </div>
 
-        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial4-module2.html')" class="next-lesson">
-            Continue to Module 2
+                <div class="project-submission">
+                    <h3><i class="fas fa-file-upload"></i> Module Project: Analytics Implementation</h3>
+                    <p>Create a comprehensive plan for implementing AI analytics and optimization in a business scenario.</p>
+                    
+                    <h4>Project Requirements:</h4>
+                    <ul>
+                        <li>Analytics strategy and implementation plan</li>
+                        <li>Performance optimization framework</li>
+                        <li>Decision-making system design</li>
+                        <li>Integration architecture</li>
+                        <li>Monitoring and maintenance plan</li>
+                    </ul>
+                    
+                    <div class="file-upload">
+                        <label for="project-file">
+                            <i class="fas fa-upload"></i> Choose File
+                        </label>
+                        <input type="file" id="project-file" accept=".pdf,.docx">
+                        <button class="submit-btn" onclick="submitProject()">
+                            Submit Project
+                        </button>
+                        <div class="submission-status"></div>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Implementation</h3>
+                    <div class="quiz-question">
+                        <p>What is the most critical factor for successful AI analytics implementation?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Latest technology
+                            </div>
+                            <div class="quiz-option">
+                                Budget size
+                            </div>
+                            <div class="quiz-option">
+                                Team size
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Clear integration strategy
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="tutorial4-module4.html" class="next-lesson" id="next-module-btn">
+            Continue to Module 4
             <i class="fas fa-arrow-right"></i>
         </a>
     </div>
@@ -696,37 +1033,67 @@
     </div>
 
     <script>
-        // Function to handle navigation
-        function handleNavigation(moduleNumber) {
-            if (moduleNumber === 1) return true; // Module 1 is always accessible
-            
-            // Get current module's progress
-            const currentModuleProgress = JSON.parse(localStorage.getItem('tutorial4_module3Progress')) || [];
-            const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial4_module${moduleNumber-1}Progress`)) || [];
-            
-            if (prevModuleProgress.length < 4) {
-                alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
-                // Stay on current module
-                return false;
-            }
-            return true;
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
-            // Get all module progress from localStorage
-            const moduleProgress = JSON.parse(localStorage.getItem('tutorial4_module3Progress')) || [];
-            const lessonProgress = JSON.parse(localStorage.getItem('tutorial4_module3LessonProgress')) || {};
+            // Initialize progress tracking
+            let module3Progress = [];
+            try {
+                const savedProgress = localStorage.getItem('tutorial4_module3Progress');
+                if (savedProgress) {
+                    module3Progress = JSON.parse(savedProgress);
+                    if (!Array.isArray(module3Progress)) {
+                        module3Progress = [];
+                    }
+                }
+            } catch (e) {
+                module3Progress = [];
+            }
+            localStorage.setItem('tutorial4_module3Progress', JSON.stringify(module3Progress));
+
+            let lessonProgress = {};
+            try {
+                const savedLessonProgress = localStorage.getItem('tutorial4_module3LessonProgress');
+                if (savedLessonProgress) {
+                    lessonProgress = JSON.parse(savedLessonProgress);
+                }
+            } catch (e) {
+                lessonProgress = {};
+            }
+            localStorage.setItem('tutorial4_module3LessonProgress', JSON.stringify(lessonProgress));
             
             // Update progress bar
             const progressFill = document.querySelector('.progress-fill');
-            const progressText = document.querySelector('.module-progress p');
             const completedCount = document.querySelector('.completed-count');
             const totalLessons = 4;
             
             function updateProgress() {
-                const newPercentage = (moduleProgress.length / totalLessons) * 100;
-                progressFill.style.width = `${newPercentage}%`;
-                completedCount.textContent = moduleProgress.length;
+                const completedLessons = module3Progress.length;
+                const percentage = (completedLessons / totalLessons) * 100;
+                progressFill.style.width = `${percentage}%`;
+                completedCount.textContent = completedLessons;
+
+                // Update tutorial progress
+                let tutorialProgress = {
+                    module1: false,
+                    module2: false,
+                    module3: false,
+                    module4: false,
+                    module5: false,
+                    module6: false,
+                    completed: false
+                };
+
+                try {
+                    const savedTutorialProgress = localStorage.getItem('tutorial4Progress');
+                    if (savedTutorialProgress) {
+                        tutorialProgress = JSON.parse(savedTutorialProgress);
+                    }
+                } catch (e) {
+                    // Use default tutorialProgress if parsing fails
+                }
+
+                // Mark module as complete if all lessons are done
+                tutorialProgress.module3 = completedLessons >= totalLessons;
+                localStorage.setItem('tutorial4Progress', JSON.stringify(tutorialProgress));
             }
 
             // Quiz functionality
@@ -738,11 +1105,7 @@
                     option.addEventListener('click', function() {
                         if (this.classList.contains('selected')) return;
                         
-                        // Remove selection from other options
-                        options.forEach(opt => {
-                            opt.classList.remove('selected', 'correct', 'incorrect');
-                        });
-                        
+                        options.forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
                         this.classList.add('selected');
                         
                         const isCorrect = this.hasAttribute('data-correct');
@@ -751,23 +1114,19 @@
                         
                         if (isCorrect) {
                             this.classList.add('correct');
-                            // Determine which lesson this is
                             const lessonSection = this.closest('.lesson-section');
                             const lessonId = lessonSection.id;
                             
-                            // Initialize lesson progress if not exists
                             if (!lessonProgress[lessonId]) {
                                 lessonProgress[lessonId] = {};
                             }
                             
-                            // Mark quiz as complete
                             lessonProgress[lessonId].quizComplete = true;
                             localStorage.setItem('tutorial4_module3LessonProgress', JSON.stringify(lessonProgress));
                             
-                            // Add to module progress if not already included
-                            if (!moduleProgress.includes(lessonId)) {
-                                moduleProgress.push(lessonId);
-                                localStorage.setItem('tutorial4_module3Progress', JSON.stringify(moduleProgress));
+                            if (!module3Progress.includes(lessonId)) {
+                                module3Progress.push(lessonId);
+                                localStorage.setItem('tutorial4_module3Progress', JSON.stringify(module3Progress));
                                 updateProgress();
                             }
                         } else {
@@ -788,24 +1147,98 @@
                     return;
                 }
 
-                // Simulate file upload
-                setTimeout(() => {
                     statusDiv.textContent = 'Project submitted successfully!';
                     statusDiv.className = 'submission-status success';
                     
-                    // Mark final lesson as complete
                     const lessonId = 'lesson4';
-                    if (!moduleProgress.includes(lessonId)) {
-                        moduleProgress.push(lessonId);
-                        localStorage.setItem('tutorial4_module3Progress', JSON.stringify(moduleProgress));
+                if (!module3Progress.includes(lessonId)) {
+                    module3Progress.push(lessonId);
+                    localStorage.setItem('tutorial4_module3Progress', JSON.stringify(module3Progress));
                         updateProgress();
                     }
-                }, 1500);
             };
+
+            // Navigation handling
+            const nextModuleBtn = document.getElementById('next-module-btn');
+            if (nextModuleBtn) {
+                nextModuleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (module3Progress.length >= totalLessons) {
+                        window.location.href = 'tutorial4-module4.html';
+                    } else {
+                        alert('Please complete all lessons before proceeding to the next module.');
+                    }
+                });
+            }
 
             // Initialize progress on page load
             updateProgress();
         });
+
+        function handleModuleNavigation(targetModule) {
+            // Get current progress
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                module6: false,
+                completed: false
+            };
+
+            try {
+                const savedProgress = localStorage.getItem('tutorial4Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            // Check if navigation should be allowed
+            const currentModule = 3; // This is Module 3
+            const previousModuleComplete = targetModule === 1 || tutorialProgress[`module${targetModule - 1}`];
+
+            if (previousModuleComplete || tutorialProgress[`module${targetModule}`]) {
+                // Allow navigation to next module or any completed module
+                window.location.href = `tutorial4-module${targetModule}.html`;
+            } else {
+                // Keep user on current module
+                alert('Please complete the previous module first.');
+                window.location.href = `tutorial4-module${currentModule}.html`;
+            }
+        }
+
+        function handleTutorialCompletion() {
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                module6: false,
+                completed: false
+            };
+
+            try {
+                const savedProgress = localStorage.getItem('tutorial4Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            const allModulesComplete = Object.values(tutorialProgress).slice(0, 6).every(value => value);
+            
+            if (allModulesComplete) {
+                window.location.href = 'tutorial4.html';
+            } else {
+                alert('Please complete all modules before completing the tutorial.');
+                window.location.href = 'tutorial4-module3.html';
+            }
+        }
     </script>
 </body>
 </html> 
