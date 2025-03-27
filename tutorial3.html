@@ -3,1016 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Creation with AI | AI Money Guide</title>
-    <meta name="description" content="Learn how to create engaging content using AI tools. Comprehensive guide with practical exercises, real examples, and step-by-step instructions.">
-    <link rel="stylesheet" href="style.css">
+    <title>AI Hustle Hub - Content Creation with AI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .tutorial-content {
-            padding: 120px 20px 40px;
-            max-width: 800px;
-            margin: 0 auto;
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
         }
 
-        .tutorial-header {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            color: white;
             text-align: center;
-            margin-bottom: 3rem;
+            position: relative;
+            margin-bottom: 2rem;
         }
 
-        .tutorial-header h1 {
-            color: var(--secondary-color);
-            font-size: 2.5rem;
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
 
-        .tutorial-section {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
         }
 
-        .tutorial-section h2 {
-            color: var(--secondary-color);
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .course-progress {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+            margin: -3rem auto 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.completed {
+            border: 2px solid #4CAF50;
+        }
+
+        .module-card.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .module-description {
+            color: #666;
             margin-bottom: 1.5rem;
         }
 
-        .tutorial-section p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .tool-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .tool-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: var(--card-background);
-            border-radius: 5px;
-        }
-
-        .tool-list i {
-            color: var(--secondary-color);
-            margin-right: 1rem;
+        .module-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.2rem;
         }
 
-        .step-list {
-            list-style: decimal;
-            padding-left: 1.5rem;
+        .module-status.completed {
+            color: #4CAF50;
         }
 
-        .step-list li {
-            margin-bottom: 1rem;
-            line-height: 1.8;
+        .module-status.locked {
+            color: #999;
         }
 
-        .example-box {
-            background: var(--card-background);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-
-        .example-box h4 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .back-button {
+        .module-link {
             display: inline-block;
-            background: var(--secondary-color);
-            color: white;
             padding: 0.8rem 1.5rem;
-            border-radius: 5px;
+            background: var(--gradient-accent);
+            color: white;
             text-decoration: none;
-            margin-bottom: 2rem;
-            transition: background-color 0.3s ease;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
         }
 
-        .back-button:hover {
-            background-color: #0773C5;
+        .module-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-card.locked .module-link {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">AI Money Guide</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#tutorials">Tutorials</a>
-            <a href="#course-content">Course Content</a>
-            <a href="#resources">Resources</a>
+    <header class="header">
+        <div class="brand">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <i class="fas fa-robot"></i>
+                <h1>AI Hustle Hub</h1>
+            </a>
         </div>
-        <div class="mobile-menu">
-            <i class="fas fa-bars"></i>
-        </div>
-    </nav>
+        <p class="header-description">
+            Master the art of creating engaging content using AI tools and monetize your creativity across multiple platforms. Learn how to leverage AI for writing, visuals, and more.
+        </p>
+    </header>
 
-    <!-- Course Header -->
-    <section class="course-header">
-        <div class="container">
-            <h1>Content Creation with AI Mastery</h1>
-            <p class="course-subtitle">Learn How to Create Engaging Content Using AI Tools</p>
+    <div class="course-progress">
+        <h3>Course Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
         </div>
-        <div class="progress-container">
-            <div class="progress-stats">
-                <div class="progress-stat">
-                    <span class="stat-value">0/6</span>
-                    <span class="stat-label">Modules Complete</span>
+        <p><span class="completed-count">0</span>/4 Modules Complete</p>
                 </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0%</span>
-                    <span class="stat-label">Course Progress</span>
-                </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0</span>
-                    <span class="stat-label">Points Earned</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress" style="width: 0%"></div>
-            </div>
-            <div class="progress-badges">
-                <div class="badge locked">
-                    <i class="fas fa-pen"></i>
-                    <span>Module 1</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-robot"></i>
-                    <span>Module 2</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Module 3</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-bullseye"></i>
-                    <span>Module 4</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Module 5</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-tasks"></i>
-                    <span>Module 6</span>
-                </div>
+
+    <div class="modules-grid">
+        <div class="module-card active">
+            <i class="fas fa-pen module-icon"></i>
+            <i class="fas fa-spinner module-status"></i>
+            <h2 class="module-title">Module 1: Introduction to AI Content Creation</h2>
+            <p class="module-description">Learn the fundamentals of AI-powered content creation, explore the available tools, and understand how AI can enhance your creative process.</p>
+            <a href="tutorial3-module1.html" class="module-link">Start Module</a>
+        </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-robot module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 2: Writing with AI</h2>
+            <p class="module-description">Master AI writing tools like ChatGPT and learn how to create various types of content including blog posts, social media, emails, and more.</p>
+            <a href="tutorial3-module2.html" class="module-link">Start Module</a>
+        </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-image module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 3: Visual Content with AI</h2>
+            <p class="module-description">Explore AI tools for creating images, graphics, and videos that complement your written content and enhance engagement.</p>
+            <a href="tutorial3-module3.html" class="module-link">Start Module</a>
+        </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-dollar-sign module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 4: Monetizing Your AI Content</h2>
+            <p class="module-description">Discover strategies for monetizing your AI-enhanced content through various channels including sponsorships, affiliate marketing, and digital products.</p>
+            <a href="tutorial3-module4.html" class="module-link">Start Module</a>
             </div>
         </div>
-    </section>
-
-    <!-- Course Overview -->
-    <section id="course-content" class="course-overview">
-        <div class="container">
-            <h2>What You'll Learn</h2>
-            <div class="learning-objectives">
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>How to use AI tools to create high-quality content</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Techniques for optimizing content for SEO</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Strategies for content planning and organization</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Best practices for AI-assisted content creation</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Course Modules -->
-    <section class="course-modules">
-        <div class="container">
-            <!-- Module 1: Introduction to AI Content Creation -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 1: Introduction to AI Content Creation</h2>
-                    <span class="estimated-time">Estimated time: 2 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>1.1 What is AI Content Creation?</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>AI content creation is revolutionizing how we produce content. This module introduces you to the fundamentals of using artificial intelligence tools to create engaging, high-quality content efficiently. You'll learn how AI can enhance your content creation process while maintaining authenticity and value.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Core Concepts</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-robot"></i>
-                                        <h5>AI Tools Overview</h5>
-                                        <p>Introduction to popular AI content creation tools:</p>
-                                        <ul>
-                                            <li>ChatGPT for writing</li>
-                                            <li>Midjourney for images</li>
-                                            <li>Jasper AI for marketing</li>
-                                            <li>Surfer SEO for optimization</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-pen"></i>
-                                        <h5>Content Types</h5>
-                                        <p>Types of content you can create with AI:</p>
-                                        <ul>
-                                            <li>Blog posts and articles</li>
-                                            <li>Social media content</li>
-                                            <li>Email newsletters</li>
-                                            <li>Product descriptions</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-chart-line"></i>
-                                        <h5>Market Opportunities</h5>
-                                        <p>Current market demands and trends:</p>
-                                        <ul>
-                                            <li>Content marketing growth</li>
-                                            <li>AI content demand</li>
-                                            <li>Pricing strategies</li>
-                                            <li>Future projections</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="1"> Mark Module 1 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 1 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 1 Quiz: AI Content Creation Basics</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="ChatGPT">
-                                <p>Which AI tool is most commonly used for writing blog posts and articles?</p>
-                                <label><input type="radio" name="q1">Midjourney</label>
-                                <label><input type="radio" name="q1">ChatGPT</label>
-                                <label><input type="radio" name="q1">DALL-E</label>
-                                <label><input type="radio" name="q1">Stable Diffusion</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What types of content can you create with AI tools?</p>
-                                <label><input type="radio" name="q2">Blog posts</label>
-                                <label><input type="radio" name="q2">Social media content</label>
-                                <label><input type="radio" name="q2">Email newsletters</label>
-                                <label><input type="radio" name="q2">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Content marketing">
-                                <p>Which industry is experiencing the highest growth in AI content demand?</p>
-                                <label><input type="radio" name="q3">Technical writing</label>
-                                <label><input type="radio" name="q3">Content marketing</label>
-                                <label><input type="radio" name="q3">Academic writing</label>
-                                <label><input type="radio" name="q3">Creative writing</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 2: AI Writing Tools and Techniques -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 2: AI Writing Tools and Techniques</h2>
-                    <span class="estimated-time">Estimated time: 3 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>2.1 Mastering ChatGPT for Content Creation</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>ChatGPT is one of the most powerful AI writing tools available. This lesson will teach you how to use it effectively for various content creation tasks, from generating ideas to writing complete articles.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>ChatGPT Features and Uses</h4>
-                                <ul>
-                                    <li><i class="fas fa-lightbulb"></i>Content ideation and brainstorming</li>
-                                    <li><i class="fas fa-pen"></i>Article writing and editing</li>
-                                    <li><i class="fas fa-search"></i>Research assistance</li>
-                                    <li><i class="fas fa-check"></i>Proofreading and grammar checking</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Best Practices for ChatGPT</h4>
-                                <li>Write clear, specific prompts</li>
-                                <li>Use temperature settings appropriately</li>
-                                <li>Review and edit AI-generated content</li>
-                                <li>Maintain your unique voice and style</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Example Prompt Structure</h4>
-                                <p>"Write a 500-word blog post about [topic] for [target audience]. Include [specific requirements] and maintain a [tone] tone."</p>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="2"> Mark Module 2 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 2 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 2 Quiz: AI Writing Tools</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Clear and specific">
-                                <p>What type of prompts work best with ChatGPT?</p>
-                                <label><input type="radio" name="q4">Vague and general</label>
-                                <label><input type="radio" name="q4">Clear and specific</label>
-                                <label><input type="radio" name="q4">Long and complex</label>
-                                <label><input type="radio" name="q4">Short and simple</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Review and edit">
-                                <p>What should you always do with AI-generated content?</p>
-                                <label><input type="radio" name="q5">Use it as is</label>
-                                <label><input type="radio" name="q5">Review and edit</label>
-                                <label><input type="radio" name="q5">Ignore it</label>
-                                <label><input type="radio" name="q5">Delete it</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 3: AI Image Generation -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 3: AI Image Generation</h2>
-                    <span class="estimated-time">Estimated time: 2.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>3.1 Creating Visual Content with AI</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to use AI image generation tools like Midjourney and DALL-E to create stunning visual content for your articles, social media, and marketing materials.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>AI Image Generation Tools</h4>
-                                <ul>
-                                    <li><i class="fas fa-paint-brush"></i>Midjourney for artistic images</li>
-                                    <li><i class="fas fa-image"></i>DALL-E for realistic photos</li>
-                                    <li><i class="fas fa-magic"></i>Stable Diffusion for custom styles</li>
-                                    <li><i class="fas fa-edit"></i>Canva AI for design elements</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Image Generation Process</h4>
-                                <li>Define your image requirements</li>
-                                <li>Write effective prompts</li>
-                                <li>Generate multiple variations</li>
-                                <li>Edit and refine results</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Example Image Prompt</h4>
-                                <p>"Create a professional business infographic about [topic] with [style] style, including [specific elements]."</p>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="3"> Mark Module 3 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 3 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 3 Quiz: AI Image Generation</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Midjourney">
-                                <p>Which AI tool is best for creating artistic, high-quality images?</p>
-                                <label><input type="radio" name="q6">ChatGPT</label>
-                                <label><input type="radio" name="q6">Midjourney</label>
-                                <label><input type="radio" name="q6">Surfer SEO</label>
-                                <label><input type="radio" name="q6">Jasper AI</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Multiple variations">
-                                <p>What should you generate to get the best results?</p>
-                                <label><input type="radio" name="q7">Single image</label>
-                                <label><input type="radio" name="q7">Multiple variations</label>
-                                <label><input type="radio" name="q7">No variations</label>
-                                <label><input type="radio" name="q7">Random images</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 4: AI Video Creation -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 4: AI Video Creation</h2>
-                    <span class="estimated-time">Estimated time: 2.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>4.1 Creating Engaging Video Content with AI</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to use AI video creation tools to produce engaging content for YouTube, TikTok, and Instagram. This module covers platform-specific strategies, AI video generation, and optimization techniques.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>AI Video Creation Tools</h4>
-                                <ul>
-                                    <li><i class="fas fa-video"></i>InVideo AI for video generation</li>
-                                    <li><i class="fas fa-film"></i>Runway ML for video editing</li>
-                                    <li><i class="fas fa-music"></i>Mubert for AI-generated music</li>
-                                    <li><i class="fas fa-microphone"></i>ElevenLabs for voice synthesis</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Platform-Specific Strategies</h4>
-                                <li>YouTube: Long-form educational content</li>
-                                <li>TikTok: Short, engaging clips</li>
-                                <li>Instagram: Reels and Stories</li>
-                                <li>Cross-platform optimization</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Example InVideo AI Prompt Structure</h4>
-                                <p>"Create a [duration] video about [topic] with [style] style, including [specific elements]. Target audience: [audience]. Include [music type] background music and [voice type] narration."</p>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="4"> Mark Module 4 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 4 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 4 Quiz: AI Video Creation</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="InVideo AI">
-                                <p>Which AI tool is best for creating complete video content?</p>
-                                <label><input type="radio" name="q8">ChatGPT</label>
-                                <label><input type="radio" name="q8">InVideo AI</label>
-                                <label><input type="radio" name="q8">Midjourney</label>
-                                <label><input type="radio" name="q8">Surfer SEO</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should you consider when creating video content?</p>
-                                <label><input type="radio" name="q9">Platform requirements</label>
-                                <label><input type="radio" name="q9">Target audience</label>
-                                <label><input type="radio" name="q9">Content style</label>
-                                <label><input type="radio" name="q9">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 5: Content Optimization with AI -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 5: Content Optimization with AI</h2>
-                    <span class="estimated-time">Estimated time: 2 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>4.1 SEO and Content Optimization</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to use AI tools to optimize your content for search engines and improve its performance. This module covers keyword research, content structure, and technical optimization.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>SEO Tools and Features</h4>
-                                <ul>
-                                    <li><i class="fas fa-search"></i>Surfer SEO for keyword research</li>
-                                    <li><i class="fas fa-chart-bar"></i>AI content analyzers</li>
-                                    <li><i class="fas fa-tags"></i>Keyword density checkers</li>
-                                    <li><i class="fas fa-link"></i>Internal linking suggestions</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Optimization Process</h4>
-                                <li>Research keywords and topics</li>
-                                <li>Analyze competitor content</li>
-                                <li>Optimize content structure</li>
-                                <li>Check and improve readability</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Example Optimization Checklist</h4>
-                                <ul>
-                                    <li>Keyword placement and density</li>
-                                    <li>Content structure and headings</li>
-                                    <li>Meta descriptions and titles</li>
-                                    <li>Internal and external links</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="5"> Mark Module 5 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 5 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 5 Quiz: Content Optimization</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Surfer SEO">
-                                <p>Which tool is best for keyword research and content optimization?</p>
-                                <label><input type="radio" name="q10">ChatGPT</label>
-                                <label><input type="radio" name="q10">Surfer SEO</label>
-                                <label><input type="radio" name="q10">Midjourney</label>
-                                <label><input type="radio" name="q10">DALL-E</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should you optimize in your content?</p>
-                                <label><input type="radio" name="q11">Keywords</label>
-                                <label><input type="radio" name="q11">Structure</label>
-                                <label><input type="radio" name="q11">Readability</label>
-                                <label><input type="radio" name="q11">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 6: Content Strategy and Planning -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 6: Content Strategy and Planning</h2>
-                    <span class="estimated-time">Estimated time: 2.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>5.1 Developing a Content Strategy</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to create and implement an effective content strategy using AI tools. This module covers content planning, scheduling, and performance tracking.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>Strategy Tools and Features</h4>
-                                <ul>
-                                    <li><i class="fas fa-calendar"></i>Content calendar planning</li>
-                                    <li><i class="fas fa-chart-line"></i>Performance analytics</li>
-                                    <li><i class="fas fa-users"></i>Audience research</li>
-                                    <li><i class="fas fa-tasks"></i>Task management</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Strategy Development Process</h4>
-                                <li>Define goals and objectives</li>
-                                <li>Research target audience</li>
-                                <li>Create content calendar</li>
-                                <li>Track and measure results</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Example Content Calendar</h4>
-                                <ul>
-                                    <li>Weekly blog posts</li>
-                                    <li>Daily social media updates</li>
-                                    <li>Monthly newsletters</li>
-                                    <li>Quarterly case studies</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="6"> Mark Module 6 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 6 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 6 Quiz: Content Strategy</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Goals and objectives">
-                                <p>What should you define first in your content strategy?</p>
-                                <label><input type="radio" name="q12">Content calendar</label>
-                                <label><input type="radio" name="q12">Goals and objectives</label>
-                                <label><input type="radio" name="q12">Tools to use</label>
-                                <label><input type="radio" name="q12">Budget</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Track and measure">
-                                <p>What should you do to improve your strategy?</p>
-                                <label><input type="radio" name="q13">Ignore results</label>
-                                <label><input type="radio" name="q13">Track and measure</label>
-                                <label><input type="radio" name="q13">Stop planning</label>
-                                <label><input type="radio" name="q13">Change everything</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Resources Section -->
-    <section id="resources" class="resources">
-        <div class="container">
-            <h2>Additional Resources</h2>
-            <div class="resource-grid">
-                <div class="resource-card">
-                    <i class="fas fa-book"></i>
-                    <h3>Recommended Reading</h3>
-                    <ul>
-                        <li><a href="#">The AI Content Creator's Handbook</a></li>
-                        <li><a href="#">Mastering ChatGPT for Content</a></li>
-                        <li><a href="#">The Future of AI in Content Creation</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <i class="fas fa-tools"></i>
-                    <h3>Essential Tools</h3>
-                    <ul>
-                        <li><a href="https://chat.openai.com">ChatGPT</a></li>
-                        <li><a href="https://www.midjourney.com">Midjourney</a></li>
-                        <li><a href="https://surferseo.com">Surfer SEO</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <i class="fas fa-community"></i>
-                    <h3>Community</h3>
-                    <ul>
-                        <li><a href="#">Join our Discord</a></li>
-                        <li><a href="#">Facebook Group</a></li>
-                        <li><a href="#">LinkedIn Network</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>AI Money Guide</h3>
-                    <p>Your path to AI-powered content creation success</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <a href="index.html">Home</a>
-                    <a href="#course-content">Course Content</a>
-                    <a href="#resources">Resources</a>
-                </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <p>Email: support@aimoneyguide.com</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 AI Money Guide. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Progress tracking
-            let totalModules = 6;
-            let completedModules = [];
-            let totalPoints = 0;
-            const pointsPerModule = 100;
+            // Check progress of each module
+            const module1Progress = JSON.parse(localStorage.getItem('tutorial3_module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial3_module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('tutorial3_module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial3_module4Progress')) || [];
             
-            // Load saved progress from local storage
-            const savedProgress = JSON.parse(localStorage.getItem('tutorial3Progress')) || {};
-            completedModules = Array.isArray(savedProgress.completedModules) ? savedProgress.completedModules : [];
-            totalPoints = savedProgress.totalPoints || 0;
-            let completedQuizzes = Array.isArray(savedProgress.completedQuizzes) ? savedProgress.completedQuizzes : [];
-
-            // Debug initial state
-            console.log('Initial state:', { completedModules, completedQuizzes, totalPoints });
-
-            function getModuleIndex(element) {
-                const module = element.closest('.module');
-                if (!module) return -1;
-                return Array.from(document.querySelectorAll('.module')).indexOf(module);
-            }
-
-            function updateModuleUI(moduleIndex, isComplete) {
-                const module = document.querySelectorAll('.module')[moduleIndex];
-                if (!module) return;
-
-                const checkbox = module.querySelector('.module-complete');
-                if (checkbox) {
-                    checkbox.checked = isComplete;
-                }
-
-                // Update module visual state
-                if (isComplete) {
-                    module.classList.add('completed');
-                    // Add completion message if it doesn't exist
-                    if (!module.querySelector('.completion-message')) {
-                        const message = document.createElement('div');
-                        message.className = 'completion-message';
-                        message.textContent = '✓ Module Completed!';
-                        message.style.color = '#4CAF50';
-                        message.style.fontWeight = 'bold';
-                        message.style.marginTop = '10px';
-                        module.querySelector('.module-header').appendChild(message);
-                    }
-                } else {
-                    module.classList.remove('completed');
-                    const message = module.querySelector('.completion-message');
-                    if (message) {
-                        message.remove();
-                    }
-                }
-            }
-
-            function checkModuleCompletion(moduleIndex) {
-                const module = document.querySelectorAll('.module')[moduleIndex];
-                if (!module) return false;
-
-                const hasQuiz = module.querySelector('.quiz-form') !== null;
-                const checkbox = module.querySelector('.module-complete');
-                
-                const quizPassed = hasQuiz ? completedQuizzes.includes(moduleIndex) : true;
-                const isChecked = checkbox ? checkbox.checked : false;
-
-                console.log('Checking module completion:', {
-                    moduleIndex,
-                    hasQuiz,
-                    quizPassed,
-                    isChecked,
-                    completedQuizzes,
-                    completedModules
-                });
-
-                const shouldBeComplete = quizPassed && isChecked;
-
-                if (shouldBeComplete) {
-                    if (!completedModules.includes(moduleIndex)) {
-                        completedModules.push(moduleIndex);
-                        totalPoints += pointsPerModule;
-                        updateProgress();
-                        updateModuleUI(moduleIndex, true);
-                        console.log('Module marked complete:', moduleIndex);
-                    }
-                    return true;
-                } else {
-                    if (completedModules.includes(moduleIndex)) {
-                        completedModules = completedModules.filter(i => i !== moduleIndex);
-                        totalPoints -= pointsPerModule;
-                        updateProgress();
-                        updateModuleUI(moduleIndex, false);
-                        console.log('Module marked incomplete:', moduleIndex);
-                    }
-                    return false;
-                }
-            }
+            // Count completed modules (a module is complete when all 4 lessons are done)
+            const completedModules = [
+                module1Progress.length === 4,
+                module2Progress.length === 4,
+                module3Progress.length === 4,
+                module4Progress.length === 4
+            ].filter(Boolean);
             
-            function updateProgress() {
-                const progressBar = document.querySelector('.progress');
-                const progressPercentage = (completedModules.length / totalModules) * 100;
-                progressBar.style.width = progressPercentage + '%';
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalModules = 4;
+            const percentage = (completedModules.length / totalModules) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedModules.length;
+
+            // Update module cards based on completion
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial3_module${index + 1}Progress`)) || [];
+                const isCompleted = moduleProgress.length === 4;
+                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial3_module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
-                document.querySelector('.progress-stat:nth-child(1) .stat-value').textContent = 
-                    completedModules.length + '/' + totalModules;
-                document.querySelector('.progress-stat:nth-child(2) .stat-value').textContent = 
-                    Math.round(progressPercentage) + '%';
-                document.querySelector('.progress-stat:nth-child(3) .stat-value').textContent = 
-                    totalPoints;
-                
-                const badges = document.querySelectorAll('.badge');
-                badges.forEach((badge, index) => {
-                    if (completedModules.includes(index)) {
-                        badge.classList.remove('locked');
-                        badge.classList.add('unlocked');
+                const moduleLink = card.querySelector('.module-link');
+                if (isCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('completed');
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    moduleLink.textContent = 'Review Module';
+                    moduleLink.href = `tutorial3-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('active');
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial3-module${index + 1}.html`;
                     } else {
-                        badge.classList.remove('unlocked');
-                        badge.classList.add('locked');
-                    }
-                });
-
-                // Save progress
-                const progressData = {
-                    completedModules,
-                    totalPoints,
-                    completedQuizzes
-                };
-                localStorage.setItem('tutorial3Progress', JSON.stringify(progressData));
-                console.log('Progress saved:', progressData);
-            }
-
-            // Quiz functionality
-            function initializeQuizzes() {
-                console.log('Starting quiz initialization...');
-                const quizForms = document.querySelectorAll('.quiz-form');
-                console.log('Found quiz forms:', quizForms.length);
-                
-                quizForms.forEach((form, index) => {
-                    console.log('Setting up quiz form:', index);
-                    
-                    // Add submit button if it doesn't exist
-                    if (!form.querySelector('.quiz-submit')) {
-                        const submitBtn = document.createElement('button');
-                        submitBtn.type = 'submit';
-                        submitBtn.className = 'quiz-submit';
-                        submitBtn.textContent = 'Submit Answers';
-                        form.appendChild(submitBtn);
-                    }
-                    
-                    // Add retry button if it doesn't exist
-                    if (!form.querySelector('.quiz-retry')) {
-                        const retryBtn = document.createElement('button');
-                        retryBtn.type = 'button';
-                        retryBtn.className = 'quiz-retry';
-                        retryBtn.textContent = 'Try Again';
-                        retryBtn.style.display = 'none';
-                        form.appendChild(retryBtn);
-                    }
-                    
-                    // Add score div if it doesn't exist
-                    if (!form.querySelector('.quiz-score')) {
-                        const scoreDiv = document.createElement('div');
-                        scoreDiv.className = 'quiz-score';
-                        form.appendChild(scoreDiv);
-                    }
-                    
-                    // Remove any existing submit event listeners
-                    const newSubmitHandler = form.onsubmit;
-                    form.onsubmit = null;
-                    
-                    form.addEventListener('submit', function(e) {
+                    card.classList.add('locked');
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
+                    moduleLink.href = '#';
+                    moduleLink.onclick = function(e) {
                         e.preventDefault();
-                        console.log('Quiz form submitted');
-                        const moduleIndex = getModuleIndex(this);
-                        if (moduleIndex === -1) {
-                            console.error('Could not determine module index');
-                            return;
-                        }
-
-                        console.log('Processing quiz submission for module:', moduleIndex);
-                        const questions = this.querySelectorAll('.quiz-question');
-                        let correctAnswers = 0;
-                        let totalQuestions = questions.length;
-                        let allQuestionsAnswered = true;
-                        
-                        questions.forEach(question => {
-                            const selectedAnswer = question.querySelector('input:checked');
-                            if (!selectedAnswer) {
-                                question.querySelector('.question-feedback').textContent = 'Please select an answer.';
-                                question.querySelector('.question-feedback').className = 'question-feedback incorrect';
-                                allQuestionsAnswered = false;
-                                return;
-                            }
-
-                            const correctAnswer = question.getAttribute('data-correct');
-                            const selectedText = selectedAnswer.parentElement.textContent.trim();
-
-                            console.log('Checking answer:', {
-                                moduleIndex,
-                                questionIndex: Array.from(questions).indexOf(question),
-                                selected: selectedText,
-                                correct: correctAnswer,
-                                matches: selectedText === correctAnswer
-                            });
-
-                            const feedback = question.querySelector('.question-feedback');
-                            if (selectedText === correctAnswer) {
-                                feedback.textContent = 'Correct! Great job!';
-                                feedback.className = 'question-feedback correct';
-                                correctAnswers++;
-                            } else {
-                                feedback.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
-                                feedback.className = 'question-feedback incorrect';
-                            }
-                        });
-
-                        if (!allQuestionsAnswered) {
-                            return;
-                        }
-
-                        const scoreDiv = this.querySelector('.quiz-score');
-                        const submitBtn = this.querySelector('.quiz-submit');
-                        const retryBtn = this.querySelector('.quiz-retry');
-                        
-                        console.log('Quiz results:', {
-                            moduleIndex,
-                            correctAnswers,
-                            totalQuestions,
-                            passed: correctAnswers === totalQuestions
-                        });
-
-                        if (correctAnswers === totalQuestions) {
-                            scoreDiv.textContent = 'Quiz Passed! 🎉';
-                            scoreDiv.className = 'quiz-score passed';
-                            
-                            if (!completedQuizzes.includes(moduleIndex)) {
-                                completedQuizzes.push(moduleIndex);
-                                console.log('Quiz completed for module:', moduleIndex);
-                                // Force check module completion
-                                setTimeout(() => checkModuleCompletion(moduleIndex), 100);
-                            }
-                        } else {
-                            scoreDiv.textContent = 'Try again!';
-                            scoreDiv.className = 'quiz-score failed';
-                            completedQuizzes = completedQuizzes.filter(i => i !== moduleIndex);
-                            checkModuleCompletion(moduleIndex);
-                        }
-                        
-                        submitBtn.style.display = 'none';
-                        retryBtn.style.display = 'block';
-                    });
-                    
-                    const retryBtn = form.querySelector('.quiz-retry');
-                    if (retryBtn) {
-                        retryBtn.addEventListener('click', function() {
-                            const form = this.closest('.quiz-form');
-                            form.reset();
-                            form.querySelectorAll('.question-feedback').forEach(feedback => {
-                                feedback.textContent = '';
-                                feedback.className = 'question-feedback';
-                            });
-                            const scoreDiv = form.querySelector('.quiz-score');
-                            scoreDiv.textContent = '';
-                            scoreDiv.className = 'quiz-score';
-                            this.style.display = 'none';
-                            form.querySelector('.quiz-submit').style.display = 'block';
-                        });
-                    }
-                });
-                console.log('Quiz initialization complete');
-            }
-
-            // Completion checkbox functionality
-            const completionCheckboxes = document.querySelectorAll('.module-complete');
-            completionCheckboxes.forEach((checkbox) => {
-                const moduleIndex = parseInt(checkbox.dataset.module) - 1;
-                
-                checkbox.addEventListener('change', function() {
-                    console.log('Checkbox changed:', {
-                        moduleIndex,
-                        checked: this.checked,
-                        quizCompleted: completedQuizzes.includes(moduleIndex)
-                    });
-                    // Force check module completion
-                    setTimeout(() => checkModuleCompletion(moduleIndex), 100);
-                });
-
-                // Initialize checkbox state and UI
-                if (completedModules.includes(moduleIndex)) {
-                    checkbox.checked = true;
-                    updateModuleUI(moduleIndex, true);
+                        alert('Please complete the previous module first.');
+                    };
                 }
             });
-
-            // Initial check of all modules
-            document.querySelectorAll('.module').forEach((module, index) => {
-                checkModuleCompletion(index);
-            });
-
-            // Initial progress update
-            updateProgress();
-
-            // Initialize quizzes immediately
-            initializeQuizzes();
         });
     </script>
 </body>

@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Essential AI Tools for Freelancers - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .progress-tracker {
+            display: none;
+        }
+
+        .progress-container {
+            display: none;
+        }
+
+        .progress-step {
+            display: none;
+        }
+
+        .progress-line {
+            display: none;
+        }
+
+        .progress-line-fill {
+            display: none;
+        }
+
+        .back-to-home {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            transform: scale(1.05);
+        }
+
+        .back-to-home i {
+            margin-right: 0.5rem;
+        }
+
+        .module-content {
+            max-width: 1000px;
+            margin: 100px auto 40px;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .module-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .lesson-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+
+        .lesson-content {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .lesson-content h3 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .lesson-content h3:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 1.2em;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .lesson-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .lesson-content li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .practical-exercise {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .exercise-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .exercise-steps {
+            list-style: none;
+        }
+
+        .exercise-steps li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .exercise-steps li i {
+            margin-right: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        .next-lesson {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .next-lesson:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-lesson i {
+            margin-left: 0.5rem;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .code-example {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-example pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .ai-demo {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .ai-demo-step {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .ai-demo-step .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .progress-indicator h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .lesson-complete {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #4CAF50;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .term-grid, .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .term-card, .tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .term-card:hover, .tool-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .term-card h4, .tool-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .project-submission {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 2px dashed var(--accent-color);
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload label {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .file-upload label:hover {
+            transform: scale(1.05);
+        }
+
+        .submission-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .submission-status.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .submission-status.error {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .resource-link i {
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .module-progress {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+            width: 250px;
+        }
+
+        .module-progress h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lesson-progress {
+            margin: 1rem 0;
+        }
+
+        .lesson-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-status i {
+            color: #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-status.completed i {
+            color: #4CAF50;
+        }
+
+        .lesson-status:hover {
+            background: #f8f9fa;
+        }
+
+        .top-nav {
+            background: #1a1a1a;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: center;
+            height: 60px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+        }
+
+        .module-content {
+            margin-top: 80px;
+        }
+
+        /* Project Styles */
+        .project-instructions {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .project-step {
+            display: flex;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .project-step:last-child {
+            border-bottom: none;
+        }
+
+        .project-step .step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .project-step .step-content {
+            flex: 1;
+        }
+
+        .project-step h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .project-submission {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        }
+
+        .project-submission h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border: 2px dashed #ccc;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload label {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .file-upload label:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .submit-btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .submission-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .submission-status.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .submission-status.error {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .final-project {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2.5rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--accent-color);
+        }
+
+        .final-project h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .final-project h3 i {
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+        }
+
+        /* Module Quiz Styles */
+        .module-quiz {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-complete-message {
+            background: #f0f7ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0 0;
+            text-align: center;
+            border: 1px solid #c2e0ff;
+        }
+
+        .module-complete-message.hidden {
+            display: none;
+        }
+
+        .next-module-btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .next-module-btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.highlight-correct {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .service-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .service-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .service-item i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .service-item h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .tool-category {
+            margin: 2rem 0;
+        }
+
+        .tool-category h4 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 0.8rem;
+        }
+
+        .extension-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .extension-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .extension-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .extension-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .workflow-example {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .workflow-steps {
+            margin-top: 1rem;
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tool-card.highlighted {
+            border-left: 4px solid var(--accent-color);
+            background: rgba(74, 144, 226, 0.05);
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .example-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .stack-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .stack-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stack-card h4 i {
+            color: var(--accent-color);
+        }
+
+        .stack-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .stack-tool {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .stack-tool .tool-name {
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+
+        .stack-tool .tool-purpose {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .strategy-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .strategy-step {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .strategy-step h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .cost-strategies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .cost-strategy {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .cost-strategy h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .mvp-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .mvp-tool {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .mvp-tool h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="tutorial1.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="tutorial1-module1.html" class="nav-link">
+            <i class="fas fa-briefcase"></i>
+            Module 1
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial1-module2.html')" class="nav-link active">
+            <i class="fas fa-laptop-code"></i>
+            Module 2
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial1-module3.html')" class="nav-link">
+            <i class="fas fa-search-dollar"></i>
+            Module 3
+        </a>
+        <a href="tutorial1-module4.html" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Module 4
+        </a>
+        <a href="tutorial1.html" class="nav-link">
+            <i class="fas fa-check-circle"></i>
+            Complete
+        </a>
+    </nav>
+
+    <div class="module-content">
+        <div class="module-header">
+            <h1 class="module-title">Module 2: Essential AI Tools for Freelancers</h1>
+            <p class="module-description">Master the core AI tools that will enhance your freelancing services, boost your productivity, and help you deliver exceptional results to clients.</p>
+        </div>
+
+        <div class="lesson-section" id="lesson1">
+            <h2 class="lesson-title">
+                <i class="fas fa-robot"></i>
+                Lesson 1: ChatGPT and AI Writing Tools
+            </h2>
+            <div class="lesson-content">
+                <p>ChatGPT and other AI writing tools have revolutionized how freelancers create content, communicate with clients, and optimize their workflows. In this lesson, we'll explore how to leverage these powerful tools effectively.</p>
+                
+                <h3>Understanding ChatGPT</h3>
+                <p>ChatGPT is an AI language model developed by OpenAI that can generate human-like text based on prompts. As a freelancer, it can become your virtual assistant, content creator, and problem-solving partner.</p>
+                
+                <h3>Key Benefits for Freelancers</h3>
+                <ul>
+                    <li><strong>Content Creation:</strong> Generate blog posts, social media content, emails, and more</li>
+                    <li><strong>Ideation:</strong> Brainstorm creative concepts and overcome writer's block</li>
+                    <li><strong>Research Assistance:</strong> Summarize information and explain complex topics</li>
+                    <li><strong>Client Communication:</strong> Draft professional emails and proposals</li>
+                    <li><strong>Editing:</strong> Improve grammar, structure, and clarity of your writing</li>
+                </ul>
+
+                <h3>ChatGPT Subscription Options</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>ChatGPT (Free)</h4>
+                        <p>Access to GPT-3.5 model with basic functionality</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>ChatGPT Plus ($20/month)</h4>
+                        <p>Access to GPT-4, faster responses, priority access, and plugins</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>GPT-4o</h4>
+                        <p>The latest model with improved capabilities for multimodal inputs</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>API Access</h4>
+                        <p>Integrate ChatGPT directly into your applications (usage-based pricing)</p>
+                    </div>
+                </div>
+
+                <h3>Mastering Prompt Engineering</h3>
+                <p>The key to getting excellent results from ChatGPT is learning how to craft effective prompts. Here are some best practices:</p>
+                <ul>
+                    <li><strong>Be Specific:</strong> Provide clear instructions and details</li>
+                    <li><strong>Use Context:</strong> Include background information and examples</li>
+                    <li><strong>Set Parameters:</strong> Specify tone, length, format, and audience</li>
+                    <li><strong>Iterate:</strong> Refine your prompts based on the responses</li>
+                    <li><strong>Use System Messages:</strong> Set up the AI's role and behavior</li>
+                </ul>
+
+                <div class="ai-demo">
+                    <h3>AI Prompt Templates for Freelancers</h3>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Content Creation Prompt</h4>
+                            <div class="code-example">
+                                <pre>Write a [blog post/social media caption/email] about [topic] targeting [ideal client]. The content should be [tone] and approximately [length] words. Include [specific elements] and focus on [main benefit/angle]. Use a conversational tone and include a compelling call-to-action at the end.</pre>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Client Proposal Prompt</h4>
+                            <div class="code-example">
+                                <pre>Create a professional proposal for a client who needs [service description]. The client is [client details]. My services include [your services] at a rate of [your rate]. Include sections on: project overview, my approach, deliverables, timeline, pricing, and next steps. Use a professional but friendly tone that highlights my AI expertise.</pre>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Editing Improvement Prompt</h4>
+                            <div class="code-example">
+                                <pre>I'd like you to help improve this draft:
+[paste your content here]
+
+Please:
+1. Fix any grammar or spelling issues
+2. Improve sentence structure for better flow
+3. Enhance clarity and conciseness
+4. Suggest stronger word choices where appropriate
+5. Ensure a consistent tone
+6. Add any missing context or details
+7. Provide the revised version</pre>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Other AI Writing Tools</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Jasper</h4>
+                        <p>Cost: $39/month+</p>
+                        <ul>
+                            <li>Marketing-focused content</li>
+                            <li>Templates for various formats</li>
+                            <li>Brand voice customization</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Copy.ai</h4>
+                        <p>Cost: $36/month</p>
+                        <ul>
+                            <li>Specialized in copywriting</li>
+                            <li>Email marketing templates</li>
+                            <li>Social media content</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Grammarly</h4>
+                        <p>Cost: $12/month</p>
+                        <ul>
+                            <li>Grammar checking</li>
+                            <li>Style suggestions</li>
+                            <li>Tone adjustments</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Anyword</h4>
+                        <p>Cost: $29/month</p>
+                        <ul>
+                            <li>Conversion-focused copy</li>
+                            <li>Performance scoring</li>
+                            <li>A/B testing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Quick Links to Essential AI Writing Resources</h3>
+                <div class="resource-links">
+                    <a href="https://chat.openai.com" target="_blank" class="resource-link">
+                        <i class="fas fa-robot"></i> ChatGPT
+                    </a>
+                    <a href="https://www.jasper.ai" target="_blank" class="resource-link">
+                        <i class="fas fa-pen"></i> Jasper AI
+                    </a>
+                    <a href="https://www.copy.ai" target="_blank" class="resource-link">
+                        <i class="fas fa-copy"></i> Copy.ai
+                    </a>
+                    <a href="https://www.grammarly.com" target="_blank" class="resource-link">
+                        <i class="fas fa-spell-check"></i> Grammarly
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Writing Tools</h3>
+                    <div class="quiz-question">
+                        <p>What is the most important element of successful prompt engineering?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Using technical jargon
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Being specific with clear instructions
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Keeping prompts very short
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Always asking for multiple versions
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>Which subscription gives you access to GPT-4 with priority features?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                ChatGPT Free
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                ChatGPT Plus ($20/month)
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Jasper AI
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Grammarly Premium
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson2">
+            <h2 class="lesson-title">
+                <i class="fas fa-image"></i>
+                Lesson 2: AI Image Generation Tools
+            </h2>
+            <div class="lesson-content">
+                <p>AI image generation tools allow freelancers to create stunning visuals without needing advanced design skills. These tools can transform your service offerings and help you deliver professional-quality visuals to clients.</p>
+                
+                <h3>The Revolution in AI-Generated Images</h3>
+                <p>AI image generators use advanced neural networks to create images based on text descriptions. This technology has democratized image creation, allowing freelancers to produce professional-quality visuals with simple text prompts.</p>
+                
+                <h3>Top AI Image Generation Tools</h3>
+                <div class="tool-grid">
+                    <div class="tool-card highlighted">
+                        <h4>DALL-E 3</h4>
+                        <p>Cost: Included with ChatGPT Plus or API credits</p>
+                        <ul>
+                            <li>Integrated with ChatGPT</li>
+                            <li>High-quality, detailed images</li>
+                            <li>Excellent text rendering</li>
+                            <li>No watermark on ChatGPT Plus</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Midjourney</h4>
+                        <p>Cost: $10-$60/month</p>
+                        <ul>
+                            <li>Artistic, high-quality images</li>
+                            <li>Discord-based interface</li>
+                            <li>Strong community for learning</li>
+                            <li>Excellent at realistic renders</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Stable Diffusion</h4>
+                        <p>Cost: Free (open source) or paid services</p>
+                        <ul>
+                            <li>Self-hostable options</li>
+                            <li>Highly customizable</li>
+                            <li>Growing ecosystem of tools</li>
+                            <li>Local privacy options</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Adobe Firefly</h4>
+                        <p>Cost: Included with Creative Cloud</p>
+                        <ul>
+                            <li>Commercial usage rights</li>
+                            <li>Integrated with Adobe products</li>
+                            <li>Focus on design workflows</li>
+                            <li>Generative Fill capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Freelancing Services Enhanced by AI Image Generation</h3>
+                <div class="service-grid">
+                    <div class="service-item">
+                        <i class="fas fa-laptop"></i>
+                        <h4>Website Design</h4>
+                        <p>Create custom hero images, backgrounds, and graphical elements</p>
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-ad"></i>
+                        <h4>Digital Marketing</h4>
+                        <p>Generate social media graphics, ad creatives, and campaign visuals</p>
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-book"></i>
+                        <h4>Content Creation</h4>
+                        <p>Illustrate blog posts, ebooks, presentations, and newsletters</p>
+                    </div>
+                    <div class="service-item">
+                        <i class="fas fa-paint-brush"></i>
+                        <h4>Product Visualization</h4>
+                        <p>Create product mockups, prototypes, and concept art</p>
+                    </div>
+                </div>
+
+                <h3>Mastering AI Image Prompts</h3>
+                <p>Creating effective prompts for AI image generators is similar to prompt engineering for text, but with some important differences:</p>
+                
+                <div class="ai-demo">
+                    <h4>Prompt Structure for Great Images</h4>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Subject Description</h4>
+                            <p>Start with a clear description of what you want to see in the image</p>
+                            <div class="code-example">
+                                <pre>A professional freelancer working at a modern desk with a laptop</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Style and Mood</h4>
+                            <p>Specify artistic style, mood, lighting, and atmosphere</p>
+                            <div class="code-example">
+                                <pre>A professional freelancer working at a modern desk with a laptop, warm lighting, minimalist style, productive atmosphere</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Technical Details</h4>
+                            <p>Add camera settings, perspective, resolution, and composition</p>
+                            <div class="code-example">
+                                <pre>A professional freelancer working at a modern desk with a laptop, warm lighting, minimalist style, productive atmosphere, 4K detail, shallow depth of field, top-down angle</pre>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Prompt Modifiers for Different AI Image Generators</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Midjourney</h4>
+                        <p>--ar 16:9 (aspect ratio)<br>--v 5.2 (version)<br>--q 2 (quality)<br>--s 750 (stylization)</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>DALL-E 3</h4>
+                        <p>Square/Portrait/Landscape<br>Vivid/Natural<br>"Detailed" for more detail<br>Clear art style references</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Stable Diffusion</h4>
+                        <p>Negative prompts<br>LoRA models<br>ControlNet<br>Custom embeddings</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>General Tips</h4>
+                        <p>Artist names for style<br>Material references<br>Time period indicators<br>Color schemes</p>
+                    </div>
+                </div>
+
+                <h3>Example Prompts for Freelance Work</h3>
+                <div class="example-grid">
+                    <div class="example-card">
+                        <h4>Website Hero Image</h4>
+                        <div class="code-example">
+                            <pre>A digital marketing professional analyzing data on multiple screens, with glowing analytics graphs, modern office setting, soft blue lighting, professional atmosphere, ultra-detailed, 8k, photorealistic</pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                    <div class="example-card">
+                        <h4>Social Media Profile</h4>
+                        <div class="code-example">
+                            <pre>Professional headshot of a confident [male/female] freelance consultant, neutral background, soft professional lighting, business casual attire, warm friendly expression, 4k, studio quality, linkedin style</pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                    <div class="example-card">
+                        <h4>Product Mockup</h4>
+                        <div class="code-example">
+                            <pre>A sleek e-book reader mockup displaying a finance e-book cover, on a wooden desk with a cup of coffee, morning light streaming in, professional product photography, shallow depth of field, high detail</pre>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Legal and Ethical Considerations</h3>
+                <ul>
+                    <li><strong>Copyright:</strong> Understand the usage rights for images created with each tool</li>
+                    <li><strong>Commercial Use:</strong> Some tools have restrictions on commercial applications</li>
+                    <li><strong>Client Disclosure:</strong> Be transparent about using AI-generated images</li>
+                    <li><strong>Avoiding Copying:</strong> Don't create images that directly copy existing works</li>
+                    <li><strong>Model Training Data:</strong> Consider the ethical implications of the data used to train the models</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Image Generation</h3>
+                    <div class="quiz-question">
+                        <p>Which of these is the most important element to include in an AI image generation prompt?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                The name of a famous photographer
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                A clear description of the subject and desired style
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Technical camera settings
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Resolution specifications
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>Which AI image generation tool is integrated directly with ChatGPT?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Midjourney
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Stable Diffusion
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                DALL-E 3
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Canva
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3><i class="fas fa-tasks"></i> Practical Exercise: Create Your First AI Image</h3>
+                    <ol>
+                        <li>Sign up for a free account at OpenAI (if you don't have one)</li>
+                        <li>Go to chat.openai.com and access DALL-E through ChatGPT</li>
+                        <li>Create an image that represents your freelance services</li>
+                        <li>Try variations on your prompt to see how it affects the output</li>
+                        <li>Save your best image for use in your freelance marketing materials</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson3">
+            <h2 class="lesson-title">
+                <i class="fas fa-cogs"></i>
+                Lesson 3: AI Productivity and Workflow Tools
+            </h2>
+            <div class="lesson-content">
+                <p>Discover how AI-powered productivity tools can help you streamline your freelance operations, automate tasks, and focus on high-value work. These tools will help you work smarter, not harder.</p>
+                
+                <h3>The AI Productivity Advantage</h3>
+                <p>AI productivity tools can help freelancers automate repetitive tasks, organize information, manage time, and enhance decision-making. By implementing these tools, you can significantly increase your output while maintaining or improving quality.</p>
+                
+                <h3>Categories of AI Productivity Tools for Freelancers</h3>
+                
+                <div class="tool-category">
+                    <h4><i class="fas fa-calendar-check"></i> Task Management & Automation</h4>
+                    <div class="tool-grid">
+                        <div class="tool-card">
+                            <h4>Notion AI</h4>
+                            <p>Cost: $10/month (+ Notion subscription)</p>
+                            <ul>
+                                <li>AI writing and editing within Notion</li>
+                                <li>Summarize meeting notes</li>
+                                <li>Generate action items from text</li>
+                                <li>Create content based on templates</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4>Zapier</h4>
+                            <p>Cost: Free to $73.50/month</p>
+                            <ul>
+                                <li>Automate workflows between apps</li>
+                                <li>AI-powered automation suggestions</li>
+                                <li>Transfer data between tools</li>
+                                <li>Trigger actions based on events</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4>Motion</h4>
+                            <p>Cost: $19-$34/month</p>
+                            <ul>
+                                <li>AI task prioritization</li>
+                                <li>Calendar optimization</li>
+                                <li>Automatic scheduling</li>
+                                <li>Project timeline management</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4>Mem.ai</h4>
+                            <p>Cost: Free to $20/month</p>
+                            <ul>
+                                <li>AI-powered note organization</li>
+                                <li>Automatic tagging and connections</li>
+                                <li>Smart search capabilities</li>
+                                <li>Knowledge management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h4><i class="fas fa-headphones"></i> Meeting & Communication Enhancement</h4>
+                    <div class="tool-grid">
+                        <div class="tool-card">
+                            <h4>Otter.ai</h4>
+                            <p>Cost: Free to $30/month</p>
+                            <ul>
+                                <li>Real-time meeting transcription</li>
+                                <li>Automated summary generation</li>
+                                <li>Key points extraction</li>
+                                <li>Meeting insights</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4>Fireflies.ai</h4>
+                            <p>Cost: Free to $29/month</p>
+                            <ul>
+                                <li>Meeting transcription and recording</li>
+                                <li>AI-powered search across meetings</li>
+                                <li>Topic extraction</li>
+                                <li>Integration with CRMs</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card highlighted">
+                            <h4>Descript</h4>
+                            <p>Cost: Free to $24/month</p>
+                            <ul>
+                                <li>Audio/video editing with text</li>
+                                <li>AI voice cloning (Overdub)</li>
+                                <li>Transcription and content editing</li>
+                                <li>Remove filler words automatically</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4>Supernormal</h4>
+                            <p>Cost: $19/month</p>
+                            <ul>
+                                <li>Automatic meeting notes</li>
+                                <li>Action item extraction</li>
+                                <li>Decision tracking</li>
+                                <li>Follow-up automation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h4><i class="fas fa-brain"></i> Research & Information Processing</h4>
+                    <div class="tool-grid">
+                        <div class="tool-card">
+                            <h4>Perplexity AI</h4>
+                            <p>Cost: Free to $20/month</p>
+                            <ul>
+                                <li>AI-powered research engine</li>
+                                <li>Real-time information synthesis</li>
+                                <li>Cited sources for verification</li>
+                                <li>Conversation-based research</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card highlighted">
+                            <h4>Consensus</h4>
+                            <p>Cost: Free to $16.67/month</p>
+                            <ul>
+                                <li>Scientific research assistant</li>
+                                <li>Research paper summaries</li>
+                                <li>Evidence-based answers</li>
+                                <li>Citation tracking</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4>Elicit</h4>
+                            <p>Cost: Free (public beta)</p>
+                            <ul>
+                                <li>Research paper discovery</li>
+                                <li>Paper summarization</li>
+                                <li>Data extraction</li>
+                                <li>Structured literature reviews</li>
+                            </ul>
+                        </div>
+                        <div class="tool-card">
+                            <h4>YouChat</h4>
+                            <p>Cost: Free</p>
+                            <ul>
+                                <li>AI chat with web search</li>
+                                <li>Real-time information</li>
+                                <li>Source attribution</li>
+                                <li>Simplified research</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>AI Browser Extensions for Freelancers</h3>
+                <p>These browser extensions can dramatically enhance your productivity throughout the workday:</p>
+                
+                <div class="extension-grid">
+                    <div class="extension-card">
+                        <h4>Bardeen</h4>
+                        <p>AI-powered automations that connect your browser to 40+ apps</p>
+                    </div>
+                    <div class="extension-card">
+                        <h4>Compose AI</h4>
+                        <p>AI writing assistant that works in any text field across the web</p>
+                    </div>
+                    <div class="extension-card">
+                        <h4>Merlin</h4>
+                        <p>ChatGPT-powered assistant accessible anywhere on the web</p>
+                    </div>
+                    <div class="extension-card">
+                        <h4>Glasp</h4>
+                        <p>AI-enhanced web highlighter and note-taking tool</p>
+                    </div>
+                </div>
+
+                <h3>AI for Client Relationship Management</h3>
+                <p>Managing client relationships is crucial for freelancers. These AI tools can help:</p>
+                
+                <ul>
+                    <li><strong>Streak for Gmail:</strong> AI-powered CRM that lives in your inbox</li>
+                    <li><strong>Affinity:</strong> Relationship intelligence platform that tracks client interactions</li>
+                    <li><strong>Reclaim.ai:</strong> Smart calendar management for client meetings</li>
+                    <li><strong>Lyne.ai:</strong> Personalized cold outreach at scale</li>
+                </ul>
+
+                <h3>Building Automated Workflows</h3>
+                <p>The real power of AI productivity tools comes from connecting them into cohesive workflows. Here's an example:</p>
+                
+                <div class="workflow-example">
+                    <h4>Client Onboarding Workflow</h4>
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <p><strong>Trigger:</strong> Client signs contract (via HelloSign)</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <p><strong>Action:</strong> Zapier creates project in Notion/Asana</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <p><strong>Action:</strong> ChatGPT generates customized welcome email</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <p><strong>Action:</strong> Email sent to client via Gmail</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <p><strong>Action:</strong> Calendar invite sent for kick-off meeting</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                <p><strong>Action:</strong> Otter.ai scheduled to record meeting notes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3><i class="fas fa-tasks"></i> Practical Exercise: Set Up Your First AI Workflow</h3>
+                    <ol>
+                        <li>Sign up for Zapier (free plan)</li>
+                        <li>Connect Gmail and a note-taking app (Notion, Google Docs, etc.)</li>
+                        <li>Create a zap that automatically saves email attachments to your note-taking app</li>
+                        <li>Add a step that uses ChatGPT to summarize the content of the attachment</li>
+                        <li>Test your workflow with a sample email</li>
+                    </ol>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Productivity Tools</h3>
+                    <div class="quiz-question">
+                        <p>Which tool would be most helpful for automatically generating meeting notes and action items?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Zapier
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Notion AI
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Otter.ai
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                DALL-E 3
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>What is the key benefit of using AI automation tools in your freelance business?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                They're free to use
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                They're impressive to clients
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                They require no human oversight
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                They reduce time spent on repetitive tasks
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson4">
+            <h2 class="lesson-title">
+                <i class="fas fa-briefcase"></i>
+                Lesson 4: Creating Your AI Tool Stack
+            </h2>
+            <div class="lesson-content">
+                <p>Learn how to assemble a cohesive suite of AI tools tailored to your specific freelancing niche, and develop a workflow that maximizes efficiency and effectiveness.</p>
+                
+                <h3>The Concept of an AI Tool Stack</h3>
+                <p>An AI tool stack is a carefully selected collection of AI tools that work together to enhance your freelance business. A well-designed stack should:</p>
+                <ul>
+                    <li>Cover all aspects of your workflow</li>
+                    <li>Minimize overlap and redundancy</li>
+                    <li>Be cost-effective for your business stage</li>
+                    <li>Scale as your business grows</li>
+                    <li>Integrate well with each other</li>
+                </ul>
+                
+                <h3>Designing Your AI Tool Stack by Niche</h3>
+                
+                <div class="stack-grid">
+                    <div class="stack-card">
+                        <h4><i class="fas fa-pencil-alt"></i> Content Writers</h4>
+                        <div class="stack-tools">
+                            <div class="stack-tool">
+                                <span class="tool-name">ChatGPT</span>
+                                <span class="tool-purpose">Ideation, Outlines, Research</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Grammarly</span>
+                                <span class="tool-purpose">Editing, Proofreading</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Surfer SEO</span>
+                                <span class="tool-purpose">SEO Optimization</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">DALL-E 3</span>
+                                <span class="tool-purpose">Featured Images</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Notion AI</span>
+                                <span class="tool-purpose">Content Organization</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stack-card">
+                        <h4><i class="fas fa-paint-brush"></i> Graphic Designers</h4>
+                        <div class="stack-tools">
+                            <div class="stack-tool">
+                                <span class="tool-name">Midjourney</span>
+                                <span class="tool-purpose">Concept Generation</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Adobe Firefly</span>
+                                <span class="tool-purpose">Photoshop Integration</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Clipdrop</span>
+                                <span class="tool-purpose">Background Removal</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">ChatGPT</span>
+                                <span class="tool-purpose">Client Communication</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Runway</span>
+                                <span class="tool-purpose">Video Generation</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stack-card">
+                        <h4><i class="fas fa-code"></i> Web Developers</h4>
+                        <div class="stack-tools">
+                            <div class="stack-tool">
+                                <span class="tool-name">GitHub Copilot</span>
+                                <span class="tool-purpose">Code Generation</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">DALL-E 3</span>
+                                <span class="tool-purpose">Website Assets</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">ChatGPT</span>
+                                <span class="tool-purpose">Debug Help, Documentation</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Mixpanel</span>
+                                <span class="tool-purpose">User Analytics</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Perplexity</span>
+                                <span class="tool-purpose">Technical Research</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stack-card">
+                        <h4><i class="fas fa-chart-line"></i> Digital Marketers</h4>
+                        <div class="stack-tools">
+                            <div class="stack-tool">
+                                <span class="tool-name">ChatGPT</span>
+                                <span class="tool-purpose">Ad Copy, Emails</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">DALL-E 3</span>
+                                <span class="tool-purpose">Ad Creative</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Jasper</span>
+                                <span class="tool-purpose">Marketing Content</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Zapier</span>
+                                <span class="tool-purpose">Marketing Automation</span>
+                            </div>
+                            <div class="stack-tool">
+                                <span class="tool-name">Crystal</span>
+                                <span class="tool-purpose">Personality Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Building Your AI Tech Stack: A Strategic Approach</h3>
+                
+                <div class="strategy-steps">
+                    <div class="strategy-step">
+                        <h4>Step 1: Audit Your Current Workflow</h4>
+                        <p>Start by mapping out your current workflow and identifying:</p>
+                        <ul>
+                            <li>Time-consuming tasks</li>
+                            <li>Repetitive processes</li>
+                            <li>Creative bottlenecks</li>
+                            <li>Client communication touchpoints</li>
+                            <li>Administrative work</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-step">
+                        <h4>Step 2: Prioritize Areas for AI Enhancement</h4>
+                        <p>Evaluate each area based on:</p>
+                        <ul>
+                            <li>Potential time savings</li>
+                            <li>Quality improvement opportunities</li>
+                            <li>Cost of implementation</li>
+                            <li>Learning curve</li>
+                            <li>Client impact</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-step">
+                        <h4>Step 3: Research and Select Tools</h4>
+                        <p>For each priority area, select tools based on:</p>
+                        <ul>
+                            <li>Core functionality</li>
+                            <li>Integration capabilities</li>
+                            <li>Pricing model</li>
+                            <li>User reviews</li>
+                            <li>Future development roadmap</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-step">
+                        <h4>Step 4: Implementation and Testing</h4>
+                        <p>Start small and expand:</p>
+                        <ul>
+                            <li>Begin with free trials</li>
+                            <li>Test on non-client projects first</li>
+                            <li>Document process improvements</li>
+                            <li>Track time and quality metrics</li>
+                            <li>Gather feedback</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="strategy-step">
+                        <h4>Step 5: Continuous Optimization</h4>
+                        <p>Regularly review and improve:</p>
+                        <ul>
+                            <li>Monthly tool performance reviews</li>
+                            <li>Explore new AI advancements</li>
+                            <li>Adjust based on client feedback</li>
+                            <li>Optimize prompts and workflows</li>
+                            <li>Share learnings with other freelancers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Cost Management for AI Tools</h3>
+                <p>Managing costs is essential, especially for new freelancers. Here are some strategies:</p>
+                
+                <div class="cost-strategies">
+                    <div class="cost-strategy">
+                        <h4>Budget-Friendly Approach</h4>
+                        <ul>
+                            <li>Start with free tiers of essential tools</li>
+                            <li>Use ChatGPT as a multipurpose tool</li>
+                            <li>Upgrade only when ROI is clear</li>
+                            <li>Look for annual payment discounts</li>
+                            <li>Share subscriptions with other freelancers (when permitted)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cost-strategy">
+                        <h4>Calculating ROI</h4>
+                        <p>For each tool, calculate:</p>
+                        <div class="code-example">
+                            <pre>ROI = (Time Saved × Hourly Rate - Monthly Tool Cost) / Monthly Tool Cost</pre>
+                        </div>
+                        <p>Example: If a $20/month tool saves you 3 hours per month and your rate is $50/hour:</p>
+                        <div class="code-example">
+                            <pre>ROI = (3 × $50 - $20) / $20 = $130 / $20 = 6.5 (650% ROI)</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Minimum Viable Stack</h3>
+                <p>If you're just starting out, here's a minimum viable AI tool stack for freelancers:</p>
+                
+                <div class="mvp-stack">
+                    <div class="mvp-tool">
+                        <h4>ChatGPT (Free or $20/month)</h4>
+                        <p>Core multipurpose AI for writing, brainstorming, research, and more</p>
+                    </div>
+                    
+                    <div class="mvp-tool">
+                        <h4>DALL-E via ChatGPT Plus ($20/month included)</h4>
+                        <p>Image generation for marketing materials and client deliverables</p>
+                    </div>
+                    
+                    <div class="mvp-tool">
+                        <h4>Zapier (Free tier)</h4>
+                        <p>Basic automation between your essential apps and services</p>
+                    </div>
+                    
+                    <div class="mvp-tool">
+                        <h4>Otter.ai (Free tier)</h4>
+                        <p>Transcription for client calls and meeting notes</p>
+                    </div>
+                </div>
+
+                <div class="final-project">
+                    <h3><i class="fas fa-graduation-cap"></i> Module Final Project: Design Your Personal AI Stack</h3>
+                    <div class="project-instructions">
+                        <p>Create a detailed plan for your personal AI tool stack that addresses your specific freelancing needs.</p>
+                        
+                        <div class="project-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Document Your Current Workflow</h4>
+                                <p>Map out your existing workflow and identify:</p>
+                                <ul>
+                                    <li>Time-consuming repetitive tasks</li>
+                                    <li>Creative bottlenecks</li>
+                                    <li>Client communication pain points</li>
+                                    <li>Administrative work that could be automated</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="project-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Select Your AI Tools</h4>
+                                <p>Choose 3-5 AI tools that address your specific needs. For each tool, explain:</p>
+                                <ul>
+                                    <li>What problem it solves in your workflow</li>
+                                    <li>How it integrates with other tools</li>
+                                    <li>Cost and expected ROI</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="project-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Design an Automated Workflow</h4>
+                                <p>Create at least one automated workflow connecting multiple tools. Detail:</p>
+                                <ul>
+                                    <li>The trigger event that starts the automation</li>
+                                    <li>Each step in the process</li>
+                                    <li>How data flows between tools</li>
+                                    <li>The end result and time saved</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="project-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Implementation Plan</h4>
+                                <p>Create a timeline for implementing your AI stack, including:</p>
+                                <ul>
+                                    <li>Learning curve considerations</li>
+                                    <li>Budget allocation</li>
+                                    <li>Phase-by-phase rollout strategy</li>
+                                    <li>Success metrics for each phase</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-submission">
+                        <h4>Submission Guidelines</h4>
+                        <p>Your final project submission should include:</p>
+                        <ul>
+                            <li>A written document (2-3 pages) outlining your AI tool stack plan</li>
+                            <li>A visual workflow diagram showing how your tools connect</li>
+                            <li>A budget spreadsheet with costs and projected ROI</li>
+                        </ul>
+                        <div class="file-upload">
+                            <p>Upload your completed project as a PDF or ZIP file:</p>
+                            <input type="file" id="project-file" accept=".pdf,.zip,.doc,.docx">
+                            <label for="project-file">Choose File</label>
+                            <button onclick="submitProject()" class="submit-btn">Submit Project</button>
+                            <div class="submission-status"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-container module-quiz" style="display: none;">
+                    <h3>Module Completion Quiz</h3>
+                    <div class="quiz-question">
+                        <p>What is the most important factor to consider when building your AI tool stack?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Using the newest and most advanced AI tools
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Minimizing costs above all else
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Addressing your specific workflow needs and pain points
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Impressing clients with cutting-edge technology
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>When calculating the ROI of an AI tool, what is the correct formula?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Monthly Tool Cost ÷ Hourly Rate
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                (Time Saved × Hourly Rate - Monthly Tool Cost) ÷ Monthly Tool Cost
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Monthly Tool Cost × Time Saved
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Hourly Rate - Monthly Tool Cost
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>Which of these is NOT a recommended strategy for managing AI tool costs?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Starting with free tiers of essential tools
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Looking for annual payment discounts
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Subscribing to every AI tool at once to test them
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Upgrading only when ROI is clear
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>What is the most versatile AI tool that can serve multiple purposes for freelancers on a budget?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                ChatGPT
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Zapier
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Midjourney
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Notion AI
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="module-complete-message hidden">
+                        <h3><i class="fas fa-trophy"></i> Congratulations!</h3>
+                        <p>You've completed Module 2: Essential AI Tools for Freelancers</p>
+                        <a href="javascript:void(0)" onclick="markModuleComplete(2); window.location.href='tutorial1-module3.html'" class="next-module-btn">Continue to Module 3</a>
+                    </div>
+                </div>
+
+                <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial1-module3.html')" class="next-lesson">
+                    Continue to Module 3
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="module-progress">
+        <h3>Module Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+        <p><span class="completed-count">0</span>/4 Lessons Complete</p>
+    </div>
+
+    <script>
+        const STORAGE_KEY = "ai_freelancing_progress";
+        
+        // Initialize progress tracking
+        function initializeProgress() {
+            if (!localStorage.getItem(STORAGE_KEY)) {
+                const initialProgress = {
+                    completedModules: [],
+                    currentModule: 1,
+                    lastVisited: new Date().toISOString()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(initialProgress));
+            }
+            
+            checkModuleProgress();
+        }
+        
+        // Check module progress
+        function checkModuleProgress() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            document.querySelectorAll('.nav-link').forEach((link, index) => {
+                if (index > 0 && index < 6) { // Skip home and complete links
+                    const moduleNumber = index;
+                    if (progress.completedModules.includes(moduleNumber)) {
+                        link.classList.add('completed');
+                        link.innerHTML = link.innerHTML.replace('<i class="fas ', '<i class="fas fa-check ');
+                    }
+                }
+            });
+        }
+        
+        // Handle navigation between modules
+        function handleNavigation(targetModule) {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            // Allow navigation to current module or any completed module
+            return targetModule <= progress.currentModule || progress.completedModules.includes(targetModule);
+        }
+        
+        // Mark module as complete
+        function markModuleComplete(moduleNumber) {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (!progress.completedModules.includes(moduleNumber)) {
+                progress.completedModules.push(moduleNumber);
+                
+                // Set next module as current if this was the current module
+                if (progress.currentModule === moduleNumber) {
+                    progress.currentModule = moduleNumber + 1;
+                }
+                
+                progress.lastVisited = new Date().toISOString();
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            }
+        }
+        
+        // Function to handle quiz option selection
+        function selectOption(option) {
+            // Get all options in the same question
+            const questionDiv = option.closest('.quiz-question');
+            const options = questionDiv.querySelectorAll('.quiz-option');
+            const feedback = questionDiv.querySelector('.quiz-feedback');
+            
+            // Remove selection from other options
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Add selected class to clicked option
+            option.classList.add('selected');
+            
+            // Check if option is correct
+            const isCorrect = option.hasAttribute('data-correct');
+            
+            // Update feedback
+            if (isCorrect) {
+                option.classList.add('correct');
+                feedback.textContent = "Correct!";
+                feedback.className = "quiz-feedback correct";
+                
+                // Check if this is the last question of the module quiz
+                const isModuleQuiz = option.closest('.module-quiz');
+                if (isModuleQuiz) {
+                    const allQuestions = isModuleQuiz.querySelectorAll('.quiz-question');
+                    const allCorrect = Array.from(allQuestions).every(q => {
+                        const selectedOption = q.querySelector('.quiz-option.selected');
+                        return selectedOption && selectedOption.hasAttribute('data-correct');
+                    });
+                    
+                    if (allCorrect) {
+                        const completeMessage = isModuleQuiz.querySelector('.module-complete-message');
+                        if (completeMessage) {
+                            completeMessage.classList.remove('hidden');
+                        }
+                    }
+                }
+                
+                // Track lesson progress
+                trackLessonProgress(option);
+            } else {
+                option.classList.add('incorrect');
+                feedback.textContent = "Try again";
+                feedback.className = "quiz-feedback incorrect";
+            }
+        }
+        
+        // Track lesson progress
+        function trackLessonProgress(element) {
+            const lessonSection = element.closest('.lesson-section');
+            if (lessonSection) {
+                const lessonId = lessonSection.id;
+                const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module2Progress')) || [];
+                
+                if (!moduleProgress.includes(lessonId)) {
+                    moduleProgress.push(lessonId);
+                    localStorage.setItem('tutorial1_module2Progress', JSON.stringify(moduleProgress));
+                    updateProgressUI();
+                }
+            }
+        }
+        
+        // Update progress UI
+        function updateProgressUI() {
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module2Progress')) || [];
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalLessons = 4;
+            
+            const newPercentage = (moduleProgress.length / totalLessons) * 100;
+            progressFill.style.width = `${newPercentage}%`;
+            completedCount.textContent = moduleProgress.length;
+        }
+        
+        // Project submission
+        function submitProject() {
+            const fileInput = document.getElementById('project-file');
+            const statusDiv = document.querySelector('.submission-status');
+            
+            if (fileInput.files.length === 0) {
+                statusDiv.textContent = 'Please select a file to submit';
+                statusDiv.className = 'submission-status error';
+                return;
+            }
+            
+            // Simulate file upload
+            statusDiv.textContent = 'Uploading...';
+            statusDiv.className = 'submission-status';
+            
+            setTimeout(() => {
+                statusDiv.textContent = 'Project submitted successfully!';
+                statusDiv.className = 'submission-status success';
+                
+                // Mark lesson as complete
+                const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module2Progress')) || [];
+                if (!moduleProgress.includes('lesson4')) {
+                    moduleProgress.push('lesson4');
+                    localStorage.setItem('tutorial1_module2Progress', JSON.stringify(moduleProgress));
+                    updateProgressUI();
+                }
+                
+                // Show module completion message and mark module as complete
+                const quizContainer = document.querySelector('.module-quiz');
+                if (quizContainer) {
+                    const completeMessage = quizContainer.querySelector('.module-complete-message');
+                    if (completeMessage) {
+                        completeMessage.classList.remove('hidden');
+                    }
+                }
+                
+                // Automatically mark the module as complete upon project submission
+                markModuleComplete(2);
+            }, 1500);
+        }
+        
+        // Copy buttons for code examples
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.previousElementSibling;
+                const textToCopy = codeBlock.textContent;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = "Copied!";
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeProgress();
+            updateProgressUI();
+        });
+    </script>
+</body>
+</html> 

@@ -146,17 +146,7 @@ function closeModal() {
 function checkPaymentStatus() {
     const paymentData = JSON.parse(localStorage.getItem('paymentData'));
     if (!paymentData) return false;
-
-    const now = new Date().getTime();
-    const thirtyDays = 30 * 24 * 60 * 60 * 1000;
-    const paymentAge = now - paymentData.timestamp;
-
-    if (paymentAge > thirtyDays) {
-        localStorage.removeItem('paymentData');
-        return false;
-    }
-
-    return true;
+    return true; // Always return true if payment data exists (lifetime access)
 }
 
 function enableAccessToTutorial(tutorialId) {
@@ -268,30 +258,13 @@ function enableAccess(tutorialId) {
 // Function to check payment status and enable access
 function checkPaymentStatus(tutorialId) {
     const paymentStatus = localStorage.getItem('paymentStatus');
-    const paymentDate = parseInt(localStorage.getItem('paymentDate'));
     const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
     const allAccess = localStorage.getItem('allAccess') === 'true';
     
-    // Check if payment is still valid (within 30 days)
-    const now = new Date().getTime();
-    const thirtyDays = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
-    const paymentAge = now - paymentDate;
-    
-    if (paymentAge > thirtyDays) {
-        // Payment expired
-        localStorage.removeItem('paymentStatus');
-        localStorage.removeItem('paymentDate');
-        localStorage.removeItem('allAccess');
-        localStorage.removeItem('purchasedTutorials');
-        showMessage('Your access has expired. Please purchase again to continue.', 'error');
-        showModal(tutorialId);
-        return;
-    }
-
     if (allAccess || purchasedTutorials.includes(tutorialId)) {
         enableAccess(tutorialId);
     } else {
-        showMessage('Please purchase access to view this tutorial', 'error');
+        showMessage('Please purchase access to view this tutorial', 'info');
         showModal(tutorialId);
     }
 }
@@ -361,7 +334,7 @@ function initializePayPal() {
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: '2.99',
+                                value: '7.99',
                                 currency_code: 'USD'
                             },
                             description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
@@ -397,7 +370,7 @@ function initializePayPal() {
                         enableAccess(currentTutorialId);
                         
                         // Show success message
-                        showMessage('Payment successful! You now have access to this tutorial for 30 days.', 'success');
+                        showMessage('Payment successful! You now have lifetime access to this tutorial.', 'success');
                         closeModal();
                     });
                 },
@@ -418,7 +391,7 @@ function initializePayPal() {
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: '7.99',
+                                value: '19.99',
                                 currency_code: 'USD'
                             },
                             description: 'Access to All 5 AI Money-Making Tutorials'
@@ -447,7 +420,7 @@ function initializePayPal() {
                         enableAccessToAllTutorials();
                         
                         // Show success message
-                        showMessage('Payment successful! You now have access to all tutorials for 30 days.', 'success');
+                        showMessage('Payment successful! You now have lifetime access to all tutorials.', 'success');
                         closeModal();
                     });
                 },

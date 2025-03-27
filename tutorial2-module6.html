@@ -622,8 +622,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get completed lessons from localStorage
-            const moduleProgress = JSON.parse(localStorage.getItem('module6Progress')) || [];
+            // Get all module progress from localStorage
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial2_module6Progress')) || [];
+            const lessonProgress = JSON.parse(localStorage.getItem('tutorial2_module6LessonProgress')) || {};
             
             // Update progress bar
             const progressFill = document.querySelector('.progress-fill');
@@ -665,7 +666,7 @@
                             const lessonId = lessonSection.id;
                             if (!moduleProgress.includes(lessonId)) {
                                 moduleProgress.push(lessonId);
-                                localStorage.setItem('module6Progress', JSON.stringify(moduleProgress));
+                                localStorage.setItem('tutorial2_module6Progress', JSON.stringify(moduleProgress));
                                 const newPercentage = (moduleProgress.length / totalLessons) * 100;
                                 progressFill.style.width = `${newPercentage}%`;
                                 completedCount.textContent = moduleProgress.length;
@@ -695,7 +696,7 @@
                 
                 if (!moduleProgress.includes('lesson4')) {
                     moduleProgress.push('lesson4');
-                    localStorage.setItem('module6Progress', JSON.stringify(moduleProgress));
+                    localStorage.setItem('tutorial2_module6Progress', JSON.stringify(moduleProgress));
                     const newPercentage = (moduleProgress.length / totalLessons) * 100;
                     progressFill.style.width = `${newPercentage}%`;
                     completedCount.textContent = moduleProgress.length;

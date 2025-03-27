@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Building Your Service Portfolio - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .progress-tracker {
+            display: none;
+        }
+
+        .progress-container {
+            display: none;
+        }
+
+        .progress-step {
+            display: none;
+        }
+
+        .progress-line {
+            display: none;
+        }
+
+        .progress-line-fill {
+            display: none;
+        }
+
+        .back-to-home {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            transform: scale(1.05);
+        }
+
+        .back-to-home i {
+            margin-right: 0.5rem;
+        }
+
+        .module-content {
+            max-width: 1000px;
+            margin: 100px auto 40px;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .module-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .lesson-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+
+        .lesson-content {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .lesson-content h3 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .lesson-content h3:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 1.2em;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .lesson-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .lesson-content li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .practical-exercise {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .exercise-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .exercise-steps {
+            list-style: none;
+        }
+
+        .exercise-steps li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .exercise-steps li i {
+            margin-right: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        .next-lesson {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .next-lesson:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-lesson i {
+            margin-left: 0.5rem;
+        }
+
+        .next-lesson.disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.7;
+        }
+
+        .next-lesson.disabled:hover {
+            transform: none;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .code-example {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-example pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .ai-demo {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .ai-demo-step {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .ai-demo-step .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .progress-indicator h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .lesson-complete {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #4CAF50;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .term-grid, .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .term-card, .tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .term-card:hover, .tool-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .term-card h4, .tool-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .project-submission {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 2px dashed var(--accent-color);
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload label {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .file-upload label:hover {
+            transform: scale(1.05);
+        }
+
+        .submission-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .submission-status.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .submission-status.error {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .resource-link i {
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .module-progress {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+            width: 250px;
+        }
+
+        .module-progress h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lesson-progress {
+            margin: 1rem 0;
+        }
+
+        .lesson-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-status i {
+            color: #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-status.completed i {
+            color: #4CAF50;
+        }
+
+        .lesson-status:hover {
+            background: #f8f9fa;
+        }
+
+        .top-nav {
+            background: #1a1a1a;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: center;
+            height: 60px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+        }
+
+        .module-content {
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="tutorial1.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="tutorial1-module1.html" class="nav-link">
+            <i class="fas fa-briefcase"></i>
+            Module 1
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial1-module2.html')" class="nav-link">
+            <i class="fas fa-laptop-code"></i>
+            Module 2
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial1-module3.html')" class="nav-link active">
+            <i class="fas fa-search-dollar"></i>
+            Module 3
+        </a>
+        <a href="tutorial1-module4.html" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Module 4
+        </a>
+        <a href="tutorial1.html" class="nav-link">
+            <i class="fas fa-check-circle"></i>
+            Complete
+        </a>
+    </nav>
+
+    <div class="module-content">
+        <div class="module-header">
+            <h1 class="module-title">Module 3: Building Your Service Portfolio</h1>
+            <p class="module-description">Develop a compelling portfolio of AI-enhanced freelance services that showcase your expertise and attract high-value clients.</p>
+        </div>
+
+        <div class="lesson-section" id="lesson1">
+            <h2 class="lesson-title">
+                <i class="fas fa-search"></i>
+                Lesson 1: Identifying Profitable AI Service Niches
+            </h2>
+            <div class="lesson-content">
+                <p>In this lesson, we'll explore how to identify lucrative service niches where AI can give you a competitive advantage. Finding the right niche is crucial for standing out in the freelance marketplace and commanding premium rates.</p>
+                
+                <h3>Why Niche Specialization Matters</h3>
+                <p>As an AI-powered freelancer, specializing in a specific niche allows you to:</p>
+                <ul>
+                    <li><strong>Command higher rates</strong> due to specialized expertise</li>
+                    <li><strong>Reduce competition</strong> by focusing on underserved markets</li>
+                    <li><strong>Build deeper domain knowledge</strong> that AI tools can enhance</li>
+                    <li><strong>Develop repeatable processes</strong> for efficiency and scalability</li>
+                    <li><strong>Create a recognizable personal brand</strong> as the go-to expert</li>
+                </ul>
+
+                <h3>High-Demand AI Service Categories</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Content Creation & Optimization</h4>
+                        <p>AI-powered blog writing, SEO content, email sequences, social media content, video scripts</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Data Analysis & Visualization</h4>
+                        <p>Market research reports, data cleaning, dashboard creation, trend analysis, competitive intelligence</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Visual & Creative Services</h4>
+                        <p>AI-generated graphics, logo design, custom illustrations, product mockups, presentation designs</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Business Automation</h4>
+                        <p>Workflow optimization, chatbot creation, customer service automation, lead generation systems</p>
+                    </div>
+                </div>
+
+                <h3>Evaluating Niche Profitability</h3>
+                <p>When selecting your AI service niche, evaluate each potential area using these five criteria:</p>
+                
+                <div class="ai-demo">
+                    <div class="ai-demo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Market Demand</h4>
+                            <p>Research platforms like Upwork, Fiverr, and LinkedIn to identify services with consistent demand. Look for:</p>
+                            <ul>
+                                <li>High number of job postings</li>
+                                <li>Recurring project needs (not one-off tasks)</li>
+                                <li>Businesses actively seeking solutions in this area</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>AI Advantage</h4>
+                            <p>Assess how effectively AI tools can enhance service delivery:</p>
+                            <ul>
+                                <li>Does AI significantly speed up the work process?</li>
+                                <li>Can AI improve the quality of deliverables?</li>
+                                <li>Is there a clear "before and after" AI difference clients would value?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Competition Analysis</h4>
+                            <p>Examine the competitive landscape:</p>
+                            <ul>
+                                <li>How many freelancers offer similar services?</li>
+                                <li>What are their pricing tiers?</li>
+                                <li>Are they explicitly advertising AI-enhanced services?</li>
+                                <li>Can you identify gaps or underserved sub-niches?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Profit Potential</h4>
+                            <p>Calculate potential earnings:</p>
+                            <ul>
+                                <li>Average rate for the service in the market</li>
+                                <li>Time saved using AI tools (your time cost)</li>
+                                <li>Costs of AI tools and other resources needed</li>
+                                <li>Potential for package offerings or retainer arrangements</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Your Interest & Expertise</h4>
+                            <p>Consider personal factors:</p>
+                            <ul>
+                                <li>Your existing skills and knowledge in the area</li>
+                                <li>Learning curve for relevant AI tools</li>
+                                <li>Your genuine interest in the subject matter</li>
+                                <li>Long-term sustainability and growth potential</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Niche Research Techniques</h3>
+                <p>Use these practical methods to validate your niche ideas:</p>
+
+                <div class="code-example">
+                    <pre>// Upwork Keyword Research Script
+// Use in browser console on Upwork search page
+
+// Function to count keyword occurrences in job titles
+function analyzeJobTitles() {
+  const jobTitles = Array.from(document.querySelectorAll('.job-title'));
+  const keywords = {};
+  
+  jobTitles.forEach(title => {
+    const text = title.textContent.toLowerCase();
+    const words = text.split(/\s+/);
+    
+    words.forEach(word => {
+      if (word.length > 3) { // Ignore short words
+        keywords[word] = (keywords[word] || 0) + 1;
+      }
+    });
+  });
+  
+  // Sort by occurrence
+  return Object.entries(keywords)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 20); // Top 20 keywords
+}
+
+console.table(analyzeJobTitles());</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <p>Additional research methods include:</p>
+                <ul>
+                    <li><strong>Google Trends analysis</strong> of industry keywords</li>
+                    <li><strong>LinkedIn polls</strong> asking about business pain points</li>
+                    <li><strong>Reddit subreddit exploration</strong> for industry discussions</li>
+                    <li><strong>SaaS review sites</strong> to identify tools businesses are using</li>
+                    <li><strong>Industry reports</strong> highlighting emerging needs</li>
+                </ul>
+
+                <h3>Promising Sub-Niches for AI Freelancers</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>E-commerce Product Description Writer</h4>
+                        <p>Use AI to generate compelling product descriptions that boost conversion rates</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>AI-Enhanced Email Marketing Specialist</h4>
+                        <p>Create high-performing email sequences with personalized content</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Podcast Repurposing Expert</h4>
+                        <p>Transform podcast episodes into blog posts, social content, and newsletters</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>AI-Powered SEO Content Strategist</h4>
+                        <p>Develop content plans that rank well while maintaining high quality</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Video Script Optimization Specialist</h4>
+                        <p>Create and improve scripts for YouTube, social media, and ad videos</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Chatbot Development Consultant</h4>
+                        <p>Design, train, and deploy customer service and lead generation chatbots</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Service Niche Selection</h3>
+                    <div class="quiz-question">
+                        <p>What is the most important factor to consider when evaluating an AI service niche?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                How many other freelancers are in the niche
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                The intersection of market demand and AI advantage
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                The lowest barrier to entry
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                The latest trending AI technology
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>Why is niche specialization particularly effective for AI freelancers?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                It allows you to use less expensive AI tools
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                It guarantees immediate success
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                It enables you to develop specialized AI workflows and domain expertise
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                It prevents competitors from entering your market
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3><i class="fas fa-tasks"></i> Practical Exercise: Niche Market Research</h3>
+                    <ol class="exercise-steps">
+                        <li><i class="fas fa-check-circle"></i> List 3-5 service areas where you have existing skills or interest</li>
+                        <li><i class="fas fa-check-circle"></i> Research each on Upwork, Fiverr, and LinkedIn to gauge demand</li>
+                        <li><i class="fas fa-check-circle"></i> For the top 2 candidates, identify at least 5 specific AI tools that could enhance service delivery</li>
+                        <li><i class="fas fa-check-circle"></i> Analyze 10 competitor profiles and identify gaps in their offerings</li>
+                        <li><i class="fas fa-check-circle"></i> Create a one-page summary of your chosen niche with market research findings</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson2">
+            <h2 class="lesson-title">
+                <i class="fas fa-cubes"></i>
+                Lesson 2: Creating AI-Enhanced Service Packages
+            </h2>
+            <div class="lesson-content">
+                <p>In this lesson, we'll learn how to develop structured service offerings that highlight your AI capabilities and provide clear value to clients. Well-designed service packages make your offerings easy to understand, purchase, and deliver.</p>
+                
+                <h3>The Psychology of Service Packaging</h3>
+                <p>Effective service packages accomplish several important goals:</p>
+                <ul>
+                    <li><strong>Simplify decision-making</strong> for clients by providing clear options</li>
+                    <li><strong>Establish perceived value</strong> before price discussions begin</li>
+                    <li><strong>Create upsell opportunities</strong> through tiered offerings</li>
+                    <li><strong>Set clear expectations</strong> about deliverables and timelines</li>
+                    <li><strong>Position you as an organized professional</strong> with established processes</li>
+                </ul>
+
+                <h3>Core Components of an AI-Enhanced Service Package</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Service Name & Positioning</h4>
+                        <p>A catchy, benefit-oriented name that emphasizes AI-driven results</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Problem Statement</h4>
+                        <p>Clear articulation of the pain point your service solves</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Solution Overview</h4>
+                        <p>How your AI-enhanced approach delivers superior results</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Deliverables</h4>
+                        <p>Specific, tangible outputs clients will receive</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Process Description</h4>
+                        <p>Step-by-step explanation of your methodology</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Pricing Structure</h4>
+                        <p>Clear, value-based pricing with package options</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Timeframe</h4>
+                        <p>Expected turnaround time and project milestones</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>AI Advantage Statement</h4>
+                        <p>Explicit explanation of how AI improves the result</p>
+                    </div>
+                </div>
+
+                <h3>Tiered Package Structures</h3>
+                <p>Most successful freelancers offer multiple service tiers to accommodate different client needs and budgets. The classic three-tier model includes:</p>
+                
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Basic Package</h4>
+                        <p><strong>Purpose:</strong> Entry point for budget-conscious clients</p>
+                        <ul>
+                            <li>Core deliverable only</li>
+                            <li>Limited revisions (1-2)</li>
+                            <li>Standard turnaround time</li>
+                            <li>Essential AI features</li>
+                            <li>Minimal customization</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Standard Package</h4>
+                        <p><strong>Purpose:</strong> Your primary offering (most should buy this)</p>
+                        <ul>
+                            <li>Core deliverable plus extras</li>
+                            <li>More revisions (2-3)</li>
+                            <li>Faster turnaround</li>
+                            <li>Advanced AI features</li>
+                            <li>Moderate customization</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Premium Package</h4>
+                        <p><strong>Purpose:</strong> Comprehensive solution for serious clients</p>
+                        <ul>
+                            <li>All deliverables + exclusive bonuses</li>
+                            <li>Unlimited revisions</li>
+                            <li>Priority turnaround</li>
+                            <li>Most advanced AI applications</li>
+                            <li>Full customization</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Pricing Your AI Services</h3>
+                <p>Setting prices for AI-enhanced services requires balancing several factors:</p>
+                
+                <div class="ai-demo">
+                    <div class="ai-demo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Value-Based Calculation</h4>
+                            <p>The fundamental formula:</p>
+                            <div class="code-example">
+                                <pre>Service Price = Value to Client × Value Capture Percentage
+
+For example:
+- Your SEO content service helps a client gain 10 new customers
+- Each customer is worth $500 to them = $5,000 value
+- Your value capture is 10% = $500 service price</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Cost-Plus Calculation (Floor Price)</h4>
+                            <p>Your minimum viable price:</p>
+                            <div class="code-example">
+                                <pre>Floor Price = (Hours × Hourly Rate) + AI Tool Costs + Other Expenses + Profit Margin
+
+For example:
+- 5 hours at $50/hr = $250
+- AI tool costs = $30
+- Other expenses = $20
+- 30% profit margin = $90
+- Floor price = $390</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Competitive Analysis</h4>
+                            <p>Market research on similar services:</p>
+                            <ul>
+                                <li>Low-end competitor range: $X - $Y</li>
+                                <li>Mid-range competitor range: $Y - $Z</li>
+                                <li>Premium competitor range: $Z+</li>
+                                <li>Identify where your AI advantage positions you</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Price Psychology</h4>
+                            <p>Apply these pricing strategies:</p>
+                            <ul>
+                                <li>Use the "Rule of Three" pricing tiers</li>
+                                <li>Price in 9's ($497 instead of $500)</li>
+                                <li>Add high-value, low-cost bonuses</li>
+                                <li>Offer money-back guarantees to reduce risk</li>
+                                <li>Create scarcity with limited availability</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Example Service Package: AI-Powered SEO Content Creation</h3>
+                
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Basic: SEO Foundation</h4>
+                        <p><strong>Price:</strong> $297</p>
+                        <ul>
+                            <li>1 SEO-optimized article (1,500 words)</li>
+                            <li>Keyword research (5 primary keywords)</li>
+                            <li>Basic on-page SEO elements</li>
+                            <li>1 revision round</li>
+                            <li>7-day delivery</li>
+                        </ul>
+                        <p><strong>AI Advantage:</strong> AI-powered keyword research and content optimization</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Standard: SEO Growth</h4>
+                        <p><strong>Price:</strong> $597</p>
+                        <ul>
+                            <li>1 SEO-optimized article (2,500 words)</li>
+                            <li>Comprehensive keyword research (10+ keywords)</li>
+                            <li>Advanced on-page SEO optimization</li>
+                            <li>2 revision rounds</li>
+                            <li>5-day delivery</li>
+                            <li>Meta description and title tag options</li>
+                            <li>Internal linking strategy</li>
+                        </ul>
+                        <p><strong>AI Advantage:</strong> Advanced semantic analysis and competitor content benchmarking</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Premium: SEO Domination</h4>
+                        <p><strong>Price:</strong> $997</p>
+                        <ul>
+                            <li>1 pillar SEO-optimized article (3,500+ words)</li>
+                            <li>3 supporting articles (1,000 words each)</li>
+                            <li>Complete keyword ecosystem mapping</li>
+                            <li>Schema markup recommendations</li>
+                            <li>Unlimited revisions</li>
+                            <li>3-day delivery</li>
+                            <li>Content promotion strategy</li>
+                            <li>30-day ranking performance report</li>
+                        </ul>
+                        <p><strong>AI Advantage:</strong> Comprehensive content cluster analysis and predictive ranking intelligence</p>
+                    </div>
+                </div>
+
+                <h3>Presenting Your AI Advantage</h3>
+                <p>When describing your service packages, be explicit about how AI enhances your offering:</p>
+                
+                <div class="code-example">
+                    <pre>Rather than just saying:
+"I'll write an SEO article for your website."
+
+Say:
+"Using advanced AI content analysis tools, I'll create an SEO-optimized article that addresses the exact questions your target audience is asking, incorporates semantic keywords that Google prioritizes, and matches the content depth of top-ranking competitors—all while maintaining your unique brand voice."</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Service Packaging</h3>
+                    <div class="quiz-question">
+                        <p>What is the recommended number of service tiers to offer clients?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                1 - Keep it simple
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                3 - Basic, Standard, and Premium
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                5 - Maximum choice for clients
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                2 - Just Budget and Premium
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>When calculating your floor price for an AI service, which of these is NOT included?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                AI tool costs
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Your hourly rate
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Competitor pricing
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Profit margin
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3><i class="fas fa-tasks"></i> Practical Exercise: Design Your Service Package</h3>
+                    <ol class="exercise-steps">
+                        <li><i class="fas fa-check-circle"></i> Select one AI-enhanced service from your chosen niche</li>
+                        <li><i class="fas fa-check-circle"></i> Create three tiered packages (Basic, Standard, Premium)</li>
+                        <li><i class="fas fa-check-circle"></i> List specific deliverables for each tier</li>
+                        <li><i class="fas fa-check-circle"></i> Calculate pricing using both value-based and cost-plus methods</li>
+                        <li><i class="fas fa-check-circle"></i> Write a compelling AI advantage statement for each tier</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson3">
+            <h2 class="lesson-title">
+                <i class="fas fa-briefcase"></i>
+                Lesson 3: Creating an Impressive Portfolio Showcasing AI Projects
+            </h2>
+            <div class="lesson-content">
+                <p>In this lesson, you'll learn how to build a compelling portfolio that demonstrates your AI-enhanced skills and capabilities. An effective portfolio is essential for attracting clients and justifying premium rates.</p>
+                
+                <h3>The Portfolio Paradox for New Freelancers</h3>
+                <p>Many new freelancers face this challenge: "How do I get clients without a portfolio, and how do I build a portfolio without clients?" Here's how to solve this paradox:</p>
+                <ul>
+                    <li><strong>Create sample projects</strong> specifically for your portfolio</li>
+                    <li><strong>Repurpose personal projects</strong> you've already completed</li>
+                    <li><strong>Offer pro bono work</strong> to select organizations in exchange for testimonials</li>
+                    <li><strong>Document your own freelance business setup</strong> as a case study</li>
+                    <li><strong>Collaborate with other freelancers</strong> on joint showcase projects</li>
+                </ul>
+
+                <h3>Essential Elements of an AI Freelancer Portfolio</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Case Studies</h4>
+                        <p>Detailed analyses of problems solved using AI solutions</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Before/After Examples</h4>
+                        <p>Visual or text comparisons showing AI improvements</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Process Documentation</h4>
+                        <p>Step-by-step breakdown of your AI-enhanced workflow</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Tool Expertise</h4>
+                        <p>Demonstration of specific AI tools you've mastered</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Results & Metrics</h4>
+                        <p>Quantifiable outcomes and improvements achieved</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Testimonials</h4>
+                        <p>Client feedback validating your expertise</p>
+                    </div>
+                </div>
+
+                <h3>Case Study Framework for AI Projects</h3>
+                <p>A well-structured case study should tell a compelling story about your AI-enhanced services. Use this framework:</p>
+                
+                <div class="ai-demo">
+                    <div class="ai-demo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Client Background & Challenge</h4>
+                            <p>Describe the client (or project if it's a sample) and their specific problem:</p>
+                            <ul>
+                                <li>Client industry and size</li>
+                                <li>The specific challenge they faced</li>
+                                <li>Previous approaches that failed</li>
+                                <li>Why this problem was significant to them</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Discovery & Analysis</h4>
+                            <p>Explain your approach to understanding the problem:</p>
+                            <ul>
+                                <li>Research methods used</li>
+                                <li>Data collected and analyzed</li>
+                                <li>Key insights discovered</li>
+                                <li>How AI tools enhanced your analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>AI-Enhanced Solution</h4>
+                            <p>Detail your solution with emphasis on AI elements:</p>
+                            <ul>
+                                <li>Overall strategy developed</li>
+                                <li>Specific AI tools and techniques applied</li>
+                                <li>How AI improved the traditional approach</li>
+                                <li>Implementation process and timeline</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Results & Impact</h4>
+                            <p>Document the outcomes with concrete metrics:</p>
+                            <ul>
+                                <li>Before and after comparisons</li>
+                                <li>Specific metrics improved</li>
+                                <li>Time or money saved</li>
+                                <li>Client testimonial or feedback</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Lessons & Insights</h4>
+                            <p>Share what you learned to demonstrate expertise:</p>
+                            <ul>
+                                <li>Challenges encountered and overcome</li>
+                                <li>Unexpected insights discovered</li>
+                                <li>AI techniques refined during the project</li>
+                                <li>Future recommendations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Sample Portfolio Project Ideas by Niche</h3>
+                
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Content Creation</h4>
+                        <ul>
+                            <li>Compare AI vs manual blog article creation</li>
+                            <li>Create a content strategy for a fictional company</li>
+                            <li>Demonstrate email sequence optimization</li>
+                            <li>Show SEO improvements through content restructuring</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Visual Design</h4>
+                        <ul>
+                            <li>Brand identity development using AI tools</li>
+                            <li>Product visualization transformations</li>
+                            <li>Social media template creation process</li>
+                            <li>Logo design variations for different applications</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Marketing Automation</h4>
+                        <ul>
+                            <li>Customer journey mapping and optimization</li>
+                            <li>Chatbot development for lead qualification</li>
+                            <li>Email personalization system implementation</li>
+                            <li>A/B testing framework with AI analysis</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Business Analysis</h4>
+                        <ul>
+                            <li>Competitive analysis dashboard creation</li>
+                            <li>Market trend forecasting with AI</li>
+                            <li>Business process optimization case study</li>
+                            <li>Customer feedback analysis and insights</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Portfolio Presentation Formats</h3>
+                <p>There are several ways to showcase your AI freelance portfolio:</p>
+                
+                <ul>
+                    <li><strong>Dedicated portfolio website</strong> - Most professional option, full creative control</li>
+                    <li><strong>PDF portfolio document</strong> - Easy to share, good for email outreach</li>
+                    <li><strong>Platform profiles</strong> - Upwork, Fiverr, LinkedIn portfolios</li>
+                    <li><strong>Case study blog posts</strong> - Great for SEO and showcasing thought leadership</li>
+                    <li><strong>Video demonstrations</strong> - Powerful for showing AI tools in action</li>
+                </ul>
+
+                <h3>Highlighting Your AI Skills Effectively</h3>
+                <p>When showcasing AI-enhanced work, follow these best practices:</p>
+                
+                <div class="code-example">
+                    <pre>// AI Freelancer Portfolio Checklist
+
+✓ BE SPECIFIC: Name the exact AI tools used in each project
+✓ SHOW PROCESS: Document your prompt engineering or AI workflow
+✓ QUANTIFY RESULTS: Use concrete metrics (time saved, improvement %)
+✓ COMPARE: Include before/after examples where possible
+✓ EDUCATE: Briefly explain the AI concepts in accessible terms
+✓ EMPHASIZE UNIQUE VALUE: Clarify what you add beyond the AI tools
+✓ BE HONEST: Don't claim the AI's work as purely your own creativity
+✓ SHOWCASE RANGE: Demonstrate versatility across different applications
+✓ UPDATE REGULARLY: Add new AI capabilities as you master them</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Portfolio Development</h3>
+                    <div class="quiz-question">
+                        <p>What is the most important element to include in an AI freelancer's portfolio case study?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Technical details about the AI algorithms used
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                How many hours you spent on the project
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Specific results and improvements achieved with AI
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                The specific prompt templates you used
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>How can new freelancers overcome the "no portfolio, no clients" paradox?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Only work for free until you have enough examples
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Create sample projects and case studies specifically for your portfolio
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Use other freelancers' work with their permission
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Focus only on platform ratings instead of a portfolio
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+
+                <div class="practical-exercise">
+                    <h3><i class="fas fa-tasks"></i> Practical Exercise: Create a Sample Case Study</h3>
+                    <ol class="exercise-steps">
+                        <li><i class="fas fa-check-circle"></i> Choose a service from your selected niche</li>
+                        <li><i class="fas fa-check-circle"></i> Create a fictional client scenario with a specific problem</li>
+                        <li><i class="fas fa-check-circle"></i> Document the step-by-step AI-enhanced solution you'd provide</li>
+                        <li><i class="fas fa-check-circle"></i> Include before/after examples and quantifiable results</li>
+                        <li><i class="fas fa-check-circle"></i> Format the case study using the framework provided</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson4">
+            <h2 class="lesson-title">
+                <i class="fas fa-expand-arrows-alt"></i>
+                Lesson 4: Scaling Your Service Portfolio with AI
+            </h2>
+            <div class="lesson-content">
+                <p>In this lesson, you'll learn how to strategically expand your service offerings using AI to increase revenue, attract more clients, and build a sustainable freelance business.</p>
+                
+                <h3>Strategic Portfolio Expansion</h3>
+                <p>Growing your service portfolio should be a deliberate process, not a random collection of services. Consider these expansion strategies:</p>
+                <ul>
+                    <li><strong>Vertical Expansion:</strong> Adding higher and lower-tier versions of your core service</li>
+                    <li><strong>Horizontal Expansion:</strong> Adding complementary services that serve the same client base</li>
+                    <li><strong>Specialized Expansion:</strong> Creating industry-specific versions of your core service</li>
+                    <li><strong>Outcome-Based Expansion:</strong> Developing services focused on specific client goals</li>
+                    <li><strong>Format Expansion:</strong> Offering the same service in different media or formats</li>
+                </ul>
+
+                <h3>The Service Expansion Matrix</h3>
+                <p>Use this matrix to identify strategic opportunities for adding new services:</p>
+                
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Before Your Core Service</h4>
+                        <p><strong>Examples:</strong></p>
+                        <ul>
+                            <li>Strategy sessions</li>
+                            <li>Assessments and audits</li>
+                            <li>Research and planning</li>
+                            <li>Consultation packages</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Your Core Service</h4>
+                        <p><strong>Expansion Ideas:</strong></p>
+                        <ul>
+                            <li>Express/rush delivery options</li>
+                            <li>Premium/advanced versions</li>
+                            <li>Industry-specific adaptations</li>
+                            <li>White-label versions for agencies</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>After Your Core Service</h4>
+                        <p><strong>Examples:</strong></p>
+                        <ul>
+                            <li>Implementation support</li>
+                            <li>Results analysis</li>
+                            <li>Ongoing maintenance</li>
+                            <li>Performance reporting</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Adjacent to Your Core Service</h4>
+                        <p><strong>Examples:</strong></p>
+                        <ul>
+                            <li>Complementary deliverables</li>
+                            <li>Related skill applications</li>
+                            <li>Tool training and support</li>
+                            <li>Done-with-you workshops</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Example: Expanding an AI Content Creation Service</h3>
+                <div class="ai-demo">
+                    <div class="ai-demo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Core Service</h4>
+                            <p><strong>AI-Enhanced Blog Content Creation</strong></p>
+                            <ul>
+                                <li>2,000-word blog articles</li>
+                                <li>SEO optimization</li>
+                                <li>Royalty-free images</li>
+                                <li>WordPress formatting</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Vertical Expansion</h4>
+                            <p><strong>New Service Tiers:</strong></p>
+                            <ul>
+                                <li>Economy: 1,000-word basic articles</li>
+                                <li>Premium: 3,000-word ultimate guides</li>
+                                <li>Enterprise: Custom content strategy and execution</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Horizontal Expansion</h4>
+                            <p><strong>Complementary Services:</strong></p>
+                            <ul>
+                                <li>Email newsletter creation</li>
+                                <li>Social media content packages</li>
+                                <li>Lead magnet development</li>
+                                <li>Content distribution strategy</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Specialized Expansion</h4>
+                            <p><strong>Industry-Specific Packages:</strong></p>
+                            <ul>
+                                <li>SaaS Content Package</li>
+                                <li>E-commerce Product Content Package</li>
+                                <li>Real Estate Content Package</li>
+                                <li>Finance Industry Content Package</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-demo-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Format Expansion</h4>
+                            <p><strong>Different Content Formats:</strong></p>
+                            <ul>
+                                <li>Video script creation</li>
+                                <li>Podcast episode planning</li>
+                                <li>Infographic content development</li>
+                                <li>Slide deck/presentation creation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Bundling Services for Higher Value</h3>
+                <p>Creating strategic service bundles can increase your average project value and provide more comprehensive solutions for clients.</p>
+                
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Content Launch Bundle</h4>
+                        <p><strong>Price:</strong> $1,497</p>
+                        <ul>
+                            <li>Content strategy session</li>
+                            <li>3 SEO-optimized blog articles</li>
+                            <li>Email announcement sequence</li>
+                            <li>12 social media posts</li>
+                            <li>Performance tracking setup</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Website Refresh Bundle</h4>
+                        <p><strong>Price:</strong> $2,497</p>
+                        <ul>
+                            <li>Homepage copy rewrite</li>
+                            <li>5 service page optimizations</li>
+                            <li>About page storytelling</li>
+                            <li>Contact page conversion enhancement</li>
+                            <li>SEO metadata optimization</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Monthly Content Retainer</h4>
+                        <p><strong>Price:</strong> $997/month</p>
+                        <ul>
+                            <li>4 blog articles per month</li>
+                            <li>Weekly social content calendar</li>
+                            <li>Monthly email newsletter</li>
+                            <li>Content performance reporting</li>
+                            <li>Ongoing content strategy adjustments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Leveraging AI for Service Scaling</h3>
+                <p>AI tools allow you to scale your service delivery in ways that weren't previously possible for freelancers:</p>
+                
+                <div class="code-example">
+                    <pre>// Scaling Strategies with AI
+
+1. TEMPLATE CREATION
+   - Develop AI prompt templates for repeatable processes
+   - Create standardized workflows that maintain quality
+   - Build custom process documentation for each service
+
+2. BATCH PROCESSING
+   - Group similar client work to leverage AI efficiently
+   - Use AI to handle routine elements of multiple projects
+   - Create efficiency through standardized inputs/outputs
+
+3. TIERED HUMAN INVOLVEMENT
+   - Determine which service elements require your expertise
+   - Identify which parts can be delegated to AI
+   - Structure packages based on your level of involvement
+
+4. CONTINUOUS IMPROVEMENT
+   - Track AI output quality across projects
+   - Refine prompts based on results
+   - Document best practices for each service type
+
+5. KNOWLEDGE MANAGEMENT
+   - Create client/industry-specific knowledge bases
+   - Use AI to maintain and update these resources
+   - Leverage accumulated knowledge for faster delivery</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <h3>Building Recurring Revenue Services</h3>
+                <p>The most sustainable freelance businesses include recurring revenue services. Here are AI-enhanced recurring service models:</p>
+                
+                <ul>
+                    <li><strong>Content Subscriptions:</strong> Regular content creation across various platforms</li>
+                    <li><strong>Monitoring & Analysis:</strong> Ongoing tracking and reporting of key metrics</li>
+                    <li><strong>Optimization Services:</strong> Regular updates and improvements to existing assets</li>
+                    <li><strong>AI Tool Management:</strong> Administering and optimizing AI tools for clients</li>
+                    <li><strong>Training & Coaching:</strong> Ongoing skill development and implementation support</li>
+                </ul>
+
+                <h3>Portfolio Pricing Psychology</h3>
+                <p>As your service portfolio grows, consider these pricing strategies:</p>
+                
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Anchoring</h4>
+                        <p>Include a premium high-ticket service to make mid-tier offerings seem more affordable by comparison</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Value Stacking</h4>
+                        <p>Emphasize the combined value of bundled services compared to purchasing each separately</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Good/Better/Best</h4>
+                        <p>Offer the same service at different quality/depth levels to capture different market segments</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Price Bracketing</h4>
+                        <p>Strategically position your prices between competitors' low and high extremes</p>
+                    </div>
+                </div>
+
+                <div class="final-project">
+                    <h3><i class="fas fa-graduation-cap"></i> Module Final Project: Create Your Service Portfolio</h3>
+                    <div class="project-instructions">
+                        <p>Develop a comprehensive service portfolio that showcases your AI-enhanced freelance offerings.</p>
+                        
+                        <div class="project-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Define Your Core Service</h4>
+                                <p>Create a detailed description of your primary service:</p>
+                                <ul>
+                                    <li>Service name and compelling tagline</li>
+                                    <li>Core problem it solves for clients</li>
+                                    <li>Three-tiered package structure with pricing</li>
+                                    <li>Specific AI tools and methods used</li>
+                                    <li>Clear deliverables and timeframes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="project-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Develop One Portfolio Case Study</h4>
+                                <p>Create a detailed case study following the framework from Lesson 3:</p>
+                                <ul>
+                                    <li>Client background and challenge</li>
+                                    <li>Your AI-enhanced approach</li>
+                                    <li>Implementation process</li>
+                                    <li>Results and impact</li>
+                                    <li>Visual examples of before/after (if applicable)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="project-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Plan Your Service Expansion</h4>
+                                <p>Outline a 6-month service expansion plan:</p>
+                                <ul>
+                                    <li>Two complementary services to add</li>
+                                    <li>One bundled offering combining multiple services</li>
+                                    <li>A recurring revenue service model</li>
+                                    <li>AI tools needed to support this expansion</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="project-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Portfolio Presentation</h4>
+                                <p>Choose a presentation format and create a mockup:</p>
+                                <ul>
+                                    <li>Website structure or PDF portfolio layout</li>
+                                    <li>Visual design elements (color scheme, fonts, imagery)</li>
+                                    <li>Service descriptions and calls to action</li>
+                                    <li>Case study presentation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-submission">
+                        <h4>Submission Guidelines</h4>
+                        <p>Your final project submission should include:</p>
+                        <ul>
+                            <li>A document with your complete service packages</li>
+                            <li>One detailed case study with visuals</li>
+                            <li>Your service expansion roadmap</li>
+                            <li>Portfolio presentation mockup (screenshots, PDF, or link)</li>
+                        </ul>
+                        <div class="file-upload">
+                            <p>Upload your completed project as a PDF or ZIP file:</p>
+                            <input type="file" id="project-file" accept=".pdf,.zip,.doc,.docx">
+                            <label for="project-file">Choose File</label>
+                            <button onclick="submitProject()" class="submit-btn">Submit Project</button>
+                            <div class="submission-status"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Service Portfolio Scaling</h3>
+                    <div class="quiz-question">
+                        <p>Which of these service expansion strategies involves creating industry-specific versions of your core service?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Vertical expansion
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Horizontal expansion
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Specialized expansion
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Format expansion
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>What is the most sustainable type of service offering for a freelance business?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                One-time high-ticket projects
+                            </div>
+                            <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                                Recurring revenue services
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Multiple low-cost services
+                            </div>
+                            <div class="quiz-option" onclick="selectOption(this)">
+                                Hourly consulting work
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-container module-quiz" style="display: none;">
+            <h3>Module Completion Quiz</h3>
+            <div class="quiz-question">
+                <p>What is the most effective way to demonstrate your AI-enhanced service value to potential clients?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Listing all the AI tools you use
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Offering the lowest prices possible
+                    </div>
+                    <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                        Creating case studies that show concrete before/after results
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Explaining the technical aspects of AI in detail
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+            <div class="quiz-question">
+                <p>Which service structure is typically recommended for freelancers?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Hourly rates only
+                    </div>
+                    <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                        Three-tiered packages (Basic, Standard, Premium)
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        A single fixed-price service
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Pay-per-result pricing
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+            <div class="quiz-question">
+                <p>When evaluating potential service niches, which factor is most important?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        How many other freelancers are in the niche
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        How easy it is to deliver the service
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        The latest AI technology available
+                    </div>
+                    <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                        Market demand combined with your AI advantage
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+            <div class="quiz-question">
+                <p>What is the best pricing strategy for a new AI freelancer with a strong portfolio?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Price significantly lower than competitors to gain clients
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Charge hourly rates based on your time investment
+                    </div>
+                    <div class="quiz-option" data-correct="true" onclick="selectOption(this)">
+                        Value-based pricing that reflects the results clients receive
+                    </div>
+                    <div class="quiz-option" onclick="selectOption(this)">
+                        Match the average market rate exactly
+                    </div>
+                </div>
+                <div class="quiz-feedback"></div>
+            </div>
+            <div class="module-complete-message">
+                <h3><i class="fas fa-trophy"></i> Congratulations!</h3>
+                <p>You've completed Module 3: Building Your Service Portfolio</p>
+                <a href="javascript:void(0)" onclick="markModuleComplete(3); window.location.href='tutorial1-module4.html'" class="next-module-btn">Continue to Module 4</a>
+            </div>
+        </div>
+
+        <a href="javascript:void(0)" onclick="if(checkAllLessonsComplete()) window.location.href='tutorial1-module4.html';" class="next-lesson" id="next-module-btn">
+            Continue to Module 4
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="module-progress">
+        <h3>Module Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+        <p><span class="completed-count">0</span>/4 Lessons Complete</p>
+    </div>
+
+    <script>
+        const STORAGE_KEY = "ai_freelancing_progress";
+        
+        // Initialize progress tracking
+        function initializeProgress() {
+            if (!localStorage.getItem(STORAGE_KEY)) {
+                const initialProgress = {
+                    completedModules: [],
+                    currentModule: 1,
+                    lastVisited: new Date().toISOString()
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(initialProgress));
+            }
+            
+            checkModuleProgress();
+        }
+        
+        // Check module progress
+        function checkModuleProgress() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            document.querySelectorAll('.nav-link').forEach((link, index) => {
+                if (index > 0 && index < 6) { // Skip home and complete links
+                    const moduleNumber = index;
+                    if (progress.completedModules.includes(moduleNumber)) {
+                        link.classList.add('completed');
+                        link.innerHTML = link.innerHTML.replace('<i class="fas ', '<i class="fas fa-check ');
+                    }
+                }
+            });
+        }
+        
+        // Check if all lessons are complete
+        function checkAllLessonsComplete() {
+            var moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module3Progress')) || [];
+            if (moduleProgress.length < 4) {
+                alert('Please complete all lessons before proceeding to the next module.');
+                return false;
+            }
+            return true;
+        }
+        
+        // Handle navigation between modules
+        function handleNavigation(targetModule) {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            // Allow navigation to current module or any completed module
+            return targetModule <= progress.currentModule || progress.completedModules.includes(targetModule);
+        }
+        
+        // Mark module as complete
+        function markModuleComplete(moduleNumber) {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (!progress.completedModules.includes(moduleNumber)) {
+                progress.completedModules.push(moduleNumber);
+                
+                // Set next module as current if this was the current module
+                if (progress.currentModule === moduleNumber) {
+                    progress.currentModule = moduleNumber + 1;
+                }
+                
+                progress.lastVisited = new Date().toISOString();
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            }
+        }
+        
+        // Function to handle quiz option selection
+        function selectOption(option) {
+            // Get all options in the same question
+            const questionDiv = option.closest('.quiz-question');
+            const options = questionDiv.querySelectorAll('.quiz-option');
+            const feedback = questionDiv.querySelector('.quiz-feedback');
+            
+            // Remove selection from other options
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Add selected class to clicked option
+            option.classList.add('selected');
+            
+            // Check if option is correct
+            const isCorrect = option.hasAttribute('data-correct');
+            
+            // Update feedback
+            if (isCorrect) {
+                option.classList.add('correct');
+                feedback.textContent = "Correct!";
+                feedback.className = "quiz-feedback correct";
+                
+                // Check if this is the last question of the module quiz
+                const isModuleQuiz = option.closest('.module-quiz');
+                if (isModuleQuiz) {
+                    const allQuestions = isModuleQuiz.querySelectorAll('.quiz-question');
+                    const allCorrect = Array.from(allQuestions).every(q => {
+                        const selectedOption = q.querySelector('.quiz-option.selected');
+                        return selectedOption && selectedOption.hasAttribute('data-correct');
+                    });
+                    
+                    if (allCorrect) {
+                        const completeMessage = isModuleQuiz.querySelector('.module-complete-message');
+                        if (completeMessage) {
+                            completeMessage.classList.remove('hidden');
+                        }
+                    }
+                }
+                
+                // Track lesson progress
+                trackLessonProgress(option);
+            } else {
+                option.classList.add('incorrect');
+                feedback.textContent = "Try again";
+                feedback.className = "quiz-feedback incorrect";
+            }
+        }
+        
+        // Track lesson progress
+        function trackLessonProgress(element) {
+            const lessonSection = element.closest('.lesson-section');
+            if (lessonSection) {
+                const lessonId = lessonSection.id;
+                const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module3Progress')) || [];
+                
+                if (!moduleProgress.includes(lessonId)) {
+                    moduleProgress.push(lessonId);
+                    localStorage.setItem('tutorial1_module3Progress', JSON.stringify(moduleProgress));
+                    updateProgressUI();
+                }
+            }
+        }
+        
+        // Update progress UI
+        function updateProgressUI() {
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module3Progress')) || [];
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const nextModuleBtn = document.getElementById('next-module-btn');
+            const totalLessons = 4;
+            
+            const newPercentage = (moduleProgress.length / totalLessons) * 100;
+            progressFill.style.width = `${newPercentage}%`;
+            completedCount.textContent = moduleProgress.length;
+            
+            // Check if all lessons are complete and update button state
+            if (moduleProgress.length < 4) {
+                nextModuleBtn.classList.add('disabled');
+            } else {
+                nextModuleBtn.classList.remove('disabled');
+            }
+        }
+        
+        // Project submission
+        function submitProject() {
+            const fileInput = document.getElementById('project-file');
+            const statusDiv = document.querySelector('.submission-status');
+            
+            if (fileInput.files.length === 0) {
+                statusDiv.textContent = 'Please select a file to submit';
+                statusDiv.className = 'submission-status error';
+                return;
+            }
+            
+            // Simulate file upload
+            statusDiv.textContent = 'Uploading...';
+            statusDiv.className = 'submission-status';
+            
+            setTimeout(() => {
+                statusDiv.textContent = 'Project submitted successfully!';
+                statusDiv.className = 'submission-status success';
+                
+                // Mark lesson as complete
+                const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module3Progress')) || [];
+                if (!moduleProgress.includes('lesson4')) {
+                    moduleProgress.push('lesson4');
+                    localStorage.setItem('tutorial1_module3Progress', JSON.stringify(moduleProgress));
+                    updateProgressUI();
+                }
+                
+                // Show module completion message
+                const quizContainer = document.querySelector('.module-quiz');
+                if (quizContainer) {
+                    const completeMessage = quizContainer.querySelector('.module-complete-message');
+                    if (completeMessage) {
+                        completeMessage.classList.remove('hidden');
+                    }
+                }
+            }, 1500);
+        }
+        
+        // Copy buttons for code examples
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.previousElementSibling;
+                const textToCopy = codeBlock.textContent;
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = "Copied!";
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeProgress();
+            updateProgressUI();
+        });
+    </script>
+</body>
+</html> 

@@ -3,955 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selling AI-Based Digital Products Guide | AI Money Guide</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AI Hustle Hub - Selling AI-Based Digital Products</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .tutorial-content {
-            padding: 120px 20px 40px;
-            max-width: 800px;
-            margin: 0 auto;
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
         }
 
-        .tutorial-header {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            color: white;
             text-align: center;
-            margin-bottom: 3rem;
+            position: relative;
+            margin-bottom: 2rem;
         }
 
-        .tutorial-header h1 {
-            color: var(--secondary-color);
-            font-size: 2.5rem;
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
 
-        .tutorial-section {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
         }
 
-        .tutorial-section h2 {
-            color: var(--secondary-color);
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .course-progress {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+            margin: -3rem auto 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.completed {
+            border: 2px solid #4CAF50;
+        }
+
+        .module-card.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .module-description {
+            color: #666;
             margin-bottom: 1.5rem;
         }
 
-        .tutorial-section p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .tool-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .tool-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: var(--card-background);
-            border-radius: 5px;
-        }
-
-        .tool-list i {
-            color: var(--secondary-color);
-            margin-right: 1rem;
+        .module-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.2rem;
         }
 
-        .step-list {
-            list-style: decimal;
-            padding-left: 1.5rem;
+        .module-status.completed {
+            color: #4CAF50;
         }
 
-        .step-list li {
-            margin-bottom: 1rem;
-            line-height: 1.8;
+        .module-status.locked {
+            color: #999;
         }
 
-        .example-box {
-            background: var(--card-background);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-
-        .example-box h4 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .back-button {
+        .module-link {
             display: inline-block;
-            background: var(--secondary-color);
-            color: white;
             padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-bottom: 2rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button:hover {
-            background-color: #0773C5;
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073C5,
-                            0 0 20px #0073C5, 0 0 25px #0073C5, 0 0 30px #0073C5, 0 0 35px #0073C5;
-            }
-            to {
-                box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0073C5,
-                            0 0 40px #0073C5, 0 0 50px #0073C5, 0 0 60px #0073C5, 0 0 70px #0073C5;
-            }
-        }
-
-        .badge.completed {
-            background-color: #0073C5;
+            background: var(--gradient-accent);
             color: white;
-            border-color: #0073C5;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
         }
 
-        .badge.locked {
-            background-color: #f0f0f0;
-            color: #666;
-            border-color: #ddd;
+        .module-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-card.locked .module-link {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">AI Money Guide</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#tutorials">Tutorials</a>
-            <a href="#course-content">Course Content</a>
-            <a href="#resources">Resources</a>
+    <header class="header">
+        <div class="brand">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <i class="fas fa-robot"></i>
+                <h1>AI Hustle Hub</h1>
+            </a>
         </div>
-        <div class="mobile-menu">
-            <i class="fas fa-bars"></i>
+        <p class="header-description">
+            Learn how to create, market, and sell digital products enhanced by AI technology. Discover how to generate passive income by leveraging artificial intelligence tools.
+        </p>
+    </header>
+
+    <div class="course-progress">
+        <h3>Course Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
         </div>
-    </nav>
-
-    <!-- Course Header -->
-    <section class="course-header">
-        <div class="container">
-            <h1>AI Digital Products Mastery</h1>
-            <p class="course-subtitle">Learn How to Create and Sell AI-Powered Digital Products</p>
-        </div>
-        <div class="progress-container">
-            <div class="progress-stats">
-                <div class="progress-stat">
-                    <span class="stat-value">0/6</span>
-                    <span class="stat-label">Modules Complete</span>
-                </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0%</span>
-                    <span class="stat-label">Course Progress</span>
-                </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0</span>
-                    <span class="stat-label">Points Earned</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress" style="width: 0%"></div>
-            </div>
-            <div class="progress-badges">
-                <div class="badge locked">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Module 1</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-robot"></i>
-                    <span>Module 2</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-store"></i>
-                    <span>Module 3</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Module 4</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Module 5</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-tasks"></i>
-                    <span>Module 6</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Course Overview -->
-    <section id="course-content" class="course-overview">
-        <div class="container">
-            <h2>What You'll Learn</h2>
-            <div class="learning-objectives">
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>How to identify and validate AI product opportunities</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Master AI tools for product development and automation</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Create effective marketing and sales strategies</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Scale your AI product business efficiently</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="course-modules" id="modules">
-        <div class="container">
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 1: Product Ideation and Market Research</h2>
-                    <span class="estimated-time">Estimated time: 3 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>1.1 Identifying AI Product Opportunities</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to identify profitable opportunities in the AI product market. This module covers market research techniques, trend analysis, and validation methods to ensure your product idea has potential.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Core Concepts</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-search"></i>
-                                        <h5>Market Research</h5>
-                                        <p>Key areas to investigate:</p>
-                                        <ul>
-                                            <li>Market size and growth</li>
-                                            <li>Competitor analysis</li>
-                                            <li>Target audience needs</li>
-                                            <li>Pricing strategies</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-chart-bar"></i>
-                                        <h5>Trend Analysis</h5>
-                                        <p>Identifying opportunities:</p>
-                                        <ul>
-                                            <li>AI technology trends</li>
-                                            <li>Consumer behavior</li>
-                                            <li>Industry disruptions</li>
-                                            <li>Future projections</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-check-circle"></i>
-                                        <h5>Validation Methods</h5>
-                                        <p>Testing your idea:</p>
-                                        <ul>
-                                            <li>Customer interviews</li>
-                                            <li>Market surveys</li>
-                                            <li>MVP testing</li>
-                                            <li>Competitor analysis</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Market Research</h4>
-                                <p>Complete the following steps to research your potential AI product:</p>
-                                <ol>
-                                    <li>Identify 3 potential AI product ideas</li>
-                                    <li>Research each idea using the provided tools</li>
-                                    <li>Create a market analysis document</li>
-                                    <li>Present your findings</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: AI Writing Assistant Success</h4>
-                                <p>Learn how Sarah identified and validated her AI writing assistant product:</p>
-                                <ul>
-                                    <li>Initial market research findings</li>
-                                    <li>Competitor analysis results</li>
-                                    <li>Customer validation process</li>
-                                    <li>Launch strategy and results</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="1"> Mark Module 1 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 1 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 1 Quiz: Product Ideation</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Market Research">
-                                <p>What should you do first when evaluating a product idea?</p>
-                                <label><input type="radio" name="q1">Start building</label>
-                                <label><input type="radio" name="q1">Market Research</label>
-                                <label><input type="radio" name="q1">Set pricing</label>
-                                <label><input type="radio" name="q1">Create marketing</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should you validate before launching?</p>
-                                <label><input type="radio" name="q2">Market demand</label>
-                                <label><input type="radio" name="q2">Target audience</label>
-                                <label><input type="radio" name="q2">Competition</label>
-                                <label><input type="radio" name="q2">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Customer Interviews">
-                                <p>Which validation method provides the most direct feedback?</p>
-                                <label><input type="radio" name="q3">Market surveys</label>
-                                <label><input type="radio" name="q3">Customer Interviews</label>
-                                <label><input type="radio" name="q3">Competitor analysis</label>
-                                <label><input type="radio" name="q3">Trend research</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 2: AI Tools and Product Development</h2>
-                    <span class="estimated-time">Estimated time: 4 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>2.1 Building AI-Powered Products</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Master the essential AI tools and technologies needed to create digital products. Learn how to use various AI platforms and integrate them into your product development process.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>Essential AI Development Tools</h4>
-                                <ul>
-                                    <li><i class="fas fa-code"></i>GitHub Copilot for coding assistance</li>
-                                    <li><i class="fas fa-paint-brush"></i>Midjourney for visual assets</li>
-                                    <li><i class="fas fa-robot"></i>ChatGPT for content generation</li>
-                                    <li><i class="fas fa-cube"></i>Bubble.io for no-code development</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Development Process</h4>
-                                <li>Set up development environment</li>
-                                <li>Integrate AI tools and APIs</li>
-                                <li>Build core functionality</li>
-                                <li>Test and optimize</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Example AI Integration</h4>
-                                <p>"Create a [product type] using [AI tool] for [specific feature]. Include [key functionality] and ensure [performance metric]."</p>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: AI Tool Integration</h4>
-                                <p>Complete the following steps to integrate AI tools into your product:</p>
-                                <ol>
-                                    <li>Choose an AI tool based on your product needs</li>
-                                    <li>Set up the development environment</li>
-                                    <li>Create a basic integration</li>
-                                    <li>Test and optimize the integration</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: AI Content Generator</h4>
-                                <p>Learn how John built his AI content generation tool:</p>
-                                <ul>
-                                    <li>Tool selection process</li>
-                                    <li>Integration challenges</li>
-                                    <li>Testing and optimization</li>
-                                    <li>Final product features</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="2"> Mark Module 2 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 2 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 2 Quiz: AI Development</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="GitHub Copilot">
-                                <p>Which tool is best for AI-assisted coding?</p>
-                                <label><input type="radio" name="q4">ChatGPT</label>
-                                <label><input type="radio" name="q4">GitHub Copilot</label>
-                                <label><input type="radio" name="q4">Midjourney</label>
-                                <label><input type="radio" name="q4">Bubble.io</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Integration">
-                                <p>What's the most important step in AI development?</p>
-                                <label><input type="radio" name="q5">Tool selection</label>
-                                <label><input type="radio" name="q5">Integration</label>
-                                <label><input type="radio" name="q5">Testing</label>
-                                <label><input type="radio" name="q5">Marketing</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 3: Digital Storefront Setup</h2>
-                    <span class="estimated-time">Estimated time: 3 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>3.1 Creating Your Online Store</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to set up and optimize your digital storefront for maximum sales. This module covers platform selection, store design, and payment processing setup.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>Store Setup Tools</h4>
-                                <ul>
-                                    <li><i class="fas fa-shopping-cart"></i>Shopify for e-commerce</li>
-                                    <li><i class="fas fa-store"></i>Gumroad for digital products</li>
-                                    <li><i class="fas fa-credit-card"></i>Stripe for payments</li>
-                                    <li><i class="fas fa-chart-bar"></i>Analytics tools</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Setup Process</h4>
-                                <li>Choose your platform</li>
-                                <li>Design your store</li>
-                                <li>Set up payments</li>
-                                <li>Configure analytics</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Store Optimization Checklist</h4>
-                                <ul>
-                                    <li>Professional product images</li>
-                                    <li>Clear product descriptions</li>
-                                    <li>Optimized checkout process</li>
-                                    <li>Mobile responsiveness</li>
-                                </ul>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Store Setup</h4>
-                                <p>Complete the following steps to set up your digital store:</p>
-                                <ol>
-                                    <li>Research and select a platform</li>
-                                    <li>Create your store design</li>
-                                    <li>Set up payment processing</li>
-                                    <li>Test the checkout process</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Successful Store Launch</h4>
-                                <p>Learn how Maria launched her AI product store:</p>
-                                <ul>
-                                    <li>Platform selection process</li>
-                                    <li>Design and branding</li>
-                                    <li>Payment setup challenges</li>
-                                    <li>Launch results</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="3"> Mark Module 3 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 3 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 3 Quiz: Store Setup</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Gumroad">
-                                <p>Which platform is best for digital products?</p>
-                                <label><input type="radio" name="q6">Shopify</label>
-                                <label><input type="radio" name="q6">Gumroad</label>
-                                <label><input type="radio" name="q6">Amazon</label>
-                                <label><input type="radio" name="q6">Etsy</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should you optimize in your store?</p>
-                                <label><input type="radio" name="q7">Product images</label>
-                                <label><input type="radio" name="q7">Descriptions</label>
-                                <label><input type="radio" name="q7">Checkout process</label>
-                                <label><input type="radio" name="q7">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 4: Marketing and Sales</h2>
-                    <span class="estimated-time">Estimated time: 3.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>4.1 Marketing Your AI Products</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Develop effective marketing strategies to promote your AI products. Learn about content marketing, social media, email campaigns, and sales funnel optimization.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>Marketing Tools</h4>
-                                <ul>
-                                    <li><i class="fas fa-envelope"></i>Email marketing platforms</li>
-                                    <li><i class="fas fa-share-alt"></i>Social media management</li>
-                                    <li><i class="fas fa-ad"></i>Ad campaign tools</li>
-                                    <li><i class="fas fa-chart-line"></i>Analytics platforms</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Marketing Strategy</h4>
-                                <li>Define target audience</li>
-                                <li>Create content plan</li>
-                                <li>Set up sales funnel</li>
-                                <li>Launch campaigns</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Marketing Campaign Structure</h4>
-                                <ul>
-                                    <li>Content creation schedule</li>
-                                    <li>Social media posting plan</li>
-                                    <li>Email sequence setup</li>
-                                    <li>Performance tracking</li>
-                                </ul>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Marketing Plan</h4>
-                                <p>Create a comprehensive marketing plan for your AI product:</p>
-                                <ol>
-                                    <li>Define your target audience</li>
-                                    <li>Create content calendar</li>
-                                    <li>Design email sequences</li>
-                                    <li>Set up tracking metrics</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Successful Marketing Campaign</h4>
-                                <p>Learn how Tom marketed his AI product:</p>
-                                <ul>
-                                    <li>Initial strategy</li>
-                                    <li>Channel selection</li>
-                                    <li>Campaign execution</li>
-                                    <li>Results and optimization</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="4"> Mark Module 4 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 4 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 4 Quiz: Marketing</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Target Audience">
-                                <p>What should you define first in marketing?</p>
-                                <label><input type="radio" name="q8">Content plan</label>
-                                <label><input type="radio" name="q8">Target Audience</label>
-                                <label><input type="radio" name="q8">Budget</label>
-                                <label><input type="radio" name="q8">Tools</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should your marketing strategy include?</p>
-                                <label><input type="radio" name="q9">Content creation</label>
-                                <label><input type="radio" name="q9">Social media</label>
-                                <label><input type="radio" name="q9">Email marketing</label>
-                                <label><input type="radio" name="q9">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 5: Scaling and Optimization</h2>
-                    <span class="estimated-time">Estimated time: 3 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>5.1 Growing Your AI Business</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn strategies for scaling your AI product business, including automation, outsourcing, and performance optimization.</p>
-                            </div>
-                            <div class="tool-list">
-                                <h4>Scaling Tools</h4>
-                                <ul>
-                                    <li><i class="fas fa-cogs"></i>Automation platforms</li>
-                                    <li><i class="fas fa-users"></i>Team management tools</li>
-                                    <li><i class="fas fa-chart-bar"></i>Analytics software</li>
-                                    <li><i class="fas fa-tasks"></i>Project management</li>
-                                </ul>
-                            </div>
-                            <div class="step-list">
-                                <h4>Scaling Process</h4>
-                                <li>Identify bottlenecks</li>
-                                <li>Implement automation</li>
-                                <li>Optimize processes</li>
-                                <li>Scale operations</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Scaling Checklist</h4>
-                                <ul>
-                                    <li>Process automation</li>
-                                    <li>Team expansion</li>
-                                    <li>Infrastructure upgrade</li>
-                                    <li>Performance monitoring</li>
-                                </ul>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Scaling Plan</h4>
-                                <p>Create a scaling plan for your business:</p>
-                                <ol>
-                                    <li>Identify growth opportunities</li>
-                                    <li>Map automation needs</li>
-                                    <li>Plan team expansion</li>
-                                    <li>Set up monitoring systems</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Business Scaling Success</h4>
-                                <p>Learn how Lisa scaled her AI product business:</p>
-                                <ul>
-                                    <li>Initial challenges</li>
-                                    <li>Automation strategies</li>
-                                    <li>Team building</li>
-                                    <li>Growth results</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="5"> Mark Module 5 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 5 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 5 Quiz: Scaling</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Bottlenecks">
-                                <p>What should you identify first when scaling?</p>
-                                <label><input type="radio" name="q10">New markets</label>
-                                <label><input type="radio" name="q10">Bottlenecks</label>
-                                <label><input type="radio" name="q10">Team size</label>
-                                <label><input type="radio" name="q10">Budget</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Automation">
-                                <p>What's the most effective scaling strategy?</p>
-                                <label><input type="radio" name="q11">Hiring more people</label>
-                                <label><input type="radio" name="q11">Automation</label>
-                                <label><input type="radio" name="q11">Increasing prices</label>
-                                <label><input type="radio" name="q11">Expanding locations</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 6: 30-Day Action Plan</h2>
-                    <span class="estimated-time">Estimated time: 2 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>6.1 Launching Your AI Product</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Follow this detailed 30-day action plan to launch and grow your AI product business. This module provides a day-by-day roadmap for success.</p>
-                            </div>
-                            <div class="step-list">
-                                <h4>30-Day Plan Overview</h4>
-                                <li>Week 1: Market Research & Planning</li>
-                                <li>Week 2: Product Development</li>
-                                <li>Week 3: Marketing Setup</li>
-                                <li>Week 4: Launch & Optimization</li>
-                            </div>
-                            <div class="example-box">
-                                <h4>Daily Tasks Example</h4>
-                                <ul>
-                                    <li>Day 1-7: Research and validate product idea</li>
-                                    <li>Day 8-14: Develop MVP and test</li>
-                                    <li>Day 15-21: Set up marketing channels</li>
-                                    <li>Day 22-30: Launch and optimize</li>
-                                </ul>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Action Plan</h4>
-                                <p>Create your personalized 30-day action plan:</p>
-                                <ol>
-                                    <li>Set specific goals</li>
-                                    <li>Create daily tasks</li>
-                                    <li>Set up tracking metrics</li>
-                                    <li>Plan review points</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: 30-Day Launch Success</h4>
-                                <p>Learn how Mike launched his AI product in 30 days:</p>
-                                <ul>
-                                    <li>Initial planning</li>
-                                    <li>Execution strategy</li>
-                                    <li>Key milestones</li>
-                                    <li>Launch results</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="6"> Mark Module 6 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 6 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 6 Quiz: Action Plan</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Market Research">
-                                <p>What should you focus on in Week 1?</p>
-                                <label><input type="radio" name="q12">Product development</label>
-                                <label><input type="radio" name="q12">Market Research</label>
-                                <label><input type="radio" name="q12">Marketing</label>
-                                <label><input type="radio" name="q12">Launch</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Launch and optimize">
-                                <p>What is the focus of Week 4?</p>
-                                <label><input type="radio" name="q13">Research</label>
-                                <label><input type="radio" name="q13">Development</label>
-                                <label><input type="radio" name="q13">Marketing setup</label>
-                                <label><input type="radio" name="q13">Launch and optimize</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <p><span class="completed-count">0</span>/6 Modules Complete</p>
     </div>
 
-    <!-- Resources Section -->
-    <div class="resources-section" id="resources">
-        <div class="container">
-            <h2>Resources & Tools</h2>
-            <div class="resources-grid">
-                <div class="resource-card">
-                    <h3>Learning Resources</h3>
-                    <ul>
-                        <li><a href="#">AI Tools Documentation</a></li>
-                        <li><a href="#">Product Creation Guides</a></li>
-                        <li><a href="#">Marketing Strategy Templates</a></li>
-                        <li><a href="#">Sales Funnel Examples</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <h3>Development Platforms</h3>
-                    <ul>
-                        <li><a href="https://gumroad.com">Gumroad</a></li>
-                        <li><a href="https://lemonsqueezy.com">LemonSqueezy</a></li>
-                        <li><a href="https://bubble.io">Bubble.io</a></li>
-                        <li><a href="https://webflow.com">Webflow</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <h3>AI Tools</h3>
-                    <ul>
-                        <li><a href="https://chat.openai.com">ChatGPT</a></li>
-                        <li><a href="https://github.com/features/copilot">GitHub Copilot</a></li>
-                        <li><a href="https://www.midjourney.com">Midjourney</a></li>
-                        <li><a href="https://www.jasper.ai">Jasper AI</a></li>
-                    </ul>
-                </div>
-            </div>
+    <div class="modules-grid">
+        <div class="module-card active">
+            <i class="fas fa-lightbulb module-icon"></i>
+            <i class="fas fa-spinner module-status"></i>
+            <h2 class="module-title">Module 1: Product Ideation</h2>
+            <p class="module-description">Learn how to identify profitable digital product ideas using AI tools for market research and validation.</p>
+            <a href="tutorial4-module1.html" class="module-link">Start Module</a>
         </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-tools module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 2: Product Creation</h2>
+            <p class="module-description">Master the process of creating high-quality digital products using AI tools, from ebooks to templates and software.</p>
+            <a href="tutorial4-module2.html" class="module-link">Start Module</a>
+        </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-palette module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 3: Design & Packaging</h2>
+            <p class="module-description">Learn how to design attractive product visuals and packaging to enhance perceived value and increase conversions.</p>
+            <a href="tutorial4-module3.html" class="module-link">Start Module</a>
+        </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-bullhorn module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 4: Marketing and Sales</h2>
+            <p class="module-description">Discover effective strategies for marketing and selling your digital products using AI-powered tools and techniques.</p>
+            <a href="tutorial4-module4.html" class="module-link">Start Module</a>
+                    </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-rocket module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 5: Launch Strategy</h2>
+            <p class="module-description">Learn how to plan and execute a successful product launch that maximizes visibility and initial sales.</p>
+            <a href="tutorial4-module5.html" class="module-link">Start Module</a>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html#tutorials">Tutorials</a></li>
-                        <li><a href="#course-content">Course Content</a></li>
-                        <li><a href="#resources">Resources</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Connect With Us</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 AI Money Guide. All rights reserved.</p>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-chart-line module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 6: Scaling & Optimization</h2>
+            <p class="module-description">Discover strategies for scaling your digital product business and optimizing for long-term passive income.</p>
+            <a href="tutorial4-module6.html" class="module-link">Start Module</a>
         </div>
-    </footer>
+    </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize progress tracking
-        const progressBar = document.querySelector('.progress');
-        const progressStats = document.querySelectorAll('.progress-stat .stat-value');
-        const badges = document.querySelectorAll('.progress-badges .badge');
-        const moduleCheckboxes = document.querySelectorAll('.module-complete');
-        
-        // Load saved progress
-        const savedProgress = JSON.parse(localStorage.getItem('tutorial4Progress') || '{}');
-        
-        // Update progress based on saved data
-        function updateProgress() {
-            const completedModules = Object.values(savedProgress).filter(Boolean).length;
-            const totalModules = moduleCheckboxes.length;
-            const progress = (completedModules / totalModules) * 100;
+            // Check progress of each module
+            const module1Progress = JSON.parse(localStorage.getItem('tutorial4_module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial4_module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('tutorial4_module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial4_module4Progress')) || [];
+            const module5Progress = JSON.parse(localStorage.getItem('tutorial4_module5Progress')) || [];
+            const module6Progress = JSON.parse(localStorage.getItem('tutorial4_module6Progress')) || [];
             
-            progressBar.style.width = `${progress}%`;
-            progressStats[0].textContent = `${completedModules}/${totalModules}`;
-            progressStats[1].textContent = `${Math.round(progress)}%`;
-            progressStats[2].textContent = completedModules * 100;
+            // Count completed modules (a module is complete when all 4 lessons are done)
+            const completedModules = [
+                module1Progress.length === 4,
+                module2Progress.length === 4,
+                module3Progress.length === 4,
+                module4Progress.length === 4,
+                module5Progress.length === 4,
+                module6Progress.length === 4
+            ].filter(Boolean);
             
-            // Update badges
-            badges.forEach((badge, index) => {
-                if (savedProgress[`module${index + 1}`]) {
-                    badge.classList.remove('locked');
-                    badge.classList.add('completed');
-                    badge.style.animation = 'glow 2s ease-in-out infinite alternate';
-                } else {
-                    badge.classList.remove('completed');
-                    badge.classList.add('locked');
-                    badge.style.animation = 'none';
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalModules = 6;
+            const percentage = (completedModules.length / totalModules) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedModules.length;
+
+            // Update module cards based on completion
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial4_module${index + 1}Progress`)) || [];
+                const isCompleted = moduleProgress.length === 4;
+                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial4_module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
+                
+                const moduleLink = card.querySelector('.module-link');
+                if (isCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('completed');
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    moduleLink.textContent = 'Review Module';
+                    moduleLink.href = `tutorial4-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('active');
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial4-module${index + 1}.html`;
+                    } else {
+                    card.classList.add('locked');
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
+                    moduleLink.href = '#';
+                    moduleLink.onclick = function(e) {
+                        e.preventDefault();
+                        alert('Please complete the previous module first.');
+                    };
                 }
             });
-        }
-        
-        // Handle module completion
-        moduleCheckboxes.forEach(checkbox => {
-            const moduleNum = checkbox.dataset.module;
-            checkbox.checked = savedProgress[`module${moduleNum}`] || false;
-            
-            checkbox.addEventListener('change', function() {
-                savedProgress[`module${moduleNum}`] = this.checked;
-                localStorage.setItem('tutorial4Progress', JSON.stringify(savedProgress));
-                updateProgress();
-            });
-        });
-        
-        // Initialize quizzes
-        const quizForms = document.querySelectorAll('.quiz-form');
-        quizForms.forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const questions = this.querySelectorAll('.quiz-question');
-                let score = 0;
-                
-                questions.forEach(question => {
-                    const selected = question.querySelector('input:checked');
-                    const correct = question.dataset.correct;
-                    
-                    if (selected && selected.parentElement.textContent.trim() === correct) {
-                        score++;
-                        question.querySelector('.question-feedback').textContent = 'Correct!';
-                        question.querySelector('.question-feedback').style.color = 'green';
-                    } else {
-                        question.querySelector('.question-feedback').textContent = 'Incorrect. Try again.';
-                        question.querySelector('.question-feedback').style.color = 'red';
-                    }
-                });
-                
-                const scoreElement = this.querySelector('.quiz-score');
-                scoreElement.textContent = `Score: ${score}/${questions.length}`;
-                
-                const submitButton = this.querySelector('.quiz-submit');
-                const retryButton = this.querySelector('.quiz-retry');
-                submitButton.style.display = 'none';
-                retryButton.style.display = 'block';
-                
-                retryButton.addEventListener('click', function() {
-                    questions.forEach(question => {
-                        question.querySelector('.question-feedback').textContent = '';
-                        question.querySelectorAll('input').forEach(input => input.checked = false);
-                    });
-                    scoreElement.textContent = '';
-                    submitButton.style.display = 'block';
-                    retryButton.style.display = 'none';
-                });
-            });
-        });
-        
-        // Initial progress update
-        updateProgress();
     });
     </script>
 </body>

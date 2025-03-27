@@ -20,8 +20,8 @@
             if (moduleNumber === 1) return true; // Module 1 is always accessible
             
             // Get current module's progress
-            const currentModuleProgress = JSON.parse(localStorage.getItem('module5Progress')) || [];
-            const prevModuleProgress = JSON.parse(localStorage.getItem(`module${moduleNumber-1}Progress`)) || [];
+            const currentModuleProgress = JSON.parse(localStorage.getItem('tutorial2_module5Progress')) || [];
+            const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial2_module${moduleNumber-1}Progress`)) || [];
             
             if (prevModuleProgress.length < 4) {
                 alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
@@ -660,7 +660,8 @@
             });
 
             // Progress tracking
-            const moduleProgress = JSON.parse(localStorage.getItem('module5Progress')) || [];
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial2_module5Progress')) || [];
+            const lessonProgress = JSON.parse(localStorage.getItem('tutorial2_module5LessonProgress')) || {};
             const progressFill = document.querySelector('.progress-fill');
             const completedCount = document.querySelector('.completed-count');
             const totalLessons = 4;
@@ -671,19 +672,23 @@
 
             // Mark lessons as completed if they exist in moduleProgress
             document.querySelectorAll('.lesson-section').forEach((lesson, index) => {
-                if (moduleProgress.includes(`lesson${index + 1}`)) {
+                const lessonId = `lesson${index + 1}`;
+                if (moduleProgress.includes(lessonId)) {
                     lesson.classList.add('completed');
+                    lessonProgress[lessonId] = lessonProgress[lessonId] || {};
+                    lessonProgress[lessonId].quizComplete = true;
+                    localStorage.setItem('tutorial2_module5LessonProgress', JSON.stringify(lessonProgress));
                 }
             });
         });
 
         function completeLesson(lessonNumber) {
-            const moduleProgress = JSON.parse(localStorage.getItem('module5Progress')) || [];
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial2_module5Progress')) || [];
             const lessonId = `lesson${lessonNumber}`;
             
             if (!moduleProgress.includes(lessonId)) {
                 moduleProgress.push(lessonId);
-                localStorage.setItem('module5Progress', JSON.stringify(moduleProgress));
+                localStorage.setItem('tutorial2_module5Progress', JSON.stringify(moduleProgress));
                 
                 const progressFill = document.querySelector('.progress-fill');
                 const completedCount = document.querySelector('.completed-count');

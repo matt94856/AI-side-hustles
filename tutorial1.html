@@ -3,1137 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Powered Freelancing Course | AI Money Guide</title>
-    <meta name="description" content="Learn how to become a successful AI-powered freelancer. Comprehensive guide with practical exercises, real examples, and step-by-step instructions.">
-    <link rel="stylesheet" href="style.css">
+    <title>AI Hustle Hub - AI-Powered Freelancing Course</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .tutorial-content {
-            padding: 120px 20px 40px;
-            max-width: 800px;
-            margin: 0 auto;
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
         }
 
-        .tutorial-header {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            color: white;
             text-align: center;
-            margin-bottom: 3rem;
+            position: relative;
+            margin-bottom: 2rem;
         }
 
-        .tutorial-header h1 {
-            color: var(--secondary-color);
-            font-size: 2.5rem;
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
 
-        .tutorial-section {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
         }
 
-        .tutorial-section h2 {
-            color: var(--secondary-color);
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .course-progress {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+            margin: -3rem auto 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.completed {
+            border: 2px solid #4CAF50;
+        }
+
+        .module-card.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .module-description {
+            color: #666;
             margin-bottom: 1.5rem;
         }
 
-        .tutorial-section p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .tool-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .tool-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: var(--card-background);
-            border-radius: 5px;
-        }
-
-        .tool-list i {
-            color: var(--secondary-color);
-            margin-right: 1rem;
+        .module-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.2rem;
         }
 
-        .step-list {
-            list-style: decimal;
-            padding-left: 1.5rem;
+        .module-status.completed {
+            color: #4CAF50;
         }
 
-        .step-list li {
-            margin-bottom: 1rem;
-            line-height: 1.8;
+        .module-status.locked {
+            color: #999;
         }
 
-        .example-box {
-            background: var(--card-background);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-
-        .example-box h4 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .back-button {
+        .module-link {
             display: inline-block;
-            background: var(--secondary-color);
-            color: white;
             padding: 0.8rem 1.5rem;
-            border-radius: 5px;
+            background: var(--gradient-accent);
+            color: white;
             text-decoration: none;
-            margin-bottom: 2rem;
-            transition: background-color 0.3s ease;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
         }
 
-        .back-button:hover {
-            background-color: #0773C5;
+        .module-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-card.locked .module-link {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">AI Money Guide</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#tutorials">Tutorials</a>
-            <a href="#course-content">Course Content</a>
-            <a href="#resources">Resources</a>
+    <header class="header">
+        <div class="brand">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <i class="fas fa-robot"></i>
+                <h1>AI Hustle Hub</h1>
+            </a>
         </div>
-        <div class="mobile-menu">
-            <i class="fas fa-bars"></i>
+        <p class="header-description">
+            Learn how to leverage AI tools to offer high-quality freelancing services that clients will pay premium prices for. Master the art of AI-powered freelancing and scale your income.
+        </p>
+    </header>
+
+    <div class="course-progress">
+        <h3>Course Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
         </div>
-    </nav>
+        <p><span class="completed-count">0</span>/4 Modules Complete</p>
+    </div>
 
-    <!-- Course Header -->
-    <section class="course-header">
-        <div class="container">
-            <h1>AI-Powered Freelancing Mastery</h1>
-            <p class="course-subtitle">Transform Your Skills into a Thriving Freelance Business Using AI Tools</p>
+    <div class="modules-grid">
+        <div class="module-card active">
+            <i class="fas fa-laptop module-icon"></i>
+            <i class="fas fa-spinner module-status"></i>
+            <h2 class="module-title">Module 1: Introduction to AI Freelancing</h2>
+            <p class="module-description">Learn the fundamentals of AI-powered freelancing, explore the market opportunities, and identify the skills needed to succeed in this growing field.</p>
+            <a href="tutorial1-module1.html" class="module-link">Start Module</a>
         </div>
-        <div class="progress-container">
-            <div class="progress-stats">
-                <div class="progress-stat">
-                    <span class="stat-value">0/6</span>
-                    <span class="stat-label">Modules Complete</span>
-                </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0%</span>
-                    <span class="stat-label">Course Progress</span>
-                </div>
-                <div class="progress-stat">
-                    <span class="stat-value">0</span>
-                    <span class="stat-label">Points Earned</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress" style="width: 0%"></div>
-            </div>
-            <div class="progress-badges">
-                <div class="badge locked">
-                    <i class="fas fa-star"></i>
-                    <span>Module 1</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-tools"></i>
-                    <span>Module 2</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-road"></i>
-                    <span>Module 3</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-trophy"></i>
-                    <span>Module 4</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Module 5</span>
-                </div>
-                <div class="badge locked">
-                    <i class="fas fa-tasks"></i>
-                    <span>Module 6</span>
-                </div>
-            </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-tools module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 2: Essential AI Tools</h2>
+            <p class="module-description">Master the core AI tools that will enhance your freelancing services, including ChatGPT, Midjourney, and specialized AI solutions for different niches.</p>
+            <a href="tutorial1-module2.html" class="module-link">Start Module</a>
         </div>
-    </section>
 
-    <!-- Course Overview -->
-    <section id="course-content" class="course-overview">
-        <div class="container">
-            <h2>What You'll Learn</h2>
-            <div class="learning-objectives">
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>How to leverage AI tools to deliver high-quality freelance services</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Techniques to find and retain high-paying clients</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Strategies to scale your income from $500 to $5,000 monthly</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Best practices for managing your freelance business</p>
-                </div>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-store module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 3: Building Your Service Portfolio</h2>
+            <p class="module-description">Create a compelling portfolio showcasing your AI-enhanced services, set competitive pricing, and position yourself effectively in the market.</p>
+            <a href="tutorial1-module3.html" class="module-link">Start Module</a>
         </div>
-    </section>
 
-    <!-- Course Modules -->
-    <section class="course-modules">
-        <div class="container">
-            <!-- Module 1: Introduction to AI Freelancing -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 1: Introduction to AI Freelancing</h2>
-                    <span class="estimated-time">Estimated time: 2 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>1.1 What is AI-Powered Freelancing?</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>AI-powered freelancing represents a revolutionary approach to freelance work, combining traditional freelance services with cutting-edge artificial intelligence tools to deliver superior results more efficiently. This innovative blend allows freelancers to enhance their capabilities, increase productivity, and command higher rates in the market.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Core Concepts</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-robot"></i>
-                                        <h5>Definition & Scope</h5>
-                                        <p>AI-powered freelancing integrates artificial intelligence tools into traditional freelance services to enhance quality, speed, and value delivery. It encompasses various services from content creation to technical consulting.</p>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-tools"></i>
-                                        <h5>AI Enhancement</h5>
-                                        <p>Learn how AI tools augment your services:</p>
-                                        <ul>
-                                            <li>Automated research and analysis</li>
-                                            <li>Content generation and optimization</li>
-                                            <li>Quality assurance and improvement</li>
-                                            <li>Process automation and efficiency</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-chart-line"></i>
-                                        <h5>Market Opportunities</h5>
-                                        <p>Current market demands and trends:</p>
-                                        <ul>
-                                            <li>High-demand AI-enhanced services</li>
-                                            <li>Emerging market niches</li>
-                                            <li>Pricing strategies and potential earnings</li>
-                                            <li>Growth projections for 2024-2025</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="1"> Mark Module 1 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lesson">
-                        <h3>1.2 Benefits and Potential Earnings</h3>
-                        <div class="lesson-content">
-                            <div class="earnings-breakdown">
-                                <h4>Typical Earnings by Service:</h4>
-                                <ul>
-                                    <li>Content Writing: $500-$3,000/month</li>
-                                    <li>AI-Assisted Design: $1,000-$4,000/month</li>
-                                    <li>Technical Services: $2,000-$5,000/month</li>
-                                    <li>Consulting: $1,500-$5,000/month</li>
-                                </ul>
-                            </div>
-                            <div class="benefits-list">
-                                <h4>Key Benefits:</h4>
-                                <ul>
-                                    <li>Increased productivity and output</li>
-                                    <li>Higher quality deliverables</li>
-                                    <li>Better client satisfaction</li>
-                                    <li>Competitive advantage</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lesson">
-                        <h3>1.3 Success Stories and Case Studies</h3>
-                        <div class="lesson-content">
-                            <div class="success-story">
-                                <img src="path-to-sarah-image.jpg" alt="Sarah's Success Story">
-                                <h4>Sarah's Journey: From $500 to $5,000/month</h4>
-                                <p>Sarah started as a freelance writer using basic AI tools. Within 6 months, she built a specialized service helping SaaS companies create AI-enhanced technical documentation.</p>
-                                <ul class="key-strategies">
-                                    <li>Specialized in a specific niche</li>
-                                    <li>Developed custom AI prompts</li>
-                                    <li>Created a repeatable workflow</li>
-                                    <li>Built strong client relationships</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lesson">
-                        <h3>1.4 Common Misconceptions</h3>
-                        <div class="lesson-content">
-                            <div class="myth-vs-reality">
-                                <div class="myth">
-                                    <h4>Myth: "AI will replace freelancers"</h4>
-                                    <p>Reality: AI enhances freelancers' capabilities, creating more opportunities for those who know how to leverage it.</p>
-                                </div>
-                                <div class="myth">
-                                    <h4>Myth: "You need technical expertise"</h4>
-                                    <p>Reality: Many AI tools are user-friendly and require no coding knowledge.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 1 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 1 Quiz: AI Freelancing Fundamentals</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Content Creation">
-                                <p>Which AI freelancing niche typically has the lowest barrier to entry?</p>
-                                <label><input type="radio" name="q1">Content Creation</label>
-                                <label><input type="radio" name="q1">AI Development</label>
-                                <label><input type="radio" name="q1">Data Science</label>
-                                <label><input type="radio" name="q1">Machine Learning</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="ChatGPT">
-                                <p>Which AI tool is most commonly used for content creation in freelancing?</p>
-                                <label><input type="radio" name="q2">Midjourney</label>
-                                <label><input type="radio" name="q2">ChatGPT</label>
-                                <label><input type="radio" name="q2">DALL-E</label>
-                                <label><input type="radio" name="q2">Stable Diffusion</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Portfolio">
-                                <p>What is the most important factor for landing your first AI freelancing client?</p>
-                                <label><input type="radio" name="q3">Lowest Price</label>
-                                <label><input type="radio" name="q3">Portfolio</label>
-                                <label><input type="radio" name="q3">Years of Experience</label>
-                                <label><input type="radio" name="q3">Certifications</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-
-                    <!-- Module 1 Assignment -->
-                    <div class="module-assignment">
-                        <h3>Practical Assignment</h3>
-                        <div class="assignment-content">
-                            <p>Research and identify three AI tools that could enhance your chosen freelance service. Create a brief analysis of:</p>
-                            <ul>
-                                <li>How each tool can improve your work</li>
-                                <li>Potential time savings</li>
-                                <li>Cost vs. benefit analysis</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 2: Choosing Your AI-Powered Niche -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 2: Choosing Your AI-Powered Niche</h2>
-                    <span class="estimated-time">Estimated time: 3 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>2.1 Deep Dive into Niche Selection</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Choosing the right AI-powered freelancing niche is crucial for your success. This lesson will guide you through identifying and evaluating profitable niches that align with your skills and market demands. We'll explore how to combine traditional freelance services with AI capabilities to create unique value propositions.</p>
-                            </div>
-                            <div class="market-analysis">
-                                <h4>Current Market Landscape</h4>
-                                <div class="market-stats">
-                                    <div class="stat-card">
-                                        <i class="fas fa-chart-line"></i>
-                                        <h5>Market Growth</h5>
-                                        <p>AI freelancing market expected to grow by 37% in 2024-2025</p>
-                                    </div>
-                                    <div class="stat-card">
-                                        <i class="fas fa-dollar-sign"></i>
-                                        <h5>Average Rates</h5>
-                                        <p>AI-enhanced services command 2-4x higher rates</p>
-                                    </div>
-                                    <div class="stat-card">
-                                        <i class="fas fa-users"></i>
-                                        <h5>Client Demand</h5>
-                                        <p>73% increase in AI service requests on major platforms</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="niche-categories">
-                                <h4>Top AI Freelancing Niches</h4>
-                                <div class="niche-grid">
-                                    <div class="niche-card">
-                                        <i class="fas fa-pen"></i>
-                                        <h5>Content Creation</h5>
-                                        <div class="niche-details">
-                                            <ul>
-                                                <li>Blog & Article Writing</li>
-                                                <li>Technical Documentation</li>
-                                                <li>Social Media Content</li>
-                                                <li>Email Marketing</li>
-                                            </ul>
-                                            <div class="earning-potential">
-                                                <span class="label">Monthly Potential</span>
-                                                <span class="value">$2,000 - $8,000</span>
-                                            </div>
-                                            <div class="competition-level">
-                                                <span class="label">Competition</span>
-                                                <span class="badge medium">Medium</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="niche-card">
-                                        <i class="fas fa-paint-brush"></i>
-                                        <h5>Design Services</h5>
-                                        <div class="niche-details">
-                                            <ul>
-                                                <li>AI-Generated Graphics</li>
-                                                <li>Brand Identity Design</li>
-                                                <li>UI/UX Enhancement</li>
-                                                <li>Marketing Visuals</li>
-                                            </ul>
-                                            <div class="earning-potential">
-                                                <span class="label">Monthly Potential</span>
-                                                <span class="value">$3,000 - $10,000</span>
-                                            </div>
-                                            <div class="competition-level">
-                                                <span class="label">Competition</span>
-                                                <span class="badge low">Low</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="niche-card">
-                                        <i class="fas fa-chart-bar"></i>
-                                        <h5>Data Analysis</h5>
-                                        <div class="niche-details">
-                                            <ul>
-                                                <li>Market Research</li>
-                                                <li>Business Intelligence</li>
-                                                <li>Trend Analysis</li>
-                                                <li>Performance Tracking</li>
-                                            </ul>
-                                            <div class="earning-potential">
-                                                <span class="label">Monthly Potential</span>
-                                                <span class="value">$4,000 - $12,000</span>
-                                            </div>
-                                            <div class="competition-level">
-                                                <span class="label">Competition</span>
-                                                <span class="badge high">High</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="niche-selection-framework">
-                                <h4>Niche Selection Framework</h4>
-                                <div class="framework-steps">
-                                    <div class="step-card">
-                                        <i class="fas fa-search"></i>
-                                        <h5>1. Market Research</h5>
-                                        <ul>
-                                            <li>Analyze market demand</li>
-                                            <li>Study competition levels</li>
-                                            <li>Identify price points</li>
-                                            <li>Research growth trends</li>
-                                        </ul>
-                                    </div>
-                                    <div class="step-card">
-                                        <i class="fas fa-tools"></i>
-                                        <h5>2. Skill Assessment</h5>
-                                        <ul>
-                                            <li>Evaluate current skills</li>
-                                            <li>Identify AI tool proficiency</li>
-                                            <li>Assess learning curve</li>
-                                            <li>Map skill gaps</li>
-                                        </ul>
-                                    </div>
-                                    <div class="step-card">
-                                        <i class="fas fa-bullseye"></i>
-                                        <h5>3. Positioning Strategy</h5>
-                                        <ul>
-                                            <li>Define unique value proposition</li>
-                                            <li>Set competitive rates</li>
-                                            <li>Create service packages</li>
-                                            <li>Develop portfolio plan</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="case-study">
-                                <h4>Success Story: Michael's Niche Selection</h4>
-                                <div class="case-study-content">
-                                    <div class="case-study-header">
-                                        <img src="images/michael-profile.jpg" alt="Michael's Success Story" class="case-study-image">
-                                        <div class="case-study-stats">
-                                            <div class="stat">
-                                                <span class="label">Initial Niche</span>
-                                                <span class="value">General Writing</span>
-                                            </div>
-                                            <div class="stat">
-                                                <span class="label">Specialized Niche</span>
-                                                <span class="value">AI-Enhanced SaaS Documentation</span>
-                                            </div>
-                                            <div class="stat">
-                                                <span class="label">Revenue Increase</span>
-                                                <span class="value">312%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="case-study-details">
-                                        <h5>Selection Process</h5>
-                                        <ol>
-                                            <li>Identified growing demand for technical documentation in SaaS</li>
-                                            <li>Leveraged existing technical writing background</li>
-                                            <li>Mastered AI tools for documentation automation</li>
-                                            <li>Created a unique service combining manual expertise with AI efficiency</li>
-                                        </ol>
-                                        <div class="key-takeaways">
-                                            <h5>Key Takeaways</h5>
-                                            <ul>
-                                                <li><strong>Specificity Wins:</strong> Narrowing down from general writing to specialized documentation</li>
-                                                <li><strong>Value Addition:</strong> Using AI to enhance existing skills</li>
-                                                <li><strong>Market Alignment:</strong> Matching services with high-growth sectors</li>
-                                                <li><strong>Unique Positioning:</strong> Creating a distinctive service offering</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="practical-tips">
-                                <h4>Practical Tips for Niche Selection</h4>
-                                <div class="tips-grid">
-                                    <div class="tip-card">
-                                        <i class="fas fa-lightbulb"></i>
-                                        <h5>Start Small, Scale Smart</h5>
-                                        <p>Begin with a focused sub-niche and expand based on market response and expertise.</p>
-                                    </div>
-                                    <div class="tip-card">
-                                        <i class="fas fa-comments"></i>
-                                        <h5>Listen to Market Needs</h5>
-                                        <p>Monitor freelance platforms and industry forums to identify emerging opportunities.</p>
-                                    </div>
-                                    <div class="tip-card">
-                                        <i class="fas fa-chart-pie"></i>
-                                        <h5>Test Before Committing</h5>
-                                        <p>Experiment with small projects in different niches to find your perfect fit.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="2"> Mark Module 2 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lesson">
-                        <h3>2.2 Benefits and Potential Earnings</h3>
-                        <div class="lesson-content">
-                            <div class="earnings-breakdown">
-                                <h4>Typical Earnings by Service:</h4>
-                                <ul>
-                                    <li>Content Writing: $500-$3,000/month</li>
-                                    <li>AI-Assisted Design: $1,000-$4,000/month</li>
-                                    <li>Technical Services: $2,000-$5,000/month</li>
-                                    <li>Consulting: $1,500-$5,000/month</li>
-                                </ul>
-                            </div>
-                            <div class="benefits-list">
-                                <h4>Key Benefits:</h4>
-                                <ul>
-                                    <li>Increased productivity and output</li>
-                                    <li>Higher quality deliverables</li>
-                                    <li>Better client satisfaction</li>
-                                    <li>Competitive advantage</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lesson">
-                        <h3>2.3 Success Stories and Case Studies</h3>
-                        <div class="lesson-content">
-                            <div class="success-story">
-                                <img src="path-to-sarah-image.jpg" alt="Sarah's Success Story">
-                                <h4>Sarah's Journey: From $500 to $5,000/month</h4>
-                                <p>Sarah started as a freelance writer using basic AI tools. Within 6 months, she built a specialized service helping SaaS companies create AI-enhanced technical documentation.</p>
-                                <ul class="key-strategies">
-                                    <li>Specialized in a specific niche</li>
-                                    <li>Developed custom AI prompts</li>
-                                    <li>Created a repeatable workflow</li>
-                                    <li>Built strong client relationships</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lesson">
-                        <h3>2.4 Common Misconceptions</h3>
-                        <div class="lesson-content">
-                            <div class="myth-vs-reality">
-                                <div class="myth">
-                                    <h4>Myth: "AI will replace freelancers"</h4>
-                                    <p>Reality: AI enhances freelancers' capabilities, creating more opportunities for those who know how to leverage it.</p>
-                                </div>
-                                <div class="myth">
-                                    <h4>Myth: "You need technical expertise"</h4>
-                                    <p>Reality: Many AI tools are user-friendly and require no coding knowledge.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Module 2 Quiz -->
-                    <div class="module-quiz">
-                        <h3>Module 2 Quiz: AI Tools & Setup</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should you consider when choosing AI tools for freelancing?</p>
-                                <label><input type="radio" name="q4">Cost-effectiveness</label>
-                                <label><input type="radio" name="q4">Learning curve</label>
-                                <label><input type="radio" name="q4">Output quality</label>
-                                <label><input type="radio" name="q4">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-
-                    <!-- Resources Section -->
-                    <section id="resources" class="resources">
-                        <div class="container">
-                            <h2>Additional Resources</h2>
-                            <div class="resource-grid">
-                                <div class="resource-card">
-                                    <i class="fas fa-book"></i>
-                                    <h3>Recommended Reading</h3>
-                                    <ul>
-                                        <li><a href="#">The AI Freelancer's Handbook</a></li>
-                                        <li><a href="#">Mastering ChatGPT for Business</a></li>
-                                        <li><a href="#">The Future of AI in Freelancing</a></li>
-                                    </ul>
-                                </div>
-                                <div class="resource-card">
-                                    <i class="fas fa-tools"></i>
-                                    <h3>Essential Tools</h3>
-                                    <ul>
-                                        <li><a href="https://chat.openai.com">ChatGPT</a></li>
-                                        <li><a href="https://www.midjourney.com">Midjourney</a></li>
-                                        <li><a href="https://github.com/features/copilot">GitHub Copilot</a></li>
-                                    </ul>
-                                </div>
-                                <div class="resource-card">
-                                    <i class="fas fa-community"></i>
-                                    <h3>Community</h3>
-                                    <ul>
-                                        <li><a href="#">Join our Discord</a></li>
-                                        <li><a href="#">Facebook Group</a></li>
-                                        <li><a href="#">LinkedIn Network</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <!-- Module 3: Success Stories and Case Studies -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 3: Success Stories and Case Studies</h2>
-                    <span class="estimated-time">Estimated time: 1.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>3.1 Sarah's Journey: From $500 to $5,000/month</h3>
-                        <div class="lesson-content">
-                            <div class="success-story">
-                                <img src="path-to-sarah-image.jpg" alt="Sarah's Success Story">
-                                <h4>Sarah's Journey: From $500 to $5,000/month</h4>
-                                <p>Sarah started as a freelance writer using basic AI tools. Within 6 months, she built a specialized service helping SaaS companies create AI-enhanced technical documentation.</p>
-                                <ul class="key-strategies">
-                                    <li>Specialized in a specific niche</li>
-                                    <li>Developed custom AI prompts</li>
-                                    <li>Created a repeatable workflow</li>
-                                    <li>Built strong client relationships</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="3"> Mark Module 3 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 4: Common Misconceptions -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 4: Common Misconceptions</h2>
-                    <span class="estimated-time">Estimated time: 1 hour</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>4.1 Myth vs. Reality</h3>
-                        <div class="lesson-content">
-                            <div class="myth-vs-reality">
-                                <div class="myth">
-                                    <h4>Myth: "AI will replace freelancers"</h4>
-                                    <p>Reality: AI enhances freelancers' capabilities, creating more opportunities for those who know how to leverage it.</p>
-                                </div>
-                                <div class="myth">
-                                    <h4>Myth: "You need technical expertise"</h4>
-                                    <p>Reality: Many AI tools are user-friendly and require no coding knowledge.</p>
-                                </div>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="4"> Mark Module 4 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 5: Practical Assignment -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 5: Practical Assignment</h2>
-                    <span class="estimated-time">Estimated time: 2 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>5.1 Research and Identify AI Tools</h3>
-                        <div class="lesson-content">
-                            <div class="assignment-content">
-                                <p>Research and identify three AI tools that could enhance your chosen freelance service. Create a brief analysis of:</p>
-                                <ul>
-                                    <li>How each tool can improve your work</li>
-                                    <li>Potential time savings</li>
-                                    <li>Cost vs. benefit analysis</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="5"> Mark Module 5 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Module 6: Resources Section -->
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 6: Resources Section</h2>
-                    <span class="estimated-time">Estimated time: 1 hour</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>6.1 Additional Resources</h3>
-                        <div class="lesson-content">
-                            <div class="resource-grid">
-                                <div class="resource-card">
-                                    <i class="fas fa-book"></i>
-                                    <h3>Recommended Reading</h3>
-                                    <ul>
-                                        <li><a href="#">The AI Freelancer's Handbook</a></li>
-                                        <li><a href="#">Mastering ChatGPT for Business</a></li>
-                                        <li><a href="#">The Future of AI in Freelancing</a></li>
-                                    </ul>
-                                </div>
-                                <div class="resource-card">
-                                    <i class="fas fa-tools"></i>
-                                    <h3>Essential Tools</h3>
-                                    <ul>
-                                        <li><a href="https://chat.openai.com">ChatGPT</a></li>
-                                        <li><a href="https://www.midjourney.com">Midjourney</a></li>
-                                        <li><a href="https://github.com/features/copilot">GitHub Copilot</a></li>
-                                    </ul>
-                                </div>
-                                <div class="resource-card">
-                                    <i class="fas fa-community"></i>
-                                    <h3>Community</h3>
-                                    <ul>
-                                        <li><a href="#">Join our Discord</a></li>
-                                        <li><a href="#">Facebook Group</a></li>
-                                        <li><a href="#">LinkedIn Network</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="6"> Mark Module 6 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-users module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 4: Client Acquisition & Retention</h2>
+            <p class="module-description">Discover proven strategies for finding and retaining high-paying clients, delivering exceptional service, and scaling your freelance business.</p>
+            <a href="tutorial1-module4.html" class="module-link">Start Module</a>
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>AI Money Guide</h3>
-                    <p>Your path to AI-powered freelance success</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <a href="index.html">Home</a>
-                    <a href="#course-content">Course Content</a>
-                    <a href="#resources">Resources</a>
-                </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <p>Email: support@aimoneyguide.com</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 AI Money Guide. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Remove script.js reference -->
-    <!-- <script src="script.js"></script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Progress tracking
-            let totalModules = 6;
-            let completedModules = [];
-            let totalPoints = 0;
-            const pointsPerModule = 100;
+            // Check progress of each module
+            const module1Progress = JSON.parse(localStorage.getItem('tutorial1_module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial1_module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('tutorial1_module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial1_module4Progress')) || [];
             
-            // Load saved progress from local storage
-            const savedProgress = JSON.parse(localStorage.getItem('tutorial1Progress')) || {};
-            completedModules = Array.isArray(savedProgress.completedModules) ? savedProgress.completedModules : [];
-            totalPoints = savedProgress.totalPoints || 0;
-            let completedQuizzes = Array.isArray(savedProgress.completedQuizzes) ? savedProgress.completedQuizzes : [];
-
-            // Debug initial state
-            console.log('Initial state:', { completedModules, completedQuizzes, totalPoints });
-
-            function getModuleIndex(element) {
-                const module = element.closest('.module');
-                if (!module) return -1;
-                return Array.from(document.querySelectorAll('.module')).indexOf(module);
-            }
-
-            function updateModuleUI(moduleIndex, isComplete) {
-                const module = document.querySelectorAll('.module')[moduleIndex];
-                if (!module) return;
-
-                const checkbox = module.querySelector('.module-complete');
-                if (checkbox) {
-                    checkbox.checked = isComplete;
-                }
-
-                // Update module visual state
-                if (isComplete) {
-                    module.classList.add('completed');
-                    // Add completion message if it doesn't exist
-                    if (!module.querySelector('.completion-message')) {
-                        const message = document.createElement('div');
-                        message.className = 'completion-message';
-                        message.textContent = '✓ Module Completed!';
-                        message.style.color = '#4CAF50';
-                        message.style.fontWeight = 'bold';
-                        message.style.marginTop = '10px';
-                        module.querySelector('.module-header').appendChild(message);
-                    }
-                } else {
-                    module.classList.remove('completed');
-                    const message = module.querySelector('.completion-message');
-                    if (message) {
-                        message.remove();
-                    }
-                }
-            }
-
-            function checkModuleCompletion(moduleIndex) {
-                const module = document.querySelectorAll('.module')[moduleIndex];
-                if (!module) return false;
-
-                const hasQuiz = module.querySelector('.quiz-form') !== null;
-                const checkbox = module.querySelector('.module-complete');
-                
-                const quizPassed = hasQuiz ? completedQuizzes.includes(moduleIndex) : true;
-                const isChecked = checkbox ? checkbox.checked : false;
-
-                console.log('Checking module completion:', {
-                    moduleIndex,
-                    hasQuiz,
-                    quizPassed,
-                    isChecked,
-                    completedQuizzes,
-                    completedModules
-                });
-
-                const shouldBeComplete = quizPassed && isChecked;
-
-                if (shouldBeComplete) {
-                    if (!completedModules.includes(moduleIndex)) {
-                        completedModules.push(moduleIndex);
-                        totalPoints += pointsPerModule;
-                        updateProgress();
-                        updateModuleUI(moduleIndex, true);
-                        console.log('Module marked complete:', moduleIndex);
-                    }
-                    return true;
-                } else {
-                    if (completedModules.includes(moduleIndex)) {
-                        completedModules = completedModules.filter(i => i !== moduleIndex);
-                        totalPoints -= pointsPerModule;
-                        updateProgress();
-                        updateModuleUI(moduleIndex, false);
-                        console.log('Module marked incomplete:', moduleIndex);
-                    }
-                    return false;
-                }
-            }
+            // Count completed modules (a module is complete when all 4 lessons are done)
+            const completedModules = [
+                module1Progress.length === 4,
+                module2Progress.length === 4,
+                module3Progress.length === 4,
+                module4Progress.length === 4
+            ].filter(Boolean);
             
-            function updateProgress() {
-                const progressBar = document.querySelector('.progress');
-                const progressPercentage = (completedModules.length / totalModules) * 100;
-                progressBar.style.width = progressPercentage + '%';
-                
-                document.querySelector('.progress-stat:nth-child(1) .stat-value').textContent = 
-                    completedModules.length + '/' + totalModules;
-                document.querySelector('.progress-stat:nth-child(2) .stat-value').textContent = 
-                    Math.round(progressPercentage) + '%';
-                document.querySelector('.progress-stat:nth-child(3) .stat-value').textContent = 
-                    totalPoints;
-                
-                const badges = document.querySelectorAll('.badge');
-                badges.forEach((badge, index) => {
-                    if (completedModules.includes(index)) {
-                        badge.classList.remove('locked');
-                        badge.classList.add('unlocked');
-                    } else {
-                        badge.classList.remove('unlocked');
-                        badge.classList.add('locked');
-                    }
-                });
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalModules = 4;
+            const percentage = (completedModules.length / totalModules) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedModules.length;
 
-                // Save progress
-                const progressData = {
-                    completedModules,
-                    totalPoints,
-                    completedQuizzes
-                };
-                localStorage.setItem('tutorial1Progress', JSON.stringify(progressData));
-                console.log('Progress saved:', progressData);
-            }
-
-            // Quiz functionality
-            function initializeQuizzes() {
-                console.log('Starting quiz initialization...');
-                const quizForms = document.querySelectorAll('.quiz-form');
-                console.log('Found quiz forms:', quizForms.length);
+            // Update module cards based on completion
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial1_module${index + 1}Progress`)) || [];
+                const isCompleted = moduleProgress.length === 4;
+                const prevModuleProgress = index === 0 ? [1, 2, 3, 4] : JSON.parse(localStorage.getItem(`tutorial1_module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
-                quizForms.forEach((form, index) => {
-                    console.log('Setting up quiz form:', index);
-                    
-                    // Add submit button if it doesn't exist
-                    if (!form.querySelector('.quiz-submit')) {
-                        const submitBtn = document.createElement('button');
-                        submitBtn.type = 'submit';
-                        submitBtn.className = 'quiz-submit';
-                        submitBtn.textContent = 'Submit Answers';
-                        form.appendChild(submitBtn);
-                    }
-                    
-                    // Add retry button if it doesn't exist
-                    if (!form.querySelector('.quiz-retry')) {
-                        const retryBtn = document.createElement('button');
-                        retryBtn.type = 'button';
-                        retryBtn.className = 'quiz-retry';
-                        retryBtn.textContent = 'Try Again';
-                        retryBtn.style.display = 'none';
-                        form.appendChild(retryBtn);
-                    }
-                    
-                    // Add score div if it doesn't exist
-                    if (!form.querySelector('.quiz-score')) {
-                        const scoreDiv = document.createElement('div');
-                        scoreDiv.className = 'quiz-score';
-                        form.appendChild(scoreDiv);
-                    }
-                    
-                    // Remove any existing submit event listeners
-                    const newSubmitHandler = form.onsubmit;
-                    form.onsubmit = null;
-                    
-                    form.addEventListener('submit', function(e) {
+                const moduleLink = card.querySelector('.module-link');
+                if (isCompleted) {
+                    card.classList.remove('locked', 'active');
+                    card.classList.add('completed');
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    moduleLink.textContent = 'Review Module';
+                    moduleLink.href = `tutorial1-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked', 'completed');
+                    card.classList.add('active');
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial1-module${index + 1}.html`;
+                } else {
+                    card.classList.remove('active', 'completed');
+                    card.classList.add('locked');
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
+                    moduleLink.href = '#';
+                    moduleLink.onclick = function(e) {
                         e.preventDefault();
-                        console.log('Quiz form submitted');
-                        const moduleIndex = getModuleIndex(this);
-                        if (moduleIndex === -1) {
-                            console.error('Could not determine module index');
-                            return;
-                        }
-
-                        console.log('Processing quiz submission for module:', moduleIndex);
-                        const questions = this.querySelectorAll('.quiz-question');
-                        let correctAnswers = 0;
-                        let totalQuestions = questions.length;
-                        let allQuestionsAnswered = true;
-                        
-                        questions.forEach(question => {
-                            const selectedAnswer = question.querySelector('input:checked');
-                            if (!selectedAnswer) {
-                                question.querySelector('.question-feedback').textContent = 'Please select an answer.';
-                                question.querySelector('.question-feedback').className = 'question-feedback incorrect';
-                                allQuestionsAnswered = false;
-                                return;
-                            }
-
-                            const correctAnswer = question.getAttribute('data-correct');
-                            const selectedText = selectedAnswer.parentElement.textContent.trim();
-
-                            console.log('Checking answer:', {
-                                moduleIndex,
-                                questionIndex: Array.from(questions).indexOf(question),
-                                selected: selectedText,
-                                correct: correctAnswer,
-                                matches: selectedText === correctAnswer
-                            });
-
-                            const feedback = question.querySelector('.question-feedback');
-                            if (selectedText === correctAnswer) {
-                                feedback.textContent = 'Correct! Great job!';
-                                feedback.className = 'question-feedback correct';
-                                correctAnswers++;
-                            } else {
-                                feedback.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
-                                feedback.className = 'question-feedback incorrect';
-                            }
-                        });
-
-                        if (!allQuestionsAnswered) {
-                            return;
-                        }
-
-                        const scoreDiv = this.querySelector('.quiz-score');
-                        const submitBtn = this.querySelector('.quiz-submit');
-                        const retryBtn = this.querySelector('.quiz-retry');
-                        
-                        console.log('Quiz results:', {
-                            moduleIndex,
-                            correctAnswers,
-                            totalQuestions,
-                            passed: correctAnswers === totalQuestions
-                        });
-
-                        if (correctAnswers === totalQuestions) {
-                            scoreDiv.textContent = 'Quiz Passed! 🎉';
-                            scoreDiv.className = 'quiz-score passed';
-                            
-                            if (!completedQuizzes.includes(moduleIndex)) {
-                                completedQuizzes.push(moduleIndex);
-                                console.log('Quiz completed for module:', moduleIndex);
-                                // Force check module completion
-                                setTimeout(() => checkModuleCompletion(moduleIndex), 100);
-                            }
-                        } else {
-                            scoreDiv.textContent = 'Try again!';
-                            scoreDiv.className = 'quiz-score failed';
-                            completedQuizzes = completedQuizzes.filter(i => i !== moduleIndex);
-                            checkModuleCompletion(moduleIndex);
-                        }
-                        
-                        submitBtn.style.display = 'none';
-                        retryBtn.style.display = 'block';
-                    });
-                    
-                    const retryBtn = form.querySelector('.quiz-retry');
-                    if (retryBtn) {
-                        retryBtn.addEventListener('click', function() {
-                            const form = this.closest('.quiz-form');
-                            form.reset();
-                            form.querySelectorAll('.question-feedback').forEach(feedback => {
-                                feedback.textContent = '';
-                                feedback.className = 'question-feedback';
-                            });
-                            const scoreDiv = form.querySelector('.quiz-score');
-                            scoreDiv.textContent = '';
-                            scoreDiv.className = 'quiz-score';
-                            this.style.display = 'none';
-                            form.querySelector('.quiz-submit').style.display = 'block';
-                        });
-                    }
-                });
-                console.log('Quiz initialization complete');
-            }
-
-            // Completion checkbox functionality
-            const completionCheckboxes = document.querySelectorAll('.module-complete');
-            completionCheckboxes.forEach((checkbox) => {
-                const moduleIndex = parseInt(checkbox.dataset.module) - 1;
-                
-                checkbox.addEventListener('change', function() {
-                    console.log('Checkbox changed:', {
-                        moduleIndex,
-                        checked: this.checked,
-                        quizCompleted: completedQuizzes.includes(moduleIndex)
-                    });
-                    // Force check module completion
-                    setTimeout(() => checkModuleCompletion(moduleIndex), 100);
-                });
-
-                // Initialize checkbox state and UI
-                if (completedModules.includes(moduleIndex)) {
-                    checkbox.checked = true;
-                    updateModuleUI(moduleIndex, true);
+                        alert('Please complete the previous module first.');
+                    };
                 }
             });
-
-            // Initial check of all modules
-            document.querySelectorAll('.module').forEach((module, index) => {
-                checkModuleCompletion(index);
-            });
-
-            // Initial progress update
-            updateProgress();
-
-            // Initialize quizzes immediately
-            initializeQuizzes();
         });
     </script>
 </body>

@@ -33,37 +33,81 @@
     <style>
         :root {
             --primary-color: #1a1a1a;
-            --accent-color: #4a90e2;
+            --accent-color: #4A9DE7; /* Light blue for CTAs instead of orange */
+            --secondary-color: #2D82C7;
             --text-light: #ffffff;
             --text-dark: #333333;
             --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            --gradient-accent: linear-gradient(135deg, #4A9DE7 0%, #6CB9F0 100%);
+            --gradient-secondary: linear-gradient(135deg, #2D82C7 0%, #1E73BE 100%);
         }
 
-        /* Existing styles */
+        /* Existing styles with improvements */
         
         .navbar {
-            background: var(--gradient-primary);
-            padding: 1rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.6rem 2rem;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-light);
             background: var(--gradient-accent);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.9rem;
             border-radius: 25px;
             transition: transform 0.3s ease;
+            letter-spacing: 0.5px;
         }
 
         .logo:hover {
             transform: scale(1.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.3s ease, transform 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a[href="#testimonials"] {
+            display: none; /* Hide testimonials link */
         }
 
         .tutorial-card {
@@ -90,7 +134,7 @@
         .tutorial-icon {
             font-size: 2rem;
             color: var(--accent-color);
-            background: rgba(74, 144, 226, 0.1);
+            background: rgba(74, 157, 231, 0.1);
             padding: 1rem;
             border-radius: 50%;
         }
@@ -127,15 +171,89 @@
         }
 
         .course-structure {
-            background: var(--gradient-primary);
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
             color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
+            padding: 1.8rem;
+            border-radius: 12px;
             margin-top: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 15px rgba(74, 157, 231, 0.2);
+            border: 1px solid rgba(74, 157, 231, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: subtle-glow 2s infinite alternate;
+        }
+
+        @keyframes subtle-glow {
+            0% {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 15px rgba(74, 157, 231, 0.2);
+            }
+            100% {
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(74, 157, 231, 0.4);
+            }
+        }
+
+        .tutorial-card:hover .course-structure {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(74, 157, 231, 0.5);
+        }
+
+        .course-structure:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(74, 157, 231, 0.6), transparent);
+            animation: glow-line 3s infinite;
+        }
+
+        @keyframes glow-line {
+            0% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0.3;
+            }
         }
 
         .course-structure p {
-            margin: 0.5rem 0;
+            margin: 0.8rem 0;
+            font-size: 1.05rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .course-structure p:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #4a9de7;
+            font-size: 1.2rem;
+        }
+
+        .course-structure strong {
+            color: #4a9de7;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .course-structure strong:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: rgba(74, 157, 231, 0.4);
         }
 
         .read-more {
@@ -184,7 +302,1070 @@
             color: white;
         }
 
-        /* Rest of existing styles */
+        /* Hero Section Styles */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            z-index: 2;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: calc(100% - 60px);
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+        
+        .hero-headline {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: white;
+            letter-spacing: -0.5px;
+            display: block;
+            padding-top: 0.5rem;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        .highlight {
+            color: #4a9de7;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .highlight::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            bottom: 5px;
+            left: 0;
+            background-color: var(--accent-color);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            max-width: 850px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .feature i {
+            color: var(--accent-color);
+        }
+        
+        .cta-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 2rem 0 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .market-stat-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background-color: rgba(74, 157, 231, 0.15);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(74, 157, 231, 0.3);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        
+        .market-stat-counter i {
+            color: #4a9de7;
+            font-size: 1.2rem;
+        }
+        
+        .primary-cta {
+            background: linear-gradient(135deg, #4a9de7 0%, #2d82c7 100%);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            font-size: 1.05rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            gap: 0.6rem;
+            box-shadow: 0 4px 20px rgba(74, 157, 231, 0.5);
+            min-width: 200px;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+        
+        .primary-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(74, 157, 231, 0.6);
+        }
+        
+        .countdown-section {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 0.6rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            z-index: 5;
+        }
+        
+        .limited-time {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 350px;
+            margin: 0 auto;
+            display: inline-block;
+        }
+        
+        .countdown-timer {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .countdown-label {
+            color: white;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin: 0 0.5rem 0 0;
+        }
+        
+        .countdown-digits {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .time-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            min-width: 40px;
+        }
+        
+        .time-block span:first-child {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4a9de7;
+        }
+        
+        .time-label {
+            font-size: 0.6rem;
+            color: white;
+            margin-top: 0.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-features {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .cta-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .market-stat-counter {
+                width: 100%;
+            }
+            
+            .primary-cta {
+                width: 100%;
+            }
+        }
+
+        .intro {
+            padding: 5rem 0;
+            background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
+        }
+        
+        .intro-content {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--text-dark);
+        }
+        
+        .intro-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .intro-features {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .intro-feature {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .feature-icon {
+            background: rgba(74, 157, 231, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .feature-icon i {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+        
+        .feature-content h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+        }
+        
+        .feature-content p {
+            color: var(--text-dark);
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+        
+        .intro-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            transform: rotate(2deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .intro-card:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        
+        .testimonial-highlight {
+            padding: 2rem;
+        }
+        
+        .testimonial-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--accent-color);
+        }
+        
+        .testimonial-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .testimonial-quote p {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .testimonial-quote p::before,
+        .testimonial-quote p::after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.5;
+            position: absolute;
+        }
+        
+        .testimonial-quote p::before {
+            top: -10px;
+            left: -10px;
+        }
+        
+        .testimonial-quote p::after {
+            bottom: -30px;
+            right: -10px;
+        }
+        
+        .testimonial-author {
+            margin-bottom: 0.5rem;
+        }
+        
+        .testimonial-rating {
+            color: #FFD700;
+        }
+        
+        @media (max-width: 991px) {
+            .intro-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .intro-card {
+                transform: rotate(0);
+                margin-top: 2rem;
+            }
+        }
+
+        /* Pricing Banner Styles */
+        .pricing-banner {
+            background: linear-gradient(135deg, #2D82C7 0%, #4A9DE7 50%, #6CB9F0 100%);
+            padding: 1rem 0;
+            color: white;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .pricing-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(74, 157, 231, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        .pricing-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 1rem;
+        }
+        
+        .pricing-text h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .pricing-comparison {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .regular-price {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        
+        .sale-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .savings {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        /* Tutorials Section Styles */
+        .tutorials {
+            padding: 5rem 0;
+            background-color: #f8f9fa;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .section-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+        
+        .student-counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            background-color: rgba(74, 157, 231, 0.1);
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            margin: 0 auto 3rem;
+            width: fit-content;
+        }
+        
+        .student-counter i {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+        }
+        
+        .counter-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .counter-number {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+        
+        .counter-label {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+        
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .tutorial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .tutorial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .featured-card {
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 10px 30px rgba(74, 157, 231, 0.1);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(74, 157, 231, 0.3);
+        }
+        
+        .tutorial-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tutorial-icon {
+            font-size: 2rem;
+            color: var(--accent-color);
+            background: rgba(74, 157, 231, 0.1);
+            padding: 1rem;
+            border-radius: 50%;
+        }
+        
+        .completion-time {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tutorial-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .income-potential {
+            background-color: rgba(74, 157, 231, 0.1);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .income-potential span {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        .income-potential strong {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+        }
+        
+        .tutorial-description {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .key-learnings {
+            background: rgba(74, 144, 226, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+        }
+        
+        .key-learnings h4 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .key-learnings ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .key-learnings li {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .key-learnings i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+        
+        .enroll-now {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .enroll-now:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 157, 231, 0.3);
+        }
+        
+        /* Bundle Offer Styles */
+        .bundle-offer {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--accent-color);
+            margin-top: 4rem;
+        }
+        
+        .bundle-header {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .bundle-header h3 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+        
+        .bundle-tag {
+            background-color: white;
+            color: var(--accent-color);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        
+        .bundle-content {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .bundle-description p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+        
+        .bundle-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .bundle-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+        
+        .bundle-features i {
+            color: var(--accent-color);
+        }
+        
+        .bundle-pricing {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            padding-left: 2rem;
+        }
+        
+        .price-comparison {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .regular-price {
+            text-decoration: line-through;
+            color: var(--text-dark);
+            opacity: 0.6;
+            font-size: 1.1rem;
+        }
+        
+        .discount-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        .bundle-cta {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .bundle-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 157, 231, 0.3);
+        }
+        
+        @media (max-width: 991px) {
+            .bundle-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .bundle-pricing {
+                border-left: none;
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                padding-left: 0;
+                padding-top: 2rem;
+                margin-top: 1rem;
+            }
+            
+            .pricing-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .pricing-comparison {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* FAQ Section Styles */
+        .faq {
+            padding: 5rem 0;
+            background-color: #f8f9fa;
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: rgba(74, 157, 231, 0.05);
+        }
+        
+        .faq-question h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        .faq-icon {
+            color: var(--accent-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+        
+        .faq-answer p {
+            margin: 0;
+            color: var(--text-dark);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        .faq-cta {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .faq-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .faq-cta p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+        
+        .faq-cta a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .faq-cta a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Update the footer links to remove testimonials */
+        .footer-section a {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .testimonial-cta {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(74, 157, 231, 0.1) 0%, rgba(74, 157, 231, 0.05) 100%);
+            padding: 3rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .earnings-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(74, 157, 231, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .feature i {
+            color: var(--accent-color);
+        }
+
+        .enrollment-counter i {
+            color: var(--accent-color);
+        }
+
+        .testimonial-quote p::before,
+        .testimonial-quote p::after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.5;
+            position: absolute;
+        }
+
+        .featured-testimonial {
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 10px 30px rgba(74, 157, 231, 0.1);
+        }
+
+        .testimonial-badge {
+            background-color: var(--accent-color);
+            box-shadow: 0 3px 10px rgba(74, 157, 231, 0.3);
+        }
+
+        .features {
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+
+        .features h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+        }
+
+        .countdown-section {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1.5rem 0;
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 70px;
+        }
+
+        .countdown-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #4a9de7;
+        }
+
+        .countdown-label {
+            color: #4a9de7;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .limited-time {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 0.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -193,8 +1374,7 @@
         <div class="logo">AI Hustle Hub</div>
         <div class="nav-links">
             <a href="#home">Home</a>
-            <a href="#tutorials">Tutorials</a>
-            <a href="#testimonials">Testimonials</a>
+            <a href="#tutorials">Courses</a>
             <a href="#faq">FAQ</a>
         </div>
         <div class="mobile-menu">
@@ -204,29 +1384,139 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Make Money with AI</h1>
-            <p>Discover the 5 best ways to earn money using artificial intelligence</p>
-            <button class="cta-button" onclick="document.getElementById('tutorials').scrollIntoView({ behavior: 'smooth' })">Start Learning</button>
+            <div class="hero-headline">Transform Your Income</div>
+            <h1>with <span class="highlight">AI Side Hustles</span></h1>
+            <p class="hero-subtitle">Master 5 proven AI-powered methods that can earn you $500-$5,000 per month - even as a complete beginner</p>
+            
+            <div class="hero-features">
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>No technical skills required</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Step-by-step actionable training</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Start earning in as little as 7 days</span>
+                </div>
+            </div>
+            
+            <div class="cta-container">
+                <div class="market-stat-counter">
+                    <i class="fas fa-chart-line"></i>
+                    <span>$327 Billion AI market opportunity by 2027</span>
+                </div>
+                
+                <button class="cta-button primary-cta" onclick="document.getElementById('tutorials').scrollIntoView({ behavior: 'smooth' })">
+                    <span>Start Learning Today</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="countdown-section">
+            <div class="limited-time">
+                <div class="countdown-timer">
+                    <span class="countdown-label">LIMITED TIME OFFER:</span>
+                    <div class="countdown-digits">
+                        <div class="time-block"><span id="hours">23</span><span class="time-label">Hours</span></div>
+                        <div class="time-block"><span id="minutes">59</span><span class="time-label">Minutes</span></div>
+                        <div class="time-block"><span id="seconds">43</span><span class="time-label">Seconds</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Introduction Section -->
     <section class="intro">
         <div class="container">
-            <h2>Why AI is Your Next Money-Making Opportunity</h2>
-            <p>In today's digital age, artificial intelligence is revolutionizing how we work and earn money. Whether you're a complete beginner or an experienced entrepreneur, these AI-powered methods can help you generate significant income from the comfort of your home.</p>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <h2>AI Is Creating a <span class="highlight">New Class</span> of Online Entrepreneurs</h2>
+                    <p class="intro-description">Artificial intelligence is revolutionizing how people make money online - and those who act now are positioning themselves to benefit the most.</p>
+                    
+                    <div class="intro-features">
+                        <div class="intro-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Low Barrier to Entry</h3>
+                                <p>You don't need coding skills, technical expertise, or prior business experience to start.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="intro-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Rapidly Growing Market</h3>
+                                <p>The AI industry is projected to reach $997 billion by 2028, creating massive opportunities.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="intro-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-laptop-house"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Remote & Flexible</h3>
+                                <p>Work from anywhere, anytime - perfect for those seeking location independence.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Banner -->
+    <section class="pricing-banner">
+        <div class="container">
+            <div class="pricing-wrapper">
+                <div class="pricing-badge">
+                    <span>SPECIAL OFFER</span>
+                </div>
+                <div class="pricing-content">
+                    <div class="pricing-text">
+                        <h3>Limited Time Promotion: All 5 AI Courses</h3>
+                        <div class="pricing-comparison">
+                            <span class="regular-price">Regular Price: $49.99</span>
+                            <span class="sale-price">Today Only: $19.99</span>
+                            <span class="savings">Save 60%</span>
+                        </div>
+                    </div>
+                    <button class="cta-button primary-cta" onclick="document.getElementById('tutorials').scrollIntoView({ behavior: 'smooth' })">
+                        <span>Get Instant Access</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Tutorials Preview Section -->
     <section id="tutorials" class="tutorials">
         <div class="container">
-            <h2>5 AI Money-Making Methods</h2>
-            <p class="section-description">Each tutorial is carefully structured with practical exercises, real-world examples, and step-by-step guidance. Complete all modules to master AI-powered income generation.</p>
-            <div class="consumer-favorites">
-                <p><i class="fas fa-star"></i> Consumer Favorites: Affiliate Marketing and Content Creation tutorials are our most popular courses!</p>
+            <div class="section-header">
+                <h2>5 Proven AI Income Streams</h2>
+                <p class="section-description">Each course is carefully structured with practical exercises, real-world examples, and step-by-step guidance. Complete all modules to master AI-powered income generation.</p>
             </div>
+            
+            <div class="student-counter">
+                <i class="fas fa-dollar-sign"></i>
+                <div class="counter-text">
+                    <span class="counter-number">$4,500 - $12,000</span>
+                    <span class="counter-label">Average Monthly Income Potential with All 5 Methods</span>
+                </div>
+            </div>
+            
             <div class="tutorial-grid">
                 <!-- Tutorial Card 1 -->
                 <div class="tutorial-card">
@@ -235,8 +1525,12 @@
                         <span class="completion-time"><i class="far fa-clock"></i> 4-6 hours</span>
                     </div>
                     <h3>AI-Powered Freelancing</h3>
+                    <div class="income-potential">
+                        <span>Potential Monthly Income:</span>
+                        <strong>$500-$5,000</strong>
+                    </div>
                     <div class="tutorial-details">
-                        <p class="tutorial-description">Learn how to leverage AI tools to offer high-quality freelancing services and earn $500-$5,000 monthly.</p>
+                        <p class="tutorial-description">Learn how to leverage AI tools to offer high-quality freelancing services that clients will pay premium prices for.</p>
                         <div class="key-learnings">
                             <h4>What You'll Learn:</h4>
                             <ul>
@@ -251,18 +1545,26 @@
                             <p><strong>Ideal for:</strong> Beginners to intermediate freelancers</p>
                         </div>
                     </div>
-                    <button class="read-more" onclick="checkPaymentStatus(1)">Read More</button>
+                    <button class="enroll-now" onclick="checkPaymentStatus(1)">
+                        <span>Enroll Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
 
                 <!-- Tutorial Card 2 -->
-                <div class="tutorial-card">
+                <div class="tutorial-card featured-card">
+                    <div class="popular-badge">MOST POPULAR</div>
                     <div class="tutorial-header">
                         <i class="fas fa-chart-line tutorial-icon"></i>
                         <span class="completion-time"><i class="far fa-clock"></i> 5-7 hours</span>
                     </div>
                     <h3>Affiliate Marketing with AI</h3>
+                    <div class="income-potential">
+                        <span>Potential Monthly Income:</span>
+                        <strong>$1,000-$10,000</strong>
+                    </div>
                     <div class="tutorial-details">
-                        <p class="tutorial-description">Discover how to use AI to create and promote affiliate content that generates passive income.</p>
+                        <p class="tutorial-description">Discover how to use AI to create and promote affiliate content that generates passive income while you sleep.</p>
                         <div class="key-learnings">
                             <h4>What You'll Learn:</h4>
                             <ul>
@@ -273,11 +1575,14 @@
                             </ul>
                         </div>
                         <div class="course-structure">
-                            <p><strong>Structure:</strong> 5 modules, 15 lessons, 3 case studies</p>
+                            <p><strong>Structure:</strong> 7 modules, 28 lessons, 3 case studies</p>
                             <p><strong>Ideal for:</strong> Content creators and marketers</p>
                         </div>
                     </div>
-                    <button class="read-more" onclick="checkPaymentStatus(2)">Read More</button>
+                    <button class="enroll-now" onclick="checkPaymentStatus(2)">
+                        <span>Enroll Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
 
                 <!-- Tutorial Card 3 -->
@@ -287,8 +1592,12 @@
                         <span class="completion-time"><i class="far fa-clock"></i> 3-5 hours</span>
                     </div>
                     <h3>Content Creation with AI</h3>
+                    <div class="income-potential">
+                        <span>Potential Monthly Income:</span>
+                        <strong>$800-$7,500</strong>
+                    </div>
                     <div class="tutorial-details">
-                        <p class="tutorial-description">Master the art of creating engaging content using AI tools and monetize your creativity.</p>
+                        <p class="tutorial-description">Master the art of creating engaging content using AI tools and monetize your creativity across multiple platforms.</p>
                         <div class="key-learnings">
                             <h4>What You'll Learn:</h4>
                             <ul>
@@ -303,7 +1612,10 @@
                             <p><strong>Ideal for:</strong> Writers and social media creators</p>
                         </div>
                     </div>
-                    <button class="read-more" onclick="checkPaymentStatus(3)">Read More</button>
+                    <button class="enroll-now" onclick="checkPaymentStatus(3)">
+                        <span>Enroll Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
 
                 <!-- Tutorial Card 4 -->
@@ -329,7 +1641,10 @@
                             <p><strong>Ideal for:</strong> Digital entrepreneurs</p>
                         </div>
                     </div>
-                    <button class="read-more" onclick="checkPaymentStatus(4)">Read More</button>
+                    <button class="enroll-now" onclick="checkPaymentStatus(4)">
+                        <span>Enroll Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
 
                 <!-- Tutorial Card 5 -->
@@ -355,39 +1670,37 @@
                             <p><strong>Ideal for:</strong> Business consultants and strategists</p>
                         </div>
                     </div>
-                    <button class="read-more" onclick="checkPaymentStatus(5)">Read More</button>
+                    <button class="enroll-now" onclick="checkPaymentStatus(5)">
+                        <span>Enroll Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-        <div class="container">
-            <h2>Success Stories</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"I started using AI for content creation and now make $3,000 monthly!"</p>
-                        <div class="testimonial-author">
-                            <img src="https://via.placeholder.com/50" alt="Sarah M.">
-                            <div>
-                                <h4>Sarah M.</h4>
-                                <p>Content Creator</p>
+            
+            <div class="bundle-offer">
+                <div class="bundle-header">
+                    <h3>Complete AI Income Bundle</h3>
+                    <div class="bundle-tag">BEST VALUE</div>
                             </div>
+                <div class="bundle-content">
+                    <div class="bundle-description">
+                        <p>Get access to all 5 AI courses and start building multiple income streams today!</p>
+                        <ul class="bundle-features">
+                            <li><i class="fas fa-check-circle"></i> 24 modules of comprehensive training</li>
+                            <li><i class="fas fa-check-circle"></i> 70+ practical lessons with real-world applications</li>
+                            <li><i class="fas fa-check-circle"></i> Lifetime access to all future updates</li>
+                            <li><i class="fas fa-check-circle"></i> Priority email support</li>
+                        </ul>
                         </div>
+                    <div class="bundle-pricing">
+                        <div class="price-comparison">
+                            <span class="regular-price">Regular: $49.99</span>
+                            <span class="discount-price">Today: $19.99</span>
                     </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"The AI freelancing guide helped me land my first $500 project!"</p>
-                        <div class="testimonial-author">
-                            <img src="https://via.placeholder.com/50" alt="John D.">
-                            <div>
-                                <h4>John D.</h4>
-                                <p>Freelancer</p>
-                            </div>
-                        </div>
+                        <button class="bundle-cta" onclick="checkPaymentStatus('all')">
+                            <span>Get All 5 Courses</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -397,20 +1710,76 @@
     <!-- FAQ Section -->
     <section id="faq" class="faq">
         <div class="container">
+            <div class="section-header">
             <h2>Frequently Asked Questions</h2>
+                <p class="section-description">Get answers to common questions about our AI income courses</p>
+            </div>
+            
             <div class="faq-grid">
                 <div class="faq-item">
-                    <h3>How much can I earn with these methods?</h3>
-                    <p>Earnings vary based on your dedication and implementation. Our students typically earn between $500-$5,000 monthly.</p>
+                    <div class="faq-question">
+                        <h3>How much can I realistically earn with these methods?</h3>
+                        <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
                 </div>
-                <div class="faq-item">
-                    <h3>Do I need technical experience?</h3>
-                    <p>No! Our guides are designed for beginners and include step-by-step instructions.</p>
+                    <div class="faq-answer">
+                        <p>Earnings vary based on your dedication, implementation, and time invested. Our most successful students earn between $3,000-$10,000 monthly by combining multiple AI income methods. Complete beginners typically start with $500-$2,000 in their first month when following our exact systems.</p>
+                    </div>
                 </div>
+                
                 <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do I need technical experience or coding skills?</h3>
+                        <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                </div>
+                    <div class="faq-answer">
+                        <p>Absolutely not! Our courses are specifically designed for beginners with zero technical background. We provide step-by-step instructions with video demonstrations for every technical aspect, making the process simple to follow even if you've never used AI tools before.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How long will it take to see results?</h3>
+                        <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Many of our students begin earning within their first 2-3 weeks. The freelancing and content creation methods typically produce the fastest results, while affiliate marketing takes slightly longer but provides more passive income over time.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How much time do I need to invest per week?</h3>
+                        <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can start with just 5-10 hours per week. As you become more proficient with the AI tools and methods, your efficiency will increase, allowing you to either scale your income or maintain it with fewer hours. Many students who implement all 5 income streams eventually work only 20-25 hours per week.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
                     <h3>Is the payment secure?</h3>
-                    <p>Yes, we use PayPal's secure payment system to process all transactions.</p>
+                        <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
                 </div>
+                    <div class="faq-answer">
+                        <p>Yes, we use PayPal's secure payment system to process all transactions. Your financial information is never stored on our servers, and all payment details are encrypted using industry-standard protocols.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do I get lifetime access to the courses?</h3>
+                        <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! Once you purchase a course or the complete bundle, you'll have lifetime access to all the material including any future updates. Your investment gives you permanent access to the training materials.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-cta">
+                <h3>Still Have Questions?</h3>
+                <p>Contact us at <a href="mailto:premiumwebcreators@gmail.com">premiumwebcreators@gmail.com</a> and we'll respond within 24 hours.</p>
             </div>
         </div>
     </section>
@@ -429,14 +1798,14 @@
             <div class="pricing-options">
                 <div class="pricing-card">
                     <h3>Single Tutorial</h3>
-                    <p class="price">$2.99</p>
+                    <p class="price">$7.99</p>
                     <p class="description">Access this specific tutorial</p>
                     <div id="singleTutorialButton"></div>
                 </div>
                 <div class="pricing-card featured">
                     <h3>All Tutorials</h3>
-                    <p class="price">$7.99</p>
-                    <p class="description">Access all 5 tutorials (Save 47%)</p>
+                    <p class="price">$19.99</p>
+                    <p class="description">Access all tutorials (Save 50%)</p>
                     <div id="allTutorialsButton"></div>
                 </div>
             </div>
@@ -454,8 +1823,7 @@
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <a href="#home">Home</a>
-                    <a href="#tutorials">Tutorials</a>
-                    <a href="#testimonials">Testimonials</a>
+                    <a href="#tutorials">Courses</a>
                     <a href="#faq">FAQ</a>
                 </div>
                 <div class="footer-section">
@@ -470,5 +1838,60 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <!-- Countdown Timer Script -->
+    <script>
+        // Set the countdown date (24 hours from now)
+        const countDownDate = new Date();
+        countDownDate.setHours(countDownDate.getHours() + 24);
+        
+        // Update the countdown every 1 second
+        const countdownTimer = setInterval(function() {
+            // Get current date and time
+            const now = new Date().getTime();
+            
+            // Find the distance between now and the countdown date
+            const distance = countDownDate - now;
+            
+            // Time calculations for hours, minutes and seconds
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Display the result
+            document.getElementById("hours").textContent = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").textContent = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").textContent = seconds < 10 ? "0" + seconds : seconds;
+            
+            // If the countdown is finished, write some text
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("hours").textContent = "00";
+                document.getElementById("minutes").textContent = "00";
+                document.getElementById("seconds").textContent = "00";
+            }
+        }, 1000);
+        
+        // FAQ accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html> 

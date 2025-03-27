@@ -273,13 +273,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Check progress of each module
-            const module1Progress = JSON.parse(localStorage.getItem('module1Progress')) || [];
-            const module2Progress = JSON.parse(localStorage.getItem('module2Progress')) || [];
-            const module3Progress = JSON.parse(localStorage.getItem('module3Progress')) || [];
-            const module4Progress = JSON.parse(localStorage.getItem('module4Progress')) || [];
-            const module5Progress = JSON.parse(localStorage.getItem('module5Progress')) || [];
-            const module6Progress = JSON.parse(localStorage.getItem('module6Progress')) || [];
-            const module7Progress = JSON.parse(localStorage.getItem('module7Progress')) || [];
+            const module1Progress = JSON.parse(localStorage.getItem('tutorial2_module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial2_module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('tutorial2_module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial2_module4Progress')) || [];
+            const module5Progress = JSON.parse(localStorage.getItem('tutorial2_module5Progress')) || [];
+            const module6Progress = JSON.parse(localStorage.getItem('tutorial2_module6Progress')) || [];
+            const module7Progress = JSON.parse(localStorage.getItem('tutorial2_module7Progress')) || [];
             
             // Count completed modules (a module is complete when all 4 lessons are done)
             const completedModules = [
@@ -303,9 +303,9 @@
 
             // Update module cards based on completion
             document.querySelectorAll('.module-card').forEach((card, index) => {
-                const moduleProgress = JSON.parse(localStorage.getItem(`module${index + 1}Progress`)) || [];
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial2_module${index + 1}Progress`)) || [];
                 const isCompleted = moduleProgress.length === 4;
-                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`module${index}Progress`)) || [];
+                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial2_module${index}Progress`)) || [];
                 const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
                 const moduleLink = card.querySelector('.module-link');
@@ -319,13 +319,17 @@
                     card.classList.remove('locked');
                     card.classList.add('active');
                     card.querySelector('.module-status').className = 'module-status fas fa-spinner';
-                    moduleLink.textContent = 'Start Module';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
                     moduleLink.href = `tutorial2-module${index + 1}.html`;
                 } else {
                     card.classList.add('locked');
                     card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
                     moduleLink.textContent = 'Complete Previous Modules';
                     moduleLink.href = '#';
+                    moduleLink.onclick = function(e) {
+                        e.preventDefault();
+                        alert('Please complete the previous module first.');
+                    };
                 }
             });
         });

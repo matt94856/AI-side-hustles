@@ -665,7 +665,8 @@
             });
 
             // Progress tracking
-            const moduleProgress = JSON.parse(localStorage.getItem('module4Progress')) || [];
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial2_module4Progress')) || [];
+            const lessonProgress = JSON.parse(localStorage.getItem('tutorial2_module4LessonProgress')) || {};
             const progressFill = document.querySelector('.progress-fill');
             const completedCount = document.querySelector('.completed-count');
             const totalLessons = 4;
@@ -676,19 +677,23 @@
 
             // Mark lessons as completed if they exist in moduleProgress
             document.querySelectorAll('.lesson-section').forEach((lesson, index) => {
-                if (moduleProgress.includes(`lesson${index + 1}`)) {
+                const lessonId = `lesson${index + 1}`;
+                if (moduleProgress.includes(lessonId)) {
                     lesson.classList.add('completed');
+                    lessonProgress[lessonId] = lessonProgress[lessonId] || {};
+                    lessonProgress[lessonId].quizComplete = true;
+                    localStorage.setItem('tutorial2_module4LessonProgress', JSON.stringify(lessonProgress));
                 }
             });
         });
 
         function completeLesson(lessonNumber) {
-            const moduleProgress = JSON.parse(localStorage.getItem('module4Progress')) || [];
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial2_module4Progress')) || [];
             const lessonId = `lesson${lessonNumber}`;
             
             if (!moduleProgress.includes(lessonId)) {
                 moduleProgress.push(lessonId);
-                localStorage.setItem('module4Progress', JSON.stringify(moduleProgress));
+                localStorage.setItem('tutorial2_module4Progress', JSON.stringify(moduleProgress));
                 
                 const progressFill = document.querySelector('.progress-fill');
                 const completedCount = document.querySelector('.completed-count');

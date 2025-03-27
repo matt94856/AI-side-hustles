@@ -3,1185 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Automation & Workflow Optimization Guide | AI Money Guide</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AI Hustle Hub - AI-Powered Consulting Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .tutorial-content {
-            padding: 120px 20px 40px;
-            max-width: 800px;
-            margin: 0 auto;
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
         }
 
-        .tutorial-header {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            color: white;
             text-align: center;
-            margin-bottom: 3rem;
+            position: relative;
+            margin-bottom: 2rem;
         }
 
-        .tutorial-header h1 {
-            color: var(--secondary-color);
-            font-size: 2.5rem;
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
             margin-bottom: 1rem;
         }
 
-        .tutorial-section {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
         }
 
-        .tutorial-section h2 {
-            color: var(--secondary-color);
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .course-progress {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+            margin: -3rem auto 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.completed {
+            border: 2px solid #4CAF50;
+        }
+
+        .module-card.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .module-description {
+            color: #666;
             margin-bottom: 1.5rem;
         }
 
-        .tutorial-section p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-
-        .tool-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .tool-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: var(--card-background);
-            border-radius: 5px;
-        }
-
-        .tool-list i {
-            color: var(--secondary-color);
-            margin-right: 1rem;
+        .module-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
             font-size: 1.2rem;
         }
 
-        .step-list {
-            list-style: decimal;
-            padding-left: 1.5rem;
+        .module-status.completed {
+            color: #4CAF50;
         }
 
-        .step-list li {
-            margin-bottom: 1rem;
-            line-height: 1.8;
+        .module-status.locked {
+            color: #999;
         }
 
-        .example-box {
-            background: var(--card-background);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-
-        .example-box h4 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .back-button {
+        .module-link {
             display: inline-block;
-            background: var(--secondary-color);
-            color: white;
             padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-bottom: 2rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button:hover {
-            background-color: #0773C5;
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073C5,
-                            0 0 20px #0073C5, 0 0 25px #0073C5, 0 0 30px #0073C5, 0 0 35px #0073C5;
-            }
-            to {
-                box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0073C5,
-                            0 0 40px #0073C5, 0 0 50px #0073C5, 0 0 60px #0073C5, 0 0 70px #0073C5;
-            }
-        }
-
-        .badge.completed {
-            background-color: #0073C5;
+            background: var(--gradient-accent);
             color: white;
-            border-color: #0073C5;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
         }
 
-        .badge.locked {
-            background-color: #f0f0f0;
-            color: #666;
-            border-color: #ddd;
+        .module-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-card.locked .module-link {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">AI Money Guide</div>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="index.html#tutorials">Tutorials</a>
-            <a href="#course-content">Course Content</a>
-            <a href="#resources">Resources</a>
+    <header class="header">
+        <div class="brand">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <i class="fas fa-robot"></i>
+                <h1>AI Hustle Hub</h1>
+            </a>
         </div>
-        <div class="mobile-menu">☰</div>
-    </nav>
+        <p class="header-description">
+            Start a consulting business helping others implement AI solutions in their businesses. Learn how to offer valuable AI strategy and implementation services to clients.
+        </p>
+    </header>
 
-    <div class="progress-section">
-        <div class="progress-container">
-            <div class="progress-stats">
-                <div class="stat">
-                    <span class="stat-value">0</span>
-                    <span class="stat-label">Modules Completed</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">0%</span>
-                    <span class="stat-label">Course Progress</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">0</span>
-                    <span class="stat-label">Points Earned</span>
-                </div>
-            </div>
+    <div class="course-progress">
+        <h3>Course Progress</h3>
             <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-            <div class="progress-badges">
-                <div class="badge" data-module="1">
-                    <i class="fas fa-robot"></i>
-                    <span>Module 1</span>
-                </div>
-                <div class="badge" data-module="2">
-                    <i class="fas fa-tools"></i>
-                    <span>Module 2</span>
-                </div>
-                <div class="badge" data-module="3">
-                    <i class="fas fa-project-diagram"></i>
-                    <span>Module 3</span>
-                </div>
-                <div class="badge" data-module="4">
-                    <i class="fas fa-code"></i>
-                    <span>Module 4</span>
-                </div>
-                <div class="badge" data-module="5">
-                    <i class="fas fa-brain"></i>
-                    <span>Module 5</span>
-                </div>
-                <div class="badge" data-module="6">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Module 6</span>
-                </div>
-            </div>
+            <div class="progress-fill"></div>
         </div>
+        <p><span class="completed-count">0</span>/5 Modules Complete</p>
     </div>
 
-    <div class="course-header">
-        <h1>AI Automation & Workflow Optimization</h1>
-        <p class="course-subtitle">Learn How to Automate Tasks and Optimize Workflows with AI</p>
-        <div class="course-stats">
-            <div class="stat">
-                <i class="fas fa-chart-line"></i>
-                <span>Potential Monthly Earnings: $3,000-$20,000</span>
-            </div>
-            <div class="stat">
-                <i class="fas fa-clock"></i>
-                <span>Time Investment: 3-6 weeks</span>
-            </div>
-            <div class="stat">
-                <i class="fas fa-laptop-code"></i>
-                <span>Technical Level: Beginner-Intermediate</span>
-            </div>
+    <div class="modules-grid">
+        <div class="module-card active">
+            <i class="fas fa-brain module-icon"></i>
+            <i class="fas fa-spinner module-status"></i>
+            <h2 class="module-title">Module 1: AI Consulting Foundations</h2>
+            <p class="module-description">Understand the fundamentals of AI consulting, including the types of services you can offer and the skills required to succeed.</p>
+            <a href="tutorial5-module1.html" class="module-link">Start Module</a>
         </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-cogs module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 2: AI Implementation Strategies</h2>
+            <p class="module-description">Learn practical approaches for implementing AI solutions in various business contexts, from small businesses to enterprises.</p>
+            <a href="tutorial5-module2.html" class="module-link">Start Module</a>
     </div>
 
-    <div class="course-overview" id="overview">
-        <div class="container">
-            <h2>What You'll Learn</h2>
-            <div class="learning-objectives">
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Identify automation opportunities in your workflow</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Master AI tools for task automation</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Create efficient workflow systems</p>
-                </div>
-                <div class="objective">
-                    <i class="fas fa-check-circle"></i>
-                    <p>Optimize and scale your automated processes</p>
-                </div>
-            </div>
-        </div>
+        <div class="module-card locked">
+            <i class="fas fa-users module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 3: Client Acquisition</h2>
+            <p class="module-description">Master strategies for finding and attracting clients who need AI consulting services, including marketing, networking, and positioning.</p>
+            <a href="tutorial5-module3.html" class="module-link">Start Module</a>
     </div>
 
-    <div class="course-modules" id="modules">
-        <div class="container">
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 1: Introduction to AI Automation</h2>
-                    <span class="estimated-time">Estimated time: 2.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>1.1 Understanding AI Automation</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn the fundamentals of AI automation and how it can transform your workflow. This module covers basic concepts, benefits, and real-world applications.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Core Concepts</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-brain"></i>
-                                        <h5>AI Fundamentals</h5>
-                                        <p>Key concepts to understand:</p>
-                                        <ul>
-                                            <li>Machine Learning basics</li>
-                                            <li>Natural Language Processing</li>
-                                            <li>Computer Vision</li>
-                                            <li>Robotic Process Automation</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-clock"></i>
-                                        <h5>Time Savings</h5>
-                                        <p>Benefits of automation:</p>
-                                        <ul>
-                                            <li>Reduced manual tasks</li>
-                                            <li>24/7 operation</li>
-                                            <li>Consistent performance</li>
-                                            <li>Scalable solutions</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-chart-bar"></i>
-                                        <h5>ROI Metrics</h5>
-                                        <p>Measuring success:</p>
-                                        <ul>
-                                            <li>Time saved</li>
-                                            <li>Cost reduction</li>
-                                            <li>Error reduction</li>
-                                            <li>Productivity increase</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Automation Audit</h4>
-                                <p>Complete the following steps to identify automation opportunities:</p>
-                                <ol>
-                                    <li>List your daily tasks</li>
-                                    <li>Identify repetitive processes</li>
-                                    <li>Calculate time spent on each task</li>
-                                    <li>Prioritize automation opportunities</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Email Management Automation</h4>
-                                <p>Learn how Sarah automated her email workflow:</p>
-                                <ul>
-                                    <li>Initial challenges</li>
-                                    <li>Tool selection</li>
-                                    <li>Implementation process</li>
-                                    <li>Time saved</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="1"> Mark Module 1 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="module-quiz">
-                        <h3>Module 1 Quiz: AI Automation Basics</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Machine Learning">
-                                <p>What is the foundation of AI automation?</p>
-                                <label><input type="radio" name="q1" value="Web Development">Web Development</label>
-                                <label><input type="radio" name="q1" value="Machine Learning">Machine Learning</label>
-                                <label><input type="radio" name="q1" value="Graphic Design">Graphic Design</label>
-                                <label><input type="radio" name="q1" value="Social Media">Social Media</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What are the benefits of AI automation?</p>
-                                <label><input type="radio" name="q2" value="Time savings">Time savings</label>
-                                <label><input type="radio" name="q2" value="Cost reduction">Cost reduction</label>
-                                <label><input type="radio" name="q2" value="Error reduction">Error reduction</label>
-                                <label><input type="radio" name="q2" value="All of the above">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="ROI Metrics">
-                                <p>What should you measure to evaluate automation success?</p>
-                                <label><input type="radio" name="q3" value="ROI Metrics">ROI Metrics</label>
-                                <label><input type="radio" name="q3" value="Tool costs">Tool costs</label>
-                                <label><input type="radio" name="q3" value="Team size">Team size</label>
-                                <label><input type="radio" name="q3" value="Marketing reach">Marketing reach</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 2: Essential AI Automation Tools</h2>
-                    <span class="estimated-time">Estimated time: 3 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>2.1 Core Automation Tools</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Explore the essential AI tools and platforms for automation. Learn how to select, integrate, and optimize these tools for maximum efficiency.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Essential Tools</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-robot"></i>
-                                        <h5>RPA Tools</h5>
-                                        <p>Robotic Process Automation:</p>
-                                        <ul>
-                                            <li>UiPath</li>
-                                            <li>Automation Anywhere</li>
-                                            <li>Blue Prism</li>
-                                            <li>Power Automate</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-plug"></i>
-                                        <h5>Integration Tools</h5>
-                                        <p>Workflow Automation:</p>
-                                        <ul>
-                                            <li>Zapier</li>
-                                            <li>Make (Integromat)</li>
-                                            <li>n8n</li>
-                                            <li>Pipedream</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-brain"></i>
-                                        <h5>AI Assistants</h5>
-                                        <p>Intelligent Automation:</p>
-                                        <ul>
-                                            <li>ChatGPT</li>
-                                            <li>Claude</li>
-                                            <li>Bard</li>
-                                            <li>GitHub Copilot</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Tool Selection Matrix</h4>
-                                <p>Create a tool selection matrix for your automation needs:</p>
-                                <ol>
-                                    <li>List your automation requirements</li>
-                                    <li>Evaluate tool features and pricing</li>
-                                    <li>Compare integration capabilities</li>
-                                    <li>Select your initial tool stack</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Marketing Automation Stack</h4>
-                                <p>Learn how Mike built his automation stack:</p>
-                                <ul>
-                                    <li>Tool selection criteria</li>
-                                    <li>Integration setup</li>
-                                    <li>Workflow optimization</li>
-                                    <li>Results and ROI</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="2"> Mark Module 2 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="module-quiz">
-                        <h3>Module 2 Quiz: Automation Tools</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="RPA Tools">
-                                <p>Which category of tools is best for automating repetitive tasks?</p>
-                                <label><input type="radio" name="q4" value="Integration Tools">Integration Tools</label>
-                                <label><input type="radio" name="q4" value="RPA Tools">RPA Tools</label>
-                                <label><input type="radio" name="q4" value="AI Assistants">AI Assistants</label>
-                                <label><input type="radio" name="q4" value="Analytics Tools">Analytics Tools</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Integration capabilities">
-                                <p>What is the most important factor when selecting automation tools?</p>
-                                <label><input type="radio" name="q5" value="Price">Price</label>
-                                <label><input type="radio" name="q5" value="Integration capabilities">Integration capabilities</label>
-                                <label><input type="radio" name="q5" value="User interface">User interface</label>
-                                <label><input type="radio" name="q5" value="Brand name">Brand name</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should you consider when building your automation stack?</p>
-                                <label><input type="radio" name="q6" value="Cost and scalability">Cost and scalability</label>
-                                <label><input type="radio" name="q6" value="Integration options">Integration options</label>
-                                <label><input type="radio" name="q6" value="User support">User support</label>
-                                <label><input type="radio" name="q6" value="All of the above">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 3: Workflow Design and Optimization</h2>
-                    <span class="estimated-time">Estimated time: 3.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>3.1 Designing Efficient Workflows</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to design and optimize workflows for maximum efficiency using AI automation tools. This module covers workflow mapping, optimization techniques, and best practices.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Workflow Design Principles</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-project-diagram"></i>
-                                        <h5>Process Mapping</h5>
-                                        <p>Key elements:</p>
-                                        <ul>
-                                            <li>Task identification</li>
-                                            <li>Flow visualization</li>
-                                            <li>Bottleneck analysis</li>
-                                            <li>Optimization points</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-cogs"></i>
-                                        <h5>Automation Rules</h5>
-                                        <p>Design principles:</p>
-                                        <ul>
-                                            <li>Trigger conditions</li>
-                                            <li>Action sequences</li>
-                                            <li>Error handling</li>
-                                            <li>Success criteria</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-chart-line"></i>
-                                        <h5>Performance Metrics</h5>
-                                        <p>Measurement points:</p>
-                                        <ul>
-                                            <li>Processing time</li>
-                                            <li>Success rate</li>
-                                            <li>Error frequency</li>
-                                            <li>Resource usage</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Workflow Optimization</h4>
-                                <p>Optimize an existing workflow:</p>
-                                <ol>
-                                    <li>Map current process</li>
-                                    <li>Identify inefficiencies</li>
-                                    <li>Design automation rules</li>
-                                    <li>Create implementation plan</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Sales Process Automation</h4>
-                                <p>Learn how Alex optimized his sales workflow:</p>
-                                <ul>
-                                    <li>Initial process analysis</li>
-                                    <li>Automation opportunities</li>
-                                    <li>Implementation steps</li>
-                                    <li>Results and improvements</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="3"> Mark Module 3 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="module-quiz">
-                        <h3>Module 3 Quiz: Workflow Design</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Process Mapping">
-                                <p>What is the first step in workflow optimization?</p>
-                                <label><input type="radio" name="q7" value="Process Mapping">Process Mapping</label>
-                                <label><input type="radio" name="q7" value="Tool Selection">Tool Selection</label>
-                                <label><input type="radio" name="q7" value="Implementation">Implementation</label>
-                                <label><input type="radio" name="q7" value="Testing">Testing</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Error handling">
-                                <p>Which aspect is crucial for reliable automation?</p>
-                                <label><input type="radio" name="q8" value="Speed">Speed</label>
-                                <label><input type="radio" name="q8" value="Cost">Cost</label>
-                                <label><input type="radio" name="q8" value="Error handling">Error handling</label>
-                                <label><input type="radio" name="q8" value="Complexity">Complexity</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="All of the above">
-                                <p>What should be measured in workflow optimization?</p>
-                                <label><input type="radio" name="q9" value="Processing time">Processing time</label>
-                                <label><input type="radio" name="q9" value="Success rate">Success rate</label>
-                                <label><input type="radio" name="q9" value="Resource usage">Resource usage</label>
-                                <label><input type="radio" name="q9" value="All of the above">All of the above</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 4: Process Automation Implementation</h2>
-                    <span class="estimated-time">Estimated time: 4 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>4.1 Implementing Automated Processes</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Master the implementation of automated processes using AI tools. Learn best practices for deployment, testing, and maintenance of automated workflows.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Implementation Steps</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-code"></i>
-                                        <h5>Development</h5>
-                                        <p>Key phases:</p>
-                                        <ul>
-                                            <li>Environment setup</li>
-                                            <li>Tool configuration</li>
-                                            <li>Workflow coding</li>
-                                            <li>Integration testing</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-vial"></i>
-                                        <h5>Testing</h5>
-                                        <p>Quality assurance:</p>
-                                        <ul>
-                                            <li>Unit testing</li>
-                                            <li>Integration testing</li>
-                                            <li>Performance testing</li>
-                                            <li>User acceptance</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-rocket"></i>
-                                        <h5>Deployment</h5>
-                                        <p>Launch process:</p>
-                                        <ul>
-                                            <li>Staging environment</li>
-                                            <li>Production deployment</li>
-                                            <li>Monitoring setup</li>
-                                            <li>Documentation</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Process Implementation</h4>
-                                <p>Implement an automated process:</p>
-                                <ol>
-                                    <li>Set up development environment</li>
-                                    <li>Create workflow logic</li>
-                                    <li>Test automation</li>
-                                    <li>Deploy and monitor</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Customer Service Automation</h4>
-                                <p>Learn how Lisa implemented automated support:</p>
-                                <ul>
-                                    <li>System architecture</li>
-                                    <li>Testing strategy</li>
-                                    <li>Deployment process</li>
-                                    <li>Performance metrics</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="4"> Mark Module 4 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="module-quiz">
-                        <h3>Module 4 Quiz: Implementation</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Environment setup">
-                                <p>What is the first step in process implementation?</p>
-                                <label><input type="radio" name="q10" value="Environment setup">Environment setup</label>
-                                <label><input type="radio" name="q10" value="Coding">Coding</label>
-                                <label><input type="radio" name="q10" value="Testing">Testing</label>
-                                <label><input type="radio" name="q10" value="Deployment">Deployment</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Integration testing">
-                                <p>Which testing phase is most critical?</p>
-                                <label><input type="radio" name="q11" value="Unit testing">Unit testing</label>
-                                <label><input type="radio" name="q11" value="Integration testing">Integration testing</label>
-                                <label><input type="radio" name="q11" value="Performance testing">Performance testing</label>
-                                <label><input type="radio" name="q11" value="User testing">User testing</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Monitoring setup">
-                                <p>What is essential for successful deployment?</p>
-                                <label><input type="radio" name="q12" value="Speed">Speed</label>
-                                <label><input type="radio" name="q12" value="Cost">Cost</label>
-                                <label><input type="radio" name="q12" value="Monitoring setup">Monitoring setup</label>
-                                <label><input type="radio" name="q12" value="Complexity">Complexity</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 5: Advanced Automation Techniques</h2>
-                    <span class="estimated-time">Estimated time: 4.5 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>5.1 Advanced Automation Strategies</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Explore advanced automation techniques and strategies for complex workflows. Learn about AI integration, machine learning applications, and advanced optimization methods.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Advanced Techniques</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-brain"></i>
-                                        <h5>AI Integration</h5>
-                                        <p>Advanced features:</p>
-                                        <ul>
-                                            <li>Natural Language Processing</li>
-                                            <li>Computer Vision</li>
-                                            <li>Predictive Analytics</li>
-                                            <li>Decision Automation</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-network-wired"></i>
-                                        <h5>System Integration</h5>
-                                        <p>Complex workflows:</p>
-                                        <ul>
-                                            <li>API Integration</li>
-                                            <li>Data Synchronization</li>
-                                            <li>Event-Driven Automation</li>
-                                            <li>Microservices</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-chart-bar"></i>
-                                        <h5>Optimization</h5>
-                                        <p>Performance tuning:</p>
-                                        <ul>
-                                            <li>Resource Optimization</li>
-                                            <li>Load Balancing</li>
-                                            <li>Error Recovery</li>
-                                            <li>Scalability Planning</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Advanced Implementation</h4>
-                                <p>Implement an advanced automation solution:</p>
-                                <ol>
-                                    <li>Design complex workflow</li>
-                                    <li>Integrate AI components</li>
-                                    <li>Implement error handling</li>
-                                    <li>Optimize performance</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Enterprise Automation</h4>
-                                <p>Learn how John implemented enterprise automation:</p>
-                                <ul>
-                                    <li>System architecture</li>
-                                    <li>AI integration</li>
-                                    <li>Performance optimization</li>
-                                    <li>Results and ROI</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="5"> Mark Module 5 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="module-quiz">
-                        <h3>Module 5 Quiz: Advanced Techniques</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Natural Language Processing">
-                                <p>What is a key AI integration feature?</p>
-                                <label><input type="radio" name="q13" value="Natural Language Processing">Natural Language Processing</label>
-                                <label><input type="radio" name="q13" value="Web Design">Web Design</label>
-                                <label><input type="radio" name="q13" value="Database Management">Database Management</label>
-                                <label><input type="radio" name="q13" value="Network Security">Network Security</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="API Integration">
-                                <p>What is essential for system integration?</p>
-                                <label><input type="radio" name="q14" value="API Integration">API Integration</label>
-                                <label><input type="radio" name="q14" value="User Interface">User Interface</label>
-                                <label><input type="radio" name="q14" value="Documentation">Documentation</label>
-                                <label><input type="radio" name="q14" value="Marketing">Marketing</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Resource Optimization">
-                                <p>What is key for performance tuning?</p>
-                                <label><input type="radio" name="q15" value="Resource Optimization">Resource Optimization</label>
-                                <label><input type="radio" name="q15" value="User Training">User Training</label>
-                                <label><input type="radio" name="q15" value="Documentation">Documentation</label>
-                                <label><input type="radio" name="q15" value="Marketing">Marketing</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="module">
-                <div class="module-header">
-                    <h2>Module 6: Scaling and Maintenance</h2>
-                    <span class="estimated-time">Estimated time: 3 hours</span>
-                </div>
-                <div class="lessons">
-                    <div class="lesson">
-                        <h3>6.1 Scaling Automated Systems</h3>
-                        <div class="lesson-content">
-                            <div class="lesson-introduction">
-                                <p>Learn how to scale and maintain automated systems effectively. This module covers scaling strategies, monitoring, maintenance, and continuous improvement.</p>
-                            </div>
-                            <div class="key-concepts">
-                                <h4>Scaling Strategies</h4>
-                                <div class="concept-grid">
-                                    <div class="concept-card">
-                                        <i class="fas fa-expand-arrows-alt"></i>
-                                        <h5>Horizontal Scaling</h5>
-                                        <p>Growth strategies:</p>
-                                        <ul>
-                                            <li>Load Distribution</li>
-                                            <li>Resource Allocation</li>
-                                            <li>Performance Monitoring</li>
-                                            <li>Cost Optimization</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-tools"></i>
-                                        <h5>Maintenance</h5>
-                                        <p>System upkeep:</p>
-                                        <ul>
-                                            <li>Regular Updates</li>
-                                            <li>Performance Tuning</li>
-                                            <li>Error Monitoring</li>
-                                            <li>Backup Systems</li>
-                                        </ul>
-                                    </div>
-                                    <div class="concept-card">
-                                        <i class="fas fa-chart-line"></i>
-                                        <h5>Optimization</h5>
-                                        <p>Continuous improvement:</p>
-                                        <ul>
-                                            <li>Performance Metrics</li>
-                                            <li>Resource Usage</li>
-                                            <li>Cost Analysis</li>
-                                            <li>User Feedback</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="practical-exercise">
-                                <h4>Practical Exercise: Scaling Plan</h4>
-                                <p>Create a scaling strategy:</p>
-                                <ol>
-                                    <li>Assess current capacity</li>
-                                    <li>Identify growth needs</li>
-                                    <li>Plan resource allocation</li>
-                                    <li>Create maintenance schedule</li>
-                                </ol>
-                            </div>
-                            <div class="case-study">
-                                <h4>Case Study: Enterprise Scaling</h4>
-                                <p>Learn how Maria scaled her automation system:</p>
-                                <ul>
-                                    <li>Initial challenges</li>
-                                    <li>Scaling strategy</li>
-                                    <li>Implementation process</li>
-                                    <li>Results and lessons</li>
-                                </ul>
-                            </div>
-                            <div class="completion-checkbox">
-                                <label><input type="checkbox" class="module-complete" data-module="6"> Mark Module 6 as Complete</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="module-quiz">
-                        <h3>Module 6 Quiz: Future Trends</h3>
-                        <form class="quiz-form">
-                            <div class="quiz-question" data-correct="Advanced AI Integration">
-                                <p>What is the next frontier in automation?</p>
-                                <label><input type="radio" name="q16" value="Advanced AI Integration">Advanced AI Integration</label>
-                                <label><input type="radio" name="q16" value="Basic Automation">Basic Automation</label>
-                                <label><input type="radio" name="q16" value="Manual Processes">Manual Processes</label>
-                                <label><input type="radio" name="q16" value="Traditional Methods">Traditional Methods</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Machine Learning">
-                                <p>What technology is driving future automation?</p>
-                                <label><input type="radio" name="q17" value="Machine Learning">Machine Learning</label>
-                                <label><input type="radio" name="q17" value="Basic Scripts">Basic Scripts</label>
-                                <label><input type="radio" name="q17" value="Manual Work">Manual Work</label>
-                                <label><input type="radio" name="q17" value="Traditional Tools">Traditional Tools</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-question" data-correct="Continuous Learning">
-                                <p>What is essential for future success?</p>
-                                <label><input type="radio" name="q18" value="Continuous Learning">Continuous Learning</label>
-                                <label><input type="radio" name="q18" value="Static Knowledge">Static Knowledge</label>
-                                <label><input type="radio" name="q18" value="Basic Skills">Basic Skills</label>
-                                <label><input type="radio" name="q18" value="Traditional Methods">Traditional Methods</label>
-                                <div class="question-feedback"></div>
-                            </div>
-
-                            <div class="quiz-score"></div>
-                            <button type="submit" class="quiz-submit">Submit Answers</button>
-                            <button type="button" class="quiz-retry" style="display: none;">Try Again</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="module-card locked">
+            <i class="fas fa-file-invoice-dollar module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 4: Service Packaging & Pricing</h2>
+            <p class="module-description">Discover how to create compelling service packages and set optimal pricing to maximize your consulting income.</p>
+            <a href="tutorial5-module4.html" class="module-link">Start Module</a>
     </div>
 
-    <div class="resources-section" id="resources">
-        <div class="container">
-            <h2>Resources & Tools</h2>
-            <div class="resources-grid">
-                <div class="resource-card">
-                    <h3>Learning Resources</h3>
-                    <ul>
-                        <li><a href="#">AI Automation Guides</a></li>
-                        <li><a href="#">Workflow Templates</a></li>
-                        <li><a href="#">Best Practices</a></li>
-                        <li><a href="#">Case Studies</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <h3>Automation Tools</h3>
-                    <ul>
-                        <li><a href="https://zapier.com">Zapier</a></li>
-                        <li><a href="https://make.com">Make (Integromat)</a></li>
-                        <li><a href="https://www.automationanywhere.com">Automation Anywhere</a></li>
-                        <li><a href="https://www.uipath.com">UiPath</a></li>
-                    </ul>
-                </div>
-                <div class="resource-card">
-                    <h3>AI Tools</h3>
-                    <ul>
-                        <li><a href="https://chat.openai.com">ChatGPT</a></li>
-                        <li><a href="https://www.automationanywhere.com">Automation Anywhere</a></li>
-                        <li><a href="https://www.uipath.com">UiPath</a></li>
-                        <li><a href="https://www.blueprism.com">Blue Prism</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="module-card locked">
+            <i class="fas fa-chart-line module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 5: Scaling Your Consulting Business</h2>
+            <p class="module-description">Learn strategies for growing your AI consulting business, hiring talent, and creating systems for sustainable growth.</p>
+            <a href="tutorial5-module5.html" class="module-link">Start Module</a>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html#tutorials">Tutorials</a></li>
-                        <li><a href="#course-content">Course Content</a></li>
-                        <li><a href="#resources">Resources</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Connect With Us</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 AI Money Guide. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Progress tracking
-            let progress = {
-                modulesCompleted: 0,
-                totalModules: 6,
-                points: 0,
-                completedModules: new Set() // Track which modules are completed
-            };
+            // Check progress of each module
+            const module1Progress = JSON.parse(localStorage.getItem('tutorial5_module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial5_module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('tutorial5_module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
+            const module5Progress = JSON.parse(localStorage.getItem('tutorial5_module5Progress')) || [];
             
-            // Load saved progress from localStorage
-            const savedProgress = localStorage.getItem('tutorial5Progress');
-            if (savedProgress) {
-                try {
-                    const parsedProgress = JSON.parse(savedProgress);
-                    progress = {
-                        ...parsedProgress,
-                        completedModules: new Set(parsedProgress.completedModules || [])
-                    };
-                } catch (e) {
-                    console.error('Error loading progress:', e);
-                }
-            }
-
-            // Update progress display
-            function updateProgressDisplay() {
-                const progressBar = document.querySelector('.progress');
-                const stats = document.querySelectorAll('.stat-value');
-                
-                // Ensure we have valid numbers
-                progress.modulesCompleted = parseInt(progress.modulesCompleted) || 0;
-                progress.totalModules = parseInt(progress.totalModules) || 6;
-                progress.points = parseInt(progress.points) || 0;
-                
-                // Calculate progress percentage
-                const percentage = Math.round((progress.modulesCompleted / progress.totalModules) * 100);
+            // Count completed modules (a module is complete when all 4 lessons are done)
+            const completedModules = [
+                module1Progress.length === 4,
+                module2Progress.length === 4,
+                module3Progress.length === 4,
+                module4Progress.length === 4,
+                module5Progress.length === 4
+            ].filter(Boolean);
                 
                 // Update progress bar
-                if (progressBar) {
-                    progressBar.style.width = `${percentage}%`;
-                }
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalModules = 5;
+            const percentage = (completedModules.length / totalModules) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedModules.length;
+
+            // Update module cards based on completion
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial5_module${index + 1}Progress`)) || [];
+                const isCompleted = moduleProgress.length === 4;
+                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial5_module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
-                // Update stats
-                if (stats.length >= 3) {
-                    stats[0].textContent = progress.modulesCompleted;
-                    stats[1].textContent = `${percentage}%`;
-                    stats[2].textContent = progress.points;
-                }
-
-                // Update module headers and badges
-                const moduleHeaders = document.querySelectorAll('.module-header');
-                const badges = document.querySelectorAll('.badge');
-                
-                moduleHeaders.forEach((header, index) => {
-                    const moduleNumber = index + 1; // Convert to 1-based index
-                    if (progress.completedModules.has(moduleNumber.toString())) {
-                        header.classList.add('completed');
-                        header.style.animation = 'glow 2s ease-in-out infinite alternate';
+                const moduleLink = card.querySelector('.module-link');
+                if (isCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('completed');
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    moduleLink.textContent = 'Review Module';
+                    moduleLink.href = `tutorial5-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('active');
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial5-module${index + 1}.html`;
                     } else {
-                        header.classList.remove('completed');
-                        header.style.animation = 'none';
-                    }
-                });
-
-                badges.forEach((badge, index) => {
-                    const moduleNumber = index + 1; // Convert to 1-based index
-                    if (progress.completedModules.has(moduleNumber.toString())) {
-                        badge.classList.remove('locked');
-                        badge.classList.add('unlocked');
-                        badge.classList.add('completed');
-                    } else {
-                        badge.classList.remove('unlocked');
-                        badge.classList.remove('completed');
-                        badge.classList.add('locked');
-                    }
-                });
-            }
-
-            // Initial display update
-            updateProgressDisplay();
-
-            // Handle module completion
-            document.querySelectorAll('.module-complete').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const moduleNumber = this.dataset.module;
-                    const badge = document.querySelector(`.badge[data-module="${moduleNumber}"]`);
-                    
-                    // Check if module is already completed
-                    const isAlreadyCompleted = progress.completedModules.has(moduleNumber);
-                    
-                    if (this.checked && !isAlreadyCompleted) {
-                        // Only increment if not already completed
-                        progress.modulesCompleted++;
-                        progress.points += 100;
-                        progress.completedModules.add(moduleNumber);
-                        if (badge) {
-                            badge.classList.add('completed');
-                            badge.classList.remove('locked');
-                        }
-                    } else if (!this.checked && isAlreadyCompleted) {
-                        // Only decrement if currently completed
-                        progress.modulesCompleted--;
-                        progress.points -= 100;
-                        progress.completedModules.delete(moduleNumber);
-                        if (badge) {
-                            badge.classList.remove('completed');
-                            badge.classList.add('locked');
-                        }
-                    } else {
-                        // If trying to check an already completed module or uncheck an incomplete module,
-                        // revert the checkbox state
-                        this.checked = isAlreadyCompleted;
-                    }
-
-                    // Save progress to localStorage
-                    const progressToSave = {
-                        ...progress,
-                        completedModules: Array.from(progress.completedModules)
+                    card.classList.add('locked');
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
+                    moduleLink.href = '#';
+                    moduleLink.onclick = function(e) {
+                        e.preventDefault();
+                        alert('Please complete the previous module first.');
                     };
-                    localStorage.setItem('tutorial5Progress', JSON.stringify(progressToSave));
-                    updateProgressDisplay();
-                });
-            });
-
-            // Quiz functionality
-            document.querySelectorAll('.quiz-form').forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    let score = 0;
-                    
-                    const questions = this.querySelectorAll('.quiz-question');
-                    questions.forEach(question => {
-                        const selected = question.querySelector('input:checked');
-                        const correctAnswer = question.dataset.correct;
-                        const feedback = question.querySelector('.question-feedback');
-                        
-                        if (selected && selected.value === correctAnswer) {
-                            score++;
-                            if (feedback) {
-                                feedback.textContent = 'Correct!';
-                                feedback.style.color = 'green';
-                                feedback.style.display = 'block';
-                            }
-                        } else {
-                            if (feedback) {
-                                feedback.textContent = `Incorrect. The correct answer is: ${correctAnswer}`;
-                                feedback.style.color = 'red';
-                                feedback.style.display = 'block';
-                            }
-                        }
-                    });
-
-                    const scoreElement = this.querySelector('.quiz-score');
-                    if (scoreElement) {
-                        scoreElement.textContent = `Score: ${score}/${questions.length}`;
-                        scoreElement.style.display = 'block';
-                    }
-                    
-                    const submitButton = this.querySelector('.quiz-submit');
-                    const retryButton = this.querySelector('.quiz-retry');
-                    if (submitButton) submitButton.style.display = 'none';
-                    if (retryButton) retryButton.style.display = 'block';
-
-                    // Update progress if all questions are correct
-                    if (score === questions.length) {
-                        const moduleHeader = this.closest('.module').querySelector('.module-header h2');
-                        if (moduleHeader) {
-                            const moduleNumber = moduleHeader.textContent.split(':')[0].split(' ')[1];
-                            const checkbox = document.querySelector(`.module-complete[data-module="${moduleNumber}"]`);
-                            if (checkbox && !checkbox.checked) {
-                                checkbox.checked = true;
-                                checkbox.dispatchEvent(new Event('change'));
-                            }
-                        }
-                    }
-                });
-                
-                const retryButton = form.querySelector('.quiz-retry');
-                if (retryButton) {
-                    retryButton.addEventListener('click', function() {
-                        form.reset();
-                        form.querySelectorAll('.question-feedback').forEach(feedback => {
-                            if (feedback) {
-                                feedback.textContent = '';
-                                feedback.style.display = 'none';
-                            }
-                        });
-                        const scoreElement = form.querySelector('.quiz-score');
-                        if (scoreElement) {
-                            scoreElement.textContent = '';
-                            scoreElement.style.display = 'none';
-                        }
-                        const submitButton = form.querySelector('.quiz-submit');
-                        if (submitButton) submitButton.style.display = 'block';
-                        this.style.display = 'none';
-                    });
                 }
             });
         });

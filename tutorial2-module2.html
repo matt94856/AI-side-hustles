@@ -632,8 +632,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get all module progress from localStorage
-            const module2Progress = JSON.parse(localStorage.getItem('module2Progress')) || [];
-            const lessonProgress = JSON.parse(localStorage.getItem('module2LessonProgress')) || {};
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial2_module2Progress')) || [];
+            const lessonProgress = JSON.parse(localStorage.getItem('tutorial2_module2LessonProgress')) || {};
             
             // Update progress bar
             const progressFill = document.querySelector('.progress-fill');
@@ -679,12 +679,12 @@
                             
                             // Mark quiz as complete
                             lessonProgress[lessonId].quizComplete = true;
-                            localStorage.setItem('module2LessonProgress', JSON.stringify(lessonProgress));
+                            localStorage.setItem('tutorial2_module2LessonProgress', JSON.stringify(lessonProgress));
                             
                             // Add to module progress if not already included
                             if (!module2Progress.includes(lessonId)) {
                                 module2Progress.push(lessonId);
-                                localStorage.setItem('module2Progress', JSON.stringify(module2Progress));
+                                localStorage.setItem('tutorial2_module2Progress', JSON.stringify(module2Progress));
                                 updateProgress();
                             }
                         } else {
@@ -711,9 +711,11 @@
                 statusDiv.textContent = 'Project submitted successfully!';
                 statusDiv.className = 'submission-status success';
                 
-                if (!module2Progress.includes('lesson4')) {
-                    module2Progress.push('lesson4');
-                    localStorage.setItem('module2Progress', JSON.stringify(module2Progress));
+                // Mark final lesson as complete
+                const lessonId = 'lesson4';
+                if (!module2Progress.includes(lessonId)) {
+                    module2Progress.push(lessonId);
+                    localStorage.setItem('tutorial2_module2Progress', JSON.stringify(module2Progress));
                     updateProgress();
                 }
             };
