@@ -1693,159 +1693,71 @@
             display: none;
         }
 
-  /* ======================== */
-/* Optimized Mobile Styles */
-/* ======================== */
+ /* MOBILE NAVIGATION */
 @media only screen and (max-width: 767px) {
+    .navbar {
+        height: 50px; /* Slim height */
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(0, 0, 0, 0.9); /* Slightly transparent background */
+        backdrop-filter: blur(5px);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transition: background 0.3s ease;
+    }
 
-  /* ===== NAVIGATION BAR ===== */
-  .navbar {
-      height: 50px;
-      padding: 0.4rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(5px);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 999;
-      transition: all 0.3s ease-in-out;
-  }
+    .logo {
+        font-size: 1.2rem;
+        color: white;
+    }
 
-  .logo {
-      font-size: 1rem;
-      padding: 0.2rem 0.5rem;
-      color: white;
-  }
+    .mobile-menu {
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+    }
 
-  /* Mobile Menu Button (Stays Fixed) */
-  .mobile-menu {
-      font-size: 1.5rem;
-      padding: 0.3rem;
-      color: white;
-      cursor: pointer;
-      position: fixed;
-      top: 10px;
-      right: 15px;
-      z-index: 1000;
-  }
+    /* NAV MENU */
+    .nav-links {
+        position: fixed;
+        top: 50px; /* Below the navbar */
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95); /* Dark menu */
+        display: flex;
+        flex-direction: column;
+        transform: translateY(-100%); /* Initially hidden */
+        transition: transform 0.3s ease-in-out;
+        z-index: 999;
+        padding: 1rem 0;
+    }
 
-  /* Navigation Links (Initially Hidden) */
-  .nav-links {
-      position: fixed;
-      top: 50px;
-      right: 0;
-      width: 80%;
-      max-width: 250px;
-      background: rgba(20, 20, 20, 0.95);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1rem 0;
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out;
-      border-radius: 0 0 10px 10px;
-      box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.3);
-  }
+    .nav-links.active {
+        transform: translateY(0); /* Slide down when active */
+    }
 
-  /* Show Menu When Active */
-  .nav-links.active {
-      transform: translateX(0);
-  }
+    .nav-links a {
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
 
-  .nav-links a {
-      padding: 0.8rem;
-      font-size: 1rem;
-      text-align: center;
-      color: white;
-      width: 100%;
-      transition: background 0.3s ease-in-out;
-  }
+    .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
 
-  /* Highlight Nav Items on Open */
-  .nav-links.active a {
-      background: rgba(255, 255, 255, 0.1);
-  }
-
-  .nav-links a:hover {
-      background: rgba(255, 255, 255, 0.2);
-  }
-
-  /* Hide menu when a nav item is clicked */
-  .nav-links a:active {
-      background: rgba(255, 255, 255, 0.3);
-  }
-
-  /* ===== HERO SECTION ===== */
-  .hero {
-      padding-top: 60px; /* Prevent overlap with navbar */
-      text-align: center;
-      background-size: cover;
-      background-position: center;
-  }
-
-  .hero-content {
-      padding: 1.5rem;
-  }
-
-  .hero h1 {
-      font-size: 2rem;
-      margin-bottom: 0.8rem;
-  }
-
-  .hero-headline {
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-  }
-
-  .hero-subtitle {
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      padding: 0 1rem;
-  }
-
-  /* Keep key features but adjust layout */
-  .hero-features {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
-  }
-
-  /* Keep market stats */
-  .market-stat-counter {
-      font-size: 0.85rem;
-      text-align: center;
-      width: 100%;
-      max-width: 300px;
-      margin-bottom: 1rem;
-  }
-
-  /* CTA Buttons */
-  .cta-container {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: center;
-  }
-
-  .primary-cta {
-      width: 90%;
-      max-width: 280px;
-      padding: 0.8rem;
-      font-size: 1rem;
-  }
-
-  /* Hide extra buttons on mobile */
-  .certificate-btn,
-  .faq-btn,
-  .guarantee-btn {
-      display: none;
-  }
+    /* Hide menu when scrolling */
+    .hide-menu {
+        transform: translateY(-100%) !important;
+    }
 }
 
     </style>
@@ -2649,29 +2561,29 @@
         });
     </script>
     <script>
-  document.addEventListener("DOMContentLoaded", function() {
-      const mobileMenu = document.querySelector(".mobile-menu");
-      const navLinks = document.querySelector(".nav-links");
-      const navItems = document.querySelectorAll(".nav-links a");
+document.addEventListener("DOMContentLoaded", function() {
+    const mobileMenu = document.querySelector(".mobile-menu");
+    const navLinks = document.querySelector(".nav-links");
 
-      function isMobile() {
-          return window.innerWidth <= 767; // Adjust based on your mobile breakpoint
-      }
+    // Toggle menu on button click
+    mobileMenu.addEventListener("click", function() {
+        navLinks.classList.toggle("active");
+    });
 
-      if (isMobile()) {
-          // Toggle menu on button click
-          mobileMenu.addEventListener("click", function() {
-              navLinks.classList.toggle("active");
-          });
+    // Close menu when a nav item is clicked
+    document.querySelectorAll(".nav-links a").forEach(item => {
+        item.addEventListener("click", function() {
+            navLinks.classList.remove("active");
+        });
+    });
 
-          // Close menu when a nav item is clicked
-          navItems.forEach(item => {
-              item.addEventListener("click", function() {
-                  navLinks.classList.remove("active");
-              });
-          });
-      }
-  });
+    // Hide menu on scroll
+    window.addEventListener("scroll", function() {
+        navLinks.classList.add("hide-menu");
+        setTimeout(() => navLinks.classList.remove("hide-menu"), 300); // Prevents glitchy behavior
+    });
+});
+
 </script>
 
 </body>
