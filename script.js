@@ -133,6 +133,12 @@ function showModal(tutorialId) {
         previewContent.innerHTML = tutorialPreviews[tutorialId].content.replace(/\n/g, '<br>');
     }
     
+    // Check if on mobile
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        showMobileDisclaimer();
+    }
+    
     modal.style.display = 'block';
 }
 
@@ -261,12 +267,62 @@ function checkPaymentStatus(tutorialId) {
     const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
     const allAccess = localStorage.getItem('allAccess') === 'true';
     
+    // Check if on mobile
+    const isMobile = window.innerWidth <= 768;
+    
     if (allAccess || purchasedTutorials.includes(tutorialId)) {
         enableAccess(tutorialId);
     } else {
         showMessage('Please purchase access to view this tutorial', 'info');
+        
+        // Show mobile disclaimer if on mobile
+        if (isMobile) {
+            showMobileDisclaimer();
+        }
+        
         showModal(tutorialId);
     }
+}
+
+// Function to show mobile disclaimer
+function showMobileDisclaimer() {
+    // Remove any existing disclaimer
+    const existingDisclaimer = document.querySelector('.mobile-disclaimer');
+    if (existingDisclaimer) {
+        existingDisclaimer.remove();
+    }
+    
+    // Create disclaimer element
+    const disclaimer = document.createElement('div');
+    disclaimer.className = 'mobile-disclaimer';
+    disclaimer.innerHTML = `
+        <div class="disclaimer-content">
+            <i class="fas fa-desktop"></i>
+            <p>For the best purchasing experience, we recommend completing your purchase on a desktop computer.</p>
+            <button class="disclaimer-close"><i class="fas fa-times"></i></button>
+        </div>
+    `;
+    
+    // Add to body
+    document.body.appendChild(disclaimer);
+    
+    // Add close button functionality
+    const closeBtn = disclaimer.querySelector('.disclaimer-close');
+    closeBtn.addEventListener('click', function() {
+        disclaimer.remove();
+    });
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        if (document.body.contains(disclaimer)) {
+            disclaimer.classList.add('fade-out');
+            setTimeout(() => {
+                if (document.body.contains(disclaimer)) {
+                    disclaimer.remove();
+                }
+            }, 1000);
+        }
+    }, 10000);
 }
 
 // Course Progress Tracking
