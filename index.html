@@ -1693,72 +1693,12 @@
             display: none;
         }
 
- /* MOBILE NAVIGATION */
 @media only screen and (max-width: 767px) {
     .navbar {
-        height: 50px; /* Slim height */
-        padding: 0.5rem 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: rgba(0, 0, 0, 0.9); /* Slightly transparent background */
-        backdrop-filter: blur(5px);
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000;
-        transition: background 0.3s ease;
-    }
-
-    .logo {
-        font-size: 1.2rem;
-        color: white;
-    }
-
-    .mobile-menu {
-        font-size: 1.5rem;
-        color: white;
-        cursor: pointer;
-    }
-
-    /* NAV MENU */
-    .nav-links {
-        position: fixed;
-        top: 50px; /* Below the navbar */
-        left: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.95); /* Dark menu */
-        display: flex;
-        flex-direction: column;
-        transform: translateY(-100%); /* Initially hidden */
-        transition: transform 0.3s ease-in-out;
-        z-index: 999;
-        padding: 1rem 0;
-    }
-
-    .nav-links.active {
-        transform: translateY(0); /* Slide down when active */
-    }
-
-    .nav-links a {
-        color: white;
-        text-align: center;
-        padding: 1rem;
-        font-size: 1rem;
-        text-decoration: none;
-        transition: background 0.3s;
-    }
-
-    .nav-links a:hover {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* Hide menu when scrolling */
-    .hide-menu {
-        transform: translateY(-100%) !important;
+        display: none !important;
     }
 }
+
 
     </style>
 </head>
@@ -2560,31 +2500,5 @@
             });
         });
     </script>
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const mobileMenu = document.querySelector(".mobile-menu");
-    const navLinks = document.querySelector(".nav-links");
-
-    // Toggle menu on button click
-    mobileMenu.addEventListener("click", function() {
-        navLinks.classList.toggle("active");
-    });
-
-    // Close menu when a nav item is clicked
-    document.querySelectorAll(".nav-links a").forEach(item => {
-        item.addEventListener("click", function() {
-            navLinks.classList.remove("active");
-        });
-    });
-
-    // Hide menu on scroll
-    window.addEventListener("scroll", function() {
-        navLinks.classList.add("hide-menu");
-        setTimeout(() => navLinks.classList.remove("hide-menu"), 300); // Prevents glitchy behavior
-    });
-});
-
-</script>
-
 </body>
 </html> 
