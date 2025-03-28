@@ -1803,7 +1803,74 @@
     display: none;
   }
 }
-
+@media only screen and (max-width: 767px) {
+  /* Refined Navigation Bar */
+  .navbar {
+    padding: 0.3rem 0.5rem; /* Reduced padding */
+    height: 50px; /* Fixed smaller height */
+    background: rgba(0, 0, 0, 0.85);
+  }
+  
+  .logo {
+    font-size: 1rem; /* Smaller logo font size */
+    padding: 0.2rem 0.5rem;
+    color: white;
+  }
+  
+  .mobile-menu {
+    font-size: 1.3rem; /* Slightly smaller menu icon */
+    color: white;
+  }
+  
+  .nav-links a {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  /* Simplified Hero Section */
+  .hero-content {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .hero h1 {
+    font-size: 1.8rem; /* Reduced headline size */
+    margin-bottom: 0.5rem;
+  }
+  
+  .hero-headline {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.9rem;
+    margin: 0 1rem 0.5rem;
+  }
+  
+  /* Hide less critical elements to reduce clutter */
+  .hero-features,
+  .market-stat-counter {
+    display: none;
+  }
+  
+  /* Adjust CTA Container */
+  .cta-container {
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .primary-cta {
+    width: 100%;
+    max-width: 250px;
+    padding: 0.7rem;
+    font-size: 1rem;
+  }
+}
     </style>
 </head>
 <body>
