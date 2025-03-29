@@ -1,3 +1,26 @@
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (typeof netlifyIdentity !== "undefined") {
+    netlifyIdentity.on("init", user => {
+      const isLoggedIn = !!user;
+      const paywallButtons = document.querySelectorAll(
+        ".enroll-course-btn, .instant-access-btn, .premium-access-btn"
+      );
+      paywallButtons.forEach(button => {
+        button.addEventListener("click", function (e) {
+          if (!isLoggedIn) {
+            e.preventDefault();
+            const redirectTo = window.location.pathname;
+            window.location.href = `login.html?redirectTo=${encodeURIComponent(redirectTo)}`;
+          }
+        });
+      });
+    });
+    netlifyIdentity.init();
+  }
+});
+
+
 // Tutorial Preview Content
 const tutorialPreviews = {
     1: {
