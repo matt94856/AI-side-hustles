@@ -434,5 +434,34 @@
         });
     </script>
     <script src="certificate.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const user = netlifyIdentity && netlifyIdentity.currentUser();
+    if (user) {
+      user.jwt().then(token => {
+        fetch("/.netlify/functions/getProgress?tutorialId=5", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data && Array.isArray(data.completedModules)) {
+            data.completedModules.forEach(moduleId => {
+              // Example: Unlock UI for completed modules
+              const moduleEl = document.getElementById(`module-${moduleId}`);
+              if (moduleEl) {
+                moduleEl.classList.add("unlocked");
+              }
+            });
+          }
+        })
+        .catch(console.error);
+      });
+    }
+  });
+</script>
+
 </body>
 </html> 

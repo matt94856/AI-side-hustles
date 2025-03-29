@@ -610,5 +610,26 @@
             updateProgress();
         });
     </script>
+
+<script>
+  const user = netlifyIdentity && netlifyIdentity.currentUser();
+  if (user) {
+    user.jwt().then(token => {
+      fetch("/.netlify/functions/saveProgress", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          tutorialId: 5,
+          moduleId: 5,
+          completed: true
+        })
+      });
+    });
+  }
+</script>
+
 </body>
 </html> 

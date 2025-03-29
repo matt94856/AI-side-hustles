@@ -2547,5 +2547,26 @@ Please suggest:
             updateProgress();
         });
     </script>
+
+<script>
+  const user = netlifyIdentity && netlifyIdentity.currentUser();
+  if (user) {
+    user.jwt().then(token => {
+      fetch("/.netlify/functions/saveProgress", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          tutorialId: 1,
+          moduleId: 4,
+          completed: true
+        })
+      });
+    });
+  }
+</script>
+
 </body>
 </html> 
