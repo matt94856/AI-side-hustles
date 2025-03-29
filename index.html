@@ -2013,6 +2013,30 @@
 </ul>
 </div>
 <div class="bundle-pricing">
+<!-- PayPal Integration -->
+<div id="paypal-button-container" style="margin-top: 2rem;"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=AXDK478h31Aam7cRATx7rNV4kkRzBXahoUoxBacw5e-EfbY1VzuRW_BUx11uDEFlteA4HRkECdXTYA7V&currency=USD"></script>
+<script>
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '19.99'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        alert('Transaction completed by ' + details.payer.name.given_name + '!');
+        localStorage.setItem("hasPaid", "true");
+        location.reload();
+      });
+    }
+  }).render('#paypal-button-container');
+</script>
+
 <div class="price-comparison">
 <div class="original-price">
 <span>Individual Price:</span>
