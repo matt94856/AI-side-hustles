@@ -1,0 +1,8 @@
+{
+  "name": "ai-side-hustles-site",
+  "version": "1.0.0",
+  "description": "AI Side Hustles Site with Netlify Functions",
+  "dependencies": {
+    "node-fetch": "^2.6.9"
+  }
+}
