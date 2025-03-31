@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Hustle Hub - AI-Powered Consulting Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .course-progress {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+            margin: -3rem auto 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.completed {
+            border: 2px solid #4CAF50;
+        }
+
+        .module-card.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .module-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .module-status.completed {
+            color: #4CAF50;
+        }
+
+        .module-status.locked {
+            color: #999;
+        }
+
+        .module-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .module-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-card.locked .module-link {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .resources-banner {
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+    padding: 0 2rem;
+}
+
+.resources-content {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid var(--accent-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.resources-icon {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.resources-text {
+    flex-grow: 1;
+}
+
+.resources-text h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.resources-text p {
+    color: #666;
+    font-size: 1rem;
+}
+
+.resources-button {
+    background: var(--gradient-accent);
+    color: white;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+}
+
+.resources-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+@media (max-width: 768px) {
+    .resources-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+    
+    .resources-text {
+        margin-bottom: 0.5rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="completion-banner" id="completionBanner">
+        <h2><i class="fas fa-trophy"></i> Congratulations!</h2>
+        <p>You've completed all modules in the AI-Powered Consulting Services course!</p>
+        <a href="#" class="certificate-button" onclick="generateCertificate(5); return false;">
+            <i class="fas fa-certificate"></i> Generate Certificate
+        </a>
+    </div>
+
+    <header class="header">
+        <div class="brand">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <i class="fas fa-robot"></i>
+                <h1>AI Hustle Hub</h1>
+            </a>
+        </div>
+        <p class="header-description">
+            Start a consulting business helping others implement AI solutions in their businesses. Learn how to offer valuable AI strategy and implementation services to clients.
+        </p>
+    </header>
+
+    <div class="course-progress">
+        <h3>Course Progress</h3>
+            <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p><span class="completed-count">0</span>/5 Modules Complete</p>
+    </div>
+
+    <div class="resources-banner">
+    <div class="resources-content">
+        <i class="fas fa-book-open resources-icon"></i>
+        <div class="resources-text">
+            <h3>Exclusive Resources</h3>
+            <p>Access premium tools, templates, and strategies to enhance your AI consulting business</p>
+        </div>
+        <a href="tutorial5-resources.html" class="resources-button">View Resources</a>
+    </div>
+</div>
+
+    <div class="modules-grid">
+        <div class="module-card active">
+            <i class="fas fa-brain module-icon"></i>
+            <i class="fas fa-spinner module-status"></i>
+            <h2 class="module-title">Module 1: AI Consulting Foundations</h2>
+            <p class="module-description">Understand the fundamentals of AI consulting, including the types of services you can offer and the skills required to succeed.</p>
+            <a href="tutorial5-module1.html" class="module-link">Start Module</a>
+        </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-cogs module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 2: AI Implementation Strategies</h2>
+            <p class="module-description">Learn practical approaches for implementing AI solutions in various business contexts, from small businesses to enterprises.</p>
+            <a href="tutorial5-module2.html" class="module-link">Start Module</a>
+    </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-users module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 3: Client Acquisition</h2>
+            <p class="module-description">Master strategies for finding and attracting clients who need AI consulting services, including marketing, networking, and positioning.</p>
+            <a href="tutorial5-module3.html" class="module-link">Start Module</a>
+    </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-file-invoice-dollar module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 4: Service Packaging & Pricing</h2>
+            <p class="module-description">Discover how to create compelling service packages and set optimal pricing to maximize your consulting income.</p>
+            <a href="tutorial5-module4.html" class="module-link">Start Module</a>
+    </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-chart-line module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 5: Scaling Your Consulting Business</h2>
+            <p class="module-description">Learn strategies for growing your AI consulting business, hiring talent, and creating systems for sustainable growth.</p>
+            <a href="tutorial5-module5.html" class="module-link">Start Module</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check progress of each module
+            const module1Progress = JSON.parse(localStorage.getItem('tutorial5_module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial5_module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('tutorial5_module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
+            const module5Progress = JSON.parse(localStorage.getItem('tutorial5_module5Progress')) || [];
+            
+            // Count completed modules (a module is complete when all 4 lessons are done)
+            const completedModules = [
+                module1Progress.length === 4,
+                module2Progress.length === 4,
+                module3Progress.length === 4,
+                module4Progress.length === 4,
+                module5Progress.length === 4
+            ].filter(Boolean);
+                
+                // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalModules = 5;
+            const percentage = (completedModules.length / totalModules) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedModules.length;
+
+            // Update module cards based on completion
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial5_module${index + 1}Progress`)) || [];
+                const isCompleted = moduleProgress.length === 4;
+                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial5_module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
+                
+                const moduleLink = card.querySelector('.module-link');
+                if (isCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('completed');
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    moduleLink.textContent = 'Review Module';
+                    moduleLink.href = `tutorial5-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked');
+                    card.classList.add('active');
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial5-module${index + 1}.html`;
+                    } else {
+                    card.classList.add('locked');
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
+                    moduleLink.href = '#';
+                    moduleLink.onclick = function(e) {
+                        e.preventDefault();
+                        alert('Please complete the previous module first.');
+                    };
+                }
+            });
+            
+            // Store tutorial progress in localStorage for tracking completion
+            const tutorialProgress = {
+                module1: module1Progress.length === 4,
+                module2: module2Progress.length === 4,
+                module3: module3Progress.length === 4,
+                module4: module4Progress.length === 4,
+                module5: module5Progress.length === 4,
+                completed: false
+            };
+            
+            // Mark the tutorial as completed if all modules are done
+            if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && 
+                tutorialProgress.module4 && tutorialProgress.module5) {
+                tutorialProgress.completed = true;
+                
+                // Show completion banner
+                const banner = document.getElementById('completionBanner');
+                if (banner) {
+                    banner.classList.add('visible');
+                    
+                    // Start confetti if available
+                    if (typeof completionCelebration !== 'undefined' && completionCelebration.startConfetti) {
+                        setTimeout(() => {
+                            completionCelebration.startConfetti();
+                        }, 500);
+                    }
+                }
+            }
+            
+            localStorage.setItem('tutorial5Progress', JSON.stringify(tutorialProgress));
+        });
+    </script>
+    <script src="certificate.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const user = netlifyIdentity && netlifyIdentity.currentUser();
+    if (user) {
+      user.jwt().then(token => {
+        fetch("/.netlify/functions/getProgress?tutorialId=5", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data && Array.isArray(data.completedModules)) {
+            data.completedModules.forEach(moduleId => {
+              // Example: Unlock UI for completed modules
+              const moduleEl = document.getElementById(`module-${moduleId}`);
+              if (moduleEl) {
+                moduleEl.classList.add("unlocked");
+              }
+            });
+          }
+        })
+        .catch(console.error);
+      });
+    }
+  });
+</script>
+
+</body>
+</html> 

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Consulting Services - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4A9DE7;
+            --secondary-color: #2D82C7;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4A9DE7 0%, #6CB9F0 100%);
+            --gradient-secondary: linear-gradient(135deg, #2D82C7 0%, #1E73BE 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            background: var(--primary-color);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .hero {
+            background: var(--gradient-accent);
+            color: var(--text-light);
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .resources-container {
+            padding: 60px 0;
+        }
+
+        .resource-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .resource-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .resource-section h3 {
+            margin: 25px 0 15px;
+            color: var(--secondary-color);
+        }
+
+        .resource-section p {
+            margin-bottom: 15px;
+        }
+
+        .resource-section ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .resource-section li {
+            margin-bottom: 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 157, 231, 0.4);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: color 0.3s;
+        }
+
+        .back-link i {
+            margin-right: 8px;
+        }
+
+        .back-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .service-card {
+            background: #f9f9f9;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .service-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .prompt-box {
+            background: #f0f7ff;
+            border: 1px dashed var(--accent-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .day-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .day-card strong {
+            color: var(--secondary-color);
+        }
+
+        .strategy-card {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .strategy-icon {
+            background: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .strategy-content h4 {
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .resource-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container navbar">
+            <a href="index.html" class="logo">AI Hustle Hub</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="tutorial5.html">AI Consulting Services</a>
+                <a href="index.html#tutorials">All Courses</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>AI Consulting Services Resource Page</h1>
+            <p>Unlock the power of AI consulting with a proven system that attracts high-value clients</p>
+        </div>
+    </header>
+
+    <main class="container resources-container">
+        <a href="tutorial5.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to AI Consulting Course</a>
+        
+        <div class="resource-section">
+            <h2>AI Consulting Services Resource Page</h2>
+            <p>Unlock the power of AI consulting with a proven system that attracts high-value clients, closes deals effortlessly, and delivers results using pre-built AI solutions. Follow this framework to build a profitable, scalable AI consulting practice.</p>
+        </div>
+
+        <div class="resource-section">
+            <h2>Our "Problem-First" Methodology That Lands Meetings with Decision Makers</h2>
+            <p>Most AI consultants struggle to get in front of the right people. Our "Problem-First" methodology ensures you consistently land meetings with decision-makers by focusing on their pain points.</p>
+            
+            <ol>
+                <li><strong>Industry-Specific Pain Points</strong> – Research and identify the most pressing challenges in your target industry.</li>
+                <li><strong>Customized AI Solutions</strong> – Position AI as the fastest and most cost-effective way to solve those problems.</li>
+                <li><strong>Direct Outreach with Value</strong> – Use AI-driven insights to craft compelling outreach messages that demonstrate immediate impact.</li>
+                <li><strong>Social Proof & Case Studies</strong> – Showcase past success stories and industry benchmarks to establish credibility.</li>
+                <li><strong>Decision-Maker Alignment</strong> – Target C-level executives and department heads who have the authority to invest in AI solutions.</li>
+            </ol>
+        </div>
+
+        <div class="resource-section">
+            <h2>The 3-Step Consultation Process with a 78% Close Rate</h2>
+            <p>This structured approach helps convert leads into high-paying clients efficiently.</p>
+            
+            <ol>
+                <li><strong>AI Opportunity Audit</strong> – Assess the client's current processes, identify inefficiencies, and highlight AI opportunities.</li>
+                <li><strong>Custom AI Roadmap</strong> – Present a tailored AI implementation plan with clear ROI projections.</li>
+                <li><strong>Risk-Free Pilot or Proof of Concept</strong> – Offer a low-risk, high-value engagement to demonstrate AI's impact before a full rollout.</li>
+            </ol>
+            
+            <p>Using this process, you position yourself as a trusted advisor rather than just another consultant, dramatically increasing your close rate.</p>
+        </div>
+
+        <div class="resource-section">
+            <h2>How to Deliver Results Using Our Pre-Built AI Systems</h2>
+            <p>Instead of starting from scratch, leverage pre-built AI solutions to speed up implementation and maximize client results.</p>
+            
+            <ul>
+                <li><strong>AI-Powered Data Analytics</strong> – Use AI to process large datasets and provide actionable insights.</li>
+                <li><strong>Chatbots & Customer Support Automation</strong> – Implement AI-driven chatbots to handle customer queries efficiently.</li>
+                <li><strong>Marketing & Sales Automation</strong> – Deploy AI tools to optimize ad spend, generate leads, and personalize outreach.</li>
+                <li><strong>AI Workflow Automation</strong> – Streamline repetitive business tasks using AI-powered automation.</li>
+                <li><strong>Custom AI Model Integration</strong> – Fine-tune and adapt AI models to fit specific business needs.</li>
+            </ul>
+            
+            <p>By using pre-built systems, you reduce implementation time and ensure consistent, high-quality results for your clients.</p>
+        </div>
+
+        <div class="resource-section">
+            <h2>Building a Consistent $20K/Month Consulting Practice</h2>
+            <p>Achieving $20K/month consistently requires the right systems and strategy. Here's how to do it:</p>
+            
+            <ol>
+                <li><strong>High-Value Offer Positioning</strong> – Package your AI consulting services into premium, results-driven solutions.</li>
+                <li><strong>Recurring Revenue Model</strong> – Offer ongoing AI strategy, support, and optimization to create steady cash flow.</li>
+                <li><strong>Automated Lead Generation</strong> – Use AI tools to identify and nurture potential clients automatically.</li>
+                <li><strong>Scalable Delivery Systems</strong> – Standardize AI implementation processes to handle more clients without additional effort.</li>
+                <li><strong>Strategic Partnerships</strong> – Collaborate with tech providers and agencies to generate consistent client referrals.</li>
+            </ol>
+            
+            <p>By following these steps, you can scale your AI consulting business to $20K/month and beyond without working 80-hour weeks.</p>
+        </div>
+        
+        <div class="resource-section">
+            <h2>Start Your AI Consulting Business Today!</h2>
+            <p>Implement this proven framework to land high-value clients, close deals with confidence, and deliver AI-powered solutions that drive measurable results. Get started today and build a thriving AI consulting practice!</p>
+        </div>
+
+        <div class="resource-section">
+            <h2>Ultimate AI Consulting Prompt Library</h2>
+            <p>Leverage AI to streamline client acquisition, deliver exceptional results, and scale your consulting business. Use these prompts to enhance your AI consulting services at every stage.</p>
+            
+            <h3>Client Acquisition & Outreach Prompts</h3>
+            
+            <div class="service-card">
+                <div class="prompt-box">
+                    <p>"Generate a compelling cold outreach email for decision-makers in [industry] interested in AI solutions."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Create a LinkedIn connection message that positions me as an AI expert for [industry]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Write a persuasive sales pitch that explains the ROI of AI for [specific business problem]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Draft a follow-up email sequence for potential AI consulting clients who haven't responded."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"List 10 high-value industries where AI consulting services are in demand."</p>
+                </div>
+            </div>
+            
+            <h3>AI Opportunity Identification Prompts</h3>
+            
+            <div class="service-card">
+                <div class="prompt-box">
+                    <p>"Analyze common inefficiencies in [industry] that AI can solve."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Create a step-by-step AI implementation roadmap for [business type]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Identify the top AI tools for automating tasks in [specific industry]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Generate an AI impact report outlining cost savings and efficiency improvements for [business type]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Write a use case demonstrating how AI improves [specific process] in [industry]."</p>
+                </div>
+            </div>
+            
+            <h3>Consultation & Closing Prompts</h3>
+            
+            <div class="service-card">
+                <div class="prompt-box">
+                    <p>"Generate a list of discovery call questions to uncover AI opportunities for potential clients."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Draft an AI consulting proposal that includes pricing, deliverables, and expected ROI."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Write an objection-handling script for AI consulting services, addressing cost concerns."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Create a 5-minute pitch presentation showcasing AI's value for [business type]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Develop a consultation script for explaining AI's business benefits in non-technical terms."</p>
+                </div>
+            </div>
+            
+            <h3>AI Solution Development Prompts</h3>
+            
+            <div class="service-card">
+                <div class="prompt-box">
+                    <p>"Design a chatbot workflow for automating customer support inquiries."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Generate a workflow for AI-powered sales and marketing automation."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"List the essential AI tools for business process automation in [industry]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Create a roadmap for integrating AI-powered data analytics into [business function]."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Outline a strategy for training employees on using AI effectively in their workflow."</p>
+                </div>
+            </div>
+            
+            <h3>Scaling & Growth Prompts</h3>
+            
+            <div class="service-card">
+                <div class="prompt-box">
+                    <p>"Develop a content marketing strategy to attract high-ticket AI consulting clients."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Write an email sequence for upselling additional AI services to existing clients."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Generate a referral program strategy for AI consulting clients."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"List 5 ways to automate lead generation for my AI consulting business."</p>
+                </div>
+                <div class="prompt-box">
+                    <p>"Create a social media content calendar to establish authority in AI consulting."</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <h3>Use These Prompts to Build & Scale Your AI Consulting Business!</h3>
+                <p>These prompts will help you attract clients, streamline AI implementation, and grow your consulting practice efficiently. Implement them today to maximize your consulting success!</p>
+            </div>
+        </div>
+
+        <div class="resource-section" style="text-align: center;">
+            <h2>Get Started Now!</h2>
+            <p>Leverage these insights to scale your AI consulting business, increase profits, and close deals faster than ever. Implement these strategies today and watch your results skyrocket!</p>
+            <a href="tutorial5-module1.html" class="cta-button">Return to Course <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 AI Hustle Hub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 
+</html> 
