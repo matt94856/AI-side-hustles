@@ -32,7 +32,11 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          document.getElementById('result').textContent = "🎉 User upgraded to premium successfully!";
+          // 🔄 Refresh Identity
+          netlifyIdentity.refresh().then(() => {
+            document.getElementById('result').textContent = "🎉 You're now a premium user!";
+            setTimeout(() => location.reload(), 1000);
+          });
         } else {
           document.getElementById('result').textContent = "⚠️ Upgrade failed: " + JSON.stringify(data);
         }
