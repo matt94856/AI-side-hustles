@@ -47,13 +47,156 @@
     // Initialize Supabase immediately after the script loads
     const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0';
-    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Make supabase client globally available
-    window.supabase = supabaseClient;
+    // Create the Supabase client correctly using the createClient method from the loaded library
+    if (typeof supabase !== 'undefined') {
+        window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        console.log('Supabase client initialized:', window.supabase);
+    } else {
+        console.error('Supabase library not loaded properly');
+    }
 </script>
 <!-- Add Netlify Identity second -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<!-- Add PayPal SDK last -->
+<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+
+<script>
+    // Main initialization code
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Check if supabase is initialized
+        if (!window.supabase || !window.supabase.from) {
+            console.error('Supabase client not properly initialized');
+            return;
+        }
+
+        // Test the Supabase connection
+        try {
+            const { data, error } = await window.supabase.from('purchases').select('count');
+            if (error) {
+                console.error('Supabase connection test failed:', error);
+            } else {
+                console.log('Supabase connection successful');
+            }
+        } catch (error) {
+            console.error('Error testing Supabase connection:', error);
+        }
+
+        // Initialize Netlify Identity
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.reload();
+                    });
+                }
+            });
+        }
+
+        // Redirect to login page
+        function redirectToLogin(tutorialId) {
+            sessionStorage.setItem('redirectAfterLogin', window.location.href);
+            sessionStorage.setItem('tutorialId', tutorialId);
+            window.location.href = 'login.html';
+        }
+
+        // Show message function
+        function showMessage(message, type = 'info') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+            setTimeout(() => messageDiv.remove(), 3000);
+        }
+
+        // Check payment status
+        async function checkPaymentStatus(tutorialId) {
+            if (!checkAuth()) {
+                redirectToLogin(tutorialId);
+                return;
+            }
+
+            try {
+                const user = netlifyIdentity.currentUser();
+                if (!user) {
+                    showMessage('Please log in to access this content', 'error');
+                    return;
+                }
+
+                console.log('Checking purchases for user:', user.id);
+                const { data: purchases, error } = await window.supabase
+                    .from('purchases')
+                    .select('module_id')
+                    .eq('user_id', user.id);
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    showMessage('Error checking access. Please try again.', 'error');
+                    return;
+                }
+
+                console.log('Purchases data:', purchases);
+                const purchasedModuleIds = purchases.map(p => p.module_id);
+                const hasAllAccess = purchasedModuleIds.length === 5;
+                const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(parseInt(tutorialId));
+
+                if (hasTutorialAccess) {
+                    window.location.href = `tutorial${tutorialId}.html`;
+                } else {
+                    showModal(tutorialId);
+                }
+            } catch (error) {
+                console.error('Error checking payment status:', error);
+                showMessage('Error checking access. Please try again.', 'error');
+            }
+        }
+
+        // Update UI based on purchase status
+        async function updateUIForPurchases() {
+            const user = netlifyIdentity.currentUser();
+            if (!user) return;
+
+            try {
+                const { data: purchases, error } = await window.supabase
+                    .from('purchases')
+                    .select('module_id')
+                    .eq('user_id', user.id);
+
+                if (error) {
+                    console.error('Error checking purchases:', error);
+                    return;
+                }
+
+                const enrollButtons = document.querySelectorAll('.enroll-now');
+                const purchasedModuleIds = purchases.map(p => p.module_id);
+                const hasAllAccess = purchasedModuleIds.length === 5;
+
+                enrollButtons.forEach(button => {
+                    const tutorialId = parseInt(button.getAttribute('data-tutorial-id'));
+                    const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(tutorialId);
+
+                    if (hasTutorialAccess) {
+                        button.textContent = 'Access Tutorial';
+                        button.onclick = () => window.location.href = `tutorial${tutorialId}.html`;
+                    }
+                });
+            } catch (error) {
+                console.error('Error updating UI:', error);
+            }
+        }
+
+        // Make functions available globally
+        window.checkPaymentStatus = checkPaymentStatus;
+        window.checkAuth = checkAuth;
+        window.redirectToLogin = redirectToLogin;
+        window.showMessage = showMessage;
+        window.updateUIForPurchases = updateUIForPurchases;
+
+        // Initialize the page
+        checkAuth();
+        updateUIForPurchases();
+    });
+</script>
 <style>
         :root {
             --primary-color: #1a1a1a;
@@ -2365,11 +2508,23 @@
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
     // Main initialization code
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         // Check if supabase is initialized
-        if (!window.supabase) {
-            console.error('Supabase client not initialized');
+        if (!window.supabase || !window.supabase.from) {
+            console.error('Supabase client not properly initialized');
             return;
+        }
+
+        // Test the Supabase connection
+        try {
+            const { data, error } = await window.supabase.from('purchases').select('count');
+            if (error) {
+                console.error('Supabase connection test failed:', error);
+            } else {
+                console.log('Supabase connection successful');
+            }
+        } catch (error) {
+            console.error('Error testing Supabase connection:', error);
         }
 
         // Initialize Netlify Identity
@@ -2381,23 +2536,6 @@
                     });
                 }
             });
-        }
-
-        // Check authentication status
-        function checkAuth() {
-            const user = netlifyIdentity.currentUser();
-            const loginBtn = document.getElementById('login-btn');
-            const logoutBtn = document.getElementById('logout-btn');
-            
-            if (user) {
-                loginBtn.style.display = 'none';
-                logoutBtn.style.display = 'block';
-                return true;
-            } else {
-                loginBtn.style.display = 'block';
-                logoutBtn.style.display = 'none';
-                return false;
-            }
         }
 
         // Redirect to login page
@@ -2416,6 +2554,48 @@
             setTimeout(() => messageDiv.remove(), 3000);
         }
 
+        // Check payment status
+        async function checkPaymentStatus(tutorialId) {
+            if (!checkAuth()) {
+                redirectToLogin(tutorialId);
+                return;
+            }
+
+            try {
+                const user = netlifyIdentity.currentUser();
+                if (!user) {
+                    showMessage('Please log in to access this content', 'error');
+                    return;
+                }
+
+                console.log('Checking purchases for user:', user.id);
+                const { data: purchases, error } = await window.supabase
+                    .from('purchases')
+                    .select('module_id')
+                    .eq('user_id', user.id);
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    showMessage('Error checking access. Please try again.', 'error');
+                    return;
+                }
+
+                console.log('Purchases data:', purchases);
+                const purchasedModuleIds = purchases.map(p => p.module_id);
+                const hasAllAccess = purchasedModuleIds.length === 5;
+                const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(parseInt(tutorialId));
+
+                if (hasTutorialAccess) {
+                    window.location.href = `tutorial${tutorialId}.html`;
+                } else {
+                    showModal(tutorialId);
+                }
+            } catch (error) {
+                console.error('Error checking payment status:', error);
+                showMessage('Error checking access. Please try again.', 'error');
+            }
+        }
+
         // Update UI based on purchase status
         async function updateUIForPurchases() {
             const user = netlifyIdentity.currentUser();
@@ -2425,7 +2605,7 @@
                 const { data: purchases, error } = await window.supabase
                     .from('purchases')
                     .select('module_id')
-                    .eq('user_id', user.netlify_id);
+                    .eq('user_id', user.id);
 
                 if (error) {
                     console.error('Error checking purchases:', error);
@@ -2450,46 +2630,6 @@
             }
         }
 
-        // Check payment status
-        async function checkPaymentStatus(tutorialId) {
-            if (!checkAuth()) {
-                redirectToLogin(tutorialId);
-                return;
-            }
-
-            try {
-                const user = netlifyIdentity.currentUser();
-                if (!user) {
-                    showMessage('Please log in to access this content', 'error');
-                    return;
-                }
-
-                const { data: purchases, error } = await window.supabase
-                    .from('purchases')
-                    .select('module_id')
-                    .eq('user_id', user.netlify_id);
-
-                if (error) {
-                    console.error('Supabase error:', error);
-                    showMessage('Error checking access. Please try again.', 'error');
-                    return;
-                }
-
-                const purchasedModuleIds = purchases.map(p => p.module_id);
-                const hasAllAccess = purchasedModuleIds.length === 5;
-                const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(parseInt(tutorialId));
-
-                if (hasTutorialAccess) {
-                    window.location.href = `tutorial${tutorialId}.html`;
-                } else {
-                    showModal(tutorialId);
-                }
-            } catch (error) {
-                console.error('Error checking payment status:', error);
-                showMessage('Error checking access. Please try again.', 'error');
-            }
-        }
-
         // Make functions available globally
         window.checkPaymentStatus = checkPaymentStatus;
         window.checkAuth = checkAuth;
@@ -2500,13 +2640,6 @@
         // Initialize the page
         checkAuth();
         updateUIForPurchases();
-
-        // Handle logout
-        document.getElementById('logout-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            netlifyIdentity.logout();
-            checkAuth(); // Update UI immediately
-        });
     });
 </script>
 </body>

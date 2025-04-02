@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hustle Hub - Login</title>
+    <link href="style.css" rel="stylesheet">
+    <!-- Add Supabase client first -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase immediately after the script loads
+        const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0';
+
+        // Create the Supabase client
+        if (typeof supabase !== 'undefined') {
+            window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+            console.log('Supabase client initialized:', window.supabase);
+        } else {
+            console.error('Supabase library not loaded properly');
+        }
+    </script>
+    <!-- Add Netlify Identity second -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         body {
@@ -61,32 +78,78 @@
 <body>
     <div class="login-container">
         <h1 class="login-title">Welcome to AI Hustle Hub</h1>
-        <button class="login-button" onclick="netlifyIdentity.open('login')">Login</button>
-        <button class="signup-button" onclick="netlifyIdentity.open('signup')">Sign Up</button>
+        <div class="login-buttons">
+            <button class="login-button" onclick="netlifyIdentity.open('login')">Login</button>
+            <button class="signup-button" onclick="netlifyIdentity.open('signup')">Sign Up</button>
+        </div>
         <div id="message" class="message"></div>
     </div>
 
     <script>
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
-                        const tutorialId = sessionStorage.getItem('tutorialId');
-                        
-                        // Clear the stored values
-                        sessionStorage.removeItem('redirectAfterLogin');
-                        sessionStorage.removeItem('tutorialId');
-                        
-                        // Redirect to the stored URL or index.html
-                        if (redirectUrl) {
-                            window.location.href = redirectUrl;
-                        } else {
-                            window.location.href = 'index.html';
-                        }
-                    });
+        // Handle Netlify Identity events
+        netlifyIdentity.on('init', user => {
+            if (user) {
+                handleLogin(user);
+            }
+        });
+
+        netlifyIdentity.on('login', user => {
+            handleLogin(user);
+        });
+
+        async function handleLogin(user) {
+            try {
+                // Check if user exists in Supabase
+                const { data: existingUser, error: checkError } = await window.supabase
+                    .from('users')
+                    .select('id')
+                    .eq('netlify_id', user.id)
+                    .single();
+
+                if (checkError && checkError.code !== 'PGRST116') {
+                    console.error('Error checking user:', checkError);
+                    return;
                 }
-            });
+
+                if (!existingUser) {
+                    // Create new user in Supabase
+                    const { error: createError } = await window.supabase
+                        .from('users')
+                        .insert([
+                            {
+                                netlify_id: user.id,
+                                created_at: new Date().toISOString(),
+                                last_login: new Date().toISOString()
+                            }
+                        ]);
+
+                    if (createError) {
+                        console.error('Error creating user:', createError);
+                        return;
+                    }
+                } else {
+                    // Update last login
+                    const { error: updateError } = await window.supabase
+                        .from('users')
+                        .update({ last_login: new Date().toISOString() })
+                        .eq('netlify_id', user.id);
+
+                    if (updateError) {
+                        console.error('Error updating last login:', updateError);
+                    }
+                }
+
+                // Redirect after successful login
+                const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
+                if (redirectUrl) {
+                    sessionStorage.removeItem('redirectAfterLogin');
+                    window.location.href = redirectUrl;
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                console.error('Error handling login:', error);
+            }
         }
     </script>
 </body>
