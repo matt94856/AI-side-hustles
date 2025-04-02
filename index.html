@@ -1720,7 +1720,12 @@
 <div class="mobile-menu">
 <i class="fas fa-bars"></i>
 </div>
-<button id="login-btn" onclick="location.href='login.html'">Login / Signup</button><button id="logout-btn" onclick="netlifyIdentity.logout()" style="display: none">Logout</button></nav>
+
+<button id="login-btn" class="primary-cta" onclick="location.href='login.html'">
+  <span>Login / Signup</span>
+  <i class="fas fa-user"></i>
+</button>
+<button id="logout-btn" onclick="netlifyIdentity.logout()" style="display: none">Logout</button></nav>
 <!-- Hero Section -->
 <section class="hero" id="home">
 <div class="hero-overlay"></div>
