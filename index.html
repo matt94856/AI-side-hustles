@@ -2413,12 +2413,21 @@
 
         try {
             const user = netlifyIdentity.currentUser();
+            if (!user) {
+                showMessage('Please log in to access this content', 'error');
+                return;
+            }
+
             const { data: purchases, error } = await supabase
                 .from('purchases')
                 .select('module_id')
                 .eq('user_id', user.id);
 
-            if (error) throw error;
+            if (error) {
+                console.error('Supabase error:', error);
+                showMessage('Error checking access. Please try again.', 'error');
+                return;
+            }
 
             const purchasedModuleIds = purchases.map(p => p.module_id);
             const hasAllAccess = purchasedModuleIds.length === 5;

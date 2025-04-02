@@ -73,9 +73,13 @@
                     window.netlifyIdentity.on("login", () => {
                         const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
                         const tutorialId = sessionStorage.getItem('tutorialId');
+                        
+                        // Clear the stored values
+                        sessionStorage.removeItem('redirectAfterLogin');
+                        sessionStorage.removeItem('tutorialId');
+                        
+                        // Redirect to the stored URL or index.html
                         if (redirectUrl) {
-                            sessionStorage.removeItem('redirectAfterLogin');
-                            sessionStorage.removeItem('tutorialId');
                             window.location.href = redirectUrl;
                         } else {
                             window.location.href = 'index.html';
