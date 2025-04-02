@@ -2356,12 +2356,7 @@
     // Initialize Supabase client
     const supabaseUrl = 'https://your-project.supabase.co';
     const supabaseKey = 'your-anon-key';
-    let supabase;
-
-    // Wait for Supabase to be available
-    window.addEventListener('load', () => {
-        supabase = supabase.createClient(supabaseUrl, supabaseKey);
-    });
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     // Initialize Netlify Identity
     if (window.netlifyIdentity) {
@@ -2409,6 +2404,42 @@
         setTimeout(() => messageDiv.remove(), 3000);
     }
 
+    // Update UI based on purchase status
+    function updateUIForPurchases() {
+        const user = netlifyIdentity.currentUser();
+        if (!user) return;
+
+        // Get all enroll buttons
+        const enrollButtons = document.querySelectorAll('.enroll-now');
+        
+        // Check purchase status for each tutorial
+        enrollButtons.forEach(async (button) => {
+            const tutorialId = button.getAttribute('data-tutorial-id');
+            try {
+                const { data: purchases, error } = await supabase
+                    .from('purchases')
+                    .select('module_id')
+                    .eq('user_id', user.id);
+
+                if (error) {
+                    console.error('Error checking purchases:', error);
+                    return;
+                }
+
+                const purchasedModuleIds = purchases.map(p => p.module_id);
+                const hasAllAccess = purchasedModuleIds.length === 5;
+                const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(parseInt(tutorialId));
+
+                if (hasTutorialAccess) {
+                    button.textContent = 'Access Tutorial';
+                    button.onclick = () => window.location.href = `tutorial${tutorialId}.html`;
+                }
+            } catch (error) {
+                console.error('Error updating UI:', error);
+            }
+        });
+    }
+
     // Check payment status
     async function checkPaymentStatus(tutorialId) {
         if (!checkAuth()) {
@@ -2420,11 +2451,6 @@
             const user = netlifyIdentity.currentUser();
             if (!user) {
                 showMessage('Please log in to access this content', 'error');
-                return;
-            }
-
-            if (!supabase) {
-                showMessage('System is initializing. Please try again in a moment.', 'error');
                 return;
             }
 
@@ -2460,8 +2486,12 @@
         updateUIForPurchases();
     });
 
-    // ... existing code ...
+    // Handle logout
+    document.getElementById('logout-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        netlifyIdentity.logout();
+        checkAuth(); // Update UI immediately
+    });
 </script>
-<script type="module" src="script.js"></script>
 </body>
 </html> 
