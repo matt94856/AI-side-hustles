@@ -1,0 +1,122 @@
+import { getUserData, syncPurchases } from './db';
+
+// Initialize Netlify Identity
+export function initializeAuth() {
+    console.log('Initializing Netlify Identity...');
+    
+    if (typeof netlifyIdentity !== 'undefined') {
+        // Handle initialization
+        netlifyIdentity.on('init', async user => {
+            console.log('Netlify Identity initialized:', { user });
+            if (user) {
+                await handleUserLogin(user);
+            } else {
+                handleUserLogout();
+            }
+        });
+
+        // Handle login
+        netlifyIdentity.on('login', async user => {
+            console.log('User logged in:', user);
+            await handleUserLogin(user);
+        });
+
+        // Handle logout
+        netlifyIdentity.on('logout', () => {
+            console.log('User logged out');
+            handleUserLogout();
+        });
+
+        // Initialize Netlify Identity
+        netlifyIdentity.init();
+    } else {
+        console.error('Netlify Identity not found. Please check your script inclusion.');
+    }
+}
+
+// Handle user login
+async function handleUserLogin(user) {
+    try {
+        console.log('Handling user login:', user);
+        
+        // Get or create user data in Supabase
+        const userData = await getUserData(user.id);
+        console.log('User data:', userData);
+        
+        // Sync purchases
+        await syncPurchases(user.id);
+        
+        // Update UI
+        updateAuthUI(true);
+        
+        // Handle redirect if needed
+        handleRedirect();
+    } catch (error) {
+        console.error('Error handling user login:', error);
+        showError('Failed to complete login process. Please try again.');
+    }
+}
+
+// Handle user logout
+function handleUserLogout() {
+    console.log('Handling user logout');
+    
+    // Clear local storage
+    localStorage.removeItem('purchasedTutorials');
+    localStorage.removeItem('allAccess');
+    
+    // Update UI
+    updateAuthUI(false);
+    
+    // Redirect to home page
+    window.location.href = '/';
+}
+
+// Update UI based on auth state
+function updateAuthUI(isLoggedIn) {
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    
+    if (loginBtn && logoutBtn) {
+        loginBtn.style.display = isLoggedIn ? 'none' : 'inline-block';
+        logoutBtn.style.display = isLoggedIn ? 'inline-block' : 'none';
+    }
+}
+
+// Handle redirect after login
+function handleRedirect() {
+    const redirectTo = sessionStorage.getItem('redirectTo');
+    const tutorialId = sessionStorage.getItem('tutorialId');
+    
+    if (redirectTo || tutorialId) {
+        console.log('Handling redirect:', { redirectTo, tutorialId });
+        
+        // Clear stored redirect data
+        sessionStorage.removeItem('redirectTo');
+        sessionStorage.removeItem('tutorialId');
+        
+        // Perform redirect
+        if (tutorialId) {
+            if (tutorialId === 'all') {
+                window.location.href = '/#tutorials';
+            } else {
+                window.location.href = `/tutorial${tutorialId}.html`;
+            }
+        } else if (redirectTo) {
+            window.location.href = redirectTo;
+        }
+    }
+}
+
+// Show error message to user
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+} 
