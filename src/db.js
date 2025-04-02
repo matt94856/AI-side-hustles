@@ -1,5 +1,12 @@
-import { supabase } from './supabase';
+import { supabase, initSupabase } from './supabase.js';
+import { showMessage } from './utils.js';
 import netlifyIdentity from 'netlify-identity-widget';
+
+// Initialize Supabase
+initSupabase().catch(error => {
+    console.error('Failed to initialize Supabase:', error);
+    showMessage('Failed to connect to the database. Please refresh the page.', 'error');
+});
 
 // User data operations
 export async function getUserData(netlifyId) {
@@ -55,17 +62,18 @@ export async function getUserData(netlifyId) {
 }
 
 // Purchase operations
-export async function savePurchase(netlifyId, moduleId) {
+export async function savePurchase(purchaseData) {
     try {
-        console.log('Saving purchase:', { netlifyId, moduleId });
+        console.log('Saving purchase:', purchaseData);
         
         const { data, error } = await supabase
             .from('purchases')
             .insert([
                 {
-                    user_id: netlifyId,
-                    module_id: moduleId,
-                    purchase_date: new Date().toISOString()
+                    transaction_id: purchaseData.transactionId,
+                    amount: purchaseData.amount,
+                    purchase_date: purchaseData.timestamp,
+                    is_all_access: purchaseData.isAllAccess
                 }
             ])
             .select()
@@ -115,11 +123,13 @@ export async function syncPurchases(netlifyId) {
         const purchasedModules = await getPurchasedModules(netlifyId);
         
         // Update localStorage
-        localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedModules));
+        localStorage.setItem('purchasedModules', JSON.stringify(purchasedModules));
         
         // Update allAccess flag if all modules are purchased
         const allModules = [1, 2, 3, 4, 5];
-        const hasAllAccess = allModules.every(moduleId => purchasedModules.includes(moduleId));
+        const hasAllAccess = allModules.every(moduleId => 
+            purchasedModules.includes(moduleId.toString()) || purchasedModules.includes(moduleId)
+        );
         localStorage.setItem('allAccess', hasAllAccess);
         
         console.log('Purchase sync complete:', {
@@ -134,9 +144,39 @@ export async function syncPurchases(netlifyId) {
     }
 }
 
+// Save all-access purchase
+export async function saveAllAccessPurchase(netlifyId) {
+    try {
+        const allModules = [1, 2, 3, 4, 5];
+        const purchases = allModules.map(moduleId => ({
+            user_id: netlifyId,
+            module_id: moduleId,
+            purchase_date: new Date().toISOString()
+        }));
+
+        const { data, error } = await supabase
+            .from('purchases')
+            .insert(purchases)
+            .select();
+
+        if (error) {
+            console.error('Error saving all-access purchase:', error);
+            throw error;
+        }
+
+        // Update local storage
+        await syncPurchases(netlifyId);
+
+        return data;
+    } catch (error) {
+        console.error('Error in saveAllAccessPurchase:', error);
+        throw error;
+    }
+}
+
 // Sync purchases from Supabase to local storage
 export async function syncPurchasesFromSupabase() {
-    const user = netlifyIdentity.currentUser();
+    const user = window.netlifyIdentity?.currentUser();
     if (!user) return;
 
     try {
@@ -153,7 +193,7 @@ export async function syncPurchasesFromSupabase() {
             localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
             
             // Check if user has all-access
-            const hasAllAccess = data.some(purchase => purchase.tutorial_id === 'all');
+            const hasAllAccess = data.some(purchase => purchase.is_all_access);
             localStorage.setItem('allAccess', hasAllAccess ? 'true' : 'false');
             
             // Update payment status
@@ -161,17 +201,14 @@ export async function syncPurchasesFromSupabase() {
             
             // Update payment data with most recent purchase
             const latestPurchase = data.reduce((latest, current) => 
-                new Date(current.created_at) > new Date(latest.created_at) ? current : latest
+                new Date(current.purchase_date) > new Date(latest.purchase_date) ? current : latest
             );
             
             localStorage.setItem('paymentData', JSON.stringify({
-                type: latestPurchase.tutorial_id === 'all' ? 'all' : 'single',
-                tutorialId: latestPurchase.tutorial_id,
+                type: latestPurchase.is_all_access ? 'all' : 'single',
                 transactionId: latestPurchase.transaction_id,
-                timestamp: new Date(latestPurchase.created_at).getTime()
+                timestamp: new Date(latestPurchase.purchase_date).getTime()
             }));
-            
-            localStorage.setItem('paymentDate', new Date(latestPurchase.created_at).getTime().toString());
         }
     } catch (error) {
         console.error('Error syncing purchases:', error);
