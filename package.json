@@ -1,8 +1,13 @@
 {
-  "name": "ai-side-hustles-site",
+  "name": "ai-hustle-hub",
   "version": "1.0.0",
-  "description": "AI Side Hustles Site with Netlify Functions",
+  "description": "AI Hustle Hub - Learn How to Make Money with AI",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -c-1 -p 8080"
+  },
   "dependencies": {
-    "node-fetch": "^2.6.9"
+    "@supabase/supabase-js": "^2.0.0",
+    "http-server": "^14.1.1"
   }
-}
+} 

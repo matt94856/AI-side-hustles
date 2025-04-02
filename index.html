@@ -2,10 +2,11 @@
 
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" name="viewport"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Hustle Hub - Learn How to Make Money with AI</title>
-<meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="description"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<meta name="description" content="Learn how to make money with AI through freelancing, consulting, and more. Get started with our comprehensive tutorials.">
 <!-- Open Graph Meta Tags -->
 <meta content="AI Hustle Hub - Learn How to Make Money with AI" property="og:title"/>
 <meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." property="og:description"/>
@@ -43,158 +44,52 @@
 <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
 <!-- Add Supabase client first -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-    // Initialize Supabase immediately after the script loads
-    const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0';
-
-    // Create the Supabase client correctly using the createClient method from the loaded library
-    if (typeof supabase !== 'undefined') {
-        window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
-        console.log('Supabase client initialized:', window.supabase);
-    } else {
-        console.error('Supabase library not loaded properly');
-    }
-</script>
 <!-- Add Netlify Identity second -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <!-- Add PayPal SDK last -->
 <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+<!-- Add modules -->
+<script type="module">
+    import { checkPaymentStatus, showMessage } from './src/auth.js';
+    window.checkPaymentStatus = checkPaymentStatus;
+    window.showMessage = showMessage;
+</script>
 
 <script>
-    // Main initialization code
-    document.addEventListener('DOMContentLoaded', async () => {
-        // Check if supabase is initialized
-        if (!window.supabase || !window.supabase.from) {
-            console.error('Supabase client not properly initialized');
-            return;
-        }
+    // Show message function
+    function showMessage(message, type = 'info') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        messageDiv.textContent = message;
+        document.body.appendChild(messageDiv);
+        setTimeout(() => messageDiv.remove(), 3000);
+    }
 
-        // Test the Supabase connection
-        try {
-            const { data, error } = await window.supabase.from('purchases').select('count');
-            if (error) {
-                console.error('Supabase connection test failed:', error);
-            } else {
-                console.log('Supabase connection successful');
-            }
-        } catch (error) {
-            console.error('Error testing Supabase connection:', error);
-        }
-
-        // Initialize Netlify Identity
+    // Initialize everything when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
         if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
+            window.netlifyIdentity.on('init', user => {
                 if (!user) {
-                    window.netlifyIdentity.on("login", () => {
+                    window.netlifyIdentity.on('login', () => {
                         document.location.reload();
                     });
                 }
             });
-        }
 
-        // Redirect to login page
-        function redirectToLogin(tutorialId) {
-            sessionStorage.setItem('redirectAfterLogin', window.location.href);
-            sessionStorage.setItem('tutorialId', tutorialId);
-            window.location.href = 'login.html';
-        }
-
-        // Show message function
-        function showMessage(message, type = 'info') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            messageDiv.textContent = message;
-            document.body.appendChild(messageDiv);
-            setTimeout(() => messageDiv.remove(), 3000);
-        }
-
-        // Check payment status
-        async function checkPaymentStatus(tutorialId) {
-            if (!checkAuth()) {
-                redirectToLogin(tutorialId);
-                return;
-            }
-
-            try {
-                const user = netlifyIdentity.currentUser();
-                if (!user) {
-                    showMessage('Please log in to access this content', 'error');
-                    return;
-                }
-
-                console.log('Checking purchases for user:', user.id);
-                const { data: purchases, error } = await window.supabase
-                    .from('purchases')
-                    .select('module_id')
-                    .eq('user_id', user.id);
-
-                if (error) {
-                    console.error('Supabase error:', error);
-                    showMessage('Error checking access. Please try again.', 'error');
-                    return;
-                }
-
-                console.log('Purchases data:', purchases);
-                const purchasedModuleIds = purchases.map(p => p.module_id);
-                const hasAllAccess = purchasedModuleIds.length === 5;
-                const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(parseInt(tutorialId));
-
-                if (hasTutorialAccess) {
-                    window.location.href = `tutorial${tutorialId}.html`;
-                } else {
-                    showModal(tutorialId);
-                }
-            } catch (error) {
-                console.error('Error checking payment status:', error);
-                showMessage('Error checking access. Please try again.', 'error');
-            }
-        }
-
-        // Update UI based on purchase status
-        async function updateUIForPurchases() {
-            const user = netlifyIdentity.currentUser();
-            if (!user) return;
-
-            try {
-                const { data: purchases, error } = await window.supabase
-                    .from('purchases')
-                    .select('module_id')
-                    .eq('user_id', user.id);
-
-                if (error) {
-                    console.error('Error checking purchases:', error);
-                    return;
-                }
-
-                const enrollButtons = document.querySelectorAll('.enroll-now');
-                const purchasedModuleIds = purchases.map(p => p.module_id);
-                const hasAllAccess = purchasedModuleIds.length === 5;
-
-                enrollButtons.forEach(button => {
-                    const tutorialId = parseInt(button.getAttribute('data-tutorial-id'));
-                    const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(tutorialId);
-
-                    if (hasTutorialAccess) {
-                        button.textContent = 'Access Tutorial';
-                        button.onclick = () => window.location.href = `tutorial${tutorialId}.html`;
+            window.netlifyIdentity.on('login', () => {
+                const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
+                const tutorialId = sessionStorage.getItem('tutorialId');
+                if (redirectUrl) {
+                    sessionStorage.removeItem('redirectAfterLogin');
+                    sessionStorage.removeItem('tutorialId');
+                    if (tutorialId) {
+                        window.checkPaymentStatus(tutorialId);
+                    } else {
+                        window.location.href = redirectUrl;
                     }
-                });
-            } catch (error) {
-                console.error('Error updating UI:', error);
-            }
+                }
+            });
         }
-
-        // Make functions available globally
-        window.checkPaymentStatus = checkPaymentStatus;
-        window.checkAuth = checkAuth;
-        window.redirectToLogin = redirectToLogin;
-        window.showMessage = showMessage;
-        window.updateUIForPurchases = updateUIForPurchases;
-
-        // Initialize the page
-        checkAuth();
-        updateUIForPurchases();
     });
 </script>
 <style>
@@ -2026,8 +1921,8 @@
 <p><strong>Results Timeline:</strong> First client in 7-14 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(1)" data-tutorial-id="1">
-<span>GET STARTED NOW</span>
+<button class="enroll-now" onclick="window.checkPaymentStatus('chatgpt')" data-tutorial-id="chatgpt">
+<span>START FREELANCING WITH AI</span>
 <i class="fas fa-arrow-right"></i>
 </button>
 </div>
@@ -2059,8 +1954,8 @@
 <p><strong>Ideal for:</strong> Content creators and marketers</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(2)" data-tutorial-id="2">
-<span>Enroll Now</span>
+<button class="enroll-now" onclick="window.checkPaymentStatus('midjourney')" data-tutorial-id="midjourney">
+<span>CREATE AI CONTENT NOW</span>
 <i class="fas fa-arrow-right"></i>
 </button>
 </div>
@@ -2091,8 +1986,8 @@
 <p><strong>Results Timeline:</strong> First subscribers in 14-21 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(3)" data-tutorial-id="3">
-<span>START CREATING TODAY</span>
+<button class="enroll-now" onclick="window.checkPaymentStatus('stablediffusion')" data-tutorial-id="stablediffusion">
+<span>START YOUR AI STORE</span>
 <i class="fas fa-arrow-right"></i>
 </button>
 </div>
@@ -2123,7 +2018,7 @@
 <p><strong>Results Timeline:</strong> First product launch in 21-30 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(4)" data-tutorial-id="4">
+<button class="enroll-now" onclick="window.checkPaymentStatus('runway')" data-tutorial-id="runway">
 <span>CREATE YOUR FIRST PRODUCT</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -2155,7 +2050,7 @@
 <p><strong>Results Timeline:</strong> First client in 21-45 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(5)" data-tutorial-id="5">
+<button class="enroll-now" onclick="window.checkPaymentStatus('synthesia')" data-tutorial-id="synthesia">
 <span>BECOME AN AI CONSULTANT</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -2195,7 +2090,7 @@
 <div class="desktop-recommendation">
 <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend using a desktop computer.
                         </div>
-<button class="bundle-cta" onclick="checkPaymentStatus('all')">
+<button class="bundle-cta" onclick="window.checkPaymentStatus('all')">
 <span>GET INSTANT ACCESS NOW</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -2503,143 +2398,71 @@
 </div>
 </footer>
 <!-- Scripts -->
+<!-- Load Netlify Identity Widget first -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+<!-- Load Supabase client second -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<!-- Load PayPal SDK third -->
+<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+<!-- Load our modules last -->
+<script type="module" src="src/supabase.js"></script>
+<script type="module" src="src/utils.js"></script>
+<script type="module" src="src/db.js"></script>
+<script type="module" src="src/auth.js"></script>
+<script type="module" src="script.js"></script>
 <script>
-    // Main initialization code
-    document.addEventListener('DOMContentLoaded', async () => {
-        // Check if supabase is initialized
-        if (!window.supabase || !window.supabase.from) {
-            console.error('Supabase client not properly initialized');
-            return;
-        }
-
-        // Test the Supabase connection
+    // Make checkPaymentStatus available globally
+    window.checkPaymentStatus = async function(tutorialId) {
         try {
-            const { data, error } = await window.supabase.from('purchases').select('count');
-            if (error) {
-                console.error('Supabase connection test failed:', error);
-            } else {
-                console.log('Supabase connection successful');
+            // Check if user is logged in
+            const user = window.netlifyIdentity?.currentUser();
+            
+            if (!user) {
+                // Store the current state before redirecting
+                localStorage.setItem('redirectAfterLogin', tutorialId);
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Check if user has access to this tutorial
+            const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
+            const hasAccess = purchases.some(purchase => 
+                purchase.userId === user.id && 
+                (purchase.tutorialId === tutorialId || purchase.tutorialId === 'all')
+            );
+            
+            if (hasAccess) {
+                // User has access, redirect to tutorial
+                window.location.href = `/tutorials/${tutorialId}.html`;
+                return;
+            }
+
+            // Show payment modal
+            const modal = document.getElementById('paymentModal');
+            if (modal) {
+                modal.style.display = 'block';
+                // Initialize PayPal buttons if needed
+                if (window.initializePayPal) {
+                    window.initializePayPal(tutorialId);
+                }
             }
         } catch (error) {
-            console.error('Error testing Supabase connection:', error);
+            console.error('Error checking payment status:', error);
+            showMessage('Error checking payment status. Please try again.', 'error');
         }
+    };
 
-        // Initialize Netlify Identity
+    // Initialize auth when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
         if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
+            window.netlifyIdentity.on('init', user => {
                 if (!user) {
-                    window.netlifyIdentity.on("login", () => {
+                    window.netlifyIdentity.on('login', () => {
                         document.location.reload();
                     });
                 }
             });
         }
-
-        // Redirect to login page
-        function redirectToLogin(tutorialId) {
-            sessionStorage.setItem('redirectAfterLogin', window.location.href);
-            sessionStorage.setItem('tutorialId', tutorialId);
-            window.location.href = 'login.html';
-        }
-
-        // Show message function
-        function showMessage(message, type = 'info') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            messageDiv.textContent = message;
-            document.body.appendChild(messageDiv);
-            setTimeout(() => messageDiv.remove(), 3000);
-        }
-
-        // Check payment status
-        async function checkPaymentStatus(tutorialId) {
-            if (!checkAuth()) {
-                redirectToLogin(tutorialId);
-                return;
-            }
-
-            try {
-                const user = netlifyIdentity.currentUser();
-                if (!user) {
-                    showMessage('Please log in to access this content', 'error');
-                    return;
-                }
-
-                console.log('Checking purchases for user:', user.id);
-                const { data: purchases, error } = await window.supabase
-                    .from('purchases')
-                    .select('module_id')
-                    .eq('user_id', user.id);
-
-                if (error) {
-                    console.error('Supabase error:', error);
-                    showMessage('Error checking access. Please try again.', 'error');
-                    return;
-                }
-
-                console.log('Purchases data:', purchases);
-                const purchasedModuleIds = purchases.map(p => p.module_id);
-                const hasAllAccess = purchasedModuleIds.length === 5;
-                const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(parseInt(tutorialId));
-
-                if (hasTutorialAccess) {
-                    window.location.href = `tutorial${tutorialId}.html`;
-                } else {
-                    showModal(tutorialId);
-                }
-            } catch (error) {
-                console.error('Error checking payment status:', error);
-                showMessage('Error checking access. Please try again.', 'error');
-            }
-        }
-
-        // Update UI based on purchase status
-        async function updateUIForPurchases() {
-            const user = netlifyIdentity.currentUser();
-            if (!user) return;
-
-            try {
-                const { data: purchases, error } = await window.supabase
-                    .from('purchases')
-                    .select('module_id')
-                    .eq('user_id', user.id);
-
-                if (error) {
-                    console.error('Error checking purchases:', error);
-                    return;
-                }
-
-                const enrollButtons = document.querySelectorAll('.enroll-now');
-                const purchasedModuleIds = purchases.map(p => p.module_id);
-                const hasAllAccess = purchasedModuleIds.length === 5;
-
-                enrollButtons.forEach(button => {
-                    const tutorialId = parseInt(button.getAttribute('data-tutorial-id'));
-                    const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(tutorialId);
-
-                    if (hasTutorialAccess) {
-                        button.textContent = 'Access Tutorial';
-                        button.onclick = () => window.location.href = `tutorial${tutorialId}.html`;
-                    }
-                });
-            } catch (error) {
-                console.error('Error updating UI:', error);
-            }
-        }
-
-        // Make functions available globally
-        window.checkPaymentStatus = checkPaymentStatus;
-        window.checkAuth = checkAuth;
-        window.redirectToLogin = redirectToLogin;
-        window.showMessage = showMessage;
-        window.updateUIForPurchases = updateUIForPurchases;
-
-        // Initialize the page
-        checkAuth();
-        updateUIForPurchases();
     });
 </script>
 </body>

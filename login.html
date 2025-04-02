@@ -7,21 +7,13 @@
     <link href="style.css" rel="stylesheet">
     <!-- Add Supabase client first -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script>
-        // Initialize Supabase immediately after the script loads
-        const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0';
-
-        // Create the Supabase client
-        if (typeof supabase !== 'undefined') {
-            window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
-            console.log('Supabase client initialized:', window.supabase);
-        } else {
-            console.error('Supabase library not loaded properly');
-        }
-    </script>
     <!-- Add Netlify Identity second -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Add modules -->
+    <script type="module">
+        import { initializeAuth } from './src/auth.js';
+        initializeAuth();
+    </script>
     <style>
         body {
             margin: 0;
@@ -152,5 +144,9 @@
             }
         }
     </script>
+    <!-- Scripts -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
