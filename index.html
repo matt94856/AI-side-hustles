@@ -2356,7 +2356,12 @@
     // Initialize Supabase client
     const supabaseUrl = 'https://your-project.supabase.co';
     const supabaseKey = 'your-anon-key';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    let supabase;
+
+    // Wait for Supabase to be available
+    window.addEventListener('load', () => {
+        supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    });
 
     // Initialize Netlify Identity
     if (window.netlifyIdentity) {
@@ -2415,6 +2420,11 @@
             const user = netlifyIdentity.currentUser();
             if (!user) {
                 showMessage('Please log in to access this content', 'error');
+                return;
+            }
+
+            if (!supabase) {
+                showMessage('System is initializing. Please try again in a moment.', 'error');
                 return;
             }
 
