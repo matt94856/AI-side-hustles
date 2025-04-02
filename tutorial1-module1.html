@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Getting Started with AI Freelancing - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .progress-tracker {
+            display: none;
+        }
+
+        .progress-container {
+            display: none;
+        }
+
+        .progress-step {
+            display: none;
+        }
+
+        .progress-line {
+            display: none;
+        }
+
+        .progress-line-fill {
+            display: none;
+        }
+
+        .back-to-home {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            transform: scale(1.05);
+        }
+
+        .back-to-home i {
+            margin-right: 0.5rem;
+        }
+
+        .module-content {
+            max-width: 1000px;
+            margin: 100px auto 40px;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .module-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .lesson-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+
+        .lesson-content {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .lesson-content h3 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .lesson-content h3:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 1.2em;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .lesson-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .lesson-content li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .practical-exercise {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .exercise-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .exercise-steps {
+            list-style: none;
+        }
+
+        .exercise-steps li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .exercise-steps li i {
+            margin-right: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        .next-lesson {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .next-lesson:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-lesson i {
+            margin-left: 0.5rem;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .code-example {
+            background: #1e1e1e;
+            color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        .code-example pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .ai-demo {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .ai-demo-step {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .ai-demo-step .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .progress-indicator h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .lesson-complete {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #4CAF50;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .term-grid, .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .term-card, .tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .term-card:hover, .tool-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .term-card h4, .tool-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .project-submission {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 2px dashed var(--accent-color);
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload label {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .file-upload label:hover {
+            transform: scale(1.05);
+        }
+
+        .submission-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .submission-status.success {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .submission-status.error {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .resource-link i {
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .module-progress {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+            width: 250px;
+        }
+
+        .module-progress h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lesson-progress {
+            margin: 1rem 0;
+        }
+
+        .lesson-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-status i {
+            color: #ccc;
+            transition: all 0.3s ease;
+        }
+
+        .lesson-status.completed i {
+            color: #4CAF50;
+        }
+
+        .lesson-status:hover {
+            background: #f8f9fa;
+        }
+
+        .top-nav {
+            background: #1a1a1a;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: center;
+            height: 60px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+        }
+
+        .module-content {
+            margin-top: 80px;
+        }
+
+        .resources-callout {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .resources-callout h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .resources-callout p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .resources-btn {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .resources-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .resources-btn i {
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="tutorial1.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="tutorial1-module1.html" class="nav-link active">
+            <i class="fas fa-briefcase"></i>
+            Module 1
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial1-module2.html')" class="nav-link">
+            <i class="fas fa-laptop-code"></i>
+            Module 2
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(3) && (window.location.href='tutorial1-module3.html')" class="nav-link">
+            <i class="fas fa-search-dollar"></i>
+            Module 3
+        </a>
+        <a href="tutorial1-module4.html" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Module 4
+        </a>
+        <a href="tutorial1.html" class="nav-link">
+            <i class="fas fa-check-circle"></i>
+            Complete
+        </a>
+    </nav>
+
+    <div class="module-content">
+        <div class="module-header">
+            <h1 class="module-title">Module 1: Getting Started with AI Freelancing</h1>
+            <p class="module-description">Learn how to leverage AI tools to start and grow your freelancing business while delivering high-quality services.</p>
+        </div>
+
+        <div class="lesson-section" id="lesson1">
+            <h2 class="lesson-title">
+                <i class="fas fa-rocket"></i>
+                Lesson 1: Understanding AI-Powered Freelancing
+            </h2>
+            <div class="lesson-content">
+                <p>AI-powered freelancing is a modern approach to freelance work that leverages artificial intelligence tools to enhance productivity, quality, and service delivery. It allows freelancers to take on more complex projects and deliver higher value to clients.</p>
+                
+                <h3>How AI-Powered Freelancing Works</h3>
+                <ol>
+                    <li>Identify freelance services you can offer</li>
+                    <li>Find AI tools that can enhance those services</li>
+                    <li>Create processes that integrate AI tools</li>
+                    <li>Market your AI-enhanced services to clients</li>
+                </ol>
+
+                <h3>Types of AI-Enhanced Freelance Services</h3>
+                <ul>
+                    <li><strong>Content Creation:</strong> Using AI to help write, edit, or generate ideas for articles, blog posts, and social media content</li>
+                    <li><strong>Graphic Design:</strong> Utilizing AI image generators and design assistants to create visuals</li>
+                    <li><strong>Programming:</strong> Using AI coding assistants to debug, optimize, or generate code</li>
+                    <li><strong>Marketing:</strong> Leveraging AI for market research, audience analysis, and campaign optimization</li>
+                    <li><strong>Virtual Assistance:</strong> Using AI to automate administrative tasks and customer support</li>
+                </ul>
+
+                <h3>Common Terms to Know</h3>
+                <div class="term-grid">
+                    <div class="term-card">
+                        <h4>Prompt Engineering</h4>
+                        <p>The skill of crafting effective instructions for AI tools to produce desired outputs</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>AI Integration</h4>
+                        <p>The process of incorporating AI tools into your freelance workflow</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Value Proposition</h4>
+                        <p>The unique benefits your AI-enhanced services offer compared to traditional freelancing</p>
+                    </div>
+                    <div class="term-card">
+                        <h4>Automation Pipeline</h4>
+                        <p>A series of connected AI tools that streamline repetitive aspects of your work</p>
+                    </div>
+                </div>
+
+                <h3>Pricing Strategies for AI-Enhanced Services</h3>
+                <ul>
+                    <li><strong>Value-Based Pricing:</strong> Charging based on the value you deliver, not just time spent</li>
+                    <li><strong>Package Pricing:</strong> Creating service bundles that incorporate AI-enhanced deliverables</li>
+                    <li><strong>Retainer Model:</strong> Offering ongoing AI-powered services for a monthly fee</li>
+                    <li><strong>Tiered Pricing:</strong> Different service levels based on AI tool complexity and human oversight</li>
+                </ul>
+
+                <h3>Benefits of AI-Powered Freelancing</h3>
+                <ul>
+                    <li>Increased productivity through automation of repetitive tasks</li>
+                    <li>Ability to take on more complex projects with AI assistance</li>
+                    <li>Higher quality deliverables with AI-powered checks and enhancements</li>
+                    <li>Opportunity to charge premium rates for AI-enhanced services</li>
+                    <li>Expanded service offerings beyond your core skill set</li>
+                    <li>More time to focus on client relationships and business growth</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Freelancing Basics</h3>
+                    <div class="quiz-question">
+                        <p>What is the main advantage of AI-powered freelancing over traditional freelancing?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">
+                                Enhanced productivity and ability to deliver higher-quality work
+                            </div>
+                            <div class="quiz-option">
+                                Less need for professional skills
+                            </div>
+                            <div class="quiz-option">
+                                Completely automated work with no human input
+                            </div>
+                            <div class="quiz-option">
+                                Lower prices for clients
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>What is prompt engineering in the context of AI freelancing?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Building physical AI hardware
+                            </div>
+                            <div class="quiz-option">
+                                Coding AI algorithms from scratch
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Crafting effective instructions for AI tools to produce desired outputs
+                            </div>
+                            <div class="quiz-option">
+                                Engineering faster computer processors
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson2">
+            <h2 class="lesson-title">
+                <i class="fas fa-tools"></i>
+                Lesson 2: Essential AI Tools for Freelancers
+            </h2>
+            <div class="lesson-content">
+                <p>As an AI-powered freelancer, you'll need a toolkit of AI solutions to enhance your services. Let's explore the most valuable tools across different categories.</p>
+                
+                <h3>Must-Have AI Tools</h3>
+                <ul>
+                    <li>Text generation and writing assistants</li>
+                    <li>Image creation and editing tools</li>
+                    <li>Research and data analysis assistants</li>
+                    <li>Task automation platforms</li>
+                    <li>Client management systems with AI features</li>
+                </ul>
+
+                <h3>Quick Links to Essential Resources</h3>
+                <div class="resource-links">
+                    <a href="https://chat.openai.com" target="_blank" class="resource-link">
+                        <i class="fas fa-robot"></i> ChatGPT
+                    </a>
+                    <a href="https://www.midjourney.com" target="_blank" class="resource-link">
+                        <i class="fas fa-image"></i> Midjourney
+                    </a>
+                    <a href="https://zapier.com" target="_blank" class="resource-link">
+                        <i class="fas fa-cogs"></i> Zapier
+                    </a>
+                    <a href="https://www.notion.so" target="_blank" class="resource-link">
+                        <i class="fas fa-clipboard-list"></i> Notion AI
+                    </a>
+                    <a href="https://www.grammarly.com" target="_blank" class="resource-link">
+                        <i class="fas fa-spell-check"></i> Grammarly
+                    </a>
+                </div>
+
+                <h3>Top AI Tools by Freelance Category</h3>
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>ChatGPT / Claude</h4>
+                        <p>Cost: $20/month (GPT-4)</p>
+                        <ul>
+                            <li>Content writing</li>
+                            <li>Idea generation</li>
+                            <li>Research assistance</li>
+                            <li>Client communications</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Midjourney / DALL-E</h4>
+                        <p>Cost: $10-30/month</p>
+                        <ul>
+                            <li>Image generation</li>
+                            <li>Design concepts</li>
+                            <li>Visual content creation</li>
+                            <li>Mockup design</li>
+                        </ul>
+                    </div>
+                    <div class="tool-card">
+                        <h4>Jasper AI</h4>
+                        <p>Cost: $39+/month</p>
+                        <ul>
+                            <li>Long-form content</li>
+                            <li>Marketing copy</li>
+                            <li>Blog post creation</li>
+                            <li>Content repurposing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Setting Up Your AI Workspace</h3>
+                <ul>
+                    <li><strong>AI Access:</strong> Subscribe to necessary AI services based on your freelance focus</li>
+                    <li><strong>Integration:</strong> Connect tools via APIs or automation platforms like Zapier</li>
+                    <li><strong>Templates:</strong> Create reusable prompt templates for consistent AI outputs</li>
+                    <li><strong>Process Documentation:</strong> Document your AI workflows for efficiency</li>
+                </ul>
+
+                <h3>Essential Freelance Platform Profiles</h3>
+                <ul>
+                    <li>Upwork (highlight AI skills in profile)</li>
+                    <li>Fiverr (create gigs specifically for AI-enhanced services)</li>
+                    <li>Freelancer.com (join AI-related project categories)</li>
+                    <li>Toptal (for advanced AI integrations and premium work)</li>
+                </ul>
+
+                <div class="ai-demo">
+                    <h3>AI Tool Demonstration: ChatGPT for Client Proposals</h3>
+                    <div class="ai-demo-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Creating Client Proposals</h4>
+                            <p>Here's a proven prompt template for crafting personalized client proposals:</p>
+                            <div class="code-example">
+                                <pre>Create a detailed freelance proposal for a client looking for [service type]. 
+The client's business is in the [industry] sector and they need assistance with [specific project].
+Include:
+- A personalized introduction showing I understand their needs
+- My specific approach to solving their problem using AI tools
+- How my AI-enhanced process benefits them (faster delivery, higher quality, etc.)
+- Pricing options with clear deliverables
+- Next steps to get started
+Use a professional but conversational tone that builds confidence.</pre>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: AI Tools for Freelancers</h3>
+                    <div class="quiz-question">
+                        <p>Which of these tools would be best for generating images for client projects?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                Jasper AI
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                Midjourney
+                            </div>
+                            <div class="quiz-option">
+                                Zapier
+                            </div>
+                            <div class="quiz-option">
+                                Notion AI
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson3">
+            <h2 class="lesson-title">
+                <i class="fas fa-user-tie"></i>
+                Lesson 3: Creating Your AI-Powered Freelance Profile
+            </h2>
+            <div class="lesson-content">
+                <p>A compelling freelance profile that effectively communicates your AI-enhanced skills is crucial for attracting high-quality clients. Let's build one that stands out.</p>
+
+                <h3>Elements of a Winning AI Freelancer Profile</h3>
+                <ol>
+                    <li><strong>Clear AI Value Proposition:</strong> Explain how you use AI to deliver better results</li>
+                    <li><strong>Specific AI Tools Expertise:</strong> List the AI tools you're proficient with</li>
+                    <li><strong>Results-Focused Portfolio:</strong> Showcase work enhanced by AI tools</li>
+                    <li><strong>Process Description:</strong> Outline your workflow incorporating AI</li>
+                    <li><strong>Testimonials:</strong> Client feedback highlighting benefits of your AI approach</li>
+                </ol>
+
+                <h3>Writing Your AI Freelancer Bio</h3>
+                <div class="code-example">
+                    <pre>I'm a [your profession] who leverages cutting-edge AI tools to deliver [specific benefits] for my clients. With expertise in [your specialization] and proficiency in [list of AI tools], I create [deliverables] that are [unique qualities of your work].
+
+My AI-enhanced workflow allows me to [key advantages: "work faster," "deliver more comprehensive research," "create higher-quality designs," etc.] while maintaining the human creativity and strategic thinking that technology alone can't provide.
+
+When you work with me, you get the perfect balance of advanced AI capabilities and professional human expertise, resulting in [key client benefit].</pre>
+                    <button class="copy-btn">Copy</button>
+                </div>
+
+                <h3>Portfolio Presentation Tips</h3>
+                <ul>
+                    <li>For each portfolio piece, explain which AI tools you used and how</li>
+                    <li>Create "before and after" examples showing AI enhancement value</li>
+                    <li>Include metrics where possible (time saved, performance improvements)</li>
+                    <li>Showcase diverse applications of AI across different projects</li>
+                    <li>Add brief case studies explaining client challenges you solved with AI</li>
+                </ul>
+
+                <h3>Service Descriptions That Convert</h3>
+                <ol>
+                    <li>Start with the client's pain point</li>
+                    <li>Introduce your AI-enhanced solution</li>
+                    <li>Highlight specific benefits they'll receive</li>
+                    <li>Explain your process briefly</li>
+                    <li>Include delivery timeframe (often faster due to AI)</li>
+                    <li>Add pricing with clear deliverables</li>
+                </ol>
+
+                <div class="quiz-container">
+                    <h3>Quick Quiz: Profile Creation</h3>
+                    <div class="quiz-question">
+                        <p>What should you emphasize most in your AI freelancer profile?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                The technical details of AI algorithms
+                            </div>
+                            <div class="quiz-option">
+                                That AI does all your work for you
+                            </div>
+                            <div class="quiz-option" data-correct="true">
+                                How AI enhances your services and benefits clients
+                            </div>
+                            <div class="quiz-option">
+                                Low prices due to AI automation
+                            </div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson4">
+            <h2 class="lesson-title">
+                <i class="fas fa-check-circle"></i>
+                Lesson 4: Setting Up Your First AI Freelance Service
+            </h2>
+            <div class="lesson-content">
+                <p>Now it's time to create and launch your first AI-powered freelance service that stands out in the marketplace!</p>
+
+                <h3>Choosing Your AI Freelance Niche</h3>
+                <ul>
+                    <li>Select a service where AI gives you a significant advantage</li>
+                    <li>Focus on areas where you have existing skills that AI can enhance</li>
+                    <li>Research demand for AI-enhanced services in your field</li>
+                    <li>Identify underserved markets where AI solutions add value</li>
+                    <li>Consider scalability potential with AI automation</li>
+                </ul>
+
+                <h3>Defining Your Service Package</h3>
+                <ol>
+                    <li>Name your service (include "AI-powered" or similar terminology)</li>
+                    <li>Create 2-3 service tiers with increasing AI enhancement</li>
+                    <li>Define specific deliverables for each tier</li>
+                    <li>Set pricing based on value delivered (not just time spent)</li>
+                    <li>Establish turnaround times (typically faster with AI assistance)</li>
+                </ol>
+
+                <h3>Setting Up Your AI Workflow</h3>
+                <ul>
+                    <li>Document each step of your service delivery process</li>
+                    <li>Identify which steps can be enhanced or automated with AI</li>
+                    <li>Create templates for repetitive AI prompts</li>
+                    <li>Establish quality control checkpoints where you review AI outputs</li>
+                    <li>Design client collaboration touchpoints</li>
+                </ul>
+
+                <h3>Creating Client Onboarding Materials</h3>
+                <ul>
+                    <li>Develop a client questionnaire to gather project requirements</li>
+                    <li>Create a welcome guide explaining your AI-enhanced process</li>
+                    <li>Set up templates for project milestones and deliverables</li>
+                    <li>Establish clear communication channels and expectations</li>
+                    <li>Design a feedback mechanism to improve your AI processes</li>
+                </ul>
+
+                <div class="practical-exercise">
+                    <h3 class="exercise-title">Final Exercise: Launch Your AI-Powered Service</h3>
+                    <ol class="exercise-steps">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Choose one AI-enhanced service to launch (content writing, design, research, etc.)
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Create a service description highlighting AI benefits for clients
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Set up profiles on 1-2 freelance platforms featuring your AI capabilities
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Document your AI-enhanced workflow for this service
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            Create at least one sample/portfolio piece using your AI tools
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="project-submission">
+                    <h3>Final Project Submission</h3>
+                    <p>Submit your completed AI freelance service package for review. Make sure to include:</p>
+                    <ul>
+                        <li>Your service description</li>
+                        <li>Pricing structure</li>
+                        <li>List of AI tools you'll use</li>
+                        <li>Sample work created with AI assistance</li>
+                        <li>Brief description of your workflow</li>
+                    </ul>
+                    <div class="file-upload">
+                        <label for="project-file">
+                            <i class="fas fa-upload"></i> Choose File
+                        </label>
+                        <input type="file" id="project-file" accept=".pdf,.doc,.docx,.jpg,.png">
+                        <button class="submit-btn" onclick="submitProject()">
+                            Submit Project
+                        </button>
+                        <div class="submission-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial1-module2.html')" class="next-lesson">
+            Continue to Module 2
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="module-progress">
+        <h3>Module Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+        <p><span class="completed-count">0</span>/4 Lessons Complete</p>
+    </div>
+
+    <script>
+        // Function to handle navigation
+        function handleNavigation(moduleNumber) {
+            if (moduleNumber === 1) return true; // Module 1 is always accessible
+            
+            // Get current module's progress
+            const currentModuleProgress = JSON.parse(localStorage.getItem('tutorial1_module1Progress')) || [];
+            const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial1_module${moduleNumber-1}Progress`)) || [];
+            
+            if (prevModuleProgress.length < 4) {
+                alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
+                // Stay on current module
+                return false;
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all module progress from localStorage
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial1_module1Progress')) || [];
+            const lessonProgress = JSON.parse(localStorage.getItem('tutorial1_module1LessonProgress')) || {};
+            
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.module-progress p');
+            const completedCount = document.querySelector('.completed-count');
+            const totalLessons = 4;
+            
+            function updateProgress() {
+                const newPercentage = (moduleProgress.length / totalLessons) * 100;
+                progressFill.style.width = `${newPercentage}%`;
+                completedCount.textContent = moduleProgress.length;
+            }
+
+            // Quiz functionality
+            document.querySelectorAll('.quiz-question').forEach(question => {
+                const options = question.querySelectorAll('.quiz-option');
+                const feedback = question.querySelector('.quiz-feedback');
+                
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        if (this.classList.contains('selected')) return;
+                        
+                        // Remove selection from other options
+                        options.forEach(opt => {
+                            opt.classList.remove('selected', 'correct', 'incorrect');
+                        });
+                        
+                        this.classList.add('selected');
+                        
+                        const isCorrect = this.hasAttribute('data-correct');
+                        feedback.textContent = isCorrect ? 'Correct!' : 'Try again';
+                        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+                        
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            // Determine which lesson this is
+                            const lessonSection = this.closest('.lesson-section');
+                            const lessonId = lessonSection.id;
+                            
+                            // Initialize lesson progress if not exists
+                            if (!lessonProgress[lessonId]) {
+                                lessonProgress[lessonId] = {};
+                            }
+                            
+                            // Mark quiz as complete
+                            lessonProgress[lessonId].quizComplete = true;
+                            localStorage.setItem('tutorial1_module1LessonProgress', JSON.stringify(lessonProgress));
+                            
+                            // Add to module progress if not already included
+                            if (!moduleProgress.includes(lessonId)) {
+                                moduleProgress.push(lessonId);
+                                localStorage.setItem('tutorial1_module1Progress', JSON.stringify(moduleProgress));
+                                updateProgress();
+                            }
+                        } else {
+                            this.classList.add('incorrect');
+                        }
+                    });
+                });
+            });
+
+            // Project submission handling
+            window.submitProject = function() {
+                const fileInput = document.getElementById('project-file');
+                const statusDiv = document.querySelector('.submission-status');
+                
+                if (fileInput.files.length === 0) {
+                    statusDiv.textContent = 'Please select a file to submit';
+                    statusDiv.className = 'submission-status error';
+                    return;
+                }
+
+                // Simulate file upload
+                setTimeout(() => {
+                    statusDiv.textContent = 'Project submitted successfully!';
+                    statusDiv.className = 'submission-status success';
+                    
+                    // Mark final lesson as complete
+                    const lessonId = 'lesson4';
+                    if (!moduleProgress.includes(lessonId)) {
+                        moduleProgress.push(lessonId);
+                        localStorage.setItem('tutorial1_module1Progress', JSON.stringify(moduleProgress));
+                        updateProgress();
+                    }
+                }, 1500);
+            };
+
+            // Initialize progress on page load
+            updateProgress();
+        });
+    </script>
+
+<script>
+  const user = netlifyIdentity && netlifyIdentity.currentUser();
+  if (user) {
+    user.jwt().then(token => {
+      fetch("/.netlify/functions/saveProgress", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          tutorialId: 1,
+          moduleId: 1,
+          completed: true
+        })
+      });
+    });
+  }
+</script>
+
+</body>
+</html> 
