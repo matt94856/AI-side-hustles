@@ -1,17 +1,20 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   if (typeof netlifyIdentity !== "undefined") {
     netlifyIdentity.on("init", user => {
       const isLoggedIn = !!user;
       const paywallButtons = document.querySelectorAll(
-        ".enroll-course-btn, .instant-access-btn, .premium-access-btn"
+        ".enroll-course-btn, .instant-access-btn, .premium-access-btn, .enroll-now, .bundle-cta"
       );
       paywallButtons.forEach(button => {
         button.addEventListener("click", function (e) {
           if (!isLoggedIn) {
             e.preventDefault();
-            const redirectTo = window.location.pathname;
-            window.location.href = `login.html?redirectTo=${encodeURIComponent(redirectTo)}`;
+            // Store the current page URL and any tutorial ID
+            const currentPage = window.location.pathname;
+            const tutorialId = this.getAttribute('onclick')?.match(/checkPaymentStatus\((\d+)\)/)?.[1] || 'all';
+            sessionStorage.setItem('redirectTo', currentPage);
+            sessionStorage.setItem('tutorialId', tutorialId);
+            window.location.href = `login.html`;
           }
         });
       });
