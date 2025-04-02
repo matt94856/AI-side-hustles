@@ -40,7 +40,9 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
 <!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr¤cy=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+<!-- Add Supabase client -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <style>
         :root {
             --primary-color: #1a1a1a;
@@ -1870,7 +1872,7 @@
 <p><strong>Results Timeline:</strong> First client in 7-14 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(1)">
+<button class="enroll-now" onclick="checkPaymentStatus(1)" data-tutorial-id="1">
 <span>GET STARTED NOW</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -1903,7 +1905,7 @@
 <p><strong>Ideal for:</strong> Content creators and marketers</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(2)">
+<button class="enroll-now" onclick="checkPaymentStatus(2)" data-tutorial-id="2">
 <span>Enroll Now</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -1935,7 +1937,7 @@
 <p><strong>Results Timeline:</strong> First subscribers in 14-21 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(3)">
+<button class="enroll-now" onclick="checkPaymentStatus(3)" data-tutorial-id="3">
 <span>START CREATING TODAY</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -1967,7 +1969,7 @@
 <p><strong>Results Timeline:</strong> First product launch in 21-30 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(4)">
+<button class="enroll-now" onclick="checkPaymentStatus(4)" data-tutorial-id="4">
 <span>CREATE YOUR FIRST PRODUCT</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -1999,7 +2001,7 @@
 <p><strong>Results Timeline:</strong> First client in 21-45 days</p>
 </div>
 </div>
-<button class="enroll-now" onclick="checkPaymentStatus(5)">
+<button class="enroll-now" onclick="checkPaymentStatus(5)" data-tutorial-id="5">
 <span>BECOME AN AI CONSULTANT</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -2349,93 +2351,261 @@
 <!-- Scripts -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-    // Make checkPaymentStatus globally available
-    window.checkPaymentStatus = function(tutorialId) {
-        const paymentStatus = localStorage.getItem('paymentStatus');
-        const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
-        const allAccess = localStorage.getItem('allAccess') === 'true';
-        
-        // Check if on mobile
-        const isMobile = window.innerWidth <= 768;
-        
-        if (allAccess || purchasedTutorials.includes(tutorialId)) {
-            window.location.href = `tutorial${tutorialId}.html`;
-        } else {
-            showMessage('Please purchase access to view this tutorial', 'info');
-            
-            // Show mobile disclaimer if on mobile
-            if (isMobile) {
-                showMobileDisclaimer();
+    // Initialize Supabase client
+    const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    // Check if user is logged in with Netlify Identity
+    function checkAuth() {
+        return netlifyIdentity.currentUser() !== null;
+    }
+
+    // Redirect to login page if not authenticated
+    function redirectToLogin(tutorialId) {
+        sessionStorage.setItem('redirectTo', window.location.href);
+        if (tutorialId) {
+            sessionStorage.setItem('tutorialId', tutorialId);
+        }
+        window.location.href = 'login.html';
+    }
+
+    // Handle payment click
+    function handlePaymentClick(tutorialId) {
+        if (!checkAuth()) {
+            redirectToLogin(tutorialId);
+            return;
+        }
+        showModal(tutorialId);
+    }
+
+    // Initialize PayPal buttons
+    function initializePayPalButtons() {
+        // Clear existing buttons
+        document.querySelectorAll('#paypal-button-container').forEach(el => el.innerHTML = '');
+        document.querySelectorAll('#paypal-button-container-all').forEach(el => el.innerHTML = '');
+
+        // Single tutorial purchase button
+        paypal.Buttons({
+            style: {
+                shape: 'rect',
+                color: 'blue',
+                layout: 'vertical',
+                label: 'pay'
+            },
+            createOrder: function(data, actions) {
+                if (!checkAuth()) {
+                    redirectToLogin();
+                    return;
+                }
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '9.99'
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    handleSuccessfulPayment(data.orderID, details.payer.email_address);
+                });
+            },
+            onError: function(err) {
+                showMessage('Payment failed. Please try again.', 'error');
             }
-            
-            showModal(tutorialId);
-        }
-    };
+        }).render('#paypal-button-container');
 
-    // Make showMessage globally available
-    window.showMessage = function(message, type = 'info') {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message message-${type}`;
-        messageDiv.textContent = message;
-        document.body.appendChild(messageDiv);
-
-        setTimeout(() => {
-            messageDiv.remove();
-        }, 5000);
-    };
-
-    // Make showModal globally available
-    window.showModal = function(tutorialId) {
-        const modal = document.getElementById('premiumModal');
-        if (!modal) return;
-        
-        const previewTitle = document.getElementById('previewTitle');
-        const previewContent = document.getElementById('previewContent');
-        
-        if (previewTitle && previewContent && tutorialPreviews[tutorialId]) {
-            previewTitle.textContent = tutorialPreviews[tutorialId].title;
-            previewContent.innerHTML = tutorialPreviews[tutorialId].content.replace(/\n/g, '<br>');
-        }
-        
-        modal.style.display = 'block';
-    };
-
-    // Make showMobileDisclaimer globally available
-    window.showMobileDisclaimer = function() {
-        const existingDisclaimer = document.querySelector('.mobile-disclaimer');
-        if (existingDisclaimer) {
-            existingDisclaimer.remove();
-        }
-        
-        const disclaimer = document.createElement('div');
-        disclaimer.className = 'mobile-disclaimer';
-        disclaimer.innerHTML = `
-            <div class="disclaimer-content">
-                <i class="fas fa-desktop"></i>
-                <p>For the best purchasing experience, we recommend completing your purchase on a desktop computer.</p>
-                <button class="disclaimer-close"><i class="fas fa-times"></i></button>
-            </div>
-        `;
-        
-        document.body.appendChild(disclaimer);
-        
-        const closeBtn = disclaimer.querySelector('.disclaimer-close');
-        closeBtn.addEventListener('click', function() {
-            disclaimer.remove();
-        });
-        
-        setTimeout(() => {
-            if (document.body.contains(disclaimer)) {
-                disclaimer.classList.add('fade-out');
-                setTimeout(() => {
-                    if (document.body.contains(disclaimer)) {
-                        disclaimer.remove();
-                    }
-                }, 1000);
+        // All tutorials purchase button
+        paypal.Buttons({
+            style: {
+                shape: 'rect',
+                color: 'blue',
+                layout: 'vertical',
+                label: 'pay'
+            },
+            createOrder: function(data, actions) {
+                if (!checkAuth()) {
+                    redirectToLogin('all');
+                    return;
+                }
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '29.99'
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    handleSuccessfulPayment(data.orderID, details.payer.email_address, true);
+                });
+            },
+            onError: function(err) {
+                showMessage('Payment failed. Please try again.', 'error');
             }
-        }, 10000);
-    };
+        }).render('#paypal-button-container-all');
+    }
+
+    // Handle successful payment
+    async function handleSuccessfulPayment(orderId, email, isAllAccess = false) {
+        try {
+            const user = netlifyIdentity.currentUser();
+            if (!user) {
+                throw new Error('User not authenticated');
+            }
+
+            // First, ensure user exists in our users table
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .upsert({
+                    netlify_id: user.id,
+                    last_login: new Date().toISOString()
+                }, {
+                    onConflict: 'netlify_id'
+                });
+
+            if (userError) throw userError;
+
+            // Store purchase in Supabase
+            if (isAllAccess) {
+                // Insert purchases for all modules
+                const moduleIds = ['1', '2', '3', '4', '5'];
+                const { data, error } = await supabase
+                    .from('purchases')
+                    .insert(
+                        moduleIds.map(moduleId => ({
+                            user_id: user.id,
+                            module_id: moduleId
+                        }))
+                    );
+
+                if (error) throw error;
+            } else {
+                // Insert single module purchase
+                const tutorialId = document.querySelector('.modal.active').dataset.tutorialId;
+                const { data, error } = await supabase
+                    .from('purchases')
+                    .insert([
+                        {
+                            user_id: user.id,
+                            module_id: tutorialId
+                        }
+                    ]);
+
+                if (error) throw error;
+            }
+
+            // Update local storage
+            const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
+            if (isAllAccess) {
+                purchasedTutorials.push('all');
+            } else {
+                const tutorialId = document.querySelector('.modal.active').dataset.tutorialId;
+                if (!purchasedTutorials.includes(tutorialId)) {
+                    purchasedTutorials.push(tutorialId);
+                }
+            }
+            localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+
+            showMessage('Payment successful! Redirecting...', 'success');
+            setTimeout(() => {
+                closeModal();
+                if (isAllAccess) {
+                    window.location.href = 'index.html#tutorials';
+                } else {
+                    const tutorialId = document.querySelector('.modal.active').dataset.tutorialId;
+                    window.location.href = `tutorial${tutorialId}.html`;
+                }
+            }, 1500);
+
+        } catch (error) {
+            console.error('Error handling payment:', error);
+            showMessage('Error processing payment. Please contact support.', 'error');
+        }
+    }
+
+    // Check payment status
+    async function checkPaymentStatus(tutorialId) {
+        if (!checkAuth()) {
+            redirectToLogin(tutorialId);
+            return;
+        }
+
+        try {
+            const user = netlifyIdentity.currentUser();
+            const { data: purchases, error } = await supabase
+                .from('purchases')
+                .select('module_id')
+                .eq('user_id', user.id);
+
+            if (error) throw error;
+
+            const purchasedModuleIds = purchases.map(p => p.module_id);
+            const hasAllAccess = purchasedModuleIds.length === 5; // User has purchased all modules
+            const hasTutorialAccess = hasAllAccess || purchasedModuleIds.includes(tutorialId);
+
+            if (hasTutorialAccess) {
+                window.location.href = `tutorial${tutorialId}.html`;
+            } else {
+                showModal(tutorialId);
+            }
+        } catch (error) {
+            console.error('Error checking payment status:', error);
+            showMessage('Error checking access. Please try again.', 'error');
+        }
+    }
+
+    // Update UI based on purchase status
+    async function updateUIForPurchases() {
+        if (!checkAuth()) return;
+
+        try {
+            const user = netlifyIdentity.currentUser();
+            const { data: purchases, error } = await supabase
+                .from('purchases')
+                .select('module_id')
+                .eq('user_id', user.id);
+
+            if (error) throw error;
+
+            const purchasedModuleIds = purchases.map(p => p.module_id);
+            const hasAllAccess = purchasedModuleIds.length === 5; // User has purchased all modules
+
+            // Update button text and behavior
+            document.querySelectorAll('.enroll-now').forEach(button => {
+                const tutorialId = button.dataset.tutorialId;
+                if (hasAllAccess || purchasedModuleIds.includes(tutorialId)) {
+                    button.textContent = 'Access Course';
+                    button.onclick = () => window.location.href = `tutorial${tutorialId}.html`;
+                }
+            });
+
+            // Update bundle button
+            const bundleButton = document.querySelector('.bundle-cta');
+            if (hasAllAccess) {
+                bundleButton.textContent = 'Access All Courses';
+                bundleButton.onclick = () => window.location.href = 'index.html#tutorials';
+            }
+        } catch (error) {
+            console.error('Error updating UI:', error);
+        }
+    }
+
+    // Initialize when document is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Netlify Identity
+        netlifyIdentity.init();
+
+        // Initialize PayPal buttons
+        initializePayPalButtons();
+
+        // Update UI based on purchase status
+        updateUIForPurchases();
+    });
 </script>
 <script type="module" src="script.js"></script>
 </body>
