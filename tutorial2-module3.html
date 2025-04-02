@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Traffic & Sales - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Check if user can access this module
+        window.addEventListener('load', function() {
+            const module2Progress = JSON.parse(localStorage.getItem('module2Progress')) || [];
+            if (module2Progress.length < 4) {
+                alert('Please complete Module 2 before accessing this module.');
+                window.location.href = 'tutorial2-module2.html';
+            }
+        });
+
+        // Function to handle navigation
+        function handleNavigation(moduleNumber) {
+            if (moduleNumber === 1) return true; // Module 1 is always accessible
+            
+            // Get current module's progress
+            const currentModuleProgress = JSON.parse(localStorage.getItem('tutorial2_module3Progress')) || [];
+            const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial2_module${moduleNumber-1}Progress`)) || [];
+            
+            if (prevModuleProgress.length < 4) {
+                alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
+                // Stay on current module
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .top-nav {
+            background: #1a1a1a;
+            padding: 0.5rem 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: flex-start;
+            height: 60px;
+        }
+
+        .nav-link {
+            color: #888;
+            text-decoration: none;
+            padding: 0.4rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 0.9rem;
+        }
+
+        .module-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .module-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .lesson-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .lesson-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+        }
+
+        .lesson-content {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .lesson-content h3 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .lesson-content h3:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 1.2em;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-content li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .lesson-content li:before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: -1.5rem;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+
+        .quiz-option.selected {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .resource-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin: 0.5rem 1rem 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .resource-link i {
+            margin-right: 0.5rem;
+        }
+
+        .project-submission {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .file-upload {
+            margin-top: 1rem;
+        }
+
+        .file-upload label {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: white;
+            color: var(--accent-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload label:hover {
+            transform: translateY(-2px);
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: white;
+            color: var(--accent-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submission-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .submission-status.success {
+            background: rgba(76, 175, 80, 0.2);
+            color: white;
+        }
+
+        .submission-status.error {
+            background: rgba(244, 67, 54, 0.2);
+            color: white;
+        }
+
+        .module-progress {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+            width: 250px;
+            text-align: center;
+        }
+
+        .module-progress h3 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .continue-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .continue-btn i {
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="tutorial2.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="tutorial2-module1.html" class="nav-link">
+            <i class="fas fa-book"></i>
+            Module 1
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(2) && (window.location.href='tutorial2-module2.html')" class="nav-link">
+            <i class="fas fa-laptop-code"></i>
+            Module 2
+        </a>
+        <a href="tutorial2-module3.html" class="nav-link active">
+            <i class="fas fa-bullhorn"></i>
+            Module 3
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(4) && (window.location.href='tutorial2-module4.html')" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Module 4
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(5) && (window.location.href='tutorial2-module5.html')" class="nav-link">
+            <i class="fas fa-cogs"></i>
+            Module 5
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(6) && (window.location.href='tutorial2-module6.html')" class="nav-link">
+            <i class="fas fa-chart-bar"></i>
+            Module 6
+        </a>
+        <a href="javascript:void(0)" onclick="handleNavigation(7) && (window.location.href='tutorial2-module7.html')" class="nav-link">
+            <i class="fas fa-trophy"></i>
+            Module 7
+        </a>
+        <a href="tutorial2.html" class="nav-link">
+            <i class="fas fa-check-circle"></i>
+            Complete
+        </a>
+    </nav>
+
+    <div class="module-progress">
+        <h3>Module Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p><span class="completed-count">0</span>/4 Lessons Complete</p>
+    </div>
+
+    <div class="module-content">
+        <div class="module-header">
+            <h1 class="module-title">Module 3: Traffic & Sales</h1>
+            <p class="module-description">Learn how to drive targeted traffic and optimize conversions using AI tools for SEO, social media, and sales funnel optimization.</p>
+        </div>
+
+        <div class="lesson-section" id="lesson1">
+            <h2 class="lesson-title">
+                <i class="fas fa-search"></i>
+                Lesson 1: SEO Fundamentals with AI
+            </h2>
+            <div class="lesson-content">
+                <h3>Understanding SEO Basics</h3>
+                <p>SEO (Search Engine Optimization) is the practice of making your content visible to search engines like Google. Here's what you need to know:</p>
+                <ul>
+                    <li>Keywords: Words people type into search engines</li>
+                    <li>On-page SEO: Optimizing your content and website structure</li>
+                    <li>Off-page SEO: Building authority through backlinks and social signals</li>
+                    <li>Technical SEO: Ensuring your site is fast and mobile-friendly</li>
+                </ul>
+
+                <h3>AI Tools for SEO</h3>
+                <div class="resource-links">
+                    <a href="https://www.semrush.com" target="_blank" class="resource-link">
+                        <i class="fas fa-search"></i> SEMrush
+                    </a>
+                    <a href="https://www.ahrefs.com" target="_blank" class="resource-link">
+                        <i class="fas fa-link"></i> Ahrefs
+                    </a>
+                    <a href="https://www.answerthepublic.com" target="_blank" class="resource-link">
+                        <i class="fas fa-question-circle"></i> AnswerThePublic
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What is the primary purpose of SEO?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Making content visible to search engines</div>
+                            <div class="quiz-option">Creating social media posts</div>
+                            <div class="quiz-option">Designing websites</div>
+                            <div class="quiz-option">Writing product reviews</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson2">
+            <h2 class="lesson-title">
+                <i class="fas fa-share-alt"></i>
+                Lesson 2: Social Media Marketing
+            </h2>
+            <div class="lesson-content">
+                <h3>Social Media Strategy</h3>
+                <p>Learn how to leverage social media platforms to drive traffic:</p>
+                <ul>
+                    <li>Platform selection based on your audience</li>
+                    <li>Content planning and scheduling</li>
+                    <li>Engagement strategies</li>
+                    <li>Community building</li>
+                    <li>Analytics and tracking</li>
+                </ul>
+
+                <h3>Social Media Tools</h3>
+                <div class="resource-links">
+                    <a href="https://www.buffer.com" target="_blank" class="resource-link">
+                        <i class="fas fa-clock"></i> Buffer
+                    </a>
+                    <a href="https://www.hootsuite.com" target="_blank" class="resource-link">
+                        <i class="fas fa-owl"></i> Hootsuite
+                    </a>
+                    <a href="https://www.canva.com" target="_blank" class="resource-link">
+                        <i class="fas fa-image"></i> Canva
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What's the most important factor in social media success?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Consistent engagement with your audience</div>
+                            <div class="quiz-option">Posting multiple times per day</div>
+                            <div class="quiz-option">Using trending hashtags</div>
+                            <div class="quiz-option">Having a large following</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson3">
+            <h2 class="lesson-title">
+                <i class="fas fa-chart-line"></i>
+                Lesson 3: Conversion Optimization
+            </h2>
+            <div class="lesson-content">
+                <h3>Understanding Conversions</h3>
+                <p>A conversion is when a visitor takes a desired action (like clicking an affiliate link). Learn how to optimize for better results:</p>
+                <ul>
+                    <li>Clear call-to-action buttons</li>
+                    <li>Trust-building elements</li>
+                    <li>Social proof and testimonials</li>
+                    <li>Mobile optimization</li>
+                    <li>Page load speed</li>
+                </ul>
+
+                <h3>Conversion Tools</h3>
+                <div class="resource-links">
+                    <a href="https://www.hotjar.com" target="_blank" class="resource-link">
+                        <i class="fas fa-fire"></i> Hotjar
+                    </a>
+                    <a href="https://www.google.com/analytics" target="_blank" class="resource-link">
+                        <i class="fas fa-chart-bar"></i> Google Analytics
+                    </a>
+                    <a href="https://www.optimizely.com" target="_blank" class="resource-link">
+                        <i class="fas fa-flask"></i> Optimizely
+                    </a>
+                </div>
+
+                <div class="quiz-container">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What is the primary goal of conversion optimization?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Increasing the number of visitors who take desired actions</div>
+                            <div class="quiz-option">Getting more social media followers</div>
+                            <div class="quiz-option">Creating more content</div>
+                            <div class="quiz-option">Improving website design</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section" id="lesson4">
+            <h2 class="lesson-title">
+                <i class="fas fa-funnel-dollar"></i>
+                Lesson 4: Sales Funnel Optimization
+            </h2>
+            <div class="lesson-content">
+                <h3>Building Your Sales Funnel</h3>
+                <p>A sales funnel is the journey your visitors take from first contact to purchase. Learn how to optimize each stage:</p>
+                <ul>
+                    <li>Awareness: Getting noticed by potential customers</li>
+                    <li>Interest: Providing valuable information</li>
+                    <li>Consideration: Building trust and credibility</li>
+                    <li>Decision: Making the purchase easy</li>
+                    <li>Action: Following up and maintaining relationships</li>
+                </ul>
+
+                <div class="project-submission">
+                    <h3>Traffic & Sales Strategy</h3>
+                    <p>Submit your comprehensive traffic and sales strategy. Include:</p>
+                    <ul>
+                        <li>SEO optimization plan</li>
+                        <li>Social media marketing strategy</li>
+                        <li>Conversion optimization tactics</li>
+                        <li>Sales funnel blueprint</li>
+                    </ul>
+                    <div class="file-upload">
+                        <label for="project-file">
+                            <i class="fas fa-upload"></i> Choose Files
+                        </label>
+                        <input type="file" id="project-file" accept=".pdf,.doc,.docx,.jpg,.png" multiple>
+                        <button class="submit-btn" onclick="submitProject()">
+                            Submit Project
+                        </button>
+                        <div class="submission-status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:void(0)" onclick="handleNavigation(4) && (window.location.href='tutorial2-module4.html')" class="continue-btn">
+            Continue to Module 4: Scaling Up
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all module progress from localStorage
+            const moduleProgress = JSON.parse(localStorage.getItem('tutorial2_module3Progress')) || [];
+            const lessonProgress = JSON.parse(localStorage.getItem('tutorial2_module3LessonProgress')) || {};
+            
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalLessons = 4; // Update this based on number of lessons
+            const percentage = (moduleProgress.length / totalLessons) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = moduleProgress.length;
+
+            // Mark lessons as completed if they exist in moduleProgress
+            document.querySelectorAll('.lesson').forEach((lesson, index) => {
+                if (moduleProgress.includes(`lesson${index + 1}`)) {
+                    lesson.classList.add('completed');
+                }
+            });
+
+            // Quiz handling
+            document.querySelectorAll('.quiz-question').forEach(question => {
+                const options = question.querySelectorAll('.quiz-option');
+                const feedback = question.querySelector('.quiz-feedback');
+                
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        if (this.classList.contains('selected')) return;
+                        
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        
+                        const isCorrect = this.hasAttribute('data-correct');
+                        feedback.textContent = isCorrect ? 'Correct!' : 'Try again';
+                        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+                        
+                        if (isCorrect) {
+                            const lessonSection = this.closest('.lesson-section');
+                            const lessonId = lessonSection.id;
+                            if (!moduleProgress.includes(lessonId)) {
+                                moduleProgress.push(lessonId);
+                                localStorage.setItem('tutorial2_module3Progress', JSON.stringify(moduleProgress));
+                                const newPercentage = (moduleProgress.length / totalLessons) * 100;
+                                progressFill.style.width = `${newPercentage}%`;
+                                completedCount.textContent = moduleProgress.length;
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Project submission handling
+            window.submitProject = function() {
+                const fileInput = document.getElementById('project-file');
+                const statusDiv = document.querySelector('.submission-status');
+                
+                if (fileInput.files.length === 0) {
+                    statusDiv.textContent = 'Please select files to submit';
+                    statusDiv.className = 'submission-status error';
+                    return;
+                }
+
+                statusDiv.textContent = 'Project submitted successfully!';
+                statusDiv.className = 'submission-status success';
+                
+                if (!moduleProgress.includes('lesson4')) {
+                    moduleProgress.push('lesson4');
+                    localStorage.setItem('tutorial2_module3Progress', JSON.stringify(moduleProgress));
+                    const newPercentage = (moduleProgress.length / totalLessons) * 100;
+                    progressFill.style.width = `${newPercentage}%`;
+                    completedCount.textContent = moduleProgress.length;
+                }
+            };
+        });
+    </script>
+
+<script>
+  const user = netlifyIdentity && netlifyIdentity.currentUser();
+  if (user) {
+    user.jwt().then(token => {
+      fetch("/.netlify/functions/saveProgress", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          tutorialId: 2,
+          moduleId: 3,
+          completed: true
+        })
+      });
+    });
+  }
+</script>
+
+</body>
+</html> 
