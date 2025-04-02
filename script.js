@@ -1,7 +1,16 @@
+import { initializeAuth } from './src/auth.js';
+import { savePurchase, syncPurchasesFromSupabase } from './src/db.js';
+
 document.addEventListener("DOMContentLoaded", function () {
   if (typeof netlifyIdentity !== "undefined") {
     netlifyIdentity.on("init", user => {
       const isLoggedIn = !!user;
+      
+      // Sync purchases if user is logged in
+      if (isLoggedIn) {
+        syncPurchasesFromSupabase();
+      }
+      
       const paywallButtons = document.querySelectorAll(
         ".enroll-course-btn, .instant-access-btn, .premium-access-btn, .enroll-now, .bundle-cta"
       );
@@ -19,6 +28,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
     });
+
+    // Listen for login events
+    netlifyIdentity.on("login", user => {
+      syncPurchasesFromSupabase();
+    });
+
     netlifyIdentity.init();
   }
 });
@@ -428,32 +443,7 @@ function initializePayPal() {
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        // Store payment details
-                        const paymentData = {
-                            type: 'single',
-                            tutorialId: currentTutorialId,
-                            transactionId: details.id,
-                            timestamp: new Date().getTime()
-                        };
-                        
-                        // Store purchased tutorials
-                        const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
-                        if (!purchasedTutorials.includes(currentTutorialId)) {
-                            purchasedTutorials.push(currentTutorialId);
-                        }
-                        
-                        // Store all payment data
-                        localStorage.setItem('paymentData', JSON.stringify(paymentData));
-                        localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
-                        localStorage.setItem('paymentDate', new Date().getTime().toString());
-                        localStorage.setItem('paymentStatus', 'active');
-                        
-                        // Enable access to the specific tutorial
-                        enableAccess(currentTutorialId);
-                        
-                        // Show success message
-                        showMessage('Payment successful! You now have lifetime access to this tutorial.', 'success');
-                        closeModal();
+                        handlePaymentSuccess(details, 'single', currentTutorialId);
                     });
                 },
                 onError: function(err) {
@@ -485,25 +475,7 @@ function initializePayPal() {
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        // Store payment details
-                        const paymentData = {
-                            type: 'all',
-                            transactionId: details.id,
-                            timestamp: new Date().getTime()
-                        };
-                        
-                        // Store all payment data
-                        localStorage.setItem('paymentData', JSON.stringify(paymentData));
-                        localStorage.setItem('allAccess', 'true');
-                        localStorage.setItem('paymentDate', new Date().getTime().toString());
-                        localStorage.setItem('paymentStatus', 'active');
-                        
-                        // Enable access to all tutorials
-                        enableAccessToAllTutorials();
-                        
-                        // Show success message
-                        showMessage('Payment successful! You now have lifetime access to all tutorials.', 'success');
-                        closeModal();
+                        handlePaymentSuccess(details, 'all', 'all');
                     });
                 },
                 onError: function(err) {
@@ -907,4 +879,55 @@ const styles = `
 // Add styles to document
 const styleSheet = document.createElement('style');
 styleSheet.textContent = styles;
-document.head.appendChild(styleSheet); 
+document.head.appendChild(styleSheet);
+
+// Update payment handling to save to Supabase
+function handlePaymentSuccess(details, type, tutorialId) {
+    const user = netlifyIdentity.currentUser();
+    if (!user) {
+        console.error('No user logged in during payment');
+        return;
+    }
+
+    // Store payment details
+    const paymentData = {
+        type: type,
+        tutorialId: tutorialId,
+        transactionId: details.id,
+        timestamp: new Date().getTime()
+    };
+    
+    // Save to Supabase
+    savePurchase(user.id, tutorialId)
+        .then(() => {
+            // Update local storage
+            if (type === 'single') {
+                const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
+                if (!purchasedTutorials.includes(tutorialId)) {
+                    purchasedTutorials.push(tutorialId);
+                }
+                localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+            } else {
+                localStorage.setItem('allAccess', 'true');
+            }
+            
+            localStorage.setItem('paymentData', JSON.stringify(paymentData));
+            localStorage.setItem('paymentDate', new Date().getTime().toString());
+            localStorage.setItem('paymentStatus', 'active');
+            
+            // Enable access
+            if (type === 'single') {
+                window.location.href = `tutorial${tutorialId}.html`;
+            } else {
+                window.location.href = 'tutorial1.html';
+            }
+            
+            // Show success message
+            window.showMessage(`Payment successful! You now have lifetime access to ${type === 'single' ? 'this tutorial' : 'all tutorials'}.`, 'success');
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error saving purchase:', error);
+            window.showMessage('Payment successful but there was an error syncing your purchase. Please contact support.', 'error');
+        });
+} 
