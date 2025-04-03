@@ -15,7 +15,7 @@ exports.handler = async function(event, context) {
         if (!token) {
             return {
                 statusCode: 401,
-                body: JSON.stringify({ error: 'No authorization token provided' })
+                body: JSON.stringify({ error: 'No authorization token' })
             };
         }
 
@@ -43,19 +43,24 @@ exports.handler = async function(event, context) {
         if (dbError) {
             return {
                 statusCode: 500,
-                body: JSON.stringify({ error: 'Database error' })
+                body: JSON.stringify({ error: 'Database error', details: dbError })
             };
         }
 
         return {
             statusCode: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+            },
             body: JSON.stringify({ purchases })
         };
 
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Internal server error' })
+            body: JSON.stringify({ error: 'Server error', details: error.message })
         };
     }
 }; 
