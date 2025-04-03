@@ -4,149 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hustle Hub - Login</title>
-    <link href="style.css" rel="stylesheet">
-    <!-- Add Supabase client first -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <!-- Add Netlify Identity second -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <!-- Add modules -->
-    <script type="module">
-        import { initializeAuth } from './src/auth.js';
-        initializeAuth();
-    </script>
     <style>
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin: 0;
         }
-        .login-container {
+        .container {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            width: 90%;
-            max-width: 400px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
+            max-width: 400px;
+            width: 90%;
         }
-        .login-title {
+        h1 {
             color: #fff;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
         }
-        .login-button, .signup-button {
-            background: linear-gradient(135deg, #4a9de7 0%, #2d82c7 100%);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 25px;
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
+            text-decoration: none;
+            color: #1E3A8A;
+            background: #fff;
+            transition: all 0.3s ease;
+            border: none;
             cursor: pointer;
-            margin: 0.5rem;
-            width: 200px;
-            transition: transform 0.3s ease;
         }
-        .login-button:hover, .signup-button:hover {
-            transform: translateY(-2px);
+        .btn:hover {
+            background: #D1D5DB;
         }
-        .message {
-            color: #fff;
-            margin-top: 1rem;
-            padding: 0.5rem;
-            border-radius: 5px;
+        .back-home {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #C0C6D9;
+            text-decoration: none;
         }
-        .success { background-color: rgba(46, 204, 113, 0.2); }
-        .error { background-color: rgba(231, 76, 60, 0.2); }
+        .back-home:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1 class="login-title">Welcome to AI Hustle Hub</h1>
-        <div class="login-buttons">
-            <button class="login-button" onclick="netlifyIdentity.open('login')">Login</button>
-            <button class="signup-button" onclick="netlifyIdentity.open('signup')">Sign Up</button>
-        </div>
-        <div id="message" class="message"></div>
+    <div class="container">
+        <h1>Welcome to AI Hustle Hub</h1>
+        <button class="btn" onclick="netlifyIdentity.open('login')">Log In</button>
+        <button class="btn" onclick="netlifyIdentity.open('signup')">Sign Up</button>
+        <a href="index.html" class="back-home">← Back to Home</a>
     </div>
-
     <script>
-        // Handle Netlify Identity events
-        netlifyIdentity.on('init', user => {
-            if (user) {
-                handleLogin(user);
+        netlifyIdentity.on('login', function() {
+            // Check for stored redirect URL and tutorial ID
+            const redirectTo = sessionStorage.getItem('redirectTo');
+            const tutorialId = sessionStorage.getItem('tutorialId');
+            
+            if (redirectTo) {
+                // Clear the stored values
+                sessionStorage.removeItem('redirectTo');
+                sessionStorage.removeItem('tutorialId');
+                
+                // If we have a tutorial ID, redirect to the tutorial page
+                if (tutorialId) {
+                    window.location.href = `tutorial${tutorialId}.html`;
+                } else {
+                    // Otherwise redirect to the stored page
+                    window.location.href = redirectTo;
+                }
+            } else {
+                // Default redirect if no stored URL
+                window.location.href = 'index.html';
             }
         });
-
-        netlifyIdentity.on('login', user => {
-            handleLogin(user);
-        });
-
-        async function handleLogin(user) {
-            try {
-                // Check if user exists in Supabase
-                const { data: existingUser, error: checkError } = await window.supabase
-                    .from('users')
-                    .select('id')
-                    .eq('netlify_id', user.id)
-                    .single();
-
-                if (checkError && checkError.code !== 'PGRST116') {
-                    console.error('Error checking user:', checkError);
-                    return;
-                }
-
-                if (!existingUser) {
-                    // Create new user in Supabase
-                    const { error: createError } = await window.supabase
-                        .from('users')
-                        .insert([
-                            {
-                                netlify_id: user.id,
-                                created_at: new Date().toISOString(),
-                                last_login: new Date().toISOString()
-                            }
-                        ]);
-
-                    if (createError) {
-                        console.error('Error creating user:', createError);
-                        return;
-                    }
+        
+        netlifyIdentity.on('signup', function() {
+            // Same redirect logic for signup
+            const redirectTo = sessionStorage.getItem('redirectTo');
+            const tutorialId = sessionStorage.getItem('tutorialId');
+            
+            if (redirectTo) {
+                sessionStorage.removeItem('redirectTo');
+                sessionStorage.removeItem('tutorialId');
+                
+                if (tutorialId) {
+                    window.location.href = `tutorial${tutorialId}.html`;
                 } else {
-                    // Update last login
-                    const { error: updateError } = await window.supabase
-                        .from('users')
-                        .update({ last_login: new Date().toISOString() })
-                        .eq('netlify_id', user.id);
-
-                    if (updateError) {
-                        console.error('Error updating last login:', updateError);
-                    }
+                    window.location.href = redirectTo;
                 }
-
-                // Redirect after successful login
-                const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
-                if (redirectUrl) {
-                    sessionStorage.removeItem('redirectAfterLogin');
-                    window.location.href = redirectUrl;
-                } else {
-                    window.location.href = 'index.html';
-                }
-            } catch (error) {
-                console.error('Error handling login:', error);
+            } else {
+                window.location.href = 'index.html';
             }
-        }
+        });
     </script>
-    <!-- Scripts -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script type="module" src="script.js"></script>
 </body>
 </html>

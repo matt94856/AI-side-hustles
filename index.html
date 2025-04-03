@@ -2,12 +2,11 @@
 
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Hustle Hub - Learn How to Make Money with AI</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
-<meta name="description" content="Learn how to make money with AI through freelancing, consulting, and more. Get started with our comprehensive tutorials.">
-<!-- Open Graph Meta Tags -->
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" name="viewport"/>
+    <title>AI Hustle Hub - Learn How to Make Money with AI</title>
+<meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="description"/>
+    <!-- Open Graph Meta Tags -->
 <meta content="AI Hustle Hub - Learn How to Make Money with AI" property="og:title"/>
 <meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." property="og:description"/>
 <meta content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png" property="og:image"/>
@@ -17,14 +16,14 @@
 <meta content="website" property="og:type"/>
 <meta content="AI Money Guide" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
-<!-- Twitter Card Meta Tags -->
+    <!-- Twitter Card Meta Tags -->
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="AI Hustle Hub - Learn How to Make Money with AI" name="twitter:title"/>
 <meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="twitter:description"/>
 <meta content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png" name="twitter:image"/>
 <meta content="@AIHustleHub" name="twitter:site"/>
 <meta content="@AIHustleHub" name="twitter:creator"/>
-<!-- Additional Meta Tags for Better Link Preview -->
+    <!-- Additional Meta Tags for Better Link Preview -->
 <meta content="#1a1a1a" name="theme-color"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
@@ -40,59 +39,9 @@
 <link href="style.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
-<!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
-<!-- Add Supabase client first -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<!-- Add Netlify Identity second -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<!-- Add PayPal SDK last -->
-<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
-<!-- Add modules -->
-<script type="module">
-    import { checkPaymentStatus, showMessage } from './src/auth.js';
-    window.checkPaymentStatus = checkPaymentStatus;
-    window.showMessage = showMessage;
-</script>
-
-<script>
-    // Show message function
-    function showMessage(message, type = 'info') {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${type}`;
-        messageDiv.textContent = message;
-        document.body.appendChild(messageDiv);
-        setTimeout(() => messageDiv.remove(), 3000);
-    }
-
-    // Initialize everything when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on('init', user => {
-                if (!user) {
-                    window.netlifyIdentity.on('login', () => {
-                        document.location.reload();
-                    });
-                }
-            });
-
-            window.netlifyIdentity.on('login', () => {
-                const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
-                const tutorialId = sessionStorage.getItem('tutorialId');
-                if (redirectUrl) {
-                    sessionStorage.removeItem('redirectAfterLogin');
-                    sessionStorage.removeItem('tutorialId');
-                    if (tutorialId) {
-                        window.checkPaymentStatus(tutorialId);
-                    } else {
-                        window.location.href = redirectUrl;
-                    }
-                }
-            });
-        }
-    });
-</script>
-<style>
+    <!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr¤cy=USD"></script>
+    <style>
         :root {
             --primary-color: #1a1a1a;
             --accent-color: #4A9DE7; /* Light blue for CTAs instead of orange */
@@ -1757,20 +1706,20 @@
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
 </head>
 <body>
-<!-- Navigation -->
-<nav class="navbar">
-<div class="logo">AI Hustle Hub</div>
-<div class="nav-links">
-<a href="#home">Home</a>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">AI Hustle Hub</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
 <a href="#tutorials">Courses</a>
 <a href="#certificate">Certification</a>
 <a href="#why-now">Why Now</a>
 <a href="#guarantee">Guarantee</a>
-<a href="#faq">FAQ</a>
-</div>
-<div class="mobile-menu">
-<i class="fas fa-bars"></i>
-</div>
+            <a href="#faq">FAQ</a>
+        </div>
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
 
 <button id="login-btn" class="primary-cta" onclick="location.href='login.html'">
   <span>Login / Signup</span>
@@ -1782,10 +1731,10 @@
   <i class="fas fa-sign-out-alt"></i>
 </button>
 </nav>
-<!-- Hero Section -->
+    <!-- Hero Section -->
 <section class="hero" id="home">
 <div class="hero-overlay"></div>
-<div class="hero-content">
+        <div class="hero-content">
 <div class="hero-headline">THE $997 BILLION AI GOLD RUSH IS HERE</div>
 <h1>5 AI SIDE HUSTLES <span class="highlight">NOBODY IS TALKING ABOUT</span></h1>
 <p class="hero-subtitle">How Average People Are Making $1,500 - $8,000/Month Using These AI Methods That Require ZERO Experience</p>
@@ -1813,11 +1762,11 @@
 <i class="fas fa-arrow-right"></i>
 </button>
 </div>
-</div>
-</section>
-<!-- Introduction Section -->
-<section class="intro">
-<div class="container">
+        </div>
+    </section>
+    <!-- Introduction Section -->
+    <section class="intro">
+        <div class="container">
 <div class="intro-content">
 <div class="intro-text">
 <h2>THE <span class="highlight">AI WEALTH SHIFT</span> IS HAPPENING RIGHT NOW</h2>
@@ -1853,8 +1802,8 @@
 </div>
 </div>
 </div>
-</div>
-</section>
+        </div>
+    </section>
 <!-- Pricing Banner -->
 <section class="pricing-banner">
 <div class="container">
@@ -1879,9 +1828,9 @@
 </div>
 </div>
 </section>
-<!-- Tutorials Preview Section -->
+    <!-- Tutorials Preview Section -->
 <section class="tutorials" id="tutorials">
-<div class="container">
+        <div class="container">
 <div class="section-header">
 <h2>5 AI INCOME SYSTEMS THAT WORK IN 2024</h2>
 <p class="section-description">Unlike most "make money online" courses, these systems are PROVEN to work even if you have zero experience or technical skills. See results in as little as 7 days.</p>
@@ -1892,165 +1841,165 @@
 <span class="counter-number">$4,500 - $12,000</span>
 <span class="counter-label">WHAT STUDENTS CAN EARN MONTHLY WITH THESE METHODS</span>
 </div>
-</div>
-<div class="tutorial-grid">
-<!-- Tutorial Card 1 -->
-<div class="tutorial-card">
-<div class="tutorial-header">
-<i class="fas fa-robot tutorial-icon"></i>
-<span class="completion-time"><i class="far fa-clock"></i> 4-6 hours</span>
-</div>
-<h3>AI-Powered Freelancing</h3>
+            </div>
+            <div class="tutorial-grid">
+                <!-- Tutorial Card 1 -->
+                <div class="tutorial-card">
+                    <div class="tutorial-header">
+                        <i class="fas fa-robot tutorial-icon"></i>
+                        <span class="completion-time"><i class="far fa-clock"></i> 4-6 hours</span>
+                    </div>
+                    <h3>AI-Powered Freelancing</h3>
 <div class="income-potential">
 <span>Monthly Income Potential:</span>
 <strong>$500-$5,000</strong>
 </div>
-<div class="tutorial-details">
+                    <div class="tutorial-details">
 <p class="tutorial-description">How complete beginners are getting paid $50-$250/hour for AI services clients desperately need (with 83% LESS work than traditional freelancing).</p>
-<div class="key-learnings">
-<h4>What You'll Learn:</h4>
-<ul>
+                        <div class="key-learnings">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
 <li><i class="fas fa-check"></i> The ONLY 3 AI services with 90%+ profit margins</li>
 <li><i class="fas fa-check"></i> How to 10X your output with ChatGPT prompts clients don't know about</li>
 <li><i class="fas fa-check"></i> Our 7-day client acquisition system that works without cold outreach</li>
 <li><i class="fas fa-check"></i> How to close high-ticket deals without sales experience</li>
-</ul>
-</div>
-<div class="course-structure">
+                            </ul>
+                        </div>
+                        <div class="course-structure">
 <p><strong>System Includes:</strong> 4 modules, 12 lessons, 4 implementation plans, 6 prompt templates</p>
 <p><strong>Results Timeline:</strong> First client in 7-14 days</p>
-</div>
-</div>
-<button class="enroll-now" onclick="window.checkPaymentStatus('chatgpt')" data-tutorial-id="chatgpt">
-<span>START FREELANCING WITH AI</span>
+                        </div>
+                    </div>
+<button class="enroll-now" onclick="checkPaymentStatus(1)">
+<span>GET STARTED NOW</span>
 <i class="fas fa-arrow-right"></i>
 </button>
-</div>
-<!-- Tutorial Card 2 -->
+                </div>
+                <!-- Tutorial Card 2 -->
 <div class="tutorial-card featured-card">
 <div class="popular-badge">HIGHEST ROI</div>
-<div class="tutorial-header">
-<i class="fas fa-chart-line tutorial-icon"></i>
-<span class="completion-time"><i class="far fa-clock"></i> 5-7 hours</span>
-</div>
-<h3>Affiliate Marketing with AI</h3>
+                    <div class="tutorial-header">
+                        <i class="fas fa-chart-line tutorial-icon"></i>
+                        <span class="completion-time"><i class="far fa-clock"></i> 5-7 hours</span>
+                    </div>
+                    <h3>Affiliate Marketing with AI</h3>
 <div class="income-potential">
 <span>Monthly Income Potential:</span>
 <strong>$1,000-$10,000</strong>
 </div>
-<div class="tutorial-details">
+                    <div class="tutorial-details">
 <p class="tutorial-description">The exact system beginners use to build automated affiliate sites that generate $3,750/month average passive income with just 5 hours of setup work.</p>
-<div class="key-learnings">
-<h4>What You'll Learn:</h4>
-<ul>
+                        <div class="key-learnings">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
 <li><i class="fas fa-check"></i> Our "Profit Multiplier" product selection framework</li>
 <li><i class="fas fa-check"></i> The 25-prompt content system that outranks even established sites</li>
 <li><i class="fas fa-check"></i> How to build content that converts at 2-5X industry average</li>
 <li><i class="fas fa-check"></i> Setting up AI-powered traffic systems that run 24/7</li>
-</ul>
-</div>
-<div class="course-structure">
+                            </ul>
+                        </div>
+                        <div class="course-structure">
 <p><strong>Structure:</strong> 7 modules, 28 lessons, 3 case studies</p>
-<p><strong>Ideal for:</strong> Content creators and marketers</p>
-</div>
-</div>
-<button class="enroll-now" onclick="window.checkPaymentStatus('midjourney')" data-tutorial-id="midjourney">
-<span>CREATE AI CONTENT NOW</span>
+                            <p><strong>Ideal for:</strong> Content creators and marketers</p>
+                        </div>
+                    </div>
+<button class="enroll-now" onclick="checkPaymentStatus(2)">
+<span>Enroll Now</span>
 <i class="fas fa-arrow-right"></i>
 </button>
-</div>
-<!-- Tutorial Card 3 -->
-<div class="tutorial-card">
-<div class="tutorial-header">
-<i class="fas fa-pen-fancy tutorial-icon"></i>
-<span class="completion-time"><i class="far fa-clock"></i> 3-5 hours</span>
-</div>
-<h3>Content Creation with AI</h3>
+                </div>
+                <!-- Tutorial Card 3 -->
+                <div class="tutorial-card">
+                    <div class="tutorial-header">
+                        <i class="fas fa-pen-fancy tutorial-icon"></i>
+                        <span class="completion-time"><i class="far fa-clock"></i> 3-5 hours</span>
+                    </div>
+                    <h3>Content Creation with AI</h3>
 <div class="income-potential">
 <span>Monthly Income Potential:</span>
 <strong>$800-$7,500</strong>
 </div>
-<div class="tutorial-details">
+                    <div class="tutorial-details">
 <p class="tutorial-description">The step-by-step system to create subscription content that pays you $27-$97 per subscriber monthly while AI does 95% of the work.</p>
-<div class="key-learnings">
-<h4>What You'll Learn:</h4>
-<ul>
+                        <div class="key-learnings">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
 <li><i class="fas fa-check"></i> Our "Unfair Advantage" content positioning system</li>
 <li><i class="fas fa-check"></i> The 3-part AI prompt framework for viral content</li>
 <li><i class="fas fa-check"></i> How to scale to 1000+ subscribers without hiring anyone</li>
 <li><i class="fas fa-check"></i> Automated content distribution that works while you sleep</li>
-</ul>
-</div>
-<div class="course-structure">
+                            </ul>
+                        </div>
+                        <div class="course-structure">
 <p><strong>System Includes:</strong> 5 modules, 15 lessons, 3 implementation plans, 12 content templates</p>
 <p><strong>Results Timeline:</strong> First subscribers in 14-21 days</p>
-</div>
-</div>
-<button class="enroll-now" onclick="window.checkPaymentStatus('stablediffusion')" data-tutorial-id="stablediffusion">
-<span>START YOUR AI STORE</span>
+                        </div>
+                    </div>
+<button class="enroll-now" onclick="checkPaymentStatus(3)">
+<span>START CREATING TODAY</span>
 <i class="fas fa-arrow-right"></i>
 </button>
-</div>
-<!-- Tutorial Card 4 -->
-<div class="tutorial-card">
-<div class="tutorial-header">
-<i class="fas fa-store tutorial-icon"></i>
-<span class="completion-time"><i class="far fa-clock"></i> 6-8 hours</span>
-</div>
-<h3>Selling AI-Based Digital Products</h3>
+                </div>
+                <!-- Tutorial Card 4 -->
+                <div class="tutorial-card">
+                    <div class="tutorial-header">
+                        <i class="fas fa-store tutorial-icon"></i>
+                        <span class="completion-time"><i class="far fa-clock"></i> 6-8 hours</span>
+                    </div>
+                    <h3>Selling AI-Based Digital Products</h3>
 <div class="income-potential">
 <span>Monthly Income Potential:</span>
 <strong>$2,000-$20,000</strong>
 </div>
-<div class="tutorial-details">
+                    <div class="tutorial-details">
 <p class="tutorial-description">How a beginner can create $97-$997 digital products in under 48 hours that sell on autopilot (with 92.3% profit margins).</p>
-<div class="key-learnings">
-<h4>What You'll Learn:</h4>
-<ul>
+                        <div class="key-learnings">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
 <li><i class="fas fa-check"></i> The 5 AI product types with highest conversion rates</li>
 <li><i class="fas fa-check"></i> Our "Value Stacking" method to charge 3-5X more</li>
 <li><i class="fas fa-check"></i> Building automated sales funnels that convert cold traffic</li>
 <li><i class="fas fa-check"></i> Scaling to $10k/month without customer service headaches</li>
-</ul>
-</div>
-<div class="course-structure">
+                            </ul>
+                        </div>
+                        <div class="course-structure">
 <p><strong>System Includes:</strong> 6 modules, 18 lessons, 3 product templates, 5 sales frameworks</p>
 <p><strong>Results Timeline:</strong> First product launch in 21-30 days</p>
-</div>
-</div>
-<button class="enroll-now" onclick="window.checkPaymentStatus('runway')" data-tutorial-id="runway">
+                        </div>
+                    </div>
+<button class="enroll-now" onclick="checkPaymentStatus(4)">
 <span>CREATE YOUR FIRST PRODUCT</span>
 <i class="fas fa-arrow-right"></i>
 </button>
-</div>
-<!-- Tutorial Card 5 -->
-<div class="tutorial-card">
-<div class="tutorial-header">
-<i class="fas fa-handshake tutorial-icon"></i>
-<span class="completion-time"><i class="far fa-clock"></i> 7-9 hours</span>
-</div>
-<h3>AI-Powered Consulting Services</h3>
+                </div>
+                <!-- Tutorial Card 5 -->
+                <div class="tutorial-card">
+                    <div class="tutorial-header">
+                        <i class="fas fa-handshake tutorial-icon"></i>
+                        <span class="completion-time"><i class="far fa-clock"></i> 7-9 hours</span>
+                    </div>
+                    <h3>AI-Powered Consulting Services</h3>
 <div class="income-potential">
 <span>Monthly Income Potential:</span>
 <strong>$3,000-$30,000+</strong>
 </div>
-<div class="tutorial-details">
+                    <div class="tutorial-details">
 <p class="tutorial-description">The exact blueprint to land $3,000-$10,000 AI consulting contracts from businesses desperate for AI implementation (even if you're not an expert).</p>
-<div class="key-learnings">
-<h4>What You'll Learn:</h4>
-<ul>
+                        <div class="key-learnings">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
 <li><i class="fas fa-check"></i> Our "Problem-First" methodology that lands meetings with decision makers</li>
 <li><i class="fas fa-check"></i> The 3-step consultation process with 78% close rate</li>
 <li><i class="fas fa-check"></i> How to deliver results using our pre-built AI systems</li>
 <li><i class="fas fa-check"></i> Building a consistent $20k/month consulting practice</li>
-</ul>
-</div>
-<div class="course-structure">
+                            </ul>
+                        </div>
+                        <div class="course-structure">
 <p><strong>System Includes:</strong> 6 modules, 24 lessons, 6 client acquisition templates, 4 project frameworks</p>
 <p><strong>Results Timeline:</strong> First client in 21-45 days</p>
-</div>
-</div>
-<button class="enroll-now" onclick="window.checkPaymentStatus('synthesia')" data-tutorial-id="synthesia">
+                        </div>
+                    </div>
+<button class="enroll-now" onclick="checkPaymentStatus(5)">
 <span>BECOME AN AI CONSULTANT</span>
 <i class="fas fa-arrow-right"></i>
 </button>
@@ -2090,39 +2039,39 @@
 <div class="desktop-recommendation">
 <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend using a desktop computer.
                         </div>
-<button class="bundle-cta" onclick="window.checkPaymentStatus('all')">
+<button class="bundle-cta" onclick="checkPaymentStatus('all')">
 <span>GET INSTANT ACCESS NOW</span>
 <i class="fas fa-arrow-right"></i>
 </button>
 <p class="bundle-guarantee">Try risk-free: 30-day money-back guarantee</p>
 </div>
-</div>
-</div>
-</div>
-</section>
+                </div>
+            </div>
+        </div>
+    </section>
 <!-- New Hormozi-style Why Now Section -->
 <section class="why-now-section" id="why-now">
-<div class="container">
+        <div class="container">
 <h2>WHY THE AI INCOME WINDOW IS CLOSING FAST</h2>
 <div class="urgency-grid">
 <div class="urgency-item">
 <div class="urgency-icon">
 <i class="fas fa-hourglass-half"></i>
-</div>
+                            </div>
 <div class="urgency-content">
 <h3>THE "GOLD RUSH" PHASE IS ENDING</h3>
 <p>Right now we're in the "gold rush" phase of AI - where ordinary people with no special skills can stake their claim and build substantial income streams with minimal competition. History shows this phase typically lasts 18-24 months before big players dominate. <strong>We're already 12 months in.</strong></p>
-</div>
-</div>
+                        </div>
+                    </div>
 <div class="urgency-item">
 <div class="urgency-icon">
 <i class="fas fa-chart-line"></i>
-</div>
+                </div>
 <div class="urgency-content">
 <h3>COMPETITION INCREASING 237% QUARTERLY</h3>
 <p>Our market analysis shows competition in AI income streams is growing at 237% per quarter. Methods that take 2 weeks to monetize today may take 3-6 months by 2025. The profit window is still open, but narrowing rapidly.</p>
-</div>
-</div>
+                            </div>
+                        </div>
 <div class="urgency-item">
 <div class="urgency-icon">
 <i class="fas fa-robot"></i>
@@ -2130,11 +2079,11 @@
 <div class="urgency-content">
 <h3>AI COSTS RISING, NOT FALLING</h3>
 <p>Contrary to what most believe, enterprise-grade AI costs are rising 17% annually as demand outpaces supply. The "free AI" era is ending as OpenAI, Anthropic and others pivot to paid models. Those who establish positions now will be grandfathered in.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 <!-- Certificate Value Proposition Section -->
 <section class="certificate-section" id="certificate">
 <div class="container">
@@ -2266,15 +2215,15 @@
 </div>
 </div>
 </section>
-<!-- FAQ Section -->
+    <!-- FAQ Section -->
 <section class="faq" id="faq">
-<div class="container">
+        <div class="container">
 <div class="section-header">
-<h2>Frequently Asked Questions</h2>
+            <h2>Frequently Asked Questions</h2>
 <p class="section-description">Get answers to common questions about our AI income courses</p>
 </div>
-<div class="faq-grid">
-<div class="faq-item">
+            <div class="faq-grid">
+                <div class="faq-item">
 <div class="faq-question">
 <h3>How much can I realistically earn with these methods?</h3>
 <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
@@ -2282,8 +2231,8 @@
 <div class="faq-answer">
 <p>Earnings vary based on your dedication, implementation, and time invested. Our most successful students earn between $3,000-$10,000 monthly by combining multiple AI income methods. Complete beginners typically start with $500-$2,000 in their first month when following our exact systems.</p>
 </div>
-</div>
-<div class="faq-item">
+                </div>
+                <div class="faq-item">
 <div class="faq-question">
 <h3>Do I need technical experience or coding skills?</h3>
 <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
@@ -2291,8 +2240,8 @@
 <div class="faq-answer">
 <p>Absolutely not! Our courses are specifically designed for beginners with zero technical background. We provide step-by-step instructions with video demonstrations for every technical aspect, making the process simple to follow even if you've never used AI tools before.</p>
 </div>
-</div>
-<div class="faq-item">
+                </div>
+                <div class="faq-item">
 <div class="faq-question">
 <h3>How long will it take to see results?</h3>
 <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
@@ -2312,9 +2261,9 @@
 </div>
 <div class="faq-item">
 <div class="faq-question">
-<h3>Is the payment secure?</h3>
+                    <h3>Is the payment secure?</h3>
 <div class="faq-icon"><i class="fas fa-chevron-down"></i></div>
-</div>
+                </div>
 <div class="faq-answer">
 <p>Yes, we use PayPal's secure payment system to process all transactions. Your financial information is never stored on our servers, and all payment details are encrypted using industry-standard protocols.</p>
 </div>
@@ -2332,138 +2281,207 @@
 <div class="faq-cta">
 <h3>Still Have Questions?</h3>
 <p>Contact us at <a href="mailto:premiumwebcreators@gmail.com">premiumwebcreators@gmail.com</a> and we'll respond within 24 hours.</p>
-</div>
-</div>
-</section>
-<!-- Modal -->
+            </div>
+        </div>
+    </section>
+    <!-- Modal -->
 <div class="modal" id="premiumModal">
-<div class="modal-content">
+        <div class="modal-content">
 <span class="close">×</span>
-<h2>Unlock Premium Content</h2>
-<div class="tutorial-preview">
-<h3 id="previewTitle">Loading preview...</h3>
+            <h2>Unlock Premium Content</h2>
+            <div class="tutorial-preview">
+                <h3 id="previewTitle">Loading preview...</h3>
 <div class="preview-text" id="previewContent">
-<!-- Preview content will be loaded here -->
-</div>
-</div>
-<div class="pricing-options">
-<div class="pricing-card">
-<h3>Single Tutorial</h3>
+                    <!-- Preview content will be loaded here -->
+                </div>
+            </div>
+            <div class="pricing-options">
+                <div class="pricing-card">
+                    <h3>Single Tutorial</h3>
 <p class="price">$7.99</p>
-<p class="description">Access this specific tutorial</p>
+                    <p class="description">Access this specific tutorial</p>
 <!-- Enhanced desktop recommendation for mobile devices -->
 <div class="desktop-recommendation">
 <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend completing checkout on a desktop computer
                     </div>
-<div id="singleTutorialButton"></div>
-</div>
-<div class="pricing-card featured">
-<h3>All Tutorials</h3>
+                    <div id="singleTutorialButton"></div>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>All Tutorials</h3>
 <p class="price">$19.99</p>
 <p class="description">Access all tutorials (Save 50%)</p>
 <!-- Enhanced desktop recommendation for mobile devices -->
 <div class="desktop-recommendation">
 <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend completing checkout on a desktop computer
                     </div>
-<div id="allTutorialsButton"></div>
-</div>
-</div>
-</div>
-</div>
-<!-- Footer -->
-<footer>
-<div class="container">
-<div class="footer-content">
-<div class="footer-section">
+                    <div id="allTutorialsButton"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
 <h3>AI Hustle Hub</h3>
-<p>Your trusted source for AI-powered money-making strategies.</p>
-</div>
-<div class="footer-section">
-<h3>Quick Links</h3>
-<a href="#home">Home</a>
+                    <p>Your trusted source for AI-powered money-making strategies.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#home">Home</a>
 <a href="#tutorials">Courses</a>
 <a href="#certificate">Certification</a>
 <a href="#why-now">Why Now</a>
 <a href="#guarantee">Guarantee</a>
-<a href="#faq">FAQ</a>
-</div>
-<div class="footer-section">
-<h3>Contact</h3>
-<p>Email: premiumwebcreators@gmail.com</p>
-</div>
-</div>
-<div class="footer-bottom">
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: premiumwebcreators@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
 <p>© 2024 AI Hustle Hub. All rights reserved.</p>
-</div>
-</div>
-</footer>
-<!-- Scripts -->
-<!-- Load Netlify Identity Widget first -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<!-- Load Supabase client second -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<!-- Load PayPal SDK third -->
-<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
-<!-- Load our modules last -->
-<script type="module" src="src/supabase.js"></script>
-<script type="module" src="src/utils.js"></script>
-<script type="module" src="src/db.js"></script>
-<script type="module" src="src/auth.js"></script>
-<script type="module" src="script.js"></script>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+<!-- Additional Mobile Script -->
 <script>
-    // Make checkPaymentStatus available globally
-    window.checkPaymentStatus = async function(tutorialId) {
-        try {
-            // Check if user is logged in
-            const user = window.netlifyIdentity?.currentUser();
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            const navbar = document.querySelector('.navbar');
+            let lastScrollTop = 0;
             
-            if (!user) {
-                // Store the current state before redirecting
-                localStorage.setItem('redirectAfterLogin', tutorialId);
-                window.location.href = '/login.html';
-                return;
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
             }
-
-            // Check if user has access to this tutorial
-            const purchases = JSON.parse(localStorage.getItem('purchases') || '[]');
-            const hasAccess = purchases.some(purchase => 
-                purchase.userId === user.id && 
-                (purchase.tutorialId === tutorialId || purchase.tutorialId === 'all')
-            );
             
-            if (hasAccess) {
-                // User has access, redirect to tutorial
-                window.location.href = `/tutorials/${tutorialId}.html`;
-                return;
-            }
-
-            // Show payment modal
-            const modal = document.getElementById('paymentModal');
-            if (modal) {
-                modal.style.display = 'block';
-                // Initialize PayPal buttons if needed
-                if (window.initializePayPal) {
-                    window.initializePayPal(tutorialId);
-                }
-            }
-        } catch (error) {
-            console.error('Error checking payment status:', error);
-            showMessage('Error checking payment status. Please try again.', 'error');
-        }
-    };
-
-    // Initialize auth when the page loads
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on('init', user => {
-                if (!user) {
-                    window.netlifyIdentity.on('login', () => {
-                        document.location.reload();
-                    });
-                }
+            // Close mobile menu when clicking on a nav link
+            const navLinkElements = document.querySelectorAll('.nav-links a');
+            navLinkElements.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('active');
+                });
             });
+            
+            // Hide navbar on scroll down, show on scroll up (mobile only)
+            if (window.innerWidth < 768) {
+                window.addEventListener('scroll', function() {
+                    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    
+                    if (scrollTop > lastScrollTop && scrollTop > 60) {
+                        // Scrolling down & past navbar height
+                        navbar.classList.add('hidden');
+                        navLinks.classList.remove('active'); // Close mobile menu when scrolling
+                    } else {
+                        // Scrolling up
+                        navbar.classList.remove('hidden');
+                    }
+                    
+                    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                }, {passive: true});
+                
+                // Load only required images on mobile
+                const lazyImages = document.querySelectorAll('img[data-src]');
+                lazyImages.forEach(img => {
+                    img.src = img.getAttribute('data-src');
+                });
+                
+                // Add PayPal checkout event listeners for mobile
+                document.querySelectorAll('.pricing-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        // Highlight desktop recommendation when user clicks near the PayPal buttons
+                        const recommendation = this.querySelector('.desktop-recommendation');
+                        if (recommendation) {
+                            recommendation.style.transform = 'scale(1.05)';
+                            recommendation.style.transition = 'transform 0.3s ease';
+                            setTimeout(() => {
+                                recommendation.style.transform = 'scale(1)';
+                            }, 1000);
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+<!-- Countdown Timer Script -->
+<script>
+        // Set the countdown date (24 hours from now)
+        const countDownDate = new Date();
+        countDownDate.setHours(countDownDate.getHours() + 24);
+        
+        // Update the countdown every 1 second
+        const countdownTimer = setInterval(function() {
+            // Get current date and time
+            const now = new Date().getTime();
+            
+            // Find the distance between now and the countdown date
+            const distance = countDownDate - now;
+            
+            // Time calculations for hours, minutes and seconds
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Display the result
+            document.getElementById("hours").textContent = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").textContent = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").textContent = seconds < 10 ? "0" + seconds : seconds;
+            
+            // If the countdown is finished, write some text
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById("hours").textContent = "00";
+                document.getElementById("minutes").textContent = "00";
+                document.getElementById("seconds").textContent = "00";
+            }
+        }, 1000);
+        
+        // FAQ accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.netlifyIdentity) {
+      netlifyIdentity.on("init", user => {
+        if (user) {
+          document.getElementById("login-btn").style.display = "none";
+          document.getElementById("logout-btn").style.display = "inline-block";
+        } else {
+          document.getElementById("login-btn").style.display = "inline-block";
+          document.getElementById("logout-btn").style.display = "none";
         }
-    });
+      });
+
+      netlifyIdentity.on("logout", () => location.reload());
+      netlifyIdentity.init();
+    }
+  });
 </script>
 </body>
 </html> 
