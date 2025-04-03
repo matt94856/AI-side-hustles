@@ -467,16 +467,14 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             user_id: user.id,
             all_access: type === 'all',
             tutorial_id: type === 'all' ? null : parseInt(tutorialId),
-            purchase_date: new Date().toISOString(),
-            transaction_id: transactionDetails.id,
-            amount: transactionDetails.purchase_units[0].amount.value,
-            currency: transactionDetails.purchase_units[0].amount.currency_code,
-            status: transactionDetails.status
+            purchase_date: new Date().toISOString()
         };
 
         const { error } = await supabase
             .from('user_purchases')
-            .upsert(purchaseData);
+            .upsert(purchaseData, {
+                onConflict: 'user_id,tutorial_id'
+            });
 
         if (error) {
             console.error('Error saving to database:', error);
