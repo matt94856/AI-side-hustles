@@ -231,7 +231,7 @@
 
 .resources-button {
     background: var(--gradient-accent);
-    color: white;
+            color: white;
     text-decoration: none;
     padding: 0.8rem 1.5rem;
     border-radius: 25px;
@@ -257,7 +257,7 @@
     .resources-text {
         margin-bottom: 0.5rem;
     }
-}
+        }
     </style>
 </head>
 <body>
@@ -267,7 +267,7 @@
         <a href="#" class="certificate-button" onclick="generateCertificate(4); return false;">
             <i class="fas fa-certificate"></i> Generate Certificate
         </a>
-    </div>
+        </div>
 
     <header class="header">
         <div class="brand">
@@ -283,11 +283,11 @@
 
     <div class="course-progress">
         <h3>Course Progress</h3>
-        <div class="progress-bar">
+            <div class="progress-bar">
             <div class="progress-fill"></div>
         </div>
         <p><span class="completed-count">0</span>/6 Modules Complete</p>
-    </div>
+                </div>
 
     <div class="resources-banner">
     <div class="resources-content">
@@ -297,8 +297,8 @@
             <p>Access premium tools, templates, and strategies to boost your AI-based digital product sales</p>
         </div>
         <a href="tutorial4-resources.html" class="resources-button">View Resources</a>
-    </div>
-</div>
+                        </div>
+                    </div>
 
     <div class="modules-grid">
         <div class="module-card active">
@@ -307,7 +307,7 @@
             <h2 class="module-title">Module 1: Product Ideation</h2>
             <p class="module-description">Learn how to identify profitable digital product ideas using AI tools for market research and validation.</p>
             <a href="tutorial4-module1.html" class="module-link">Start Module</a>
-        </div>
+                            </div>
 
         <div class="module-card locked">
             <i class="fas fa-tools module-icon"></i>
@@ -315,7 +315,7 @@
             <h2 class="module-title">Module 2: Product Creation</h2>
             <p class="module-description">Master the process of creating high-quality digital products using AI tools, from ebooks to templates and software.</p>
             <a href="tutorial4-module2.html" class="module-link">Start Module</a>
-        </div>
+                            </div>
 
         <div class="module-card locked">
             <i class="fas fa-palette module-icon"></i>
@@ -323,7 +323,7 @@
             <h2 class="module-title">Module 3: Design & Packaging</h2>
             <p class="module-description">Learn how to design attractive product visuals and packaging to enhance perceived value and increase conversions.</p>
             <a href="tutorial4-module3.html" class="module-link">Start Module</a>
-        </div>
+                            </div>
 
         <div class="module-card locked">
             <i class="fas fa-bullhorn module-icon"></i>
@@ -448,31 +448,33 @@
     <script src="certificate.js"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const user = netlifyIdentity && netlifyIdentity.currentUser();
-    if (user) {
-      user.jwt().then(token => {
-        fetch("/.netlify/functions/getProgress?tutorialId=4", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data && Array.isArray(data.completedModules)) {
-            data.completedModules.forEach(moduleId => {
-              // Example: Unlock UI for completed modules
-              const moduleEl = document.getElementById(`module-${moduleId}`);
-              if (moduleEl) {
-                moduleEl.classList.add("unlocked");
-              }
-            });
-          }
-        })
-        .catch(console.error);
-      });
+  function initializeNetlifyIdentity() {
+    if (typeof netlifyIdentity !== 'undefined') {
+      const user = netlifyIdentity.currentUser();
+      if (user) {
+        user.jwt().then(token => {
+          fetch("/.netlify/functions/getProgress?tutorialId=4", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data && Array.isArray(data.completedModules)) {
+              // Handle progress data
+            }
+          });
+        });
+      }
     }
-  });
+  }
+
+  // Wait for Netlify Identity to load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeNetlifyIdentity);
+  } else {
+    initializeNetlifyIdentity();
+  }
 </script>
 
 </body>

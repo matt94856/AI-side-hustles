@@ -425,30 +425,33 @@
     </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const user = netlifyIdentity && netlifyIdentity.currentUser();
-    if (user) {
-      user.jwt().then(token => {
-        fetch("/.netlify/functions/getProgress?tutorialId=1", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data && Array.isArray(data.completedModules)) {
-            data.completedModules.forEach(moduleId => {
-              const moduleEl = document.getElementById(`module-${moduleId}`);
-              if (moduleEl) {
-                moduleEl.classList.add("unlocked");
-              }
-            });
-          }
-        })
-        .catch(console.error);
-      });
+  function initializeNetlifyIdentity() {
+    if (typeof netlifyIdentity !== 'undefined') {
+      const user = netlifyIdentity.currentUser();
+      if (user) {
+        user.jwt().then(token => {
+          fetch("/.netlify/functions/getProgress?tutorialId=1", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data && Array.isArray(data.completedModules)) {
+              // Handle progress data
+            }
+          });
+        });
+      }
     }
-  });
+  }
+
+  // Wait for Netlify Identity to load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeNetlifyIdentity);
+  } else {
+    initializeNetlifyIdentity();
+  }
 </script>
 
 </body>
