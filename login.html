@@ -69,30 +69,34 @@
     </div>
     <script>
         netlifyIdentity.on('login', function() {
-            // Check for stored redirect URL and tutorial ID
+            // Check for stored redirect information
             const redirectTo = sessionStorage.getItem('redirectTo');
             const tutorialId = sessionStorage.getItem('tutorialId');
             
             if (redirectTo) {
-                // Clear the stored values
+                // Clear the stored information
                 sessionStorage.removeItem('redirectTo');
                 sessionStorage.removeItem('tutorialId');
                 
-                // If we have a tutorial ID, redirect to the tutorial page
+                // If we have a tutorial ID, redirect to the appropriate page
                 if (tutorialId) {
-                    window.location.href = `tutorial${tutorialId}.html`;
+                    if (tutorialId === 'all') {
+                        window.location.href = 'index.html#tutorials';
+                    } else {
+                        window.location.href = `tutorial${tutorialId}.html`;
+                    }
                 } else {
-                    // Otherwise redirect to the stored page
+                    // Otherwise, redirect to the stored page
                     window.location.href = redirectTo;
                 }
             } else {
-                // Default redirect if no stored URL
+                // Default redirect to home page
                 window.location.href = 'index.html';
             }
         });
         
         netlifyIdentity.on('signup', function() {
-            // Same redirect logic for signup
+            // Use the same redirect logic as login
             const redirectTo = sessionStorage.getItem('redirectTo');
             const tutorialId = sessionStorage.getItem('tutorialId');
             
@@ -101,7 +105,11 @@
                 sessionStorage.removeItem('tutorialId');
                 
                 if (tutorialId) {
-                    window.location.href = `tutorial${tutorialId}.html`;
+                    if (tutorialId === 'all') {
+                        window.location.href = 'index.html#tutorials';
+                    } else {
+                        window.location.href = `tutorial${tutorialId}.html`;
+                    }
                 } else {
                     window.location.href = redirectTo;
                 }

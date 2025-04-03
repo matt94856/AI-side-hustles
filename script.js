@@ -520,154 +520,65 @@ function initializePayPal() {
 
 // Quiz Functionality
 function initializeQuizzes() {
-    console.log('=== Quiz Initialization Debug ===');
     console.log('Starting quiz initialization...');
     
-    // Find all quiz forms
+    // Get all quiz forms
     const quizForms = document.querySelectorAll('.quiz-form');
     console.log(`Found ${quizForms.length} quiz forms on the page`);
     
     if (quizForms.length === 0) {
-        console.warn('No quiz forms found. Checking HTML structure...');
+        console.log('No quiz forms found. Checking HTML structure...');
         const moduleQuizzes = document.querySelectorAll('.module-quiz');
         console.log(`Found ${moduleQuizzes.length} .module-quiz elements`);
-        moduleQuizzes.forEach((quiz, i) => {
-            console.log(`Module Quiz ${i + 1} structure:`, quiz.innerHTML);
-        });
-        return;
+        
+        if (moduleQuizzes.length === 0) {
+            console.log('No quiz elements found. Skipping quiz initialization.');
+            return;
+        }
     }
     
-    quizForms.forEach((form, quizIndex) => {
-        console.log(`\nProcessing quiz form ${quizIndex + 1}:`);
-        
-        // Remove any existing buttons
-        const existingButtons = form.querySelectorAll('.quiz-submit, .quiz-retry');
-        existingButtons.forEach(button => button.remove());
-        
-        // Create button container
-        const buttonContainer = document.createElement('div');
-        buttonContainer.className = 'quiz-buttons';
-        buttonContainer.style.cssText = 'margin-top: 2rem; width: 100%; display: block !important;';
-        
-        // Create submit button
-        const submitButton = document.createElement('button');
-        submitButton.className = 'quiz-submit';
-        submitButton.textContent = 'Submit Quiz';
-        submitButton.type = 'button';
-        submitButton.style.cssText = 'display: block !important; margin-bottom: 1rem; visibility: visible !important; opacity: 1 !important;';
-        buttonContainer.appendChild(submitButton);
-        console.log('Submit button created');
-
-        // Create retry button
-        const retryButton = document.createElement('button');
-        retryButton.className = 'quiz-retry';
-        retryButton.textContent = 'Try Again';
-        retryButton.type = 'button';
-        retryButton.style.display = 'none';
-        buttonContainer.appendChild(retryButton);
-        console.log('Retry button created');
-
-        // Create score display
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.className = 'quiz-score';
-        
-        // Append elements to form
-        form.appendChild(scoreDisplay);
-        form.appendChild(buttonContainer);
-        console.log('Buttons appended to form');
-
-        // Initialize quiz state
-        if (!courseProgress.quizScores) {
-            courseProgress.quizScores = {};
-        }
-        
-        if (!courseProgress.quizScores[quizIndex]) {
-            courseProgress.quizScores[quizIndex] = {
-                answers: {},
-                score: 0,
-                attempts: 0,
-                completed: false
-            };
-        }
-
-        // Add event listeners
-        const questions = form.querySelectorAll('.quiz-question');
-        questions.forEach((question, questionIndex) => {
-            const options = question.querySelectorAll('label');
-            options.forEach(option => {
-                const input = option.querySelector('input[type="radio"]');
-                if (input) {
-                    input.addEventListener('change', () => {
-                        options.forEach(opt => opt.classList.remove('selected'));
-                        option.classList.add('selected');
-                        courseProgress.quizScores[quizIndex].answers[questionIndex] = option.textContent.trim();
-                    });
-                }
-            });
-        });
-
-        // Handle quiz submission
-        submitButton.addEventListener('click', () => {
-            const allAnswered = Array.from(questions).every((question, index) => 
-                courseProgress.quizScores[quizIndex].answers[index]
-            );
-
-            if (!allAnswered) {
-                alert('Please answer all questions before submitting.');
+    // Initialize each quiz form
+    quizForms.forEach((form, index) => {
+        try {
+            const options = form.querySelectorAll('.quiz-option');
+            const feedback = form.querySelector('.quiz-feedback');
+            const submitBtn = form.querySelector('.submit-quiz');
+            
+            if (!options || !feedback || !submitBtn) {
+                console.warn(`Quiz form ${index} is missing required elements. Skipping.`);
                 return;
             }
-
-            let score = 0;
-            questions.forEach((question, index) => {
-                const selectedAnswer = courseProgress.quizScores[quizIndex].answers[index];
-                const correctAnswer = question.dataset.correct;
-                
-                if (selectedAnswer === correctAnswer) {
-                    score++;
-                }
-            });
-
-            const totalQuestions = questions.length;
-            const scorePercentage = (score / totalQuestions) * 100;
             
-            scoreDisplay.textContent = `Score: ${score}/${totalQuestions} (${scorePercentage}%)`;
-            scoreDisplay.className = `quiz-score ${scorePercentage >= 70 ? 'passed' : 'failed'}`;
-
-            if (scorePercentage >= 70) {
-                submitButton.style.display = 'none';
-                retryButton.style.display = 'none';
-                courseProgress.quizScores[quizIndex].completed = true;
-                alert(`Congratulations! You passed with ${scorePercentage}%`);
-            } else {
-                submitButton.style.display = 'none';
-                retryButton.style.display = 'block';
-                alert(`You need 70% to pass. Try again!`);
-            }
-            
-            saveProgress();
-            updateProgressBar();
-        });
-
-        // Handle retry
-        retryButton.addEventListener('click', () => {
-            questions.forEach(question => {
-                const options = question.querySelectorAll('label');
-                options.forEach(option => {
-                    option.classList.remove('selected');
-                    const input = option.querySelector('input[type="radio"]');
-                    if (input) input.checked = false;
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
                 });
             });
             
-            courseProgress.quizScores[quizIndex].answers = {};
-            submitButton.style.display = 'block';
-            retryButton.style.display = 'none';
-            scoreDisplay.textContent = '';
-        });
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const selected = form.querySelector('.quiz-option.selected');
+                
+                if (!selected) {
+                    feedback.textContent = 'Please select an answer';
+                    feedback.className = 'quiz-feedback error';
+                    return;
+                }
+                
+                const isCorrect = selected.dataset.correct === 'true';
+                feedback.textContent = isCorrect ? 'Correct!' : 'Incorrect. Try again.';
+                feedback.className = `quiz-feedback ${isCorrect ? 'success' : 'error'}`;
+                
+                if (isCorrect) {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    submitBtn.disabled = true;
+                }
+            });
+        } catch (error) {
+            console.error(`Error initializing quiz form ${index}:`, error);
+        }
     });
-    
-    console.log('Quiz initialization complete');
-    console.log('=== End Quiz Initialization Debug ===');
 }
 
 // Lesson Completion Tracking
