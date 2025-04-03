@@ -6,7 +6,9 @@
     <title>AI Hustle Hub - AI-Powered Consulting Services</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="supabase.js"></script>
+    <script src="src/supabase.js"></script>
+    <script src="src/auth.js"></script>
+    <script src="src/script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -346,95 +348,119 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Initialize auth and Supabase
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize auth
+            window.authUtils.init();
+            
+            // Check session validity
+            const isValidSession = await window.authUtils.checkSession();
+            if (!isValidSession) return;
+
             // Initialize Supabase handlers
             window.supabaseUtils.setupAuthHandlers();
 
-            // Check progress of each module
-            const module1Progress = JSON.parse(localStorage.getItem('tutorial5_module1Progress')) || [];
-            const module2Progress = JSON.parse(localStorage.getItem('tutorial5_module2Progress')) || [];
-            const module3Progress = JSON.parse(localStorage.getItem('tutorial5_module3Progress')) || [];
-            const module4Progress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
-            
-            // Count completed modules (a module is complete when all 4 lessons are done)
-            const completedModules = [
-                module1Progress.length === 4,
-                module2Progress.length === 4,
-                module3Progress.length === 4,
-                module4Progress.length === 4
-            ].filter(Boolean);
-            
-            // Update progress bar
-            const progressFill = document.querySelector('.progress-fill');
-            const completedCount = document.querySelector('.completed-count');
-            const totalModules = 4;
-            const percentage = (completedModules.length / totalModules) * 100;
-            
-            progressFill.style.width = `${percentage}%`;
-            completedCount.textContent = completedModules.length;
+            // Start periodic sync
+            window.supabaseUtils.startPeriodicSync();
 
-            // Update module cards based on completion
-            document.querySelectorAll('.module-card').forEach((card, index) => {
-                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial5_module${index + 1}Progress`)) || [];
-                const isCompleted = moduleProgress.length === 4;
-                const prevModuleProgress = index === 0 ? [1, 2, 3, 4] : JSON.parse(localStorage.getItem(`tutorial5_module${index}Progress`)) || [];
-                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
-                
-                const moduleLink = card.querySelector('.module-link');
-                if (isCompleted) {
-                    card.classList.remove('locked', 'active');
-                    card.classList.add('completed');
-                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
-                    moduleLink.textContent = 'Review Module';
-                    moduleLink.href = `tutorial5-module${index + 1}.html`;
-                } else if (isPrevCompleted) {
-                    card.classList.remove('locked', 'completed');
-                    card.classList.add('active');
-                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
-                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
-                    moduleLink.href = `tutorial5-module${index + 1}.html`;
-                } else {
-                    card.classList.remove('active', 'completed');
-                    card.classList.add('locked');
-                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
-                    moduleLink.textContent = 'Complete Previous Modules';
-                    moduleLink.href = '#';
-                    moduleLink.onclick = function(e) {
-                        e.preventDefault();
-                        alert('Please complete the previous module first.');
-                    };
-                }
-            });
+            // Check progress
+            checkProgress();
+        });
 
-            // Store tutorial progress in localStorage for tracking completion
-            const tutorialProgress = {
-                module1: module1Progress.length === 4,
-                module2: module2Progress.length === 4,
-                module3: module3Progress.length === 4,
-                module4: module4Progress.length === 4,
-                completed: false
-            };
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            window.supabaseUtils.stopPeriodicSync();
+        });
+
+        // Check progress of each module
+        const module1Progress = JSON.parse(localStorage.getItem('tutorial5_module1Progress')) || [];
+        const module2Progress = JSON.parse(localStorage.getItem('tutorial5_module2Progress')) || [];
+        const module3Progress = JSON.parse(localStorage.getItem('tutorial5_module3Progress')) || [];
+        const module4Progress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
+        const module5Progress = JSON.parse(localStorage.getItem('tutorial5_module5Progress')) || [];
+        
+        // Count completed modules (a module is complete when all 4 lessons are done)
+        const completedModules = [
+            module1Progress.length === 4,
+            module2Progress.length === 4,
+            module3Progress.length === 4,
+            module4Progress.length === 4,
+            module5Progress.length === 4
+        ].filter(Boolean);
+        
+        // Update progress bar
+        const progressFill = document.querySelector('.progress-fill');
+        const completedCount = document.querySelector('.completed-count');
+        const totalModules = 5;
+        const percentage = (completedModules.length / totalModules) * 100;
+        
+        progressFill.style.width = `${percentage}%`;
+        completedCount.textContent = completedModules.length;
+
+        // Update module cards based on completion
+        document.querySelectorAll('.module-card').forEach((card, index) => {
+            const moduleProgress = JSON.parse(localStorage.getItem(`tutorial5_module${index + 1}Progress`)) || [];
+            const isCompleted = moduleProgress.length === 4;
+            const prevModuleProgress = index === 0 ? [1, 2, 3, 4] : JSON.parse(localStorage.getItem(`tutorial5_module${index}Progress`)) || [];
+            const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
             
-            // Mark the tutorial as completed if all modules are done
-            if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && tutorialProgress.module4) {
-                tutorialProgress.completed = true;
+            const moduleLink = card.querySelector('.module-link');
+            if (isCompleted) {
+                card.classList.remove('locked', 'active');
+                card.classList.add('completed');
+                card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                moduleLink.textContent = 'Review Module';
+                moduleLink.href = `tutorial5-module${index + 1}.html`;
+            } else if (isPrevCompleted) {
+                card.classList.remove('locked', 'completed');
+                card.classList.add('active');
+                card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                moduleLink.href = `tutorial5-module${index + 1}.html`;
+            } else {
+                card.classList.remove('active', 'completed');
+                card.classList.add('locked');
+                card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                moduleLink.textContent = 'Complete Previous Modules';
+                moduleLink.href = '#';
+                moduleLink.onclick = function(e) {
+                    e.preventDefault();
+                    alert('Please complete the previous module first.');
+                };
+            }
+        });
+
+        // Store tutorial progress in localStorage for tracking completion
+        const tutorialProgress = {
+            module1: module1Progress.length === 4,
+            module2: module2Progress.length === 4,
+            module3: module3Progress.length === 4,
+            module4: module4Progress.length === 4,
+            module5: module5Progress.length === 4,
+            completed: false
+        };
+        
+        // Mark the tutorial as completed if all modules are done
+        if (tutorialProgress.module1 && tutorialProgress.module2 && 
+            tutorialProgress.module3 && tutorialProgress.module4 && 
+            tutorialProgress.module5) {
+            tutorialProgress.completed = true;
+            
+            // Show completion banner
+            const banner = document.getElementById('completionBanner');
+            if (banner) {
+                banner.classList.add('visible');
                 
-                // Show completion banner
-                const banner = document.getElementById('completionBanner');
-                if (banner) {
-                    banner.classList.add('visible');
-                    
-                    // Start confetti if available
-                    if (typeof completionCelebration !== 'undefined' && completionCelebration.startConfetti) {
-                        setTimeout(() => {
-                            completionCelebration.startConfetti();
-                        }, 500);
-                    }
+                // Start confetti if available
+                if (typeof completionCelebration !== 'undefined' && completionCelebration.startConfetti) {
+                    setTimeout(() => {
+                        completionCelebration.startConfetti();
+                    }, 500);
                 }
             }
-            
-            localStorage.setItem('tutorial5Progress', JSON.stringify(tutorialProgress));
-        });
+        }
+        
+        localStorage.setItem('tutorial5Progress', JSON.stringify(tutorialProgress));
     </script>
     <script src="certificate.js"></script>
 
