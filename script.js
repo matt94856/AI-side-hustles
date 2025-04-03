@@ -718,41 +718,48 @@ function initializePayPal() {
 
 // Quiz initialization
 function initializeQuiz() {
-    console.log('Starting quiz initialization...');
-    
-    // Find all quiz containers
-    const quizForms = document.querySelectorAll('.module-quiz');
-    console.log(`Found ${quizForms.length} quiz forms on the page`);
-    
-    if (quizForms.length === 0) {
-        // This is normal on pages without quizzes
-        console.log('No quiz forms found on this page');
-        return;
-    }
-
-    quizForms.forEach((quizForm, index) => {
-        console.log(`Initializing quiz ${index + 1}`);
+    try {
+        console.log('Starting quiz initialization...');
         
-        const questions = quizForm.querySelectorAll('.quiz-question');
-        if (!questions.length) {
-            console.log(`No questions found in quiz ${index + 1}`);
-            return;
+        // Find all quiz containers
+        const quizForms = document.querySelectorAll('.module-quiz');
+        console.log(`Found ${quizForms.length} quiz forms on the page`);
+        
+        if (quizForms.length === 0) {
+            console.log('No quiz forms found on this page');
+            return; // This is normal on pages without quizzes
         }
 
-        // Add submit handler
-        quizForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            handleQuizSubmission(quizForm);
-        });
+        quizForms.forEach((quizForm, index) => {
+            try {
+                console.log(`Initializing quiz ${index + 1}`);
+                
+                const questions = quizForm.querySelectorAll('.quiz-question');
+                if (!questions.length) {
+                    console.log(`No questions found in quiz ${index + 1}`);
+                    return;
+                }
 
-        // Initialize question states
-        questions.forEach((question, qIndex) => {
-            const options = question.querySelectorAll('input[type="radio"]');
-            if (options.length) {
-                console.log(`Quiz ${index + 1}, Question ${qIndex + 1}: ${options.length} options found`);
+                // Add submit handler
+                quizForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleQuizSubmission(quizForm);
+                });
+
+                // Initialize question states
+                questions.forEach((question, qIndex) => {
+                    const options = question.querySelectorAll('input[type="radio"]');
+                    if (options.length) {
+                        console.log(`Quiz ${index + 1}, Question ${qIndex + 1}: ${options.length} options found`);
+                    }
+                });
+            } catch (error) {
+                console.error(`Error initializing quiz ${index + 1}:`, error);
             }
         });
-    });
+    } catch (error) {
+        console.error('Error in quiz initialization:', error);
+    }
 }
 
 function handleQuizSubmission(quizForm) {
@@ -1199,22 +1206,23 @@ async function checkPaymentStatus() {
 }
 
 // Initialize dependencies
-function initializeDependencies() {
+function waitForDependencies() {
     return new Promise((resolve, reject) => {
         let attempts = 0;
-        const maxAttempts = 10;
-        const interval = 100; // 100ms between attempts
+        const maxAttempts = 20; // Increased from 10 to 20
+        const interval = 200; // Increased from 100ms to 200ms
 
         function checkDependencies() {
             if (attempts >= maxAttempts) {
+                console.error('Dependencies failed to load after maximum attempts');
                 reject(new Error('Dependencies failed to load after maximum attempts'));
                 return;
             }
 
             const dependencies = {
-                netlifyIdentity: window.netlifyIdentity,
-                supabaseUtils: window.supabaseUtils,
-                authUtils: window.authUtils
+                netlifyIdentity: typeof window.netlifyIdentity !== 'undefined',
+                supabaseUtils: typeof window.supabaseUtils !== 'undefined',
+                authUtils: typeof window.authUtils !== 'undefined'
             };
 
             const missing = Object.entries(dependencies)
@@ -1222,8 +1230,10 @@ function initializeDependencies() {
                 .map(([key]) => key);
 
             if (missing.length === 0) {
+                console.log('All dependencies loaded successfully');
                 resolve(true);
             } else {
+                console.log(`Waiting for dependencies: ${missing.join(', ')}`);
                 attempts++;
                 setTimeout(checkDependencies, interval);
             }
@@ -1233,11 +1243,13 @@ function initializeDependencies() {
     });
 }
 
-// Initialize
+// Main initialization
 document.addEventListener('DOMContentLoaded', async function() {
     try {
+        console.log('Starting application initialization...');
+        
         // Wait for all dependencies to load
-        await initializeDependencies();
+        await waitForDependencies();
         
         // Initialize auth
         if (window.authUtils && typeof window.authUtils.init === 'function') {
@@ -1249,24 +1261,32 @@ document.addEventListener('DOMContentLoaded', async function() {
             window.authUtils.handleLoginRedirect();
         }
         
-        // Initialize quiz system if present
-        if (typeof initializeQuiz === 'function') {
-            initializeQuiz();
-        }
+        // Initialize quiz system
+        initializeQuiz();
         
         // Check payment status
         await checkPaymentStatus();
         
         // Add event listeners for Enroll buttons
         document.querySelectorAll('.enroll-button').forEach(button => {
-            button.addEventListener('click', async function() {
+            button.addEventListener('click', async function(e) {
+                e.preventDefault(); // Prevent default action
                 const tutorialId = this.dataset.tutorialId;
                 if (tutorialId) {
+                    const user = netlifyIdentity.currentUser();
+                    if (!user) {
+                        // Store return URL and redirect to login
+                        sessionStorage.setItem('returnTo', window.location.pathname);
+                        sessionStorage.setItem('tutorialId', tutorialId);
+                        window.location.href = '/login.html';
+                        return;
+                    }
                     await handleEnrollClick(tutorialId);
                 }
             });
         });
 
+        console.log('Application initialization completed successfully');
     } catch (error) {
         console.error('Error during initialization:', error);
     }
