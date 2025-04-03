@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Hustle Hub - Affiliate Marketing Course</title>
+    <title>AI Hustle Hub - AI-Powered Freelancing Course</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="supabase.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -265,7 +266,7 @@
 <body>
     <div class="completion-banner" id="completionBanner">
         <h2><i class="fas fa-trophy"></i> Congratulations!</h2>
-        <p>You've completed all modules in the Affiliate Marketing with AI course!</p>
+        <p>You've completed all modules in the AI-Powered Freelancing Course!</p>
         <a href="#" class="certificate-button" onclick="generateCertificate(2); return false;">
             <i class="fas fa-certificate"></i> Generate Certificate
         </a>
@@ -279,7 +280,7 @@
             </a>
         </div>
         <p class="header-description">
-            Master the art of affiliate marketing using cutting-edge AI tools and strategies. Learn how to automate, optimize, and scale your affiliate business for maximum success.
+            Master the art of AI-powered freelancing using cutting-edge AI tools and strategies. Learn how to automate, optimize, and scale your freelance business for maximum success.
         </p>
     </header>
 
@@ -296,7 +297,7 @@
         <i class="fas fa-book-open resources-icon"></i>
         <div class="resources-text">
             <h3>Exclusive Resources</h3>
-            <p>Access premium tools, templates, and strategies to accelerate your affiliate marketing success</p>
+            <p>Access premium tools, templates, and strategies to accelerate your freelance business success</p>
         </div>
         <a href="tutorial2-resources.html" class="resources-button">View Resources</a>
     </div>
@@ -306,8 +307,8 @@
         <div class="module-card completed">
             <i class="fas fa-book module-icon"></i>
             <i class="fas fa-check-circle module-status completed"></i>
-            <h2 class="module-title">Module 1: Foundations of Affiliate Marketing</h2>
-            <p class="module-description">Learn the fundamentals of affiliate marketing, including key terms, business models, and how to identify profitable niches. Perfect for beginners starting their journey.</p>
+            <h2 class="module-title">Module 1: Foundations of AI-Powered Freelancing</h2>
+            <p class="module-description">Learn the fundamentals of AI-powered freelancing, including key terms, business models, and how to identify profitable niches. Perfect for beginners starting their journey.</p>
             <a href="tutorial2-module1.html" class="module-link">Review Module</a>
         </div>
 
@@ -331,7 +332,7 @@
             <i class="fas fa-chart-line module-icon"></i>
             <i class="fas fa-lock module-status locked"></i>
             <h2 class="module-title">Module 4: Scaling Up</h2>
-            <p class="module-description">Discover advanced strategies to scale your affiliate business, including automation, outsourcing, and expanding your income streams.</p>
+            <p class="module-description">Discover advanced strategies to scale your freelance business, including automation, outsourcing, and expanding your income streams.</p>
             <a href="tutorial2-module4.html" class="module-link">Start Module</a>
         </div>
 
@@ -339,7 +340,7 @@
             <i class="fas fa-cogs module-icon"></i>
             <i class="fas fa-lock module-status locked"></i>
             <h2 class="module-title">Module 5: Automation</h2>
-            <p class="module-description">Learn to automate your affiliate marketing workflows using AI tools, saving time and increasing efficiency.</p>
+            <p class="module-description">Learn to automate your freelance marketing workflows using AI tools, saving time and increasing efficiency.</p>
             <a href="tutorial2-module5.html" class="module-link">Start Module</a>
         </div>
 
@@ -355,7 +356,7 @@
             <i class="fas fa-trophy module-icon"></i>
             <i class="fas fa-lock module-status locked"></i>
             <h2 class="module-title">Module 7: Advanced Strategies</h2>
-            <p class="module-description">Take your affiliate marketing to the next level with advanced AI applications and expert techniques.</p>
+            <p class="module-description">Take your AI-powered freelancing to the next level with advanced AI applications and expert techniques.</p>
             <a href="tutorial2-module7.html" class="module-link">Start Module</a>
         </div>
     </div>
@@ -363,30 +364,27 @@
     <script src="certificate.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Supabase handlers
+            window.supabaseUtils.setupAuthHandlers();
+
             // Check progress of each module
             const module1Progress = JSON.parse(localStorage.getItem('tutorial2_module1Progress')) || [];
             const module2Progress = JSON.parse(localStorage.getItem('tutorial2_module2Progress')) || [];
             const module3Progress = JSON.parse(localStorage.getItem('tutorial2_module3Progress')) || [];
             const module4Progress = JSON.parse(localStorage.getItem('tutorial2_module4Progress')) || [];
-            const module5Progress = JSON.parse(localStorage.getItem('tutorial2_module5Progress')) || [];
-            const module6Progress = JSON.parse(localStorage.getItem('tutorial2_module6Progress')) || [];
-            const module7Progress = JSON.parse(localStorage.getItem('tutorial2_module7Progress')) || [];
             
             // Count completed modules (a module is complete when all 4 lessons are done)
             const completedModules = [
                 module1Progress.length === 4,
                 module2Progress.length === 4,
                 module3Progress.length === 4,
-                module4Progress.length === 4,
-                module5Progress.length === 4,
-                module6Progress.length === 4,
-                module7Progress.length === 4
+                module4Progress.length === 4
             ].filter(Boolean);
             
             // Update progress bar
             const progressFill = document.querySelector('.progress-fill');
             const completedCount = document.querySelector('.completed-count');
-            const totalModules = 7;
+            const totalModules = 4;
             const percentage = (completedModules.length / totalModules) * 100;
             
             progressFill.style.width = `${percentage}%`;
@@ -396,23 +394,24 @@
             document.querySelectorAll('.module-card').forEach((card, index) => {
                 const moduleProgress = JSON.parse(localStorage.getItem(`tutorial2_module${index + 1}Progress`)) || [];
                 const isCompleted = moduleProgress.length === 4;
-                const prevModuleProgress = index === 0 ? [1] : JSON.parse(localStorage.getItem(`tutorial2_module${index}Progress`)) || [];
+                const prevModuleProgress = index === 0 ? [1, 2, 3, 4] : JSON.parse(localStorage.getItem(`tutorial2_module${index}Progress`)) || [];
                 const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
                 const moduleLink = card.querySelector('.module-link');
                 if (isCompleted) {
-                    card.classList.remove('locked');
+                    card.classList.remove('locked', 'active');
                     card.classList.add('completed');
                     card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
                     moduleLink.textContent = 'Review Module';
                     moduleLink.href = `tutorial2-module${index + 1}.html`;
                 } else if (isPrevCompleted) {
-                    card.classList.remove('locked');
+                    card.classList.remove('locked', 'completed');
                     card.classList.add('active');
                     card.querySelector('.module-status').className = 'module-status fas fa-spinner';
                     moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
                     moduleLink.href = `tutorial2-module${index + 1}.html`;
                 } else {
+                    card.classList.remove('active', 'completed');
                     card.classList.add('locked');
                     card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
                     moduleLink.textContent = 'Complete Previous Modules';
@@ -430,16 +429,11 @@
                 module2: module2Progress.length === 4,
                 module3: module3Progress.length === 4,
                 module4: module4Progress.length === 4,
-                module5: module5Progress.length === 4,
-                module6: module6Progress.length === 4,
-                module7: module7Progress.length === 4,
                 completed: false
             };
             
             // Mark the tutorial as completed if all modules are done
-            if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && 
-                tutorialProgress.module4 && tutorialProgress.module5 && tutorialProgress.module6 && 
-                tutorialProgress.module7) {
+            if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && tutorialProgress.module4) {
                 tutorialProgress.completed = true;
                 
                 // Show completion banner
@@ -460,127 +454,65 @@
         });
     </script>
 
-<script>
-  // Wait for both DOMContentLoaded and netlifyIdentity to be available
-  function initializeWithNetlifyIdentity() {
-    if (typeof netlifyIdentity === 'undefined') {
-      setTimeout(initializeWithNetlifyIdentity, 100);
-      return;
-    }
-
-    const user = netlifyIdentity.currentUser();
-    if (user) {
-      user.jwt().then(token => {
-        fetch("/.netlify/functions/getProgress?tutorialId=2", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const contentType = res.headers.get("content-type");
-          if (contentType && contentType.indexOf("application/json") !== -1) {
-            return res.json();
-          }
-          throw new TypeError("Received non-JSON response from server");
-        })
-        .then(data => {
-          if (data && Array.isArray(data.completedModules)) {
-            data.completedModules.forEach(moduleId => {
-              const moduleEl = document.getElementById(`module-${moduleId}`);
-              if (moduleEl) {
-                moduleEl.classList.add("unlocked");
-              }
-            });
-          }
-        })
-        .catch(error => {
-          console.warn('Error fetching progress:', error);
-          // Continue with local storage data if server sync fails
-          const localProgress = JSON.parse(localStorage.getItem('tutorial2Progress') || '{}');
-          if (localProgress) {
-            Object.keys(localProgress).forEach(key => {
-              if (localProgress[key] === true && key.startsWith('module')) {
-                const moduleNum = key.replace('module', '');
-                const moduleEl = document.getElementById(`module-${moduleNum}`);
-                if (moduleEl) {
-                  moduleEl.classList.add("unlocked");
-                }
-              }
-            });
-          }
-        });
-      });
-    }
-  }
-
-  // Start initialization when DOM is loaded
-  document.addEventListener("DOMContentLoaded", initializeWithNetlifyIdentity);
-</script>
-
     <script>
-        // Initialize Supabase client with auth configuration
-        const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
-        
-        // Initialize Supabase with auth configuration
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey, {
-            auth: {
-                autoRefreshToken: true,
-                persistSession: true,
-                detectSessionInUrl: true,
-                storage: window.localStorage
+        // Wait for both DOMContentLoaded and netlifyIdentity to be available
+        function initializeWithNetlifyIdentity() {
+            if (typeof netlifyIdentity === 'undefined') {
+                setTimeout(initializeWithNetlifyIdentity, 100);
+                return;
             }
-        });
 
-        // Update Supabase auth headers when Netlify Identity token refreshes
-        netlifyIdentity.on('login', user => {
-            if (supabase && user) {
-                console.log('Setting Supabase session with Netlify token');
+            const user = netlifyIdentity.currentUser();
+            if (user) {
                 user.jwt().then(token => {
-                    supabase.auth.setSession(token)
-                        .then(response => {
-                            console.log('Supabase session set successfully:', response);
-                        })
-                        .catch(error => {
-                            console.error('Error setting Supabase session:', error);
-                        });
-                });
-            }
-        });
-
-        // Handle token refresh
-        netlifyIdentity.on('refresh', user => {
-            if (supabase && user) {
-                console.log('Refreshing Supabase session');
-                user.jwt().then(token => {
-                    supabase.auth.setSession(token)
-                        .then(response => {
-                            console.log('Supabase session refreshed successfully:', response);
-                        })
-                        .catch(error => {
-                            console.error('Error refreshing Supabase session:', error);
-                        });
-                });
-            }
-        });
-
-        // Handle logout
-        netlifyIdentity.on('logout', () => {
-            if (supabase) {
-                console.log('Clearing Supabase session');
-                supabase.auth.signOut()
-                    .then(() => {
-                        console.log('Supabase session cleared successfully');
+                    fetch("/.netlify/functions/getProgress?tutorialId=2", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const contentType = res.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            return res.json();
+                        }
+                        throw new TypeError("Received non-JSON response from server");
+                    })
+                    .then(data => {
+                        if (data && Array.isArray(data.completedModules)) {
+                            data.completedModules.forEach(moduleId => {
+                                const moduleEl = document.getElementById(`module-${moduleId}`);
+                                if (moduleEl) {
+                                    moduleEl.classList.add("unlocked");
+                                }
+                            });
+                        }
                     })
                     .catch(error => {
-                        console.error('Error clearing Supabase session:', error);
+                        console.warn('Error fetching progress:', error);
+                        // Continue with local storage data if server sync fails
+                        const localProgress = JSON.parse(localStorage.getItem('tutorial2Progress') || '{}');
+                        if (localProgress) {
+                            Object.keys(localProgress).forEach(key => {
+                                if (localProgress[key] === true && key.startsWith('module')) {
+                                    const moduleNum = key.replace('module', '');
+                                    const moduleEl = document.getElementById(`module-${moduleNum}`);
+                                    if (moduleEl) {
+                                        moduleEl.classList.add("unlocked");
+                                    }
+                                }
+                            });
+                        }
                     });
+                });
             }
-        });
+        }
+
+        // Start initialization when DOM is loaded
+        document.addEventListener("DOMContentLoaded", initializeWithNetlifyIdentity);
     </script>
 
 </body>

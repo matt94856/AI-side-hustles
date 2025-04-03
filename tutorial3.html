@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Hustle Hub - Content Creation with AI</title>
+    <title>AI Hustle Hub - AI-Powered Freelancing Course</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="supabase.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -288,7 +289,7 @@
             <div class="progress-bar">
             <div class="progress-fill"></div>
         </div>
-        <p><span class="completed-count">0</span>/5 Modules Complete</p>
+        <p><span class="completed-count">0</span>/4 Modules Complete</p>
                 </div>
 
                 <div class="resources-banner">
@@ -334,82 +335,61 @@
             <p class="module-description">Discover strategies for monetizing your AI-enhanced content through various channels including sponsorships, affiliate marketing, and digital products.</p>
             <a href="tutorial3-module4.html" class="module-link">Start Module</a>
         </div>
-
-        <div class="module-card locked">
-            <i class="fas fa-cogs module-icon"></i>
-            <i class="fas fa-lock module-status locked"></i>
-            <h2 class="module-title">Module 5: Advanced AI Content Strategy</h2>
-            <p class="module-description">Master advanced techniques and strategies for long-term success with AI content creation across multi-channel campaigns.</p>
-            <a href="tutorial3-module5.html" class="module-link">Start Module</a>
-        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Supabase handlers
+            window.supabaseUtils.setupAuthHandlers();
+
             // Check progress of each module
             const module1Progress = JSON.parse(localStorage.getItem('tutorial3_module1Progress')) || [];
             const module2Progress = JSON.parse(localStorage.getItem('tutorial3_module2Progress')) || [];
             const module3Progress = JSON.parse(localStorage.getItem('tutorial3_module3Progress')) || [];
             const module4Progress = JSON.parse(localStorage.getItem('tutorial3_module4Progress')) || [];
-            const module5Progress = JSON.parse(localStorage.getItem('tutorial3_module5Progress')) || [];
             
             // Count completed modules (a module is complete when all 4 lessons are done)
             const completedModules = [
                 module1Progress.length === 4,
                 module2Progress.length === 4,
                 module3Progress.length === 4,
-                module4Progress.length === 4,
-                module5Progress.length === 4
+                module4Progress.length === 4
             ].filter(Boolean);
             
             // Update progress bar
             const progressFill = document.querySelector('.progress-fill');
             const completedCount = document.querySelector('.completed-count');
-            const totalModules = 5;
+            const totalModules = 4;
             const percentage = (completedModules.length / totalModules) * 100;
             
             progressFill.style.width = `${percentage}%`;
             completedCount.textContent = completedModules.length;
 
-            // Function to check if a module is accessible
-            function isModuleAccessible(moduleNum) {
-                if (moduleNum === 1) return true;
-                const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial3_module${moduleNum-1}Progress`)) || [];
-                return prevModuleProgress.length >= 4;
-            }
-
-            // Update module cards based on completion and accessibility
+            // Update module cards based on completion
             document.querySelectorAll('.module-card').forEach((card, index) => {
-                const moduleNum = index + 1;
-                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial3_module${moduleNum}Progress`)) || [];
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial3_module${index + 1}Progress`)) || [];
                 const isCompleted = moduleProgress.length === 4;
-                const isAccessible = isModuleAccessible(moduleNum);
+                const prevModuleProgress = index === 0 ? [1, 2, 3, 4] : JSON.parse(localStorage.getItem(`tutorial3_module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
                 
                 const moduleLink = card.querySelector('.module-link');
-                const statusIcon = card.querySelector('.module-status');
-
-                // Remove all state classes first
-                card.classList.remove('locked', 'completed', 'active');
-                
                 if (isCompleted) {
-                    // Completed module
+                    card.classList.remove('locked', 'active');
                     card.classList.add('completed');
-                    statusIcon.className = 'module-status completed fas fa-check-circle';
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
                     moduleLink.textContent = 'Review Module';
-                    moduleLink.href = `tutorial3-module${moduleNum}.html`;
-                    moduleLink.onclick = null;
-                } else if (isAccessible) {
-                    // Accessible but not completed module
+                    moduleLink.href = `tutorial3-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked', 'completed');
                     card.classList.add('active');
-                    statusIcon.className = 'module-status fas fa-spinner';
-                    moduleLink.textContent = moduleNum === 1 ? 'Start Module' : 'Continue Learning';
-                    moduleLink.href = `tutorial3-module${moduleNum}.html`;
-                    moduleLink.onclick = null;
-                    } else {
-                    // Locked module
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial3-module${index + 1}.html`;
+                } else {
+                    card.classList.remove('active', 'completed');
                     card.classList.add('locked');
-                    statusIcon.className = 'module-status locked fas fa-lock';
-                    moduleLink.textContent = 'Complete Previous Module';
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
                     moduleLink.href = '#';
                     moduleLink.onclick = function(e) {
                         e.preventDefault();
@@ -424,13 +404,11 @@
                 module2: module2Progress.length === 4,
                 module3: module3Progress.length === 4,
                 module4: module4Progress.length === 4,
-                module5: module5Progress.length === 4,
                 completed: false
             };
             
             // Mark the tutorial as completed if all modules are done
-            if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && 
-                tutorialProgress.module4 && tutorialProgress.module5) {
+            if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && tutorialProgress.module4) {
                 tutorialProgress.completed = true;
                 
                 // Show completion banner
@@ -452,65 +430,65 @@
     </script>
     <script src="certificate.js"></script>
 
-<script>
-  // Wait for both DOMContentLoaded and netlifyIdentity to be available
-  function initializeWithNetlifyIdentity() {
-    if (typeof netlifyIdentity === 'undefined') {
-      setTimeout(initializeWithNetlifyIdentity, 100);
-                            return;
+    <script>
+        // Wait for both DOMContentLoaded and netlifyIdentity to be available
+        function initializeWithNetlifyIdentity() {
+            if (typeof netlifyIdentity === 'undefined') {
+                setTimeout(initializeWithNetlifyIdentity, 100);
+                return;
+            }
+
+            const user = netlifyIdentity.currentUser();
+            if (user) {
+                user.jwt().then(token => {
+                    fetch("/.netlify/functions/getProgress?tutorialId=3", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json'
                         }
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const contentType = res.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            return res.json();
+                        }
+                        throw new TypeError("Received non-JSON response from server");
+                    })
+                    .then(data => {
+                        if (data && Array.isArray(data.completedModules)) {
+                            data.completedModules.forEach(moduleId => {
+                                const moduleEl = document.getElementById(`module-${moduleId}`);
+                                if (moduleEl) {
+                                    moduleEl.classList.add("unlocked");
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.warn('Error fetching progress:', error);
+                        // Continue with local storage data if server sync fails
+                        const localProgress = JSON.parse(localStorage.getItem('tutorial3Progress') || '{}');
+                        if (localProgress) {
+                            Object.keys(localProgress).forEach(key => {
+                                if (localProgress[key] === true && key.startsWith('module')) {
+                                    const moduleNum = key.replace('module', '');
+                                    const moduleEl = document.getElementById(`module-${moduleNum}`);
+                                    if (moduleEl) {
+                                        moduleEl.classList.add("unlocked");
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+        }
 
-    const user = netlifyIdentity.currentUser();
-    if (user) {
-      user.jwt().then(token => {
-        fetch("/.netlify/functions/getProgress?tutorialId=3", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(res => {
-          if (!res.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const contentType = res.headers.get("content-type");
-          if (contentType && contentType.indexOf("application/json") !== -1) {
-            return res.json();
-          }
-          throw new TypeError("Received non-JSON response from server");
-        })
-        .then(data => {
-          if (data && Array.isArray(data.completedModules)) {
-            data.completedModules.forEach(moduleId => {
-              const moduleEl = document.getElementById(`module-${moduleId}`);
-              if (moduleEl) {
-                moduleEl.classList.add("unlocked");
-              }
-            });
-          }
-        })
-        .catch(error => {
-          console.warn('Error fetching progress:', error);
-          // Continue with local storage data if server sync fails
-          const localProgress = JSON.parse(localStorage.getItem('tutorial3Progress') || '{}');
-          if (localProgress) {
-            Object.keys(localProgress).forEach(key => {
-              if (localProgress[key] === true && key.startsWith('module')) {
-                const moduleNum = key.replace('module', '');
-                const moduleEl = document.getElementById(`module-${moduleNum}`);
-                if (moduleEl) {
-                  moduleEl.classList.add("unlocked");
-                }
-              }
-            });
-          }
-        });
-      });
-    }
-  }
-
-  // Start initialization when DOM is loaded
-  document.addEventListener("DOMContentLoaded", initializeWithNetlifyIdentity);
+        // Start initialization when DOM is loaded
+        document.addEventListener("DOMContentLoaded", initializeWithNetlifyIdentity);
     </script>
 
     <script>
