@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="supabase.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 20px; }
+        button { padding: 10px 20px; margin: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        #results { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Connection Test Page</h1>
+    
+    <div>
+        <button onclick="testConnection()">Test Connection</button>
+        <button onclick="testPurchase()">Test Purchase</button>
+        <button onclick="testSync()">Test Sync</button>
+        <button onclick="netlifyIdentity.open()">Login/Signup</button>
+    </div>
+
+    <div id="results">
+        <h3>Test Results:</h3>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        function log(message, isError = false) {
+            const output = document.getElementById('output');
+            const line = document.createElement('div');
+            line.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            line.className = isError ? 'error' : 'success';
+            output.appendChild(line);
+        }
+
+        async function testConnection() {
+            log('Starting connection test...');
+            const result = await window.supabaseUtils.testConnection();
+            log(result ? 'All connection tests passed!' : 'Some tests failed', !result);
+        }
+
+        async function testPurchase() {
+            try {
+                const user = netlifyIdentity.currentUser();
+                if (!user) {
+                    log('Please login first', true);
+                    return;
+                }
+
+                log('Testing purchase...');
+                const purchaseData = {
+                    tutorial_id: 'test_tutorial',
+                    transaction_details: { test: true }
+                };
+
+                const result = await window.supabaseUtils.savePurchaseToDatabase(purchaseData);
+                log(result ? 'Purchase test successful!' : 'Purchase test failed', !result);
+            } catch (error) {
+                log(`Purchase test error: ${error.message}`, true);
+            }
+        }
+
+        async function testSync() {
+            try {
+                const user = netlifyIdentity.currentUser();
+                if (!user) {
+                    log('Please login first', true);
+                    return;
+                }
+
+                log('Testing sync...');
+                await window.supabaseUtils.syncUserPurchases();
+                const purchases = JSON.parse(localStorage.getItem('userPurchases') || '[]');
+                log(`Sync successful! Found ${purchases.length} purchases`);
+            } catch (error) {
+                log(`Sync test error: ${error.message}`, true);
+            }
+        }
+
+        // Setup auth listeners
+        netlifyIdentity.on('login', user => log('User logged in'));
+        netlifyIdentity.on('logout', () => log('User logged out'));
+        netlifyIdentity.on('error', err => log(`Auth error: ${err.message}`, true));
+    </script>
+</body>
+</html> 
