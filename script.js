@@ -147,8 +147,12 @@ let lastFocusedElement = null;
 
 function initializeModal() {
     modal = document.getElementById('premiumModal');
-    closeBtn = document.getElementsByClassName('close')[0];
-    
+    if (!modal) {
+        console.warn('Premium modal element not found');
+        return false;
+    }
+
+    closeBtn = modal.querySelector('.close');
     if (closeBtn) {
         closeBtn.onclick = closeModal;
     }
@@ -190,11 +194,16 @@ function initializeModal() {
             closeModal();
         }
     }
+
+    return true;
 }
 
 function showModal(tutorialId) {
     if (!modal) {
-        initializeModal();
+        if (!initializeModal()) {
+            console.error('Failed to initialize modal');
+            return;
+        }
     }
     
     currentTutorialId = tutorialId;
@@ -1308,8 +1317,8 @@ window.checkPaymentStatus = async function(tutorialId) {
         }
 
         // Initialize modal if not already done
-        if (!modal) {
-            initializeModal();
+        if (!modal && !initializeModal()) {
+            throw new Error('Failed to initialize modal');
         }
 
         // Show loading state
@@ -1326,10 +1335,9 @@ window.checkPaymentStatus = async function(tutorialId) {
 
         // Show payment modal
         showModal(tutorialId);
-        modal.style.display = 'block';
         
         // Initialize PayPal buttons if not already done
-        initializePayPalButtons(tutorialId);
+        await initializePayPalButtons(tutorialId);
 
     } catch (error) {
         console.error('Error checking payment status:', error);
@@ -1354,8 +1362,12 @@ async function initializePayPalButtons(tutorialId) {
         const singleTutorialContainer = document.getElementById('singleTutorialButton');
         const allTutorialsContainer = document.getElementById('allTutorialsButton');
         
-        if (singleTutorialContainer) singleTutorialContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
-        if (allTutorialsContainer) allTutorialsContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
+        if (singleTutorialContainer) {
+            singleTutorialContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
+        }
+        if (allTutorialsContainer) {
+            allTutorialsContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
+        }
 
         // Ensure PayPal SDK is loaded
         if (typeof paypal === 'undefined') {
@@ -1364,7 +1376,11 @@ async function initializePayPalButtons(tutorialId) {
 
         // Clear existing buttons
         if (paypalButtons.singleTutorial) {
-            paypalButtons.singleTutorial.close();
+            try {
+                paypalButtons.singleTutorial.close();
+            } catch (error) {
+                console.warn('Error closing existing PayPal buttons:', error);
+            }
         }
 
         // Create PayPal buttons with improved error handling
@@ -1399,13 +1415,12 @@ async function initializePayPalButtons(tutorialId) {
                 }
             },
             onApprove: async function(data, actions) {
-                try {
-                    // Show processing state
-                    const loadingDiv = document.createElement('div');
-                    loadingDiv.className = 'processing-payment';
-                    loadingDiv.textContent = 'Processing your payment...';
-                    modal.appendChild(loadingDiv);
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'processing-payment';
+                loadingDiv.textContent = 'Processing your payment...';
+                modal.appendChild(loadingDiv);
 
+                try {
                     // Capture the order
                     const order = await actions.order.capture();
                     
@@ -1420,11 +1435,9 @@ async function initializePayPalButtons(tutorialId) {
                     const saved = await window.supabaseUtils.savePurchaseToDatabase(purchaseData);
                     
                     if (saved) {
-                        // Show success message before redirect
                         loadingDiv.textContent = 'Payment successful! Redirecting...';
                         loadingDiv.className = 'payment-success';
                         
-                        // Redirect after a short delay
                         setTimeout(() => {
                             window.location.href = tutorialId === 'all' 
                                 ? '/tutorials/all-tutorials.html'
@@ -1435,10 +1448,8 @@ async function initializePayPalButtons(tutorialId) {
                     }
                 } catch (error) {
                     console.error('Error processing purchase:', error);
-                    const errorDiv = document.createElement('div');
-                    errorDiv.className = 'payment-error';
-                    errorDiv.textContent = 'There was an error processing your purchase. Please contact support.';
-                    modal.appendChild(errorDiv);
+                    loadingDiv.className = 'payment-error';
+                    loadingDiv.textContent = 'There was an error processing your purchase. Please contact support.';
                 }
             },
             onError: function(err) {
@@ -1446,7 +1457,9 @@ async function initializePayPalButtons(tutorialId) {
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'payment-error';
                 errorDiv.textContent = 'There was an error with PayPal. Please try again later.';
-                modal.appendChild(errorDiv);
+                if (modal) {
+                    modal.appendChild(errorDiv);
+                }
             }
         });
 
@@ -1460,11 +1473,108 @@ async function initializePayPalButtons(tutorialId) {
 
     } catch (error) {
         console.error('Error initializing PayPal buttons:', error);
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'payment-error';
-        errorMessage.textContent = 'Error loading payment options. Please try again later.';
+        const errorMessage = `<div class="payment-error">Error loading payment options. Please try again later.</div>`;
         
-        if (singleTutorialContainer) singleTutorialContainer.innerHTML = errorMessage.outerHTML;
-        if (allTutorialsContainer) allTutorialsContainer.innerHTML = errorMessage.outerHTML;
+        if (singleTutorialContainer) singleTutorialContainer.innerHTML = errorMessage;
+        if (allTutorialsContainer) allTutorialsContainer.innerHTML = errorMessage;
     }
-} 
+}
+
+// Initialize dependencies
+async function initializeDependencies() {
+    let attempts = 0;
+    const maxAttempts = 20;
+    const checkInterval = 200; // ms
+
+    return new Promise((resolve, reject) => {
+        const checkDependencies = () => {
+            if (attempts >= maxAttempts) {
+                reject(new Error('Dependencies failed to load after maximum attempts'));
+                return;
+            }
+
+            const dependencies = {
+                netlifyIdentity: window.netlifyIdentity,
+                supabaseUtils: window.supabaseUtils,
+                authUtils: window.authUtils,
+                paypal: window.paypal
+            };
+
+            // Log which dependencies are missing
+            const missing = Object.entries(dependencies)
+                .filter(([, value]) => !value)
+                .map(([key]) => key);
+
+            if (missing.length > 0) {
+                console.log(`Waiting for dependencies: ${missing.join(', ')}`);
+                attempts++;
+                setTimeout(checkDependencies, checkInterval);
+                return;
+            }
+
+            console.log('All dependencies loaded successfully');
+            resolve(dependencies);
+        };
+
+        checkDependencies();
+    });
+}
+
+// Initialize quiz functionality
+function initializeQuiz() {
+    const quizForms = document.querySelectorAll('.quiz-form');
+    console.log(`Found ${quizForms.length} quiz forms on the page`);
+    
+    if (quizForms.length === 0) {
+        console.log('No quiz forms found on this page');
+        return;
+    }
+
+    quizForms.forEach((form, index) => {
+        const questions = form.querySelectorAll('.question');
+        console.log(`Quiz ${index + 1} has ${questions.length} questions`);
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // Quiz submission logic here
+        });
+    });
+}
+
+// Main initialization
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        console.log('Starting initialization...');
+        
+        // Wait for dependencies
+        await initializeDependencies();
+        
+        // Initialize auth
+        if (window.authUtils) {
+            window.authUtils.init();
+        }
+        
+        // Initialize quiz
+        initializeQuiz();
+        
+        // Add event listeners for enroll buttons
+        const enrollButtons = document.querySelectorAll('.enroll-button');
+        enrollButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (!window.authUtils.isAuthenticated()) {
+                    const returnUrl = window.location.pathname;
+                    const tutorialId = button.dataset.tutorialId;
+                    sessionStorage.setItem('tutorialId', tutorialId);
+                    window.authUtils.redirectToLogin(returnUrl);
+                    return;
+                }
+                // Enrollment logic here
+            });
+        });
+
+        console.log('Initialization complete');
+    } catch (error) {
+        console.error('Error during initialization:', error);
+    }
+}); 

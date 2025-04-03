@@ -1,65 +1,52 @@
 // Supabase configuration
 const SUPABASE_URL = 'https://tdxpostwbmpnsikjftvy.supabase.co';
-const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0';
 
-if (!SUPABASE_ANON_KEY) {
-    console.error('Missing Supabase configuration. Please check environment variables.');
-}
+let supabaseClient = null;
 
 // Initialize Supabase client with retry mechanism
-function initSupabase(retries = 3) {
+async function initSupabase(retries = 3) {
+    if (supabaseClient) return supabaseClient;
+
     try {
-        if (!window.supabase) {
-            throw new Error('Supabase client not loaded');
+        if (typeof window.supabase === 'undefined') {
+            if (retries > 0) {
+                console.warn('Waiting for Supabase client to load...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                return initSupabase(retries - 1);
+            }
+            throw new Error('Supabase client failed to load');
         }
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: {
                 autoRefreshToken: true,
                 persistSession: true,
                 detectSessionInUrl: true,
                 storage: window.localStorage
-            },
-            db: {
-                schema: 'public'
-            },
-            global: {
-                headers: {
-                    'X-Client-Info': 'ai-hustle-hub'
-                }
             }
         });
 
         // Test connection
-        return supabase.from('user_purchases').select('count').limit(1)
-            .then(() => {
-                console.log('✅ Supabase connected');
-                return supabase;
-            })
-            .catch(err => {
-                console.error('❌ Supabase connection error:', err);
-                throw err;
-            });
+        await supabaseClient.from('user_purchases').select('count').limit(1);
+        console.log('✅ Supabase connected');
+        window.supabaseClient = supabaseClient;
+        return supabaseClient;
     } catch (error) {
+        console.error('Supabase initialization error:', error);
         if (retries > 0) {
-            console.warn(`Supabase initialization failed, retrying... (${retries} attempts left)`);
-            return new Promise(resolve => setTimeout(() => resolve(initSupabase(retries - 1)), 1000));
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return initSupabase(retries - 1);
         }
         throw error;
     }
 }
 
-// Initialize Supabase and export to window
-initSupabase().then(client => {
-    window.supabaseClient = client;
-}).catch(error => {
-    console.error('Failed to initialize Supabase:', error);
-});
-
 // Create supabaseUtils object
 window.supabaseUtils = {
     setupAuthHandlers: async function() {
         try {
+            await initSupabase();
             const user = netlifyIdentity.currentUser();
             if (user) {
                 await this.syncUserPurchases();
@@ -73,7 +60,9 @@ window.supabaseUtils = {
                     }
                 } catch (error) {
                     console.error('Error during login sync:', error);
-                    window.authUtils.handleAuthError(error);
+                    if (window.authUtils) {
+                        window.authUtils.handleAuthError(error);
+                    }
                 }
             });
 
@@ -89,13 +78,17 @@ window.supabaseUtils = {
                         await this.syncUserPurchases();
                     } catch (error) {
                         console.error('Error in periodic sync:', error);
-                        window.authUtils.handleAuthError(error);
+                        if (window.authUtils) {
+                            window.authUtils.handleAuthError(error);
+                        }
                     }
                 }
             }, 5 * 60 * 1000);
         } catch (error) {
             console.error('Error in setupAuthHandlers:', error);
-            window.authUtils.handleAuthError(error);
+            if (window.authUtils) {
+                window.authUtils.handleAuthError(error);
+            }
         }
     },
 
