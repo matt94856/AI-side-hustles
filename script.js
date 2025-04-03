@@ -1125,45 +1125,79 @@ function showPayPalButtons(tutorialId) {
 
 // Check payment status
 async function checkPaymentStatus() {
-    const user = window.authUtils.getCurrentUser();
-    if (!user) return;
-
     try {
+        if (!window.authUtils) {
+            console.error('Auth utilities not loaded');
+            return false;
+        }
+
+        const user = netlifyIdentity.currentUser();
+        if (!user) {
+            console.log('No user logged in');
+            return false;
+        }
+
+        if (!window.supabaseUtils) {
+            console.error('Supabase utilities not loaded');
+            return false;
+        }
+
         await window.supabaseUtils.syncUserPurchases();
+        return true;
     } catch (error) {
         console.error('Error checking payment status:', error);
+        return false;
     }
 }
 
 // Initialize
 document.addEventListener('DOMContentLoaded', async function() {
-    // Wait for Netlify Identity to be available
-    if (typeof window.netlifyIdentity === 'undefined') {
-        console.error('Netlify Identity script not loaded. Please ensure the script is included in your HTML.');
-        return;
-    }
+    try {
+        // Wait for dependencies (retry a few times)
+        let retries = 0;
+        while (retries < 5) {
+            if (window.netlifyIdentity && window.supabaseUtils && window.authUtils) {
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+            retries++;
+        }
 
-    // Initialize auth
-    if (window.authUtils && typeof window.authUtils.init === 'function') {
+        if (!window.netlifyIdentity) {
+            throw new Error('Netlify Identity script not loaded');
+        }
+
+        if (!window.authUtils || typeof window.authUtils.init !== 'function') {
+            throw new Error('Auth utilities not properly loaded');
+        }
+
+        if (!window.supabaseUtils || typeof window.supabaseUtils.setupAuthHandlers !== 'function') {
+            throw new Error('Supabase utilities not properly loaded');
+        }
+
+        // Initialize auth
         window.authUtils.init();
-    } else {
-        console.error('Auth utilities not properly loaded');
-        return;
-    }
-    
-    // Handle login redirect
-    if (window.authUtils && typeof window.authUtils.handleLoginRedirect === 'function') {
+        
+        // Setup Supabase handlers
+        await window.supabaseUtils.setupAuthHandlers();
+        
+        // Handle login redirect
         window.authUtils.handleLoginRedirect();
-    }
-    
-    // Check payment status
-    await checkPaymentStatus();
-    
-    // Add event listeners for Enroll buttons
-    document.querySelectorAll('.enroll-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const tutorialId = this.dataset.tutorialId;
-            handleEnrollClick(tutorialId);
+        
+        // Check payment status
+        await checkPaymentStatus();
+        
+        // Add event listeners for Enroll buttons
+        document.querySelectorAll('.enroll-button').forEach(button => {
+            button.addEventListener('click', async function() {
+                const tutorialId = this.dataset.tutorialId;
+                if (tutorialId) {
+                    await handleEnrollClick(tutorialId);
+                }
+            });
         });
-    });
+
+    } catch (error) {
+        console.error('Error during initialization:', error);
+    }
 }); 
