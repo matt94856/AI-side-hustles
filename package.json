@@ -4,14 +4,14 @@
   "description": "AI Hustle Hub - Tutorial Platform",
   "main": "index.js",
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.3",
-    "@netlify/functions": "^2.4.1"
-  },
-  "devDependencies": {
-    "@types/node": "^18.0.0"
+    "@supabase/supabase-js": "2.39.3",
+    "@netlify/functions": "2.4.1",
+    "@types/node": "18.0.0",
+    "node-fetch": "2.6.7"
   },
   "scripts": {
-    "build": "npm install",
+    "build": "npm ci && npm run postbuild",
+    "postbuild": "echo 'Build completed'",
     "dev": "netlify dev"
   },
   "engines": {
