@@ -1205,41 +1205,32 @@ async function checkPaymentStatus() {
     }
 }
 
-// Initialize dependencies
-function waitForDependencies() {
+// Wait for dependencies to load
+function waitForDependencies(maxAttempts = 20, interval = 200) {
     return new Promise((resolve, reject) => {
         let attempts = 0;
-        const maxAttempts = 20; // Increased from 10 to 20
-        const interval = 200; // Increased from 100ms to 200ms
-
-        function checkDependencies() {
-            if (attempts >= maxAttempts) {
-                console.error('Dependencies failed to load after maximum attempts');
-                reject(new Error('Dependencies failed to load after maximum attempts'));
-                return;
-            }
-
+        
+        const check = () => {
+            attempts++;
+            
             const dependencies = {
                 netlifyIdentity: typeof window.netlifyIdentity !== 'undefined',
                 supabaseUtils: typeof window.supabaseUtils !== 'undefined',
                 authUtils: typeof window.authUtils !== 'undefined'
             };
-
-            const missing = Object.entries(dependencies)
-                .filter(([, value]) => !value)
-                .map(([key]) => key);
-
-            if (missing.length === 0) {
-                console.log('All dependencies loaded successfully');
-                resolve(true);
+            
+            console.log('Checking dependencies:', dependencies);
+            
+            if (Object.values(dependencies).every(dep => dep)) {
+                resolve();
+            } else if (attempts >= maxAttempts) {
+                reject(new Error('Dependencies failed to load after maximum attempts'));
             } else {
-                console.log(`Waiting for dependencies: ${missing.join(', ')}`);
-                attempts++;
-                setTimeout(checkDependencies, interval);
+                setTimeout(check, interval);
             }
-        }
-
-        checkDependencies();
+        };
+        
+        check();
     });
 }
 
@@ -1290,4 +1281,126 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (error) {
         console.error('Error during initialization:', error);
     }
-}); 
+});
+
+// Payment Status Check Function
+async function checkPaymentStatus(tutorialId) {
+    try {
+        // Check if user is logged in
+        if (!window.netlifyIdentity.currentUser()) {
+            // Store the current page URL and tutorial ID
+            sessionStorage.setItem('returnTo', window.location.pathname);
+            sessionStorage.setItem('tutorialId', tutorialId);
+            window.location.href = '/login.html';
+            return;
+        }
+
+        // Initialize modal if not already done
+        if (!modal) {
+            initializeModal();
+        }
+
+        // Show loading state
+        document.body.style.cursor = 'wait';
+
+        // Check if user has already purchased
+        const hasPurchased = await window.supabaseUtils.checkTutorialAccess(tutorialId);
+        
+        if (hasPurchased) {
+            // Redirect to tutorial content
+            window.location.href = `/tutorials/tutorial-${tutorialId}.html`;
+            return;
+        }
+
+        // Show payment modal
+        showModal(tutorialId);
+        modal.style.display = 'block';
+        
+        // Initialize PayPal buttons if not already done
+        initializePayPalButtons(tutorialId);
+
+    } catch (error) {
+        console.error('Error checking payment status:', error);
+        alert('An error occurred. Please try again later.');
+    } finally {
+        document.body.style.cursor = 'default';
+    }
+}
+
+function closeModal() {
+    if (!modal) return;
+    modal.style.display = 'none';
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+    }
+}
+
+// Initialize PayPal buttons
+function initializePayPalButtons(tutorialId) {
+    try {
+        // Clear existing buttons
+        const singleTutorialContainer = document.getElementById('singleTutorialButton');
+        const allTutorialsContainer = document.getElementById('allTutorialsButton');
+        
+        if (singleTutorialContainer) singleTutorialContainer.innerHTML = '';
+        if (allTutorialsContainer) allTutorialsContainer.innerHTML = '';
+
+        // Create PayPal buttons
+        paypalButtons.singleTutorial = paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'blue',
+                shape: 'rect',
+                label: 'pay'
+            },
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: tutorialId === 'all' ? '19.99' : '7.99'
+                        },
+                        description: tutorialId === 'all' ? 'All AI Income Tutorials' : `AI Tutorial ${tutorialId}`
+                    }]
+                });
+            },
+            onApprove: async function(data, actions) {
+                try {
+                    const order = await actions.order.capture();
+                    
+                    // Save purchase to database
+                    const purchaseData = {
+                        tutorial_id: tutorialId,
+                        order_id: order.id,
+                        amount: order.purchase_units[0].amount.value
+                    };
+                    
+                    const saved = await window.supabaseUtils.savePurchaseToDatabase(purchaseData);
+                    
+                    if (saved) {
+                        // Redirect to tutorial content
+                        window.location.href = tutorialId === 'all' 
+                            ? '/tutorials/all-tutorials.html'
+                            : `/tutorials/tutorial-${tutorialId}.html`;
+                    } else {
+                        throw new Error('Failed to save purchase');
+                    }
+                } catch (error) {
+                    console.error('Error processing purchase:', error);
+                    alert('There was an error processing your purchase. Please contact support.');
+                }
+            }
+        });
+
+        // Render PayPal buttons
+        if (singleTutorialContainer && tutorialId !== 'all') {
+            paypalButtons.singleTutorial.render('#singleTutorialButton');
+        }
+        if (allTutorialsContainer) {
+            paypalButtons.singleTutorial.render('#allTutorialsButton');
+        }
+
+    } catch (error) {
+        console.error('Error initializing PayPal buttons:', error);
+        alert('Error initializing payment system. Please try again later.');
+    }
+} 
