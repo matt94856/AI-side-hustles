@@ -6,9 +6,9 @@
     <title>AI Hustle Hub - AI-Powered Consulting Services</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="src/supabase.js"></script>
-    <script src="src/auth.js"></script>
-    <script src="src/script.js"></script>
+    <script src="supabase.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -272,7 +272,7 @@
         <a href="#" class="certificate-button" onclick="generateCertificate(5); return false;">
             <i class="fas fa-certificate"></i> Generate Certificate
         </a>
-    </div>
+                    </div>
 
     <header class="header">
         <div class="brand">
@@ -280,7 +280,7 @@
                 <i class="fas fa-robot"></i>
                 <h1>AI Hustle Hub</h1>
             </a>
-        </div>
+                            </div>
         <p class="header-description">
             Start a consulting business helping others implement AI solutions in their businesses. Learn how to offer valuable AI strategy and implementation services to clients.
         </p>
@@ -290,9 +290,9 @@
         <h3>Course Progress</h3>
             <div class="progress-bar">
             <div class="progress-fill"></div>
-        </div>
+                            </div>
         <p><span class="completed-count">0</span>/5 Modules Complete</p>
-    </div>
+                            </div>
 
     <div class="resources-banner">
     <div class="resources-content">
@@ -300,10 +300,10 @@
         <div class="resources-text">
             <h3>Exclusive Resources</h3>
             <p>Access premium tools, templates, and strategies to enhance your AI consulting business</p>
-        </div>
+                    </div>
         <a href="tutorial5-resources.html" class="resources-button">View Resources</a>
-    </div>
                 </div>
+            </div>
 
     <div class="modules-grid">
         <div class="module-card active">
@@ -312,7 +312,7 @@
             <h2 class="module-title">Module 1: AI Consulting Foundations</h2>
             <p class="module-description">Understand the fundamentals of AI consulting, including the types of services you can offer and the skills required to succeed.</p>
             <a href="tutorial5-module1.html" class="module-link">Start Module</a>
-        </div>
+                    </div>
 
         <div class="module-card locked">
             <i class="fas fa-cogs module-icon"></i>
@@ -320,7 +320,7 @@
             <h2 class="module-title">Module 2: AI Implementation Strategies</h2>
             <p class="module-description">Learn practical approaches for implementing AI solutions in various business contexts, from small businesses to enterprises.</p>
             <a href="tutorial5-module2.html" class="module-link">Start Module</a>
-    </div>
+                            </div>
 
         <div class="module-card locked">
             <i class="fas fa-users module-icon"></i>
@@ -328,7 +328,7 @@
             <h2 class="module-title">Module 3: Client Acquisition</h2>
             <p class="module-description">Master strategies for finding and attracting clients who need AI consulting services, including marketing, networking, and positioning.</p>
             <a href="tutorial5-module3.html" class="module-link">Start Module</a>
-                    </div>
+                            </div>
 
         <div class="module-card locked">
             <i class="fas fa-file-invoice-dollar module-icon"></i>
@@ -336,7 +336,7 @@
             <h2 class="module-title">Module 4: Service Packaging & Pricing</h2>
             <p class="module-description">Discover how to create compelling service packages and set optimal pricing to maximize your consulting income.</p>
             <a href="tutorial5-module4.html" class="module-link">Start Module</a>
-    </div>
+                            </div>
 
         <div class="module-card locked">
             <i class="fas fa-chart-line module-icon"></i>
@@ -344,8 +344,8 @@
             <h2 class="module-title">Module 5: Scaling Your Consulting Business</h2>
             <p class="module-description">Learn strategies for growing your AI consulting business, hiring talent, and creating systems for sustainable growth.</p>
             <a href="tutorial5-module5.html" class="module-link">Start Module</a>
-        </div>
-    </div>
+                </div>
+            </div>
 
     <script>
         // Initialize auth and Supabase
@@ -377,21 +377,19 @@
         const module2Progress = JSON.parse(localStorage.getItem('tutorial5_module2Progress')) || [];
         const module3Progress = JSON.parse(localStorage.getItem('tutorial5_module3Progress')) || [];
         const module4Progress = JSON.parse(localStorage.getItem('tutorial5_module4Progress')) || [];
-        const module5Progress = JSON.parse(localStorage.getItem('tutorial5_module5Progress')) || [];
         
         // Count completed modules (a module is complete when all 4 lessons are done)
         const completedModules = [
             module1Progress.length === 4,
             module2Progress.length === 4,
             module3Progress.length === 4,
-            module4Progress.length === 4,
-            module5Progress.length === 4
+            module4Progress.length === 4
         ].filter(Boolean);
-        
-        // Update progress bar
+                
+                // Update progress bar
         const progressFill = document.querySelector('.progress-fill');
         const completedCount = document.querySelector('.completed-count');
-        const totalModules = 5;
+        const totalModules = 4;
         const percentage = (completedModules.length / totalModules) * 100;
         
         progressFill.style.width = `${percentage}%`;
@@ -417,7 +415,7 @@
                 card.querySelector('.module-status').className = 'module-status fas fa-spinner';
                 moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
                 moduleLink.href = `tutorial5-module${index + 1}.html`;
-            } else {
+                    } else {
                 card.classList.remove('active', 'completed');
                 card.classList.add('locked');
                 card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
@@ -436,14 +434,11 @@
             module2: module2Progress.length === 4,
             module3: module3Progress.length === 4,
             module4: module4Progress.length === 4,
-            module5: module5Progress.length === 4,
             completed: false
         };
         
         // Mark the tutorial as completed if all modules are done
-        if (tutorialProgress.module1 && tutorialProgress.module2 && 
-            tutorialProgress.module3 && tutorialProgress.module4 && 
-            tutorialProgress.module5) {
+        if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && tutorialProgress.module4) {
             tutorialProgress.completed = true;
             
             // Show completion banner
@@ -514,10 +509,10 @@
                                         moduleEl.classList.add("unlocked");
                                     }
                                 }
-                            });
-                        }
                     });
-                });
+                }
+            });
+        });
             }
         }
 

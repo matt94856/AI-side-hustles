@@ -6,9 +6,9 @@
     <title>AI Hustle Hub - AI-Powered Freelancing Course</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="src/supabase.js"></script>
-    <script src="src/auth.js"></script>
-    <script src="src/script.js"></script>
+    <script src="supabase.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -336,8 +336,8 @@
             <h2 class="module-title">Module 4: Monetizing Your AI Content</h2>
             <p class="module-description">Discover strategies for monetizing your AI-enhanced content through various channels including sponsorships, affiliate marketing, and digital products.</p>
             <a href="tutorial3-module4.html" class="module-link">Start Module</a>
+            </div>
         </div>
-    </div>
 
     <script>
         // Initialize auth and Supabase
@@ -407,7 +407,7 @@
                 card.querySelector('.module-status').className = 'module-status fas fa-spinner';
                 moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
                 moduleLink.href = `tutorial3-module${index + 1}.html`;
-            } else {
+                } else {
                 card.classList.remove('active', 'completed');
                 card.classList.add('locked');
                 card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
