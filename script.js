@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize quizzes first
     console.log('Starting quiz initialization...');
-    initializeQuizzes();
+    initializeQuiz();
     
     // Then initialize other functionality
     initializePayPal();
@@ -716,67 +716,117 @@ function initializePayPal() {
     }
 }
 
-// Quiz Functionality
-function initializeQuizzes() {
+// Quiz initialization
+function initializeQuiz() {
     console.log('Starting quiz initialization...');
     
-    // Get all quiz forms
-    const quizForms = document.querySelectorAll('.quiz-form');
+    // Find all quiz containers
+    const quizForms = document.querySelectorAll('.module-quiz');
     console.log(`Found ${quizForms.length} quiz forms on the page`);
     
     if (quizForms.length === 0) {
-        console.log('No quiz forms found. Checking HTML structure...');
-        const moduleQuizzes = document.querySelectorAll('.module-quiz');
-        console.log(`Found ${moduleQuizzes.length} .module-quiz elements`);
+        // This is normal on pages without quizzes
+        console.log('No quiz forms found on this page');
+        return;
+    }
+
+    quizForms.forEach((quizForm, index) => {
+        console.log(`Initializing quiz ${index + 1}`);
         
-        if (moduleQuizzes.length === 0) {
-            console.log('No quiz elements found. Skipping quiz initialization.');
+        const questions = quizForm.querySelectorAll('.quiz-question');
+        if (!questions.length) {
+            console.log(`No questions found in quiz ${index + 1}`);
             return;
         }
-    }
-    
-    // Initialize each quiz form
-    quizForms.forEach((form, index) => {
-        try {
-            const options = form.querySelectorAll('.quiz-option');
-            const feedback = form.querySelector('.quiz-feedback');
-            const submitBtn = form.querySelector('.submit-quiz');
-            
-            if (!options || !feedback || !submitBtn) {
-                console.warn(`Quiz form ${index} is missing required elements. Skipping.`);
-                return;
+
+        // Add submit handler
+        quizForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleQuizSubmission(quizForm);
+        });
+
+        // Initialize question states
+        questions.forEach((question, qIndex) => {
+            const options = question.querySelectorAll('input[type="radio"]');
+            if (options.length) {
+                console.log(`Quiz ${index + 1}, Question ${qIndex + 1}: ${options.length} options found`);
             }
-            
-            options.forEach(option => {
-                option.addEventListener('click', function() {
-                    options.forEach(opt => opt.classList.remove('selected'));
-                    this.classList.add('selected');
-                });
-            });
-            
-            submitBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const selected = form.querySelector('.quiz-option.selected');
-                
-                if (!selected) {
-                    feedback.textContent = 'Please select an answer';
-                    feedback.className = 'quiz-feedback error';
-                    return;
-                }
-                
-                const isCorrect = selected.dataset.correct === 'true';
-                feedback.textContent = isCorrect ? 'Correct!' : 'Incorrect. Try again.';
-                feedback.className = `quiz-feedback ${isCorrect ? 'success' : 'error'}`;
-                
-                if (isCorrect) {
-                    options.forEach(opt => opt.classList.remove('selected'));
-                    submitBtn.disabled = true;
-                }
-            });
-        } catch (error) {
-            console.error(`Error initializing quiz form ${index}:`, error);
+        });
+    });
+}
+
+function handleQuizSubmission(quizForm) {
+    const questions = quizForm.querySelectorAll('.quiz-question');
+    let score = 0;
+    let total = questions.length;
+    
+    questions.forEach(question => {
+        const selectedAnswer = question.querySelector('input[type="radio"]:checked');
+        const correctAnswer = question.dataset.correct;
+        
+        if (selectedAnswer && selectedAnswer.value === correctAnswer) {
+            score++;
         }
     });
+    
+    // Calculate percentage
+    const percentage = (score / total) * 100;
+    
+    // Show results
+    const resultDiv = quizForm.querySelector('.quiz-results') || document.createElement('div');
+    resultDiv.className = 'quiz-results';
+    resultDiv.innerHTML = `
+        <h3>Quiz Results</h3>
+        <p>You scored ${score} out of ${total} (${percentage.toFixed(1)}%)</p>
+        ${percentage >= 70 ? '<p class="success">Congratulations! You passed!</p>' : '<p class="failure">Please review the material and try again.</p>'}
+    `;
+    
+    if (!quizForm.querySelector('.quiz-results')) {
+        quizForm.appendChild(resultDiv);
+    }
+    
+    // Save progress if user is logged in
+    const user = netlifyIdentity.currentUser();
+    if (user && window.supabaseUtils) {
+        saveQuizProgress(user.id, quizForm.dataset.moduleId, score, total);
+    }
+}
+
+async function saveQuizProgress(userId, moduleId, score, total) {
+    try {
+        if (!window.supabaseUtils) {
+            console.error('Supabase utilities not loaded');
+            return;
+        }
+
+        const token = await netlifyIdentity.currentUser()?.jwt();
+        if (!token) {
+            console.error('No auth token available');
+            return;
+        }
+
+        const response = await fetch('/.netlify/functions/save-quiz-progress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                moduleId,
+                score,
+                total,
+                completedAt: new Date().toISOString()
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save quiz progress');
+        }
+
+        console.log('Quiz progress saved successfully');
+    } catch (error) {
+        console.error('Error saving quiz progress:', error);
+    }
 }
 
 // Lesson Completion Tracking
@@ -1126,6 +1176,7 @@ function showPayPalButtons(tutorialId) {
 // Check payment status
 async function checkPaymentStatus() {
     try {
+        // First check if auth utilities are loaded
         if (!window.authUtils) {
             console.error('Auth utilities not loaded');
             return false;
@@ -1137,12 +1188,9 @@ async function checkPaymentStatus() {
             return false;
         }
 
-        if (!window.supabaseUtils) {
-            console.error('Supabase utilities not loaded');
-            return false;
+        if (window.supabaseUtils) {
+            await window.supabaseUtils.syncUserPurchases();
         }
-
-        await window.supabaseUtils.syncUserPurchases();
         return true;
     } catch (error) {
         console.error('Error checking payment status:', error);
@@ -1150,39 +1198,61 @@ async function checkPaymentStatus() {
     }
 }
 
+// Initialize dependencies
+function initializeDependencies() {
+    return new Promise((resolve, reject) => {
+        let attempts = 0;
+        const maxAttempts = 10;
+        const interval = 100; // 100ms between attempts
+
+        function checkDependencies() {
+            if (attempts >= maxAttempts) {
+                reject(new Error('Dependencies failed to load after maximum attempts'));
+                return;
+            }
+
+            const dependencies = {
+                netlifyIdentity: window.netlifyIdentity,
+                supabaseUtils: window.supabaseUtils,
+                authUtils: window.authUtils
+            };
+
+            const missing = Object.entries(dependencies)
+                .filter(([, value]) => !value)
+                .map(([key]) => key);
+
+            if (missing.length === 0) {
+                resolve(true);
+            } else {
+                attempts++;
+                setTimeout(checkDependencies, interval);
+            }
+        }
+
+        checkDependencies();
+    });
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', async function() {
     try {
-        // Wait for dependencies (retry a few times)
-        let retries = 0;
-        while (retries < 5) {
-            if (window.netlifyIdentity && window.supabaseUtils && window.authUtils) {
-                break;
-            }
-            await new Promise(resolve => setTimeout(resolve, 100));
-            retries++;
-        }
-
-        if (!window.netlifyIdentity) {
-            throw new Error('Netlify Identity script not loaded');
-        }
-
-        if (!window.authUtils || typeof window.authUtils.init !== 'function') {
-            throw new Error('Auth utilities not properly loaded');
-        }
-
-        if (!window.supabaseUtils || typeof window.supabaseUtils.setupAuthHandlers !== 'function') {
-            throw new Error('Supabase utilities not properly loaded');
-        }
-
-        // Initialize auth
-        window.authUtils.init();
+        // Wait for all dependencies to load
+        await initializeDependencies();
         
-        // Setup Supabase handlers
-        await window.supabaseUtils.setupAuthHandlers();
+        // Initialize auth
+        if (window.authUtils && typeof window.authUtils.init === 'function') {
+            window.authUtils.init();
+        }
         
         // Handle login redirect
-        window.authUtils.handleLoginRedirect();
+        if (window.authUtils && typeof window.authUtils.handleLoginRedirect === 'function') {
+            window.authUtils.handleLoginRedirect();
+        }
+        
+        // Initialize quiz system if present
+        if (typeof initializeQuiz === 'function') {
+            initializeQuiz();
+        }
         
         // Check payment status
         await checkPaymentStatus();
