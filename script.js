@@ -1082,15 +1082,28 @@ async function checkPaymentStatus() {
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Wait for Netlify Identity to be available
+    if (typeof window.netlifyIdentity === 'undefined') {
+        console.error('Netlify Identity script not loaded. Please ensure the script is included in your HTML.');
+        return;
+    }
+
     // Initialize auth
-    window.authUtils.init();
+    if (window.authUtils && typeof window.authUtils.init === 'function') {
+        window.authUtils.init();
+    } else {
+        console.error('Auth utilities not properly loaded');
+        return;
+    }
     
     // Handle login redirect
-    window.authUtils.handleLoginRedirect();
+    if (window.authUtils && typeof window.authUtils.handleLoginRedirect === 'function') {
+        window.authUtils.handleLoginRedirect();
+    }
     
     // Check payment status
-    checkPaymentStatus();
+    await checkPaymentStatus();
     
     // Add event listeners for Enroll buttons
     document.querySelectorAll('.enroll-button').forEach(button => {
