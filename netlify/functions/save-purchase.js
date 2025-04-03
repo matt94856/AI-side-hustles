@@ -11,14 +11,28 @@ exports.handler = async function(event, context) {
             return { statusCode: 401, body: JSON.stringify({ error: 'No authorization token' }) };
         }
 
+        // Initialize Supabase client with service role key and pooling config
         const supabase = createClient(
             process.env.SUPABASE_URL,
-            process.env.SUPABASE_SERVICE_ROLE_KEY
+            process.env.SUPABASE_SERVICE_ROLE_KEY,
+            {
+                auth: {
+                    autoRefreshToken: false,
+                    persistSession: false
+                },
+                db: {
+                    schema: 'public'
+                },
+                global: {
+                    headers: { 'x-my-custom-header': 'my-app-name' }
+                }
+            }
         );
 
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
         if (authError || !user) {
-            return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) };
+            console.error('Auth error:', authError);
+            return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token', details: authError }) };
         }
 
         const purchaseData = JSON.parse(event.body);
@@ -32,6 +46,7 @@ exports.handler = async function(event, context) {
             .single();
 
         if (checkError && checkError.code !== 'PGRST116') { // PGRST116 means no rows found
+            console.error('Database check error:', checkError);
             return { statusCode: 500, body: JSON.stringify({ error: 'Database check error', details: checkError }) };
         }
 
@@ -46,6 +61,7 @@ exports.handler = async function(event, context) {
                 .eq('id', existingPurchase.id);
 
             if (updateError) {
+                console.error('Update error:', updateError);
                 return { statusCode: 500, body: JSON.stringify({ error: 'Update error', details: updateError }) };
             }
         } else {
@@ -59,6 +75,7 @@ exports.handler = async function(event, context) {
                 }]);
 
             if (insertError) {
+                console.error('Insert error:', insertError);
                 return { statusCode: 500, body: JSON.stringify({ error: 'Insert error', details: insertError }) };
             }
         }
@@ -73,6 +90,7 @@ exports.handler = async function(event, context) {
             body: JSON.stringify({ success: true })
         };
     } catch (error) {
+        console.error('Server error:', error);
         return { 
             statusCode: 500, 
             body: JSON.stringify({ error: 'Server error', details: error.message }) 
