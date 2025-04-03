@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hustle Hub - AI-Powered Consulting Services</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
@@ -436,33 +437,39 @@
     <script src="certificate.js"></script>
 
 <script>
-  function initializeNetlifyIdentity() {
-    if (typeof netlifyIdentity !== 'undefined') {
-      const user = netlifyIdentity.currentUser();
-      if (user) {
-        user.jwt().then(token => {
-          fetch("/.netlify/functions/getProgress?tutorialId=5", {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-          .then(res => res.json())
-          .then(data => {
-            if (data && Array.isArray(data.completedModules)) {
-              // Handle progress data
-            }
-          });
-        });
-      }
+  // Wait for both DOMContentLoaded and netlifyIdentity to be available
+  function initializeWithNetlifyIdentity() {
+    if (typeof netlifyIdentity === 'undefined') {
+      setTimeout(initializeWithNetlifyIdentity, 100);
+      return;
+    }
+
+    const user = netlifyIdentity.currentUser();
+    if (user) {
+      user.jwt().then(token => {
+        fetch("/.netlify/functions/getProgress?tutorialId=5", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data && Array.isArray(data.completedModules)) {
+            data.completedModules.forEach(moduleId => {
+              const moduleEl = document.getElementById(`module-${moduleId}`);
+              if (moduleEl) {
+                moduleEl.classList.add("unlocked");
+              }
+            });
+          }
+        })
+        .catch(console.error);
+      });
     }
   }
 
-  // Wait for Netlify Identity to load
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeNetlifyIdentity);
-  } else {
-    initializeNetlifyIdentity();
-  }
+  // Start initialization when DOM is loaded
+  document.addEventListener("DOMContentLoaded", initializeWithNetlifyIdentity);
 </script>
 
 </body>
