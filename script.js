@@ -517,7 +517,16 @@ function initializePayPal() {
                 },
                 onError: function(err) {
                     console.error('Payment error:', err);
-                    showMessage('There was an error processing your payment. Please try again.', 'error');
+                    let errorMessage = 'There was an error processing your payment. ';
+                    
+                    // Add specific guidance for card errors
+                    if (err.message && err.message.includes('card')) {
+                        errorMessage += 'Please try a different card or payment method. Some cards may not be supported.';
+                    } else {
+                        errorMessage += 'Please try again or contact support if the problem persists.';
+                    }
+                    
+                    showMessage(errorMessage, 'error');
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
@@ -549,7 +558,16 @@ function initializePayPal() {
                 },
                 onError: function(err) {
                     console.error('Payment error:', err);
-                    showMessage('There was an error processing your payment. Please try again.', 'error');
+                    let errorMessage = 'There was an error processing your payment. ';
+                    
+                    // Add specific guidance for card errors
+                    if (err.message && err.message.includes('card')) {
+                        errorMessage += 'Please try a different card or payment method. Some cards may not be supported.';
+                    } else {
+                        errorMessage += 'Please try again or contact support if the problem persists.';
+                    }
+                    
+                    showMessage(errorMessage, 'error');
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
