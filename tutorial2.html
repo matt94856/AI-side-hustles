@@ -472,10 +472,20 @@
       user.jwt().then(token => {
         fetch("/.netlify/functions/getProgress?tutorialId=2", {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
         })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.indexOf("application/json") !== -1) {
+            return res.json();
+          }
+          throw new TypeError("Received non-JSON response from server");
+        })
         .then(data => {
           if (data && Array.isArray(data.completedModules)) {
             data.completedModules.forEach(moduleId => {
@@ -486,7 +496,22 @@
             });
           }
         })
-        .catch(console.error);
+        .catch(error => {
+          console.warn('Error fetching progress:', error);
+          // Continue with local storage data if server sync fails
+          const localProgress = JSON.parse(localStorage.getItem('tutorial2Progress') || '{}');
+          if (localProgress) {
+            Object.keys(localProgress).forEach(key => {
+              if (localProgress[key] === true && key.startsWith('module')) {
+                const moduleNum = key.replace('module', '');
+                const moduleEl = document.getElementById(`module-${moduleNum}`);
+                if (moduleEl) {
+                  moduleEl.classList.add("unlocked");
+                }
+              }
+            });
+          }
+        });
       });
     }
   }
