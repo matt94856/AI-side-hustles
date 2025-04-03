@@ -438,7 +438,6 @@
         .then(data => {
           if (data && Array.isArray(data.completedModules)) {
             data.completedModules.forEach(moduleId => {
-              // Example: Unlock UI for completed modules
               const moduleEl = document.getElementById(`module-${moduleId}`);
               if (moduleEl) {
                 moduleEl.classList.add("unlocked");

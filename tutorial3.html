@@ -257,7 +257,7 @@
     .resources-text {
         margin-bottom: 0.5rem;
     }
-}
+        }
     </style>
 </head>
 <body>
@@ -297,8 +297,8 @@
             <p>Access premium tools, templates, and strategies to enhance your AI content creation journey</p>
         </div>
         <a href="tutorial3-resources.html" class="resources-button">View Resources</a>
-    </div>
-</div>
+                        </div>
+                    </div>
 
     <div class="modules-grid">
         <div class="module-card active">
@@ -307,7 +307,7 @@
             <h2 class="module-title">Module 1: Introduction to AI Content Creation</h2>
             <p class="module-description">Learn the fundamentals of AI-powered content creation, explore the available tools, and understand how AI can enhance your creative process.</p>
             <a href="tutorial3-module1.html" class="module-link">Start Module</a>
-        </div>
+                            </div>
 
         <div class="module-card locked">
             <i class="fas fa-robot module-icon"></i>
@@ -464,7 +464,6 @@
         .then(data => {
           if (data && Array.isArray(data.completedModules)) {
             data.completedModules.forEach(moduleId => {
-              // Example: Unlock UI for completed modules
               const moduleEl = document.getElementById(`module-${moduleId}`);
               if (moduleEl) {
                 moduleEl.classList.add("unlocked");

@@ -1,0 +1,15 @@
+{
+  "name": "ai-hustle-hub",
+  "version": "1.0.0",
+  "description": "AI Money-Making Guide Website",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "faunadb": "^4.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
