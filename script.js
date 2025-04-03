@@ -470,16 +470,24 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             purchase_date: new Date().toISOString()
         };
 
-        const { error } = await supabase
+        // First try to insert
+        const { error: insertError } = await supabase
             .from('user_purchases')
-            .upsert(purchaseData, {
-                onConflict: 'user_id,tutorial_id'
-            });
+            .insert(purchaseData);
 
-        if (error) {
-            console.error('Error saving to database:', error);
-            grantLocalAccess(type, tutorialId, transactionDetails);
-            return true;
+        if (insertError) {
+            // If insert fails due to unique constraint, try update
+            const { error: updateError } = await supabase
+                .from('user_purchases')
+                .update(purchaseData)
+                .eq('user_id', user.id)
+                .eq('tutorial_id', type === 'all' ? null : parseInt(tutorialId));
+
+            if (updateError) {
+                console.error('Error saving to database:', updateError);
+                grantLocalAccess(type, tutorialId, transactionDetails);
+                return true;
+            }
         }
 
         // Update local state
@@ -928,4 +936,52 @@ const styles = `
 // Add styles to document
 const styleSheet = document.createElement('style');
 styleSheet.textContent = styles;
-document.head.appendChild(styleSheet); 
+document.head.appendChild(styleSheet);
+
+// Update the checkPurchaseStatus function to work with the new table structure
+async function checkPurchaseStatus(userId, tutorialId) {
+    try {
+        // Ensure Supabase is initialized
+        await ensureSupabaseInitialized();
+        
+        if (!supabase) {
+            console.error('Supabase client not initialized');
+            return false;
+        }
+
+        // Check for all-access first
+        const { data: allAccessData, error: allAccessError } = await supabase
+            .from('user_purchases')
+            .select('all_access')
+            .eq('user_id', userId)
+            .eq('all_access', true)
+            .single();
+
+        if (allAccessError && allAccessError.code !== 'PGRST116') {
+            console.error('Error checking all-access:', allAccessError);
+            return false;
+        }
+
+        if (allAccessData) {
+            return true;
+        }
+
+        // If no all-access, check specific tutorial
+        const { data: tutorialData, error: tutorialError } = await supabase
+            .from('user_purchases')
+            .select('tutorial_id')
+            .eq('user_id', userId)
+            .eq('tutorial_id', tutorialId)
+            .single();
+
+        if (tutorialError && tutorialError.code !== 'PGRST116') {
+            console.error('Error checking tutorial access:', tutorialError);
+            return false;
+        }
+
+        return !!tutorialData;
+    } catch (error) {
+        console.error('Error checking purchase status:', error);
+        return false;
+    }
+} 
