@@ -411,7 +411,18 @@ function updateProgressBar() {
 // Initialize Supabase client
 const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+let supabase;
+
+// Initialize Supabase immediately if available, or wait for load
+function initSupabase() {
+    if (typeof window.supabase !== 'undefined') {
+        supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    } else {
+        // Retry after a short delay if not available
+        setTimeout(initSupabase, 100);
+    }
+}
+initSupabase();
 
 async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
     try {
@@ -446,9 +457,9 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             status: transactionDetails.status
         };
 
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('user_purchases')
-            .insert([purchaseData]);
+            .upsert(purchaseData);
 
         if (error) {
             console.error('Error saving to database:', error);
@@ -466,6 +477,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
                     localStorage.setItem('transactionId', transactionDetails.id);
                 }
             }
+            return true;
         }
 
         // Update local state
