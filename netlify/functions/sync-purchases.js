@@ -19,18 +19,31 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // Initialize Supabase client with service role key
+        // Initialize Supabase client with service role key and pooling config
         const supabase = createClient(
             process.env.SUPABASE_URL,
-            process.env.SUPABASE_SERVICE_ROLE_KEY
+            process.env.SUPABASE_SERVICE_ROLE_KEY,
+            {
+                auth: {
+                    autoRefreshToken: false,
+                    persistSession: false
+                },
+                db: {
+                    schema: 'public'
+                },
+                global: {
+                    headers: { 'x-my-custom-header': 'my-app-name' }
+                }
+            }
         );
 
         // Verify the token and get user
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
         if (authError || !user) {
+            console.error('Auth error:', authError);
             return {
                 statusCode: 401,
-                body: JSON.stringify({ error: 'Invalid token' })
+                body: JSON.stringify({ error: 'Invalid token', details: authError })
             };
         }
 
@@ -41,6 +54,7 @@ exports.handler = async function(event, context) {
             .eq('user_id', user.id);
 
         if (dbError) {
+            console.error('Database error:', dbError);
             return {
                 statusCode: 500,
                 body: JSON.stringify({ error: 'Database error', details: dbError })
@@ -58,6 +72,7 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
+        console.error('Server error:', error);
         return {
             statusCode: 500,
             body: JSON.stringify({ error: 'Server error', details: error.message })
