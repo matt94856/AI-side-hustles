@@ -72,7 +72,7 @@
         // Initialize Supabase client
         const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey)
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
 
         async function checkPurchaseStatus(userId, tutorialId) {
             try {
@@ -113,7 +113,7 @@
             }
         }
 
-        netlifyIdentity.on('login', async user => {
+        async function handleAuthRedirect(user) {
             try {
                 // Get stored redirect information
                 const redirectTo = sessionStorage.getItem('redirectTo');
@@ -139,33 +139,13 @@
                     window.location.href = 'index.html';
                 }
             } catch (error) {
-                console.error('Error during login:', error);
+                console.error('Error during auth redirect:', error);
                 window.location.href = 'index.html';
             }
-        });
-        
-        netlifyIdentity.on('signup', function() {
-            // Use the same redirect logic as login
-            const redirectTo = sessionStorage.getItem('redirectTo');
-            const tutorialId = sessionStorage.getItem('tutorialId');
-            
-            if (redirectTo) {
-                sessionStorage.removeItem('redirectTo');
-                sessionStorage.removeItem('tutorialId');
-                
-                if (tutorialId) {
-                    if (tutorialId === 'all') {
-                        window.location.href = 'index.html#tutorials';
-                    } else {
-                        window.location.href = `tutorial${tutorialId}.html`;
-                    }
-                } else {
-                    window.location.href = redirectTo;
-                }
-            } else {
-                window.location.href = 'index.html';
-            }
-        });
+        }
+
+        netlifyIdentity.on('login', handleAuthRedirect);
+        netlifyIdentity.on('signup', handleAuthRedirect);
     </script>
 </body>
 </html>

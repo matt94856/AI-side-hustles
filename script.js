@@ -411,55 +411,48 @@ function updateProgressBar() {
 // Initialize Supabase client
 const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
-const supabase = supabase.createClient(supabaseUrl, supabaseKey)
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
 
-async function savePurchaseToDatabase(tutorialId, type) {
+async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
     try {
         const user = netlifyIdentity.currentUser();
         if (!user) {
             throw new Error('No user logged in');
         }
 
-        if (type === 'all') {
-            // Insert all-access purchase
-            const { error } = await supabase
-                .from('user_purchases')
-                .upsert({
-                    user_id: user.id,
-                    all_access: true,
-                    tutorial_id: null,
-                    purchase_date: new Date().toISOString()
-                });
+        // Store payment details in Supabase
+        const purchaseData = {
+            user_id: user.id,
+            all_access: type === 'all',
+            tutorial_id: type === 'all' ? null : tutorialId,
+            purchase_date: new Date().toISOString(),
+            transaction_id: transactionDetails.id,
+            amount: transactionDetails.purchase_units[0].amount.value,
+            currency: transactionDetails.purchase_units[0].amount.currency_code,
+            status: transactionDetails.status
+        };
 
-            if (error) {
-                console.error('Error saving all-access purchase:', error);
-                throw error;
-            }
-        } else {
-            // Insert specific tutorial purchase
-            const { error } = await supabase
-                .from('user_purchases')
-                .upsert({
-                    user_id: user.id,
-                    tutorial_id: tutorialId,
-                    all_access: false,
-                    purchase_date: new Date().toISOString()
-                });
+        const { error } = await supabase
+            .from('user_purchases')
+            .upsert(purchaseData);
 
-            if (error) {
-                console.error('Error saving tutorial purchase:', error);
-                throw error;
-            }
+        if (error) {
+            console.error('Error saving purchase:', error);
+            throw error;
         }
 
         // Update local state for immediate UI feedback
         if (type === 'all') {
             localStorage.setItem('allAccess', 'true');
+            localStorage.setItem('paymentDate', new Date().getTime().toString());
+            localStorage.setItem('transactionId', transactionDetails.id);
         } else {
             const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
             if (!purchasedTutorials.includes(tutorialId)) {
                 purchasedTutorials.push(tutorialId);
                 localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+                localStorage.setItem('paymentDate', new Date().getTime().toString());
+                localStorage.setItem('transactionId', transactionDetails.id);
             }
         }
 
@@ -471,8 +464,8 @@ async function savePurchaseToDatabase(tutorialId, type) {
 }
 
 // Update the payment success handler
-function handlePaymentSuccess(tutorialId, type) {
-    savePurchaseToDatabase(tutorialId, type).then(success => {
+function handlePaymentSuccess(tutorialId, type, transactionDetails) {
+    savePurchaseToDatabase(tutorialId, type, transactionDetails).then(success => {
         if (success) {
             if (type === 'all') {
                 window.location.href = 'index.html#tutorials';
@@ -512,7 +505,7 @@ function initializePayPal() {
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        handlePaymentSuccess(currentTutorialId, 'single');
+                        handlePaymentSuccess(currentTutorialId, 'single', details);
                     });
                 },
                 onError: function(err) {
@@ -544,7 +537,7 @@ function initializePayPal() {
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        handlePaymentSuccess(null, 'all');
+                        handlePaymentSuccess(null, 'all', details);
                     });
                 },
                 onError: function(err) {
