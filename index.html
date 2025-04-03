@@ -2346,7 +2346,8 @@
             </div>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <!-- Main Script -->
+    <script type="module" src="script.js"></script>
 <!-- Additional Mobile Script -->
 <script>
         // Mobile menu toggle
@@ -2430,9 +2431,13 @@
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
             // Display the result
-            document.getElementById("hours").textContent = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").textContent = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").textContent = seconds < 10 ? "0" + seconds : seconds;
+            const hoursElement = document.getElementById("hours");
+            const minutesElement = document.getElementById("minutes");
+            const secondsElement = document.getElementById("seconds");
+            
+            if (hoursElement) hoursElement.textContent = hours < 10 ? "0" + hours : hours;
+            if (minutesElement) minutesElement.textContent = minutes < 10 ? "0" + minutes : minutes;
+            if (secondsElement) secondsElement.textContent = seconds < 10 ? "0" + seconds : seconds;
             
             // If the countdown is finished, write some text
             if (distance < 0) {
