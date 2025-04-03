@@ -153,11 +153,17 @@ function initializeModal() {
         closeBtn.onclick = closeModal;
     }
     
+    // Create a container for modal content that's always focusable
+    const modalContent = modal.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.setAttribute('tabindex', '-1');
+    }
+    
     // Handle focus trap in modal
     modal.addEventListener('keydown', function(e) {
         if (e.key === 'Tab') {
             const focusableElements = modal.querySelectorAll(
-                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                'button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
             );
             const firstFocusable = focusableElements[0];
             const lastFocusable = focusableElements[focusableElements.length - 1];
@@ -187,7 +193,9 @@ function initializeModal() {
 }
 
 function showModal(tutorialId) {
-    if (!modal) return;
+    if (!modal) {
+        initializeModal();
+    }
     
     currentTutorialId = tutorialId;
     lastFocusedElement = document.activeElement;
@@ -198,34 +206,38 @@ function showModal(tutorialId) {
     
     if (previewTitle && previewContent && tutorialPreviews[tutorialId]) {
         previewTitle.textContent = tutorialPreviews[tutorialId].title;
-        previewContent.innerHTML = tutorialPreviews[tutorialId].content.replace(/\n/g, '<br>');
+        previewContent.innerHTML = tutorialPreviews[tutorialId].content;
     }
     
-    // Check if on mobile
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-        showMobileDisclaimer();
-    }
-    
-    // Show modal without aria-hidden
+    // Show modal
     modal.style.display = 'block';
-    modal.removeAttribute('aria-hidden');
     
-    // Focus the close button
-    if (closeBtn) {
-        closeBtn.focus();
+    // Focus the modal content
+    const modalContent = modal.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.focus();
     }
+    
+    // Remove aria-hidden from modal and its descendants
+    modal.removeAttribute('aria-hidden');
+    const hiddenElements = modal.querySelectorAll('[aria-hidden]');
+    hiddenElements.forEach(el => el.removeAttribute('aria-hidden'));
 }
 
 function closeModal() {
     if (!modal) return;
-    modal.style.display = 'none';
-    currentTutorialId = null;
     
-    // Restore focus to the last focused element
+    // Hide modal
+    modal.style.display = 'none';
+    
+    // Restore focus to the element that opened the modal
     if (lastFocusedElement) {
         lastFocusedElement.focus();
     }
+    
+    // Clear any error messages
+    const errorMessages = modal.querySelectorAll('.payment-error, .processing-payment, .payment-success');
+    errorMessages.forEach(el => el.remove());
 }
 
 // Payment Status Functions
@@ -1284,7 +1296,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 // Payment Status Check Function
-async function checkPaymentStatus(tutorialId) {
+window.checkPaymentStatus = async function(tutorialId) {
     try {
         // Check if user is logged in
         if (!window.netlifyIdentity.currentUser()) {

@@ -1,6 +1,6 @@
 // Supabase configuration
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tdxpostwbmpnsikjftvy.supabase.co';
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_URL = 'https://tdxpostwbmpnsikjftvy.supabase.co';
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY;
 
 if (!SUPABASE_ANON_KEY) {
     console.error('Missing Supabase configuration. Please check environment variables.');
@@ -9,6 +9,10 @@ if (!SUPABASE_ANON_KEY) {
 // Initialize Supabase client with retry mechanism
 function initSupabase(retries = 3) {
     try {
+        if (!window.supabase) {
+            throw new Error('Supabase client not loaded');
+        }
+
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: {
                 autoRefreshToken: true,
@@ -27,11 +31,15 @@ function initSupabase(retries = 3) {
         });
 
         // Test connection
-        supabase.from('user_purchases').select('count').limit(1)
-            .then(() => console.log('✅ Supabase connected'))
-            .catch(err => console.error('❌ Supabase connection error:', err));
-
-        return supabase;
+        return supabase.from('user_purchases').select('count').limit(1)
+            .then(() => {
+                console.log('✅ Supabase connected');
+                return supabase;
+            })
+            .catch(err => {
+                console.error('❌ Supabase connection error:', err);
+                throw err;
+            });
     } catch (error) {
         if (retries > 0) {
             console.warn(`Supabase initialization failed, retrying... (${retries} attempts left)`);
@@ -41,8 +49,12 @@ function initSupabase(retries = 3) {
     }
 }
 
-// Initialize Supabase
-const supabase = initSupabase();
+// Initialize Supabase and export to window
+initSupabase().then(client => {
+    window.supabaseClient = client;
+}).catch(error => {
+    console.error('Failed to initialize Supabase:', error);
+});
 
 // Create supabaseUtils object
 window.supabaseUtils = {
@@ -221,7 +233,7 @@ window.supabaseUtils = {
             console.log('Testing Supabase connection...');
             
             // Test database connection
-            const { data, error } = await supabase
+            const { data, error } = await window.supabaseClient
                 .from('user_purchases')
                 .select('count(*)')
                 .limit(1);
