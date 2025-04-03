@@ -427,7 +427,7 @@ async function ensureSupabaseInitialized() {
         const user = netlifyIdentity.currentUser();
         
         // Initialize Supabase with the user's token if available
-        supabase = supabase.createClient(
+        supabase = window.supabase.createClient(
             'https://tdxpostwbmpnsikjftvy.supabase.co',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk2NjQ0MDAsImV4cCI6MjAyNTI0MDQwMH0.2XQm5wXqgXj4XQm5wXqgXj4XQm5wXqgXj4XQm5wXqgXj4',
             {
