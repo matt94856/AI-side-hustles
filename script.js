@@ -1336,16 +1336,26 @@ function closeModal() {
 }
 
 // Initialize PayPal buttons
-function initializePayPalButtons(tutorialId) {
+async function initializePayPalButtons(tutorialId) {
     try {
-        // Clear existing buttons
+        // Show loading state
         const singleTutorialContainer = document.getElementById('singleTutorialButton');
         const allTutorialsContainer = document.getElementById('allTutorialsButton');
         
-        if (singleTutorialContainer) singleTutorialContainer.innerHTML = '';
-        if (allTutorialsContainer) allTutorialsContainer.innerHTML = '';
+        if (singleTutorialContainer) singleTutorialContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
+        if (allTutorialsContainer) allTutorialsContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
 
-        // Create PayPal buttons
+        // Ensure PayPal SDK is loaded
+        if (typeof paypal === 'undefined') {
+            throw new Error('PayPal SDK not loaded');
+        }
+
+        // Clear existing buttons
+        if (paypalButtons.singleTutorial) {
+            paypalButtons.singleTutorial.close();
+        }
+
+        // Create PayPal buttons with improved error handling
         paypalButtons.singleTutorial = paypal.Buttons({
             style: {
                 layout: 'vertical',
@@ -1353,54 +1363,96 @@ function initializePayPalButtons(tutorialId) {
                 shape: 'rect',
                 label: 'pay'
             },
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: tutorialId === 'all' ? '19.99' : '7.99'
-                        },
-                        description: tutorialId === 'all' ? 'All AI Income Tutorials' : `AI Tutorial ${tutorialId}`
-                    }]
-                });
+            createOrder: async function(data, actions) {
+                try {
+                    // Verify user is still logged in
+                    if (!window.authUtils.isAuthenticated()) {
+                        throw new Error('User not authenticated');
+                    }
+
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: tutorialId === 'all' ? '19.99' : '7.99'
+                            },
+                            description: tutorialId === 'all' ? 'All AI Income Tutorials' : `AI Tutorial ${tutorialId}`
+                        }]
+                    });
+                } catch (error) {
+                    console.error('Error creating order:', error);
+                    if (error.message === 'User not authenticated') {
+                        window.authUtils.redirectToLogin();
+                    }
+                    throw error;
+                }
             },
             onApprove: async function(data, actions) {
                 try {
+                    // Show processing state
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.className = 'processing-payment';
+                    loadingDiv.textContent = 'Processing your payment...';
+                    modal.appendChild(loadingDiv);
+
+                    // Capture the order
                     const order = await actions.order.capture();
                     
                     // Save purchase to database
                     const purchaseData = {
                         tutorial_id: tutorialId,
                         order_id: order.id,
-                        amount: order.purchase_units[0].amount.value
+                        amount: order.purchase_units[0].amount.value,
+                        purchase_date: new Date().toISOString()
                     };
                     
                     const saved = await window.supabaseUtils.savePurchaseToDatabase(purchaseData);
                     
                     if (saved) {
-                        // Redirect to tutorial content
-                        window.location.href = tutorialId === 'all' 
-                            ? '/tutorials/all-tutorials.html'
-                            : `/tutorials/tutorial-${tutorialId}.html`;
+                        // Show success message before redirect
+                        loadingDiv.textContent = 'Payment successful! Redirecting...';
+                        loadingDiv.className = 'payment-success';
+                        
+                        // Redirect after a short delay
+                        setTimeout(() => {
+                            window.location.href = tutorialId === 'all' 
+                                ? '/tutorials/all-tutorials.html'
+                                : `/tutorials/tutorial-${tutorialId}.html`;
+                        }, 1500);
                     } else {
                         throw new Error('Failed to save purchase');
                     }
                 } catch (error) {
                     console.error('Error processing purchase:', error);
-                    alert('There was an error processing your purchase. Please contact support.');
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'payment-error';
+                    errorDiv.textContent = 'There was an error processing your purchase. Please contact support.';
+                    modal.appendChild(errorDiv);
                 }
+            },
+            onError: function(err) {
+                console.error('PayPal error:', err);
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'payment-error';
+                errorDiv.textContent = 'There was an error with PayPal. Please try again later.';
+                modal.appendChild(errorDiv);
             }
         });
 
         // Render PayPal buttons
         if (singleTutorialContainer && tutorialId !== 'all') {
-            paypalButtons.singleTutorial.render('#singleTutorialButton');
+            await paypalButtons.singleTutorial.render('#singleTutorialButton');
         }
         if (allTutorialsContainer) {
-            paypalButtons.singleTutorial.render('#allTutorialsButton');
+            await paypalButtons.singleTutorial.render('#allTutorialsButton');
         }
 
     } catch (error) {
         console.error('Error initializing PayPal buttons:', error);
-        alert('Error initializing payment system. Please try again later.');
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'payment-error';
+        errorMessage.textContent = 'Error loading payment options. Please try again later.';
+        
+        if (singleTutorialContainer) singleTutorialContainer.innerHTML = errorMessage.outerHTML;
+        if (allTutorialsContainer) allTutorialsContainer.innerHTML = errorMessage.outerHTML;
     }
 } 

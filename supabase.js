@@ -1,22 +1,53 @@
 // Supabase configuration
-const SUPABASE_URL = window.SUPABASE_URL || 'https://tdxpostwbmpnsikjftvy.supabase.co';
-const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tdxpostwbmpnsikjftvy.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
-// Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true,
-        storage: window.localStorage
+if (!SUPABASE_ANON_KEY) {
+    console.error('Missing Supabase configuration. Please check environment variables.');
+}
+
+// Initialize Supabase client with retry mechanism
+function initSupabase(retries = 3) {
+    try {
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true,
+                storage: window.localStorage
+            },
+            db: {
+                schema: 'public'
+            },
+            global: {
+                headers: {
+                    'X-Client-Info': 'ai-hustle-hub'
+                }
+            }
+        });
+
+        // Test connection
+        supabase.from('user_purchases').select('count').limit(1)
+            .then(() => console.log('✅ Supabase connected'))
+            .catch(err => console.error('❌ Supabase connection error:', err));
+
+        return supabase;
+    } catch (error) {
+        if (retries > 0) {
+            console.warn(`Supabase initialization failed, retrying... (${retries} attempts left)`);
+            return new Promise(resolve => setTimeout(() => resolve(initSupabase(retries - 1)), 1000));
+        }
+        throw error;
     }
-});
+}
+
+// Initialize Supabase
+const supabase = initSupabase();
 
 // Create supabaseUtils object
 window.supabaseUtils = {
     setupAuthHandlers: async function() {
         try {
-            // Check if user is already logged in
             const user = netlifyIdentity.currentUser();
             if (user) {
                 await this.syncUserPurchases();
@@ -24,26 +55,21 @@ window.supabaseUtils = {
 
             netlifyIdentity.on('login', async (user) => {
                 try {
-                    // Get fresh token
-                    const token = await user.jwt();
-                    localStorage.setItem('nf_token', token);
-                    await this.syncUserPurchases();
+                    const token = await this.getAuthToken();
+                    if (token) {
+                        await this.syncUserPurchases();
+                    }
                 } catch (error) {
                     console.error('Error during login sync:', error);
+                    window.authUtils.handleAuthError(error);
                 }
             });
 
             netlifyIdentity.on('logout', () => {
-                localStorage.removeItem('userPurchases');
-                localStorage.removeItem('lastSyncTimestamp');
-                localStorage.removeItem('nf_token');
-                // Clear individual tutorial access flags
-                for (let i = 1; i <= 5; i++) {
-                    localStorage.removeItem(`tutorial${i}_access`);
-                }
+                this.clearLocalData();
             });
 
-            // Set up periodic sync (every 5 minutes)
+            // Set up periodic sync
             setInterval(async () => {
                 const currentUser = netlifyIdentity.currentUser();
                 if (currentUser) {
@@ -51,11 +77,22 @@ window.supabaseUtils = {
                         await this.syncUserPurchases();
                     } catch (error) {
                         console.error('Error in periodic sync:', error);
+                        window.authUtils.handleAuthError(error);
                     }
                 }
             }, 5 * 60 * 1000);
         } catch (error) {
             console.error('Error in setupAuthHandlers:', error);
+            window.authUtils.handleAuthError(error);
+        }
+    },
+
+    clearLocalData: function() {
+        localStorage.removeItem('userPurchases');
+        localStorage.removeItem('lastSyncTimestamp');
+        localStorage.removeItem('nf_token');
+        for (let i = 1; i <= 5; i++) {
+            localStorage.removeItem(`tutorial${i}_access`);
         }
     },
 
@@ -64,12 +101,12 @@ window.supabaseUtils = {
             const user = netlifyIdentity.currentUser();
             if (!user) throw new Error('No user logged in');
 
-            // Try to get a fresh token
             const token = await user.jwt();
             localStorage.setItem('nf_token', token);
             return token;
         } catch (error) {
             console.error('Error getting auth token:', error);
+            window.authUtils.handleAuthError(error);
             throw error;
         }
     },
