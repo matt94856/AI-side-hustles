@@ -1,5 +1,12 @@
-document.addEventListener("DOMContentLoaded", function () {
-  if (typeof netlifyIdentity !== "undefined") {
+document.addEventListener("DOMContentLoaded", async function () {
+  // Wait for Netlify Identity and Supabase to be available
+  if (!window.netlifyIdentity || !window.supabaseUtils || !window.authUtils) {
+    console.error('Required dependencies not loaded. Please check script loading order.');
+    return;
+  }
+
+  try {
+    // Initialize Netlify Identity
     netlifyIdentity.on("init", user => {
       const isLoggedIn = !!user;
       const paywallButtons = document.querySelectorAll(
@@ -19,7 +26,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
     });
-    netlifyIdentity.init();
+
+    // Initialize auth utilities
+    window.authUtils.init();
+    
+    // Initialize Supabase handlers
+    window.supabaseUtils.setupAuthHandlers();
+
+  } catch (error) {
+    console.error('Error during initialization:', error);
   }
 });
 
@@ -128,6 +143,7 @@ let paypalButtons = {
 let modal = null;
 let closeBtn = null;
 let currentTutorialId = null;
+let lastFocusedElement = null;
 
 function initializeModal() {
     modal = document.getElementById('premiumModal');
@@ -136,6 +152,31 @@ function initializeModal() {
     if (closeBtn) {
         closeBtn.onclick = closeModal;
     }
+    
+    // Handle focus trap in modal
+    modal.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            const focusableElements = modal.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            const firstFocusable = focusableElements[0];
+            const lastFocusable = focusableElements[focusableElements.length - 1];
+
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusable) {
+                    lastFocusable.focus();
+                    e.preventDefault();
+                }
+            } else {
+                if (document.activeElement === lastFocusable) {
+                    firstFocusable.focus();
+                    e.preventDefault();
+                }
+            }
+        } else if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
     
     // Add window click handler
     window.onclick = function(event) {
@@ -149,6 +190,7 @@ function showModal(tutorialId) {
     if (!modal) return;
     
     currentTutorialId = tutorialId;
+    lastFocusedElement = document.activeElement;
     
     // Update preview content
     const previewTitle = document.getElementById('previewTitle');
@@ -165,13 +207,25 @@ function showModal(tutorialId) {
         showMobileDisclaimer();
     }
     
+    // Show modal without aria-hidden
     modal.style.display = 'block';
+    modal.removeAttribute('aria-hidden');
+    
+    // Focus the close button
+    if (closeBtn) {
+        closeBtn.focus();
+    }
 }
 
 function closeModal() {
     if (!modal) return;
     modal.style.display = 'none';
     currentTutorialId = null;
+    
+    // Restore focus to the last focused element
+    if (lastFocusedElement) {
+        lastFocusedElement.focus();
+    }
 }
 
 // Payment Status Functions

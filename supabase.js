@@ -14,31 +14,64 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 
 // Create supabaseUtils object
 window.supabaseUtils = {
-    setupAuthHandlers: function() {
-        netlifyIdentity.on('login', async (user) => {
-            try {
-                await this.syncUserPurchases();
-            } catch (error) {
-                console.error('Error during login sync:', error);
-            }
-        });
-
-        netlifyIdentity.on('logout', () => {
-            localStorage.removeItem('userPurchases');
-            localStorage.removeItem('lastSyncTimestamp');
-            // Clear individual tutorial access flags
-            for (let i = 1; i <= 5; i++) {
-                localStorage.removeItem(`tutorial${i}_access`);
-            }
-        });
-
-        // Set up periodic sync (every 5 minutes)
-        setInterval(() => {
+    setupAuthHandlers: async function() {
+        try {
+            // Check if user is already logged in
             const user = netlifyIdentity.currentUser();
             if (user) {
-                this.syncUserPurchases().catch(console.error);
+                await this.syncUserPurchases();
             }
-        }, 5 * 60 * 1000);
+
+            netlifyIdentity.on('login', async (user) => {
+                try {
+                    // Get fresh token
+                    const token = await user.jwt();
+                    localStorage.setItem('nf_token', token);
+                    await this.syncUserPurchases();
+                } catch (error) {
+                    console.error('Error during login sync:', error);
+                }
+            });
+
+            netlifyIdentity.on('logout', () => {
+                localStorage.removeItem('userPurchases');
+                localStorage.removeItem('lastSyncTimestamp');
+                localStorage.removeItem('nf_token');
+                // Clear individual tutorial access flags
+                for (let i = 1; i <= 5; i++) {
+                    localStorage.removeItem(`tutorial${i}_access`);
+                }
+            });
+
+            // Set up periodic sync (every 5 minutes)
+            setInterval(async () => {
+                const currentUser = netlifyIdentity.currentUser();
+                if (currentUser) {
+                    try {
+                        await this.syncUserPurchases();
+                    } catch (error) {
+                        console.error('Error in periodic sync:', error);
+                    }
+                }
+            }, 5 * 60 * 1000);
+        } catch (error) {
+            console.error('Error in setupAuthHandlers:', error);
+        }
+    },
+
+    getAuthToken: async function() {
+        try {
+            const user = netlifyIdentity.currentUser();
+            if (!user) throw new Error('No user logged in');
+
+            // Try to get a fresh token
+            const token = await user.jwt();
+            localStorage.setItem('nf_token', token);
+            return token;
+        } catch (error) {
+            console.error('Error getting auth token:', error);
+            throw error;
+        }
     },
 
     savePurchaseToDatabase: async function(purchaseData) {
@@ -75,9 +108,15 @@ window.supabaseUtils = {
     syncUserPurchases: async function() {
         try {
             const user = netlifyIdentity.currentUser();
-            if (!user) return;
+            if (!user) {
+                console.log('No user logged in, skipping sync');
+                return;
+            }
 
-            const token = await user.jwt();
+            const token = await this.getAuthToken();
+            if (!token) {
+                throw new Error('No valid token available');
+            }
             
             const response = await fetch('/.netlify/functions/sync-purchases', {
                 method: 'POST',
@@ -88,8 +127,8 @@ window.supabaseUtils = {
             });
 
             if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error || 'Failed to sync purchases');
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
             }
 
             const { purchases } = await response.json();
@@ -105,19 +144,29 @@ window.supabaseUtils = {
             }
         } catch (error) {
             console.error('Error syncing purchases:', error);
-            this.handleAuthError(error);
+            if (error.message.includes('401') || error.message.includes('Invalid token')) {
+                await this.handleAuthError(error);
+            }
+            throw error;
         }
     },
 
-    handleAuthError: function(error) {
-        if (error.message?.includes('JWT expired')) {
-            netlifyIdentity.refresh().then(() => {
-                // Retry the operation after token refresh
-                this.syncUserPurchases();
-            }).catch(refreshError => {
-                console.error('Token refresh failed:', refreshError);
-                netlifyIdentity.logout();
-            });
+    handleAuthError: async function(error) {
+        try {
+            if (error.message?.includes('401') || error.message?.includes('JWT') || error.message?.includes('token')) {
+                console.log('Attempting to refresh token...');
+                await netlifyIdentity.refresh();
+                const newToken = await this.getAuthToken();
+                if (newToken) {
+                    console.log('Token refreshed successfully');
+                    return true;
+                }
+            }
+            return false;
+        } catch (refreshError) {
+            console.error('Token refresh failed:', refreshError);
+            netlifyIdentity.logout();
+            return false;
         }
     },
 

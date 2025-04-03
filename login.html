@@ -9,11 +9,14 @@
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <title>AI Hustle Hub - Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Load third-party scripts first -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="supabase.js"></script>
-    <script src="auth.js"></script>
-    <script src="script.js"></script>
+    <!-- Load our utilities next -->
+    <script src="src/supabase.js"></script>
+    <script src="src/auth.js"></script>
+    <!-- Load main script last -->
+    <script src="script.js" defer></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
