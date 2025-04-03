@@ -409,37 +409,55 @@ function updateProgressBar() {
 }
 
 // Initialize Supabase client
-const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
 let supabase;
+let supabaseInitAttempts = 0;
+const MAX_INIT_ATTEMPTS = 10;
 
-// Initialize Supabase immediately if available, or wait for load
-function initSupabase() {
-    if (typeof window.supabase !== 'undefined') {
-        supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-        return true;
+async function ensureSupabaseInitialized() {
+    if (supabase) return true;
+    
+    if (supabaseInitAttempts >= MAX_INIT_ATTEMPTS) {
+        throw new Error('Failed to initialize Supabase after multiple attempts');
     }
-    return false;
+    
+    supabaseInitAttempts++;
+    
+    try {
+        // Get the current user from Netlify Identity
+        const user = netlifyIdentity.currentUser();
+        
+        // Initialize Supabase with the user's token if available
+        supabase = supabase.createClient(
+            'https://tdxpostwbmpnsikjftvy.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk2NjQ0MDAsImV4cCI6MjAyNTI0MDQwMH0.2XQm5wXqgXj4XQm5wXqgXj4XQm5wXqgXj4XQm5wXqgXj4',
+            {
+                auth: {
+                    autoRefreshToken: true,
+                    persistSession: true,
+                    detectSessionInUrl: true
+                },
+                global: {
+                    headers: user ? {
+                        Authorization: `Bearer ${user.token.access_token}`
+                    } : {}
+                }
+            }
+        );
+        
+        return true;
+    } catch (error) {
+        console.error('Error initializing Supabase:', error);
+        return false;
+    }
 }
 
-// Retry Supabase initialization
-function ensureSupabaseInitialized() {
-    return new Promise((resolve, reject) => {
-        let attempts = 0;
-        const maxAttempts = 10;
-        
-        function tryInit() {
-            if (initSupabase()) {
-                resolve(true);
-            } else if (attempts < maxAttempts) {
-                attempts++;
-                setTimeout(tryInit, 100);
-            } else {
-                reject(new Error('Failed to initialize Supabase after multiple attempts'));
-            }
+// Add event listener for Netlify Identity token refresh
+if (typeof netlifyIdentity !== 'undefined') {
+    netlifyIdentity.on('tokenRefreshed', user => {
+        if (supabase && user) {
+            // Update Supabase headers with new token
+            supabase.realtime.setAuth(user.token.access_token);
         }
-        
-        tryInit();
     });
 }
 
