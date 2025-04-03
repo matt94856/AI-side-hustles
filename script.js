@@ -499,7 +499,12 @@ function initializePayPal() {
                             description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
                         }],
                         application_context: {
-                            shipping_preference: 'NO_SHIPPING'
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW',
+                            payment_method: {
+                                payer_selected: 'PAYPAL',
+                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED'
+                            }
                         }
                     });
                 },
@@ -510,7 +515,7 @@ function initializePayPal() {
                 },
                 onError: function(err) {
                     console.error('Payment error:', err);
-                    showMessage('There was an error processing your payment. Please try again.', 'error');
+                    showMessage('There was an error processing your payment. Please try again or use a different payment method.', 'error');
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
@@ -531,7 +536,12 @@ function initializePayPal() {
                             description: 'Access to All 5 AI Money-Making Tutorials'
                         }],
                         application_context: {
-                            shipping_preference: 'NO_SHIPPING'
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW',
+                            payment_method: {
+                                payer_selected: 'PAYPAL',
+                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED'
+                            }
                         }
                     });
                 },
@@ -542,7 +552,7 @@ function initializePayPal() {
                 },
                 onError: function(err) {
                     console.error('Payment error:', err);
-                    showMessage('There was an error processing your payment. Please try again.', 'error');
+                    showMessage('There was an error processing your payment. Please try again or use a different payment method.', 'error');
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
