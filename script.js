@@ -428,8 +428,8 @@ async function ensureSupabaseInitialized() {
         
         // Initialize Supabase with the user's token if available
         supabase = window.supabase.createClient(
-            'https://tdxpostwbmpnsikjftvy.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk2NjQ0MDAsImV4cCI6MjAyNTI0MDQwMH0.2XQm5wXqgXj4XQm5wXqgXj4XQm5wXqgXj4XQm5wXqgXj4',
+            process.env.SUPABASE_URL || 'https://tdxpostwbmpnsikjftvy.supabase.co',
+            process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2NjE0NDEsImV4cCI6MjA1ODc4NTkzMH0.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5I',
             {
                 auth: {
                     autoRefreshToken: true,
