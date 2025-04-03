@@ -243,6 +243,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize modal first
     initializeModal();
     
+    // Check if we need to show the paywall modal
+    const showPaywallFor = sessionStorage.getItem('showPaywallFor');
+    if (showPaywallFor) {
+        sessionStorage.removeItem('showPaywallFor');
+        showModal(parseInt(showPaywallFor));
+    }
+    
     const isPremiumPage = window.location.pathname.includes('tutorial');
     if (isPremiumPage) {
         const tutorialId = parseInt(window.location.pathname.match(/tutorial(\d+)\.html/)[1]);

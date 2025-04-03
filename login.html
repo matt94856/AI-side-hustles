@@ -68,29 +68,31 @@
         <a href="index.html" class="back-home">← Back to Home</a>
     </div>
     <script>
-        netlifyIdentity.on('login', function() {
-            // Check for stored redirect information
+        netlifyIdentity.on('login', user => {
+            // Get stored redirect information
             const redirectTo = sessionStorage.getItem('redirectTo');
             const tutorialId = sessionStorage.getItem('tutorialId');
             
-            if (redirectTo) {
-                // Clear the stored information
-                sessionStorage.removeItem('redirectTo');
-                sessionStorage.removeItem('tutorialId');
-                
-                // If we have a tutorial ID, redirect to the appropriate page
-                if (tutorialId) {
-                    if (tutorialId === 'all') {
-                        window.location.href = 'index.html#tutorials';
-                    } else {
-                        window.location.href = `tutorial${tutorialId}.html`;
-                    }
-                } else {
-                    // Otherwise, redirect to the stored page
+            // Clear stored data
+            sessionStorage.removeItem('redirectTo');
+            sessionStorage.removeItem('tutorialId');
+            
+            // Check if user has purchased access
+            const paymentData = JSON.parse(localStorage.getItem('paymentData'));
+            const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
+            const allAccess = localStorage.getItem('allAccess') === 'true';
+            
+            if (redirectTo && tutorialId) {
+                // If user has all access or purchased this specific tutorial
+                if (allAccess || purchasedTutorials.includes(parseInt(tutorialId))) {
                     window.location.href = redirectTo;
+                } else {
+                    // If no purchase, redirect to the paywall modal
+                    window.location.href = 'index.html';
+                    // Store the tutorial ID to show the correct paywall
+                    sessionStorage.setItem('showPaywallFor', tutorialId);
                 }
             } else {
-                // Default redirect to home page
                 window.location.href = 'index.html';
             }
         });
