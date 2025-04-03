@@ -583,13 +583,17 @@ function initializePayPal() {
                             description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
                         }],
                         application_context: {
-                            shipping_preference: 'NO_SHIPPING'
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW'
                         }
                     });
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
                         handlePaymentSuccess(currentTutorialId, 'single', details);
+                    }).catch(function(err) {
+                        console.error('Capture error:', err);
+                        showMessage('There was an error processing your payment. Please try again.', 'error');
                     });
                 },
                 onError: function(err) {
@@ -624,13 +628,17 @@ function initializePayPal() {
                             description: 'Access to All 5 AI Money-Making Tutorials'
                         }],
                         application_context: {
-                            shipping_preference: 'NO_SHIPPING'
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW'
                         }
                     });
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
                         handlePaymentSuccess(null, 'all', details);
+                    }).catch(function(err) {
+                        console.error('Capture error:', err);
+                        showMessage('There was an error processing your payment. Please try again.', 'error');
                     });
                 },
                 onError: function(err) {
