@@ -457,8 +457,8 @@
   function initializeWithNetlifyIdentity() {
     if (typeof netlifyIdentity === 'undefined') {
       setTimeout(initializeWithNetlifyIdentity, 100);
-      return;
-    }
+                            return;
+                        }
 
     const user = netlifyIdentity.currentUser();
     if (user) {
@@ -511,7 +511,14 @@
 
   // Start initialization when DOM is loaded
   document.addEventListener("DOMContentLoaded", initializeWithNetlifyIdentity);
-</script>
+    </script>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2NjE0NDEsImV4cCI6MjA1ODc4NTkzMH0.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5I'
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey)
+    </script>
 
 </body>
 </html> 
