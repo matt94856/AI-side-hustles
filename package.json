@@ -4,12 +4,10 @@
   "description": "AI Money-Making Guide Website",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'No build step required'"
+    "build": "cd netlify/functions && npm install"
   },
-  "dependencies": {
-    "faunadb": "^4.7.0"
-  },
+  "dependencies": {},
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=16.0.0"
   }
 } 
