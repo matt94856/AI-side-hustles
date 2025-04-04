@@ -1,9 +1,35 @@
-const fetch = require("node-fetch");
+const fetch = require('node-fetch');
+const { createClient } = require('@supabase/supabase-js');
+
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 exports.handler = async (event) => {
-  // Only allow POST requests
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+  // Add CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
+  };
+
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method Not Allowed' })
+    };
   }
 
   try {
@@ -11,89 +37,84 @@ exports.handler = async (event) => {
 
     // Verify user authentication
     if (!user || !user.token) {
-      return { statusCode: 401, body: "Unauthorized" };
+      return {
+        statusCode: 401,
+        headers,
+        body: JSON.stringify({ error: 'Unauthorized' })
+      };
     }
 
-    // Construct the Supabase URL and headers
-    const url = `${process.env.SUPABASE_URL}/rest/v1/${table}`;
-    const headers = {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
-      "apikey": process.env.SUPABASE_ANON_KEY
-    };
-
-    let response;
+    let result;
     
     switch (action) {
-      case "getPurchases":
-        // Get all purchases for a user
-        response = await fetch(`${url}?user_id=eq.${user.id}`, {
-          method: "GET",
-          headers
-        });
+      case 'getPurchases':
+        result = await supabase
+          .from(table)
+          .select('*')
+          .eq('user_id', user.id);
         break;
 
-      case "upsertPurchase":
-        // Insert or update purchase
-        headers["Prefer"] = "resolution=merge-duplicates";
-        response = await fetch(url, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
+      case 'upsertPurchase':
+        result = await supabase
+          .from(table)
+          .upsert({
             ...data,
             user_id: user.id,
             last_synced: new Date().toISOString()
-          })
-        });
+          });
         break;
 
-      case "verifyPurchase":
-        // Verify specific purchase
-        response = await fetch(
-          `${url}?user_id=eq.${user.id}&tutorial_id=eq.${data.tutorial_id}`, {
-          method: "GET",
-          headers
-        });
+      case 'verifyPurchase':
+        result = await supabase
+          .from(table)
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('tutorial_id', data.tutorial_id)
+          .single();
         break;
 
-      case "getAllAccess":
-        // Check for all-access subscription
-        response = await fetch(
-          `${url}?user_id=eq.${user.id}&all_access=eq.true`, {
-          method: "GET",
-          headers
-        });
+      case 'getAllAccess':
+        result = await supabase
+          .from(table)
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('all_access', true)
+          .single();
         break;
 
       default:
         return {
           statusCode: 400,
-          body: JSON.stringify({ error: "Invalid action" })
+          headers,
+          body: JSON.stringify({ error: 'Invalid action' })
         };
     }
 
-    const responseData = await response.text();
-    const statusCode = response.status;
-
-    // Add CORS headers for browser access
-    const responseHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS'
-    };
+    if (result.error) {
+      console.error('Supabase error:', result.error);
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({
+          error: 'Database operation failed',
+          details: result.error.message
+        })
+      };
+    }
 
     return {
-      statusCode,
-      headers: responseHeaders,
-      body: responseData
+      statusCode: 200,
+      headers,
+      body: JSON.stringify(result.data)
     };
 
   } catch (error) {
-    console.error("Error in supabaseHandler:", error);
+    console.error('Error in supabaseHandler:', error);
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({
-        error: "Server error",
+        error: 'Server error',
         details: error.message
       })
     };
