@@ -465,25 +465,25 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
     try {
         const user = netlifyIdentity.currentUser();
         if (!user) {
-            console.log('No user logged in, granting local access only');
-            grantLocalAccess(type, tutorialId, transactionDetails);
-            return true;
+            throw new Error('User not authenticated');
         }
 
         // Prepare purchase data
         const purchaseData = {
-            user_id: user.id,
-            all_access: type === 'all',
-            tutorial_id: type === 'all' ? null : parseInt(tutorialId),
-            purchase_date: new Date().toISOString(),
-            transaction_id: transactionDetails.id
+            tutorial_id: tutorialId,
+            purchase_type: type,
+            transaction_id: transactionDetails.id,
+            amount: transactionDetails.amount,
+            currency: transactionDetails.currency,
+            purchase_date: new Date().toISOString()
         };
 
         // Save to backend
         const response = await fetch('/.netlify/functions/supabaseHandler', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token.access_token}`
             },
             body: JSON.stringify({
                 user: {
@@ -496,8 +496,14 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             })
         });
 
+        const result = await response.json();
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(result.error || `HTTP error! status: ${response.status}`);
+        }
+
+        if (!result.success) {
+            throw new Error('Failed to save purchase to database');
         }
 
         // Update local state
@@ -509,9 +515,11 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
         return true;
     } catch (error) {
         console.error('Error in savePurchaseToDatabase:', error);
-        // Grant access locally even if there's an error
+        // Show error to user
+        showMessage(`Error saving purchase: ${error.message}`, 'error');
+        // Still grant access locally as a fallback
         grantLocalAccess(type, tutorialId, transactionDetails);
-        return true;
+        return false;
     }
 }
 
@@ -519,13 +527,16 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
 async function syncPurchasesFromServer() {
     try {
         const user = netlifyIdentity.currentUser();
-        if (!user) return;
+        if (!user) {
+            console.error('Cannot sync: User not authenticated');
+            return;
+        }
 
-        // Get all purchases from server
         const response = await fetch('/.netlify/functions/supabaseHandler', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token.access_token}`
             },
             body: JSON.stringify({
                 user: {
@@ -537,27 +548,31 @@ async function syncPurchasesFromServer() {
             })
         });
 
+        const result = await response.json();
+
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(result.error || `HTTP error! status: ${response.status}`);
         }
 
-        const purchases = await response.json();
-        
-        // Update local storage with server data
-        const allAccess = purchases.some(p => p.all_access);
-        if (allAccess) {
+        if (!result.success) {
+            throw new Error('Failed to sync purchases');
+        }
+
+        // Update local storage with synced data
+        const purchases = result.data || [];
+        const purchasedTutorials = purchases.map(p => p.tutorial_id);
+        localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+
+        // Check for all-access
+        const hasAllAccess = purchases.some(p => p.all_access);
+        if (hasAllAccess) {
             localStorage.setItem('allAccess', 'true');
-        } else {
-            const purchasedTutorials = purchases
-                .filter(p => p.tutorial_id)
-                .map(p => p.tutorial_id);
-            localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
         }
 
-        return true;
+        console.log('Successfully synced purchases:', purchases);
     } catch (error) {
         console.error('Error syncing purchases:', error);
-        return false;
+        showMessage('Error syncing purchases. Please refresh the page.', 'error');
     }
 }
 
