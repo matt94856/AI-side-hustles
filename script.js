@@ -470,20 +470,14 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
 
         console.log('Processing purchase:', { tutorialId, type, transactionDetails });
 
-        // Prepare purchase data
+        // Prepare purchase data to match table structure
         const purchaseData = {
             user_id: user.id,
             tutorial_id: type === 'all' ? null : parseInt(tutorialId),
             all_access: type === 'all',
-            transaction_id: {
-                id: transactionDetails.id,
-                amount: transactionDetails.purchase_units[0].amount.value,
-                currency: transactionDetails.purchase_units[0].amount.currency_code,
-                status: transactionDetails.status,
-                create_time: transactionDetails.create_time
-            },
             status: 'completed',
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
         };
 
         console.log('Sending purchase data:', purchaseData);
@@ -513,6 +507,15 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             console.error('Server error:', result);
             throw new Error(result.error || result.details || `HTTP error! status: ${response.status}`);
         }
+
+        // Store PayPal transaction details in localStorage for reference
+        localStorage.setItem('lastTransaction', JSON.stringify({
+            id: transactionDetails.id,
+            amount: transactionDetails.purchase_units[0].amount.value,
+            currency: transactionDetails.purchase_units[0].amount.currency_code,
+            status: transactionDetails.status,
+            create_time: transactionDetails.create_time
+        }));
 
         // Update local state
         grantLocalAccess(type, tutorialId, transactionDetails);
