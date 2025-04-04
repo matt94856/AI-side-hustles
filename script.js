@@ -274,6 +274,34 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeMobileMenu();
     initializeSmoothScrolling();
     updateProgressBar();
+
+    // Add "My Courses" button to navigation if user is logged in
+    if (typeof netlifyIdentity !== 'undefined') {
+        netlifyIdentity.on('init', user => {
+            if (user) {
+                addMyCoursesButton();
+            }
+        });
+
+        netlifyIdentity.on('login', () => {
+            addMyCoursesButton();
+        });
+
+        netlifyIdentity.on('logout', () => {
+            removeMyCoursesButton();
+        });
+    }
+
+    // Check if we're on a tutorial page
+    const tutorialMatch = window.location.pathname.match(/tutorial(\d+)\.html/);
+    if (tutorialMatch) {
+        const tutorialId = tutorialMatch[1];
+        checkCourseAccess(tutorialId).then(hasAccess => {
+            if (!hasAccess) {
+                showModal(tutorialId);
+            }
+        });
+    }
 });
 
 // Function to enable access to premium content
@@ -1106,4 +1134,99 @@ async function checkPurchaseStatus(userId, tutorialId) {
         console.error('Error checking purchase status:', error);
         return false;
     }
-} 
+}
+
+async function checkCourseAccess(tutorialId) {
+    try {
+        const user = netlifyIdentity.currentUser();
+        if (!user) {
+            // Store the current page URL and tutorial ID
+            sessionStorage.setItem('redirectTo', window.location.pathname);
+            sessionStorage.setItem('tutorialId', tutorialId);
+            window.location.href = 'login.html';
+            return false;
+        }
+
+        // Check purchases from server
+        const response = await fetch('/.netlify/functions/supabaseHandler', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token.access_token}`
+            },
+            body: JSON.stringify({
+                user: {
+                    id: user.id,
+                    token: user.token.access_token
+                },
+                action: 'getPurchases',
+                table: 'user_purchases'
+            })
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            console.error('Error checking access:', result);
+            return false;
+        }
+
+        const purchases = result.data || [];
+        const hasAllAccess = purchases.some(p => p.all_access);
+        const hasTutorialAccess = purchases.some(p => p.tutorial_id === parseInt(tutorialId));
+
+        return hasAllAccess || hasTutorialAccess;
+    } catch (error) {
+        console.error('Error checking course access:', error);
+        return false;
+    }
+}
+
+// Update the course click handler
+async function handleCourseClick(tutorialId) {
+    const hasAccess = await checkCourseAccess(tutorialId);
+    if (hasAccess) {
+        // Redirect directly to the tutorial
+        window.location.href = `tutorial${tutorialId}.html`;
+    } else {
+        // Show paywall
+        showModal(tutorialId);
+    }
+}
+
+function addMyCoursesButton() {
+    if (!document.querySelector('.my-courses-btn')) {
+        const nav = document.querySelector('nav');
+        if (nav) {
+            const button = document.createElement('a');
+            button.href = 'my-courses.html';
+            button.className = 'my-courses-btn';
+            button.textContent = 'My Courses';
+            nav.appendChild(button);
+        }
+    }
+}
+
+function removeMyCoursesButton() {
+    const button = document.querySelector('.my-courses-btn');
+    if (button) {
+        button.remove();
+    }
+}
+
+// Add styles for the My Courses button
+const style = document.createElement('style');
+style.textContent = `
+    .my-courses-btn {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-left: 1rem;
+    }
+    .my-courses-btn:hover {
+        background: #0056b3;
+    }
+`;
+document.head.appendChild(style); 

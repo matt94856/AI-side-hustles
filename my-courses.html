@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses - Premium Web Creators</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+    <nav>
+        <!-- Your existing navigation -->
+    </nav>
+
+    <main class="my-courses-container">
+        <h1>My Courses</h1>
+        <div id="coursesGrid" class="courses-grid">
+            <!-- Courses will be loaded here dynamically -->
+            <div class="loading">Loading your courses...</div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if user is logged in
+            const user = netlifyIdentity.currentUser();
+            if (!user) {
+                window.location.href = 'login.html?return_to=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+
+            try {
+                // Fetch user's purchases
+                const response = await fetch('/.netlify/functions/supabaseHandler', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token.access_token}`
+                    },
+                    body: JSON.stringify({
+                        user: {
+                            id: user.id,
+                            token: user.token.access_token
+                        },
+                        action: 'getPurchases',
+                        table: 'user_purchases'
+                    })
+                });
+
+                const result = await response.json();
+                const coursesGrid = document.getElementById('coursesGrid');
+                coursesGrid.innerHTML = ''; // Clear loading message
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Failed to fetch courses');
+                }
+
+                const purchases = result.data || [];
+                const hasAllAccess = purchases.some(p => p.all_access);
+
+                if (hasAllAccess) {
+                    // Show all courses if user has all-access
+                    Object.entries(tutorialPreviews).forEach(([id, tutorial]) => {
+                        addCourseCard(id, tutorial.title);
+                    });
+                } else {
+                    // Show only purchased courses
+                    const purchasedIds = purchases.map(p => p.tutorial_id).filter(id => id !== null);
+                    if (purchasedIds.length === 0) {
+                        coursesGrid.innerHTML = '<p class="no-courses">You haven\'t purchased any courses yet. <a href="index.html#tutorials">Browse our courses</a></p>';
+                        return;
+                    }
+                    purchasedIds.forEach(id => {
+                        if (tutorialPreviews[id]) {
+                            addCourseCard(id, tutorialPreviews[id].title);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+                document.getElementById('coursesGrid').innerHTML = 
+                    '<p class="error">Error loading your courses. Please try again later.</p>';
+            }
+        });
+
+        function addCourseCard(id, title) {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            card.innerHTML = `
+                <h2>${title}</h2>
+                <a href="tutorial${id}.html" class="course-link">Continue Learning</a>
+                <div class="progress-indicator">
+                    <div class="progress-bar" style="width: 0%"></div>
+                </div>
+            `;
+            document.getElementById('coursesGrid').appendChild(card);
+        }
+    </script>
+
+    <style>
+        .my-courses-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-card h2 {
+            margin: 0 0 1rem 0;
+            color: #333;
+        }
+
+        .course-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .course-link:hover {
+            background: #0056b3;
+        }
+
+        .progress-indicator {
+            margin-top: 1rem;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #28a745;
+            transition: width 0.3s;
+        }
+
+        .loading, .error, .no-courses {
+            text-align: center;
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .no-courses a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .no-courses a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html> 
