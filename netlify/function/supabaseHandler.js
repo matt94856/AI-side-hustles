@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const { createClient } = require('@supabase/supabase-js');
 
 // Initialize Supabase client
@@ -105,18 +104,15 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify(result.data)
+      body: JSON.stringify(result.data || [])
     };
 
   } catch (error) {
-    console.error('Error in supabaseHandler:', error);
+    console.error('Error:', error);
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({
-        error: 'Server error',
-        details: error.message
-      })
+      body: JSON.stringify({ error: 'Server Error' })
     };
   }
 }; 
