@@ -103,9 +103,8 @@ exports.handler = async (event) => {
               user_id: data.user_id,
               tutorial_id: data.tutorial_id,
               all_access: data.all_access || false,
-              transaction_id: data.transaction_id,
               status: data.status || 'completed',
-              created_at: data.created_at || new Date().toISOString(),
+              created_at: data.created_at,
               updated_at: new Date().toISOString()
             }, {
               onConflict: data.all_access ? 'user_id,all_access' : 'user_id,tutorial_id',
