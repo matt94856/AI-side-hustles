@@ -654,7 +654,7 @@ function initializePayPal() {
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: '7.99',
+                                value: '14.99',
                                 currency_code: 'USD'
                             },
                             description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
@@ -699,7 +699,7 @@ function initializePayPal() {
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: '19.99',
+                                value: '24.99',
                                 currency_code: 'USD'
                             },
                             description: 'Access to All 5 AI Money-Making Tutorials'
