@@ -5,10 +5,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install Dependencies
+        with:
+          fetch-depth: 0  # This ensures all files are checked out
+      
+      - name: Verify Directory Structure
         run: |
-          cd netlify/functions
-          npm install
+          ls -la
+          ls -la netlify/
+          ls -la netlify/functions/
+      
+      - name: Install Dependencies
+        working-directory: ./netlify/functions
+        run: npm install
+      
       - name: Commit Changes
         run: |
           git config --global user.name 'GitHub Actions'
