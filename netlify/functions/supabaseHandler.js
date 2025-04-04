@@ -85,27 +85,59 @@ exports.handler = async (event) => {
         break;
 
       case 'upsertPurchase':
-        if (!data || !data.tutorial_id) {
+        if (!data || !data.user_id) {
+          console.error('Missing user_id in purchase data:', data);
           return {
             statusCode: 400,
             headers,
-            body: JSON.stringify({ error: 'Missing tutorial_id in purchase data' })
+            body: JSON.stringify({ error: 'Missing user_id in purchase data' })
           };
         }
+
+        console.log('Attempting to upsert purchase:', data);
         
-        result = await supabase
-          .from(table)
-          .upsert({
-            user_id: user.id,
-            tutorial_id: data.tutorial_id,
-            transaction_id: data.transaction_id || {},
-            status: 'completed',
-            all_access: data.all_access || false,
-            updated_at: new Date().toISOString()
-          }, {
-            onConflict: 'user_id,tutorial_id',
-            ignoreDuplicates: false
-          });
+        try {
+          result = await supabase
+            .from(table)
+            .upsert({
+              user_id: data.user_id,
+              tutorial_id: data.tutorial_id,
+              all_access: data.all_access || false,
+              transaction_id: data.transaction_id,
+              status: data.status || 'completed',
+              created_at: data.created_at || new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            }, {
+              onConflict: data.all_access ? 'user_id,all_access' : 'user_id,tutorial_id',
+              ignoreDuplicates: false
+            });
+
+          if (result.error) {
+            console.error('Supabase upsert error:', result.error);
+            throw result.error;
+          }
+
+          console.log('Purchase saved successfully:', result.data);
+
+          return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({
+              success: true,
+              data: result.data
+            })
+          };
+        } catch (error) {
+          console.error('Error in upsertPurchase:', error);
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({
+              error: 'Failed to save purchase',
+              details: error.message
+            })
+          };
+        }
         break;
 
       case 'verifyPurchase':
