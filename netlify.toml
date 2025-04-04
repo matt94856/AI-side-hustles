@@ -1,7 +1,7 @@
 [build]
   publish = "/"
   functions = "netlify/functions"
-  command = "cd netlify/functions && npm install"
+  command = "npm install && cd netlify/functions && npm install"
 
 [[redirects]]
   from = "/*"
@@ -21,4 +21,5 @@
     Content-Security-Policy = "default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self' https:;"
 
 [functions]
-  node_bundler = "esbuild" 
+  node_bundler = "esbuild"
+  directory = "netlify/functions" 

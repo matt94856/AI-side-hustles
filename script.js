@@ -463,16 +463,6 @@ if (typeof netlifyIdentity !== 'undefined') {
 
 async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
     try {
-        // Ensure Supabase is initialized
-        await ensureSupabaseInitialized();
-        
-        if (!supabase) {
-            console.error('Supabase client not initialized');
-            // Still grant access locally
-            grantLocalAccess(type, tutorialId, transactionDetails);
-            return true;
-        }
-
         const user = netlifyIdentity.currentUser();
         if (!user) {
             console.log('No user logged in, granting local access only');
@@ -480,36 +470,42 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             return true;
         }
 
-        // Store payment details in Supabase
+        // Prepare purchase data
         const purchaseData = {
             user_id: user.id,
             all_access: type === 'all',
             tutorial_id: type === 'all' ? null : parseInt(tutorialId),
-            purchase_date: new Date().toISOString()
+            purchase_date: new Date().toISOString(),
+            transaction_id: transactionDetails.id
         };
 
-        // First try to insert
-        const { error: insertError } = await supabase
-            .from('user_purchases')
-            .insert(purchaseData);
+        // Save to backend
+        const response = await fetch('/.netlify/functions/supabaseHandler', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    id: user.id,
+                    token: user.token.access_token
+                },
+                action: 'upsertPurchase',
+                table: 'user_purchases',
+                data: purchaseData
+            })
+        });
 
-        if (insertError) {
-            // If insert fails due to unique constraint, try update
-            const { error: updateError } = await supabase
-                .from('user_purchases')
-                .update(purchaseData)
-                .eq('user_id', user.id)
-                .eq('tutorial_id', type === 'all' ? null : parseInt(tutorialId));
-
-            if (updateError) {
-                console.error('Error saving to database:', updateError);
-                grantLocalAccess(type, tutorialId, transactionDetails);
-                return true;
-            }
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         // Update local state
         grantLocalAccess(type, tutorialId, transactionDetails);
+
+        // Trigger sync across devices
+        await syncPurchasesFromServer();
+        
         return true;
     } catch (error) {
         console.error('Error in savePurchaseToDatabase:', error);
@@ -518,6 +514,61 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
         return true;
     }
 }
+
+// Add function to sync purchases from server
+async function syncPurchasesFromServer() {
+    try {
+        const user = netlifyIdentity.currentUser();
+        if (!user) return;
+
+        // Get all purchases from server
+        const response = await fetch('/.netlify/functions/supabaseHandler', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    id: user.id,
+                    token: user.token.access_token
+                },
+                action: 'getPurchases',
+                table: 'user_purchases'
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const purchases = await response.json();
+        
+        // Update local storage with server data
+        const allAccess = purchases.some(p => p.all_access);
+        if (allAccess) {
+            localStorage.setItem('allAccess', 'true');
+        } else {
+            const purchasedTutorials = purchases
+                .filter(p => p.tutorial_id)
+                .map(p => p.tutorial_id);
+            localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Error syncing purchases:', error);
+        return false;
+    }
+}
+
+// Add periodic sync
+document.addEventListener('DOMContentLoaded', () => {
+    // Initial sync
+    syncPurchasesFromServer();
+    
+    // Sync every 5 minutes
+    setInterval(syncPurchasesFromServer, 5 * 60 * 1000);
+});
 
 // Helper function to grant local access
 function grantLocalAccess(type, tutorialId, transactionDetails) {
