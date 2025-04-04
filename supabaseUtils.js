@@ -2,23 +2,41 @@
 const supabaseUtils = {
     // Sync user purchases from server
     syncUserPurchases: async function() {
-        try {
-            const user = netlifyIdentity.currentUser();
-            if (!user) return;
+        // Prevent multiple simultaneous syncs
+        if (isSyncing) {
+            console.log('Sync already in progress, skipping...');
+            return;
+        }
 
-            // Call our Netlify Function to get purchases
+        try {
+            isSyncing = true;
+            const user = netlifyIdentity.currentUser();
+            if (!user) {
+                console.error('No user logged in');
+                return;
+            }
+
+            // Check if token is expired or about to expire
+            const tokenExpiry = new Date(user.token.expires_at);
+            const now = new Date();
+            if (tokenExpiry.getTime() - now.getTime() < 5 * 60 * 1000) { // 5 minutes
+                console.log('Token about to expire, refreshing...');
+                await netlifyIdentity.refresh();
+                user = netlifyIdentity.currentUser();
+            }
+
             const response = await fetch('/.netlify/functions/supabaseHandler', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token.access_token}`
                 },
                 body: JSON.stringify({
+                    action: 'getPurchases',
                     user: {
                         id: user.id,
                         token: user.token.access_token
-                    },
-                    action: 'getPurchases',
-                    table: 'user_purchases'
+                    }
                 })
             });
 
@@ -26,24 +44,24 @@ const supabaseUtils = {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const purchases = await response.json();
-            
-            // Update local storage with server data
-            const allAccess = purchases.some(p => p.all_access);
-            if (allAccess) {
-                localStorage.setItem('allAccess', 'true');
-            } else {
-                const purchasedTutorials = purchases
-                    .filter(p => p.tutorial_id)
-                    .map(p => p.tutorial_id);
-                localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+            const result = await response.json();
+            if (result.error) {
+                throw new Error(result.error);
             }
 
-            console.log('Purchases synced successfully');
-            return true;
+            // Update local storage
+            const purchasedTutorials = result.purchases.map(p => p.tutorial_id);
+            localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
+            
+            console.log('Successfully synced purchases:', purchasedTutorials);
         } catch (error) {
             console.error('Error syncing purchases:', error);
-            return false;
+            // Retry after 30 seconds if error occurs
+            setTimeout(() => {
+                supabaseUtils.syncUserPurchases();
+            }, 30000);
+        } finally {
+            isSyncing = false;
         }
     },
 
@@ -80,8 +98,31 @@ const supabaseUtils = {
             console.error('Error checking purchase status:', error);
             return false;
         }
+    },
+
+    // Start auto-sync when user logs in
+    startAutoSync: function() {
+        if (autoSyncInterval) {
+            clearInterval(autoSyncInterval);
+        }
+        // Sync every 5 minutes
+        autoSyncInterval = setInterval(supabaseUtils.syncUserPurchases, 5 * 60 * 1000);
+    },
+
+    // Stop auto-sync when user logs out
+    stopAutoSync: function() {
+        if (autoSyncInterval) {
+            clearInterval(autoSyncInterval);
+            autoSyncInterval = null;
+        }
     }
 };
+
+// Add sync lock to prevent multiple simultaneous syncs
+let isSyncing = false;
+
+// Add auto-sync interval
+let autoSyncInterval = null;
 
 // Export the utilities
 window.supabaseUtils = supabaseUtils; 

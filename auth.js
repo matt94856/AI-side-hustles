@@ -20,46 +20,65 @@ const authUtils = {
     // Handle user login
     handleUserLogin: async function(user) {
         try {
-            // Get the user's Netlify ID
-            const netlifyId = user.id;
-            
             // Check if user exists in Supabase
-            const { data: existingUser, error: checkError } = await window.supabaseClient
+            const { data: existingUser, error } = await window.supabaseClient
                 .from('users')
                 .select('*')
-                .eq('netlify_id', netlifyId)
+                .eq('id', user.id)
                 .single();
 
-            if (checkError && checkError.code !== 'PGRST116') {
-                throw checkError;
+            if (error && error.code !== 'PGRST116') {
+                console.error('Error checking user:', error);
+                return;
             }
 
+            // Create user if doesn't exist
             if (!existingUser) {
-                // Create new user in Supabase
                 const { error: insertError } = await window.supabaseClient
                     .from('users')
                     .insert([{
-                        netlify_id: netlifyId,
+                        id: user.id,
                         email: user.email,
                         created_at: new Date().toISOString()
                     }]);
 
-                if (insertError) throw insertError;
+                if (insertError) {
+                    console.error('Error creating user:', insertError);
+                    return;
+                }
             }
 
             // Store user info in localStorage
-            localStorage.setItem('currentUser', JSON.stringify({
+            localStorage.setItem('user', JSON.stringify({
                 id: user.id,
-                email: user.email,
-                lastLogin: new Date().toISOString()
+                email: user.email
             }));
 
-            // Sync purchases
+            // Initial sync
             await window.supabaseUtils.syncUserPurchases();
+            
+            // Start auto-sync
+            window.supabaseUtils.startAutoSync();
+
+            // Redirect to home page
+            window.location.href = '/';
         } catch (error) {
             console.error('Error in handleUserLogin:', error);
-            this.handleAuthError(error);
         }
+    },
+
+    // Handle user logout
+    handleUserLogout: function() {
+        // Clear user data
+        localStorage.removeItem('user');
+        localStorage.removeItem('purchasedTutorials');
+        localStorage.removeItem('allAccess');
+        
+        // Stop auto-sync
+        window.supabaseUtils.stopAutoSync();
+        
+        // Redirect to login page
+        window.location.href = '/login.html';
     },
 
     // Handle authentication errors
@@ -67,8 +86,9 @@ const authUtils = {
         console.error('Authentication error:', error);
         
         // Clear sensitive data
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('userPurchases');
+        localStorage.removeItem('user');
+        localStorage.removeItem('purchasedTutorials');
+        localStorage.removeItem('allAccess');
         
         // If token is invalid, redirect to login
         if (error.message.includes('JWT') || error.message.includes('401')) {
@@ -82,7 +102,7 @@ const authUtils = {
         if (!user) return false;
 
         // Check if session is still valid
-        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
         return storedUser.id === user.id;
     },
 
@@ -92,7 +112,7 @@ const authUtils = {
         if (!user) return null;
 
         // Verify stored user matches current user
-        const storedUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
         if (storedUser.id !== user.id) {
             this.handleUserLogin(user);
         }
