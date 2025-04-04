@@ -468,15 +468,25 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             throw new Error('User not authenticated');
         }
 
+        console.log('Processing purchase:', { tutorialId, type, transactionDetails });
+
         // Prepare purchase data
         const purchaseData = {
-            tutorial_id: tutorialId,
-            purchase_type: type,
-            transaction_id: transactionDetails.id,
-            amount: transactionDetails.amount,
-            currency: transactionDetails.currency,
-            purchase_date: new Date().toISOString()
+            user_id: user.id,
+            tutorial_id: type === 'all' ? null : parseInt(tutorialId),
+            all_access: type === 'all',
+            transaction_id: {
+                id: transactionDetails.id,
+                amount: transactionDetails.purchase_units[0].amount.value,
+                currency: transactionDetails.purchase_units[0].amount.currency_code,
+                status: transactionDetails.status,
+                create_time: transactionDetails.create_time
+            },
+            status: 'completed',
+            created_at: new Date().toISOString()
         };
+
+        console.log('Sending purchase data:', purchaseData);
 
         // Save to backend
         const response = await fetch('/.netlify/functions/supabaseHandler', {
@@ -497,13 +507,11 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
         });
 
         const result = await response.json();
+        console.log('Backend response:', result);
 
         if (!response.ok) {
-            throw new Error(result.error || `HTTP error! status: ${response.status}`);
-        }
-
-        if (!result.success) {
-            throw new Error('Failed to save purchase to database');
+            console.error('Server error:', result);
+            throw new Error(result.error || result.details || `HTTP error! status: ${response.status}`);
         }
 
         // Update local state
@@ -516,7 +524,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
     } catch (error) {
         console.error('Error in savePurchaseToDatabase:', error);
         // Show error to user
-        showMessage(`Error saving purchase: ${error.message}`, 'error');
+        showMessage(`Error saving purchase: ${error.message}. Please contact support if the problem persists.`, 'error');
         // Still grant access locally as a fallback
         grantLocalAccess(type, tutorialId, transactionDetails);
         return false;
