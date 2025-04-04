@@ -1,28 +1,20 @@
 [build]
+  publish = "/"
   functions = "netlify/functions"
-  publish = "."
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--no-audit --no-fund"
-
-[functions]
-  node_bundler = "esbuild"
-  external_node_modules = ["@supabase/supabase-js"]
-
-[[plugins]]
-  package = "@netlify/plugin-functions-install-core"
 
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' https://tdxpostwbmpnsikjftvy.supabase.co https://identity.netlify.com https://www.paypal.com; style-src 'self' https: 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self' https: wss://tdxpostwbmpnsikjftvy.supabase.co; frame-src https://identity.netlify.com https://www.paypal.com;"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200 
+    Content-Security-Policy = "default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self' https:;" 

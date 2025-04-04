@@ -102,31 +102,17 @@ const authUtils = {
 
     // Redirect to login
     redirectToLogin: function(returnUrl = window.location.href) {
-        // Don't redirect if we're already on the login page
-        if (window.location.pathname.includes('login.html')) {
-            return;
-        }
         const loginUrl = `/login.html?return_to=${encodeURIComponent(returnUrl)}`;
         window.location.href = loginUrl;
     },
 
     // Handle login redirect
     handleLoginRedirect: function() {
-        // Don't handle redirects if we're not on the login page
-        if (!window.location.pathname.includes('login.html')) {
-            return;
-        }
-
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('return_to');
         
         if (returnUrl && this.isAuthenticated()) {
-            // Prevent redirect loops
-            if (returnUrl === window.location.href || returnUrl.includes('login.html')) {
-                window.location.href = '/'; // Redirect to home if return URL would cause a loop
-            } else {
-                window.location.href = returnUrl;
-            }
+            window.location.href = returnUrl;
         }
     },
 

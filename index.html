@@ -39,12 +39,8 @@
 <link href="style.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
-    <!-- Core Dependencies First -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Our Auth and Supabase Utils -->
-    <script src="./supabase.js"></script>
-    <script src="./auth-utils.js"></script>
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AXDK478h31Aam7cRATx7rNV4kkRzBXahoUoxBacw5e-EfbY1VzuRW_BUx11uDEFlteA4HRkECdXTYA7V&currency=USD"></script>
     <style>
@@ -2352,10 +2348,9 @@
             </div>
         </div>
     </footer>
-    <!-- Main Application Script - Loaded after all dependencies -->
     <script src="script.js"></script>
-    <!-- Additional Mobile Script -->
-    <script>
+<!-- Additional Mobile Script -->
+<script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuBtn = document.querySelector('.mobile-menu');

@@ -9,14 +9,8 @@
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <title>AI Hustle Hub - Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- Load third-party scripts first -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <!-- Load our utilities next -->
-    <script src="src/supabase.js"></script>
-    <script src="src/auth.js"></script>
-    <!-- Load main script last -->
-    <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -95,127 +89,198 @@
         <a href="index.html" class="back-home">← Back to Home</a>
     </div>
     <script>
-        // Wait for all scripts to load
-        window.addEventListener('load', async () => {
+        // Initialize Supabase client with auth configuration
+        const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
+        
+        // Initialize Supabase with auth configuration
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true,
+                storage: window.localStorage
+            }
+        });
+
+        // Update Supabase auth headers when Netlify Identity token refreshes
+        netlifyIdentity.on('login', user => {
+            if (supabase && user) {
+                console.log('Setting Supabase session with Netlify token');
+                user.jwt().then(token => {
+                    supabase.auth.setSession(token)
+                        .then(response => {
+                            console.log('Supabase session set successfully:', response);
+                        })
+                        .catch(error => {
+                            console.error('Error setting Supabase session:', error);
+                        });
+                });
+            }
+        });
+
+        // Handle token refresh
+        netlifyIdentity.on('refresh', user => {
+            if (supabase && user) {
+                console.log('Refreshing Supabase session');
+                user.jwt().then(token => {
+                    supabase.auth.setSession(token)
+                        .then(response => {
+                            console.log('Supabase session refreshed successfully:', response);
+                        })
+                        .catch(error => {
+                            console.error('Error refreshing Supabase session:', error);
+                        });
+                });
+            }
+        });
+
+        // Handle logout
+        netlifyIdentity.on('logout', () => {
+            if (supabase) {
+                console.log('Clearing Supabase session');
+                supabase.auth.signOut()
+                    .then(() => {
+                        console.log('Supabase session cleared successfully');
+                    })
+                    .catch(error => {
+                        console.error('Error clearing Supabase session:', error);
+                    });
+            }
+        });
+
+        // Rate limiting
+        const loginAttempts = new Map();
+        const MAX_ATTEMPTS = 5;
+        const BLOCK_DURATION = 15 * 60 * 1000; // 15 minutes
+
+        function checkRateLimit(userId) {
+            const now = Date.now();
+            const attempts = loginAttempts.get(userId) || { count: 0, timestamp: now };
+            
+            if (attempts.count >= MAX_ATTEMPTS) {
+                if (now - attempts.timestamp < BLOCK_DURATION) {
+                    const remainingTime = Math.ceil((BLOCK_DURATION - (now - attempts.timestamp)) / 1000 / 60);
+                    throw new Error(`Too many login attempts. Please try again in ${remainingTime} minutes.`);
+                }
+                // Reset attempts after block duration
+                attempts.count = 0;
+                attempts.timestamp = now;
+            }
+            
+            attempts.count++;
+            loginAttempts.set(userId, attempts);
+        }
+
+        // Input validation
+        function validateInput(input) {
+            // Remove any potential XSS or injection attempts
+            return input.replace(/[<>'"]/g, '');
+        }
+
+        async function checkPurchaseStatus(userId, tutorialId) {
             try {
-                // Initialize auth
-                if (window.authUtils) {
-                    window.authUtils.init();
+                // Validate inputs
+                userId = validateInput(userId);
+                tutorialId = validateInput(tutorialId);
+
+                // Check rate limit
+                checkRateLimit(userId);
+
+                // Check for all-access first
+                const { data: allAccessData, error: allAccessError } = await supabase
+                    .from('user_purchases')
+                    .select('all_access')
+                    .eq('user_id', userId)
+                    .eq('all_access', true)
+                    .single();
+
+                if (allAccessError && allAccessError.code !== 'PGRST116') {
+                    console.error('Error checking all-access:', allAccessError);
+                    throw allAccessError;
                 }
 
-                // Initialize Supabase handlers
-                if (window.supabaseUtils) {
-                    window.supabaseUtils.setupAuthHandlers();
+                if (allAccessData) {
+                    return true;
                 }
 
-                // Check session validity
-                const isValidSession = await window.authUtils?.checkSession();
-                if (!isValidSession) {
-                    // Handle invalid session
-                    return;
+                // If no all-access, check specific tutorial
+                const { data: tutorialData, error: tutorialError } = await supabase
+                    .from('user_purchases')
+                    .select('tutorial_id')
+                    .eq('user_id', userId)
+                    .eq('tutorial_id', tutorialId)
+                    .single();
+
+                if (tutorialError && tutorialError.code !== 'PGRST116') {
+                    console.error('Error checking tutorial access:', tutorialError);
+                    throw tutorialError;
                 }
 
-                // Rate limiting
-                const loginAttempts = new Map();
-                const MAX_ATTEMPTS = 5;
-                const BLOCK_DURATION = 15 * 60 * 1000; // 15 minutes
-
-                function checkRateLimit(userId) {
-                    const now = Date.now();
-                    const attempts = loginAttempts.get(userId) || { count: 0, timestamp: now };
-                    
-                    if (attempts.count >= MAX_ATTEMPTS) {
-                        if (now - attempts.timestamp < BLOCK_DURATION) {
-                            const remainingTime = Math.ceil((BLOCK_DURATION - (now - attempts.timestamp)) / 1000 / 60);
-                            throw new Error(`Too many login attempts. Please try again in ${remainingTime} minutes.`);
-                        }
-                        // Reset attempts after block duration
-                        attempts.count = 0;
-                        attempts.timestamp = now;
-                    }
-                    
-                    attempts.count++;
-                    loginAttempts.set(userId, attempts);
-                }
-
-                // Input validation
-                function validateInput(input) {
-                    // Remove any potential XSS or injection attempts
-                    return input.replace(/[<>'"]/g, '');
-                }
-
-                async function handleAuthRedirect(user) {
-                    try {
-                        // Validate user object
-                        if (!user || !user.id) {
-                            throw new Error('Invalid user data');
-                        }
-
-                        // Get stored redirect information
-                        const redirectTo = sessionStorage.getItem('redirectTo');
-                        const tutorialId = sessionStorage.getItem('tutorialId');
-                        
-                        // Clear stored data
-                        sessionStorage.removeItem('redirectTo');
-                        sessionStorage.removeItem('tutorialId');
-                        
-                        if (redirectTo && tutorialId) {
-                            // Validate redirect URL to prevent open redirect vulnerabilities
-                            if (!redirectTo.startsWith(window.location.origin) && !redirectTo.startsWith('/')) {
-                                throw new Error('Invalid redirect URL');
-                            }
-
-                            // Check purchase status from Supabase
-                            const { data: purchases, error } = await window.supabaseUtils.supabase
-                                .from('user_purchases')
-                                .select('*')
-                                .eq('user_id', user.id)
-                                .or(`tutorial_id.eq.${tutorialId},all_access.eq.true`);
-                            
-                            if (error) {
-                                console.error('Error checking purchase status:', error);
-                                throw error;
-                            }
-
-                            const hasAccess = purchases && purchases.length > 0;
-                            
-                            if (hasAccess) {
-                                window.location.href = redirectTo;
-                            } else {
-                                // If no purchase, redirect to the paywall modal
-                                window.location.href = 'index.html';
-                                // Store the tutorial ID to show the correct paywall
-                                sessionStorage.setItem('showPaywallFor', tutorialId);
-                            }
-                        } else {
-                            window.location.href = 'index.html';
-                        }
-                    } catch (error) {
-                        console.error('Error during auth redirect:', error);
-                        window.location.href = 'index.html';
-                    }
-                }
-
-                // Add event listeners with error handling
-                netlifyIdentity.on('login', (user) => {
-                    try {
-                        handleAuthRedirect(user);
-                    } catch (error) {
-                        console.error('Login error:', error);
-                        alert('An error occurred during login. Please try again.');
-                    }
-                });
-
-                netlifyIdentity.on('signup', (user) => {
-                    try {
-                        handleAuthRedirect(user);
-                    } catch (error) {
-                        console.error('Signup error:', error);
-                        alert('An error occurred during signup. Please try again.');
-                    }
-                });
+                return !!tutorialData;
             } catch (error) {
-                console.error('Initialization error:', error);
+                console.error('Error checking purchase status:', error);
+                return false;
+            }
+        }
+
+        async function handleAuthRedirect(user) {
+            try {
+                // Validate user object
+                if (!user || !user.id) {
+                    throw new Error('Invalid user data');
+                }
+
+                // Get stored redirect information
+                const redirectTo = sessionStorage.getItem('redirectTo');
+                const tutorialId = sessionStorage.getItem('tutorialId');
+                
+                // Clear stored data
+                sessionStorage.removeItem('redirectTo');
+                sessionStorage.removeItem('tutorialId');
+                
+                if (redirectTo && tutorialId) {
+                    // Validate redirect URL to prevent open redirect vulnerabilities
+                    if (!redirectTo.startsWith(window.location.origin) && !redirectTo.startsWith('/')) {
+                        throw new Error('Invalid redirect URL');
+                    }
+
+                    // Check purchase status from Supabase
+                    const hasAccess = await checkPurchaseStatus(user.id, parseInt(tutorialId));
+                    
+                    if (hasAccess) {
+                        window.location.href = redirectTo;
+                    } else {
+                        // If no purchase, redirect to the paywall modal
+                        window.location.href = 'index.html';
+                        // Store the tutorial ID to show the correct paywall
+                        sessionStorage.setItem('showPaywallFor', tutorialId);
+                    }
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                console.error('Error during auth redirect:', error);
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Add event listeners with error handling
+        netlifyIdentity.on('login', (user) => {
+            try {
+                handleAuthRedirect(user);
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login. Please try again.');
+            }
+        });
+
+        netlifyIdentity.on('signup', (user) => {
+            try {
+                handleAuthRedirect(user);
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('An error occurred during signup. Please try again.');
             }
         });
     </script>

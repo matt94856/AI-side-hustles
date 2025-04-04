@@ -1,12 +1,5 @@
-document.addEventListener("DOMContentLoaded", async function () {
-  // Wait for Netlify Identity and Supabase to be available
-  if (!window.netlifyIdentity || !window.supabaseUtils || !window.authUtils) {
-    console.error('Required dependencies not loaded. Please check script loading order.');
-    return;
-  }
-
-  try {
-    // Initialize Netlify Identity
+document.addEventListener("DOMContentLoaded", function () {
+  if (typeof netlifyIdentity !== "undefined") {
     netlifyIdentity.on("init", user => {
       const isLoggedIn = !!user;
       const paywallButtons = document.querySelectorAll(
@@ -26,15 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
       });
     });
-
-    // Initialize auth utilities
-    window.authUtils.init();
-    
-    // Initialize Supabase handlers
-    window.supabaseUtils.setupAuthHandlers();
-
-  } catch (error) {
-    console.error('Error during initialization:', error);
+    netlifyIdentity.init();
   }
 });
 
@@ -143,50 +128,14 @@ let paypalButtons = {
 let modal = null;
 let closeBtn = null;
 let currentTutorialId = null;
-let lastFocusedElement = null;
 
 function initializeModal() {
     modal = document.getElementById('premiumModal');
-    if (!modal) {
-        console.warn('Premium modal element not found');
-        return false;
-    }
-
-    closeBtn = modal.querySelector('.close');
+    closeBtn = document.getElementsByClassName('close')[0];
+    
     if (closeBtn) {
         closeBtn.onclick = closeModal;
     }
-    
-    // Create a container for modal content that's always focusable
-    const modalContent = modal.querySelector('.modal-content');
-    if (modalContent) {
-        modalContent.setAttribute('tabindex', '-1');
-    }
-    
-    // Handle focus trap in modal
-    modal.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab') {
-            const focusableElements = modal.querySelectorAll(
-                'button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
-            );
-            const firstFocusable = focusableElements[0];
-            const lastFocusable = focusableElements[focusableElements.length - 1];
-
-            if (e.shiftKey) {
-                if (document.activeElement === firstFocusable) {
-                    lastFocusable.focus();
-                    e.preventDefault();
-                }
-            } else {
-                if (document.activeElement === lastFocusable) {
-                    firstFocusable.focus();
-                    e.preventDefault();
-                }
-            }
-        } else if (e.key === 'Escape') {
-            closeModal();
-        }
-    });
     
     // Add window click handler
     window.onclick = function(event) {
@@ -194,20 +143,12 @@ function initializeModal() {
             closeModal();
         }
     }
-
-    return true;
 }
 
 function showModal(tutorialId) {
-    if (!modal) {
-        if (!initializeModal()) {
-            console.error('Failed to initialize modal');
-            return;
-        }
-    }
+    if (!modal) return;
     
     currentTutorialId = tutorialId;
-    lastFocusedElement = document.activeElement;
     
     // Update preview content
     const previewTitle = document.getElementById('previewTitle');
@@ -215,38 +156,22 @@ function showModal(tutorialId) {
     
     if (previewTitle && previewContent && tutorialPreviews[tutorialId]) {
         previewTitle.textContent = tutorialPreviews[tutorialId].title;
-        previewContent.innerHTML = tutorialPreviews[tutorialId].content;
+        previewContent.innerHTML = tutorialPreviews[tutorialId].content.replace(/\n/g, '<br>');
     }
     
-    // Show modal
+    // Check if on mobile
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        showMobileDisclaimer();
+    }
+    
     modal.style.display = 'block';
-    
-    // Focus the modal content
-    const modalContent = modal.querySelector('.modal-content');
-    if (modalContent) {
-        modalContent.focus();
-    }
-    
-    // Remove aria-hidden from modal and its descendants
-    modal.removeAttribute('aria-hidden');
-    const hiddenElements = modal.querySelectorAll('[aria-hidden]');
-    hiddenElements.forEach(el => el.removeAttribute('aria-hidden'));
 }
 
 function closeModal() {
     if (!modal) return;
-    
-    // Hide modal
     modal.style.display = 'none';
-    
-    // Restore focus to the element that opened the modal
-    if (lastFocusedElement) {
-        lastFocusedElement.focus();
-    }
-    
-    // Clear any error messages
-    const errorMessages = modal.querySelectorAll('.payment-error, .processing-payment, .payment-success');
-    errorMessages.forEach(el => el.remove());
+    currentTutorialId = null;
 }
 
 // Payment Status Functions
@@ -339,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize quizzes first
     console.log('Starting quiz initialization...');
-    initializeQuiz();
+    initializeQuizzes();
     
     // Then initialize other functionality
     initializePayPal();
@@ -737,124 +662,67 @@ function initializePayPal() {
     }
 }
 
-// Quiz initialization
-function initializeQuiz() {
-    try {
-        console.log('Starting quiz initialization...');
+// Quiz Functionality
+function initializeQuizzes() {
+    console.log('Starting quiz initialization...');
+    
+    // Get all quiz forms
+    const quizForms = document.querySelectorAll('.quiz-form');
+    console.log(`Found ${quizForms.length} quiz forms on the page`);
+    
+    if (quizForms.length === 0) {
+        console.log('No quiz forms found. Checking HTML structure...');
+        const moduleQuizzes = document.querySelectorAll('.module-quiz');
+        console.log(`Found ${moduleQuizzes.length} .module-quiz elements`);
         
-        // Find all quiz containers
-        const quizForms = document.querySelectorAll('.module-quiz');
-        console.log(`Found ${quizForms.length} quiz forms on the page`);
-        
-        if (quizForms.length === 0) {
-            console.log('No quiz forms found on this page');
-            return; // This is normal on pages without quizzes
+        if (moduleQuizzes.length === 0) {
+            console.log('No quiz elements found. Skipping quiz initialization.');
+            return;
         }
-
-        quizForms.forEach((quizForm, index) => {
-            try {
-                console.log(`Initializing quiz ${index + 1}`);
+    }
+    
+    // Initialize each quiz form
+    quizForms.forEach((form, index) => {
+        try {
+            const options = form.querySelectorAll('.quiz-option');
+            const feedback = form.querySelector('.quiz-feedback');
+            const submitBtn = form.querySelector('.submit-quiz');
+            
+            if (!options || !feedback || !submitBtn) {
+                console.warn(`Quiz form ${index} is missing required elements. Skipping.`);
+                return;
+            }
+            
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const selected = form.querySelector('.quiz-option.selected');
                 
-                const questions = quizForm.querySelectorAll('.quiz-question');
-                if (!questions.length) {
-                    console.log(`No questions found in quiz ${index + 1}`);
+                if (!selected) {
+                    feedback.textContent = 'Please select an answer';
+                    feedback.className = 'quiz-feedback error';
                     return;
                 }
-
-                // Add submit handler
-                quizForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    handleQuizSubmission(quizForm);
-                });
-
-                // Initialize question states
-                questions.forEach((question, qIndex) => {
-                    const options = question.querySelectorAll('input[type="radio"]');
-                    if (options.length) {
-                        console.log(`Quiz ${index + 1}, Question ${qIndex + 1}: ${options.length} options found`);
-                    }
-                });
-            } catch (error) {
-                console.error(`Error initializing quiz ${index + 1}:`, error);
-            }
-        });
-    } catch (error) {
-        console.error('Error in quiz initialization:', error);
-    }
-}
-
-function handleQuizSubmission(quizForm) {
-    const questions = quizForm.querySelectorAll('.quiz-question');
-    let score = 0;
-    let total = questions.length;
-    
-    questions.forEach(question => {
-        const selectedAnswer = question.querySelector('input[type="radio"]:checked');
-        const correctAnswer = question.dataset.correct;
-        
-        if (selectedAnswer && selectedAnswer.value === correctAnswer) {
-            score++;
+                
+                const isCorrect = selected.dataset.correct === 'true';
+                feedback.textContent = isCorrect ? 'Correct!' : 'Incorrect. Try again.';
+                feedback.className = `quiz-feedback ${isCorrect ? 'success' : 'error'}`;
+                
+                if (isCorrect) {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    submitBtn.disabled = true;
+                }
+            });
+        } catch (error) {
+            console.error(`Error initializing quiz form ${index}:`, error);
         }
     });
-    
-    // Calculate percentage
-    const percentage = (score / total) * 100;
-    
-    // Show results
-    const resultDiv = quizForm.querySelector('.quiz-results') || document.createElement('div');
-    resultDiv.className = 'quiz-results';
-    resultDiv.innerHTML = `
-        <h3>Quiz Results</h3>
-        <p>You scored ${score} out of ${total} (${percentage.toFixed(1)}%)</p>
-        ${percentage >= 70 ? '<p class="success">Congratulations! You passed!</p>' : '<p class="failure">Please review the material and try again.</p>'}
-    `;
-    
-    if (!quizForm.querySelector('.quiz-results')) {
-        quizForm.appendChild(resultDiv);
-    }
-    
-    // Save progress if user is logged in
-    const user = netlifyIdentity.currentUser();
-    if (user && window.supabaseUtils) {
-        saveQuizProgress(user.id, quizForm.dataset.moduleId, score, total);
-    }
-}
-
-async function saveQuizProgress(userId, moduleId, score, total) {
-    try {
-        if (!window.supabaseUtils) {
-            console.error('Supabase utilities not loaded');
-            return;
-        }
-
-        const token = await netlifyIdentity.currentUser()?.jwt();
-        if (!token) {
-            console.error('No auth token available');
-            return;
-        }
-
-        const response = await fetch('/.netlify/functions/save-quiz-progress', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                moduleId,
-                score,
-                total,
-                completedAt: new Date().toISOString()
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to save quiz progress');
-        }
-
-        console.log('Quiz progress saved successfully');
-    } catch (error) {
-        console.error('Error saving quiz progress:', error);
-    }
 }
 
 // Lesson Completion Tracking
@@ -1142,439 +1010,4 @@ async function checkPurchaseStatus(userId, tutorialId) {
         console.error('Error checking purchase status:', error);
         return false;
     }
-}
-
-// Handle Enroll button click
-function handleEnrollClick(tutorialId) {
-    // Check if user is authenticated
-    if (!window.authUtils.isAuthenticated()) {
-        window.authUtils.redirectToLogin();
-        return;
-    }
-
-    // Check if user already has access
-    if (window.supabaseUtils.hasTutorialAccess(tutorialId)) {
-        alert('You already have access to this tutorial!');
-        return;
-    }
-
-    // Show PayPal buttons
-    showPayPalButtons(tutorialId);
-}
-
-// Show PayPal buttons
-function showPayPalButtons(tutorialId) {
-    const paypalContainer = document.getElementById('paypal-button-container');
-    if (!paypalContainer) return;
-
-    paypalContainer.style.display = 'block';
-    
-    // Initialize PayPal buttons
-    paypal.Buttons({
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: '49.99'
-                    }
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                // Record purchase in Supabase
-                const user = window.authUtils.getCurrentUser();
-                if (user) {
-                    window.supabaseUtils.recordPurchase(user.id, tutorialId, details)
-                        .then(() => {
-                            alert('Purchase successful! You now have access to the tutorial.');
-                            // Redirect to tutorial
-                            window.location.href = `tutorial${tutorialId}.html`;
-                        })
-                        .catch(error => {
-                            console.error('Error recording purchase:', error);
-                            alert('Purchase recorded but there was an error syncing. Please refresh the page.');
-                        });
-                }
-            });
-        }
-    }).render('#paypal-button-container');
-}
-
-// Check payment status
-async function checkPaymentStatus() {
-    try {
-        // First check if auth utilities are loaded
-        if (!window.authUtils) {
-            console.error('Auth utilities not loaded');
-            return false;
-        }
-
-        const user = netlifyIdentity.currentUser();
-        if (!user) {
-            console.log('No user logged in');
-            return false;
-        }
-
-        if (window.supabaseUtils) {
-            await window.supabaseUtils.syncUserPurchases();
-        }
-        return true;
-    } catch (error) {
-        console.error('Error checking payment status:', error);
-        return false;
-    }
-}
-
-// Wait for dependencies to load
-function waitForDependencies(maxAttempts = 20, interval = 200) {
-    return new Promise((resolve, reject) => {
-        let attempts = 0;
-        
-        const check = () => {
-            attempts++;
-            
-            const dependencies = {
-                netlifyIdentity: typeof window.netlifyIdentity !== 'undefined',
-                supabaseUtils: typeof window.supabaseUtils !== 'undefined',
-                authUtils: typeof window.authUtils !== 'undefined'
-            };
-            
-            console.log('Checking dependencies:', dependencies);
-            
-            if (Object.values(dependencies).every(dep => dep)) {
-                resolve();
-            } else if (attempts >= maxAttempts) {
-                reject(new Error('Dependencies failed to load after maximum attempts'));
-            } else {
-                setTimeout(check, interval);
-            }
-        };
-        
-        check();
-    });
-}
-
-// Main initialization
-document.addEventListener('DOMContentLoaded', async function() {
-    try {
-        console.log('Starting application initialization...');
-        
-        // Wait for all dependencies to load
-        await waitForDependencies();
-        
-        // Initialize auth
-        if (window.authUtils && typeof window.authUtils.init === 'function') {
-            window.authUtils.init();
-        }
-        
-        // Handle login redirect
-        if (window.authUtils && typeof window.authUtils.handleLoginRedirect === 'function') {
-            window.authUtils.handleLoginRedirect();
-        }
-        
-        // Initialize quiz system
-        initializeQuiz();
-        
-        // Check payment status
-        await checkPaymentStatus();
-        
-        // Add event listeners for Enroll buttons
-        document.querySelectorAll('.enroll-button').forEach(button => {
-            button.addEventListener('click', async function(e) {
-                e.preventDefault(); // Prevent default action
-                const tutorialId = this.dataset.tutorialId;
-                if (tutorialId) {
-                    const user = netlifyIdentity.currentUser();
-                    if (!user) {
-                        // Store return URL and redirect to login
-                        sessionStorage.setItem('returnTo', window.location.pathname);
-                        sessionStorage.setItem('tutorialId', tutorialId);
-                        window.location.href = '/login.html';
-                        return;
-                    }
-                    await handleEnrollClick(tutorialId);
-                }
-            });
-        });
-
-        console.log('Application initialization completed successfully');
-    } catch (error) {
-        console.error('Error during initialization:', error);
-    }
-});
-
-// Payment Status Check Function
-window.checkPaymentStatus = async function(tutorialId) {
-    try {
-        // Check if user is logged in
-        if (!window.netlifyIdentity.currentUser()) {
-            // Store the current page URL and tutorial ID
-            sessionStorage.setItem('returnTo', window.location.pathname);
-            sessionStorage.setItem('tutorialId', tutorialId);
-            window.location.href = '/login.html';
-            return;
-        }
-
-        // Initialize modal if not already done
-        if (!modal && !initializeModal()) {
-            throw new Error('Failed to initialize modal');
-        }
-
-        // Show loading state
-        document.body.style.cursor = 'wait';
-
-        // Check if user has already purchased
-        const hasPurchased = await window.supabaseUtils.checkTutorialAccess(tutorialId);
-        
-        if (hasPurchased) {
-            // Redirect to tutorial content
-            window.location.href = `/tutorials/tutorial-${tutorialId}.html`;
-            return;
-        }
-
-        // Show payment modal
-        showModal(tutorialId);
-        
-        // Initialize PayPal buttons if not already done
-        await initializePayPalButtons(tutorialId);
-
-    } catch (error) {
-        console.error('Error checking payment status:', error);
-        alert('An error occurred. Please try again later.');
-    } finally {
-        document.body.style.cursor = 'default';
-    }
-}
-
-function closeModal() {
-    if (!modal) return;
-    modal.style.display = 'none';
-    if (lastFocusedElement) {
-        lastFocusedElement.focus();
-    }
-}
-
-// Initialize PayPal buttons
-async function initializePayPalButtons(tutorialId) {
-    try {
-        // Show loading state
-        const singleTutorialContainer = document.getElementById('singleTutorialButton');
-        const allTutorialsContainer = document.getElementById('allTutorialsButton');
-        
-        if (singleTutorialContainer) {
-            singleTutorialContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
-        }
-        if (allTutorialsContainer) {
-            allTutorialsContainer.innerHTML = '<div class="loading">Loading payment options...</div>';
-        }
-
-        // Ensure PayPal SDK is loaded
-        if (typeof paypal === 'undefined') {
-            throw new Error('PayPal SDK not loaded');
-        }
-
-        // Clear existing buttons
-        if (paypalButtons.singleTutorial) {
-            try {
-                paypalButtons.singleTutorial.close();
-            } catch (error) {
-                console.warn('Error closing existing PayPal buttons:', error);
-            }
-        }
-
-        // Create PayPal buttons with improved error handling
-        paypalButtons.singleTutorial = paypal.Buttons({
-            style: {
-                layout: 'vertical',
-                color: 'blue',
-                shape: 'rect',
-                label: 'pay'
-            },
-            createOrder: async function(data, actions) {
-                try {
-                    // Verify user is still logged in
-                    if (!window.authUtils.isAuthenticated()) {
-                        throw new Error('User not authenticated');
-                    }
-
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: tutorialId === 'all' ? '19.99' : '7.99'
-                            },
-                            description: tutorialId === 'all' ? 'All AI Income Tutorials' : `AI Tutorial ${tutorialId}`
-                        }]
-                    });
-                } catch (error) {
-                    console.error('Error creating order:', error);
-                    if (error.message === 'User not authenticated') {
-                        window.authUtils.redirectToLogin();
-                    }
-                    throw error;
-                }
-            },
-            onApprove: async function(data, actions) {
-                const loadingDiv = document.createElement('div');
-                loadingDiv.className = 'processing-payment';
-                loadingDiv.textContent = 'Processing your payment...';
-                modal.appendChild(loadingDiv);
-
-                try {
-                    // Capture the order
-                    const order = await actions.order.capture();
-                    
-                    // Save purchase to database
-                    const purchaseData = {
-                        tutorial_id: tutorialId,
-                        order_id: order.id,
-                        amount: order.purchase_units[0].amount.value,
-                        purchase_date: new Date().toISOString()
-                    };
-                    
-                    const saved = await window.supabaseUtils.savePurchaseToDatabase(purchaseData);
-                    
-                    if (saved) {
-                        loadingDiv.textContent = 'Payment successful! Redirecting...';
-                        loadingDiv.className = 'payment-success';
-                        
-                        setTimeout(() => {
-                            window.location.href = tutorialId === 'all' 
-                                ? '/tutorials/all-tutorials.html'
-                                : `/tutorials/tutorial-${tutorialId}.html`;
-                        }, 1500);
-                    } else {
-                        throw new Error('Failed to save purchase');
-                    }
-                } catch (error) {
-                    console.error('Error processing purchase:', error);
-                    loadingDiv.className = 'payment-error';
-                    loadingDiv.textContent = 'There was an error processing your purchase. Please contact support.';
-                }
-            },
-            onError: function(err) {
-                console.error('PayPal error:', err);
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'payment-error';
-                errorDiv.textContent = 'There was an error with PayPal. Please try again later.';
-                if (modal) {
-                    modal.appendChild(errorDiv);
-                }
-            }
-        });
-
-        // Render PayPal buttons
-        if (singleTutorialContainer && tutorialId !== 'all') {
-            await paypalButtons.singleTutorial.render('#singleTutorialButton');
-        }
-        if (allTutorialsContainer) {
-            await paypalButtons.singleTutorial.render('#allTutorialsButton');
-        }
-
-    } catch (error) {
-        console.error('Error initializing PayPal buttons:', error);
-        const errorMessage = `<div class="payment-error">Error loading payment options. Please try again later.</div>`;
-        
-        if (singleTutorialContainer) singleTutorialContainer.innerHTML = errorMessage;
-        if (allTutorialsContainer) allTutorialsContainer.innerHTML = errorMessage;
-    }
-}
-
-// Initialize dependencies
-async function initializeDependencies() {
-    let attempts = 0;
-    const maxAttempts = 20;
-    const checkInterval = 200; // ms
-
-    return new Promise((resolve, reject) => {
-        const checkDependencies = () => {
-            if (attempts >= maxAttempts) {
-                reject(new Error('Dependencies failed to load after maximum attempts'));
-                return;
-            }
-
-            const dependencies = {
-                netlifyIdentity: window.netlifyIdentity,
-                supabaseUtils: window.supabaseUtils,
-                authUtils: window.authUtils,
-                paypal: window.paypal
-            };
-
-            // Log which dependencies are missing
-            const missing = Object.entries(dependencies)
-                .filter(([, value]) => !value)
-                .map(([key]) => key);
-
-            if (missing.length > 0) {
-                console.log(`Waiting for dependencies: ${missing.join(', ')}`);
-                attempts++;
-                setTimeout(checkDependencies, checkInterval);
-                return;
-            }
-
-            console.log('All dependencies loaded successfully');
-            resolve(dependencies);
-        };
-
-        checkDependencies();
-    });
-}
-
-// Initialize quiz functionality
-function initializeQuiz() {
-    const quizForms = document.querySelectorAll('.quiz-form');
-    console.log(`Found ${quizForms.length} quiz forms on the page`);
-    
-    if (quizForms.length === 0) {
-        console.log('No quiz forms found on this page');
-        return;
-    }
-
-    quizForms.forEach((form, index) => {
-        const questions = form.querySelectorAll('.question');
-        console.log(`Quiz ${index + 1} has ${questions.length} questions`);
-        
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            // Quiz submission logic here
-        });
-    });
-}
-
-// Main initialization
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        console.log('Starting initialization...');
-        
-        // Wait for dependencies
-        await initializeDependencies();
-        
-        // Initialize auth
-        if (window.authUtils) {
-            window.authUtils.init();
-        }
-        
-        // Initialize quiz
-        initializeQuiz();
-        
-        // Add event listeners for enroll buttons
-        const enrollButtons = document.querySelectorAll('.enroll-button');
-        enrollButtons.forEach(button => {
-            button.addEventListener('click', async (e) => {
-                e.preventDefault();
-                if (!window.authUtils.isAuthenticated()) {
-                    const returnUrl = window.location.pathname;
-                    const tutorialId = button.dataset.tutorialId;
-                    sessionStorage.setItem('tutorialId', tutorialId);
-                    window.authUtils.redirectToLogin(returnUrl);
-                    return;
-                }
-                // Enrollment logic here
-            });
-        });
-
-        console.log('Initialization complete');
-    } catch (error) {
-        console.error('Error during initialization:', error);
-    }
-}); 
+} 
