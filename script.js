@@ -967,45 +967,64 @@ document.head.appendChild(styleSheet);
 // Update the checkPurchaseStatus function to work with the new table structure
 async function checkPurchaseStatus(userId, tutorialId) {
     try {
-        // Ensure Supabase is initialized
-        await ensureSupabaseInitialized();
-        
-        if (!supabase) {
-            console.error('Supabase client not initialized');
+        const user = netlifyIdentity.currentUser();
+        if (!user) {
             return false;
         }
 
-        // Check for all-access first
-        const { data: allAccessData, error: allAccessError } = await supabase
-            .from('user_purchases')
-            .select('all_access')
-            .eq('user_id', userId)
-            .eq('all_access', true)
-            .single();
+        // Call Netlify Function to check all-access
+        const allAccessResponse = await fetch('/.netlify/functions/supabaseHandler', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    id: user.id,
+                    token: user.token.access_token
+                },
+                action: 'select',
+                table: 'user_purchases',
+                data: {
+                    user_id: userId,
+                    all_access: true
+                }
+            })
+        });
 
-        if (allAccessError && allAccessError.code !== 'PGRST116') {
-            console.error('Error checking all-access:', allAccessError);
-            return false;
-        }
-
-        if (allAccessData) {
-            return true;
+        if (allAccessResponse.ok) {
+            const allAccessData = await allAccessResponse.json();
+            if (allAccessData && allAccessData.length > 0) {
+                return true;
+            }
         }
 
         // If no all-access, check specific tutorial
-        const { data: tutorialData, error: tutorialError } = await supabase
-            .from('user_purchases')
-            .select('tutorial_id')
-            .eq('user_id', userId)
-            .eq('tutorial_id', tutorialId)
-            .single();
+        const tutorialResponse = await fetch('/.netlify/functions/supabaseHandler', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    id: user.id,
+                    token: user.token.access_token
+                },
+                action: 'select',
+                table: 'user_purchases',
+                data: {
+                    user_id: userId,
+                    tutorial_id: tutorialId
+                }
+            })
+        });
 
-        if (tutorialError && tutorialError.code !== 'PGRST116') {
-            console.error('Error checking tutorial access:', tutorialError);
-            return false;
+        if (tutorialResponse.ok) {
+            const tutorialData = await tutorialResponse.json();
+            return tutorialData && tutorialData.length > 0;
         }
 
-        return !!tutorialData;
+        return false;
     } catch (error) {
         console.error('Error checking purchase status:', error);
         return false;
