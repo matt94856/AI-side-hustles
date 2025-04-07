@@ -2583,17 +2583,37 @@
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'capture',
+                    application_context: {
+                        shipping_preference: 'NO_SHIPPING',
+                        user_action: 'PAY_NOW',
+                        brand_name: 'AI Hustle Hub',
+                        landing_page: 'NO_PREFERENCE',
+                        return_url: window.location.href,
+                        cancel_url: window.location.href
+                    },
                     purchase_units: [{
                         amount: {
-                            value: '14.99'
+                            value: '14.99',
+                            currency_code: 'USD'
                         },
-                        description: 'Single AI Tutorial Access'
+                        description: 'Single AI Tutorial Access',
+                        soft_descriptor: 'AI COURSE',
+                        items: [{
+                            name: 'Single AI Tutorial',
+                            description: 'Access to one AI income system course',
+                            quantity: '1',
+                            unit_amount: {
+                                value: '14.99',
+                                currency_code: 'USD'
+                            },
+                            category: 'DIGITAL_GOODS'
+                        }]
                     }]
                 });
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    showSuccessMessage('Payment successful! Redirecting to tutorial...');
+                    showSuccessMessage('Payment successful! Preparing your course access...');
                     setTimeout(() => {
                         window.location.href = 'tutorial1.html';
                     }, 1500);
@@ -2619,17 +2639,37 @@
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'capture',
+                    application_context: {
+                        shipping_preference: 'NO_SHIPPING',
+                        user_action: 'PAY_NOW',
+                        brand_name: 'AI Hustle Hub',
+                        landing_page: 'NO_PREFERENCE',
+                        return_url: window.location.href,
+                        cancel_url: window.location.href
+                    },
                     purchase_units: [{
                         amount: {
-                            value: '24.99'
+                            value: '24.99',
+                            currency_code: 'USD'
                         },
-                        description: 'Complete AI Side Hustles Bundle'
+                        description: 'Complete AI Side Hustles Bundle',
+                        soft_descriptor: 'AI COURSES',
+                        items: [{
+                            name: 'AI Side Hustles Bundle',
+                            description: 'Access to all 5 AI income system courses',
+                            quantity: '1',
+                            unit_amount: {
+                                value: '24.99',
+                                currency_code: 'USD'
+                            },
+                            category: 'DIGITAL_GOODS'
+                        }]
                     }]
                 });
             },
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    showSuccessMessage('Payment successful! Redirecting to tutorials...');
+                    showSuccessMessage('Payment successful! Preparing your course access...');
                     setTimeout(() => {
                         window.location.href = 'tutorial1.html';
                     }, 1500);
