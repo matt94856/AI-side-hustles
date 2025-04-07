@@ -1712,9 +1712,130 @@
     }
 }
 
+/* Add these mobile-specific styles after your existing CSS */
 
+/* Instagram/Facebook In-App Browser Fixes */
+@media screen and (max-width: 100vh) {
+    /* Fix content cutoff in social media browsers */
+    .hero-content {
+        padding-top: max(env(safe-area-inset-top) + 60px, 80px);
+        padding-bottom: max(env(safe-area-inset-bottom) + 60px, 80px);
+    }
+
+    /* Fix PayPal button display on mobile */
+    .pricing-card {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Ensure buttons are tappable */
+    .enroll-now,
+    .bundle-cta,
+    .primary-cta {
+        min-height: 44px;
+        padding: 12px 20px;
+        margin: 10px 0;
+    }
+
+    /* Fix modal display on mobile */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    /* Improve readability on mobile */
+    .tutorial-description,
+    .section-description,
+    .faq-answer p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* Fix countdown timer on mobile */
+    .countdown-section {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 8px;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    /* Optimize images for mobile */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Social Media Browser Optimizations */
+@supports (-webkit-touch-callout: none) {
+    #single-tutorial-paypal-button,
+    #all-tutorials-paypal-button {
+        width: 100% !important;
+        min-height: 45px;
+    }
+
+    .modal {
+        -webkit-overflow-scrolling: touch;
+        position: fixed;
+    }
+
+    button {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* Mobile-specific adjustments */
+@media only screen and (max-width: 767px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .tutorial-grid,
+    .features-grid,
+    .bundle-content {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    h1 { font-size: 2rem !important; }
+    h2 { font-size: 1.8rem !important; }
+    h3 { font-size: 1.5rem !important; }
+
+    .container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+    }
+}
     </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+
+    <!-- Add before closing body tag -->
+    <script>
+        // Fix viewport height for mobile browsers
+        function fixViewportHeight() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        window.addEventListener('resize', fixViewportHeight);
+        window.addEventListener('orientationchange', fixViewportHeight);
+        fixViewportHeight();
+
+        // Detect social media browsers
+        document.addEventListener('DOMContentLoaded', function() {
+            if (navigator.userAgent.includes('Instagram') || 
+                navigator.userAgent.includes('FBAN') || 
+                navigator.userAgent.includes('FBAV')) {
+                document.body.classList.add('social-media-browser');
+            }
+        });
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -1747,7 +1868,7 @@
 <div class="hero-overlay"></div>
         <div class="hero-content">
 <div class="hero-headline">THE $997 BILLION AI GOLD RUSH IS HERE</div>
-<h1>5 AI SIDE HUSTLES <span class="highlight">NOBODY IS TALKING ABOUT</span></h1>
+<h1>LEARN TO CREATE<span class="highlight">POWERFUL AI CONTENT</span></h1>
 <p class="hero-subtitle">How Average People Are Making $1,500 - $8,000/Month Using These AI Methods That Require ZERO Experience</p>
 <div class="hero-features">
 <div class="feature">
