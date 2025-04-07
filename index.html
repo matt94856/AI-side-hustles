@@ -59,7 +59,7 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility,marks,messages&enable-funding=venmo,card"></script>
     <style>
         :root {
             --primary-color: #1a1a1a;
@@ -1787,7 +1787,7 @@
 }
 
     </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility,marks,messages&enable-funding=venmo,card"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -2660,34 +2660,23 @@
                 layout: 'vertical',
                 color: 'blue',
                 shape: 'rect',
-                label: 'pay'
+                label: 'paypal'
             },
-            fundingSource: paypal.FUNDING.PAYPAL,
+            fundingSource: undefined, // Allow all funding sources
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'CAPTURE',
                     application_context: {
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
-                        brand_name: 'AI Hustle Hub',
-                        payment_method: {
-                            payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
-                            standard_entry_class_code: 'WEB'
-                        }
+                        brand_name: 'AI Hustle Hub'
                     },
                     purchase_units: [{
                         amount: {
                             value: '14.99',
-                            currency_code: 'USD',
-                            breakdown: {
-                                item_total: {
-                                    currency_code: 'USD',
-                                    value: '14.99'
-                                }
-                            }
+                            currency_code: 'USD'
                         },
-                        description: 'Single AI Tutorial Access',
-                        soft_descriptor: 'AI TUTORIAL'
+                        description: 'Single AI Tutorial Access'
                     }]
                 });
             },
@@ -2710,86 +2699,29 @@
             }
         }).render('#single-tutorial-paypal-button');
 
-        // Add Venmo button for single tutorial (mobile only)
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            paypal.Buttons({
-                fundingSource: paypal.FUNDING.VENMO,
-                style: {
-                    layout: 'vertical',
-                    shape: 'rect',
-                    color: 'blue'
-                },
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        intent: 'CAPTURE',
-                        application_context: {
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW',
-                            brand_name: 'AI Hustle Hub'
-                        },
-                        purchase_units: [{
-                            amount: {
-                                value: '14.99',
-                                currency_code: 'USD'
-                            },
-                            description: 'Single AI Tutorial Access'
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture()
-                        .then(function(details) {
-                            showSuccessMessage('Payment successful! Redirecting to tutorial...');
-                            setTimeout(() => {
-                                window.location.href = 'tutorial1.html';
-                            }, 1500);
-                        })
-                        .catch(function(error) {
-                            console.error('Capture Error:', error);
-                            handlePaymentError(error);
-                        });
-                },
-                onError: handlePaymentError,
-                onCancel: function() {
-                    showErrorMessage('Payment cancelled.');
-                }
-            }).render('#single-tutorial-paypal-button');
-        }
-
         // Initialize PayPal button for all tutorials
         paypal.Buttons({
             style: {
                 layout: 'vertical',
                 color: 'blue',
                 shape: 'rect',
-                label: 'pay'
+                label: 'paypal'
             },
-            fundingSource: paypal.FUNDING.PAYPAL,
+            fundingSource: undefined, // Allow all funding sources
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'CAPTURE',
                     application_context: {
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
-                        brand_name: 'AI Hustle Hub',
-                        payment_method: {
-                            payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
-                            standard_entry_class_code: 'WEB'
-                        }
+                        brand_name: 'AI Hustle Hub'
                     },
                     purchase_units: [{
                         amount: {
                             value: '24.99',
-                            currency_code: 'USD',
-                            breakdown: {
-                                item_total: {
-                                    currency_code: 'USD',
-                                    value: '24.99'
-                                }
-                            }
+                            currency_code: 'USD'
                         },
-                        description: 'Complete AI Side Hustles Bundle',
-                        soft_descriptor: 'AI BUNDLE'
+                        description: 'Complete AI Side Hustles Bundle'
                     }]
                 });
             },
@@ -2811,52 +2743,6 @@
                 showErrorMessage('Payment cancelled.');
             }
         }).render('#all-tutorials-paypal-button');
-
-        // Add Venmo button for all tutorials (mobile only)
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            paypal.Buttons({
-                fundingSource: paypal.FUNDING.VENMO,
-                style: {
-                    layout: 'vertical',
-                    shape: 'rect',
-                    color: 'blue'
-                },
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        intent: 'CAPTURE',
-                        application_context: {
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW',
-                            brand_name: 'AI Hustle Hub'
-                        },
-                        purchase_units: [{
-                            amount: {
-                                value: '24.99',
-                                currency_code: 'USD'
-                            },
-                            description: 'Complete AI Side Hustles Bundle'
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture()
-                        .then(function(details) {
-                            showSuccessMessage('Payment successful! Redirecting to tutorials...');
-                            setTimeout(() => {
-                                window.location.href = 'tutorial1.html';
-                            }, 1500);
-                        })
-                        .catch(function(error) {
-                            console.error('Capture Error:', error);
-                            handlePaymentError(error);
-                        });
-                },
-                onError: handlePaymentError,
-                onCancel: function() {
-                    showErrorMessage('Payment cancelled.');
-                }
-            }).render('#all-tutorials-paypal-button');
-        }
 
         // Helper function for handling payment errors
         function handlePaymentError(error) {
