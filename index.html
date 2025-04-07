@@ -42,7 +42,7 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,payment-fields&disable-funding=credit,card"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,hosted-fields"></script>
     <style>
         :root {
             --primary-color: #1a1a1a;
@@ -2729,8 +2729,8 @@
             }
         }).render('#all-tutorials-paypal-button');
 
-        // Initialize custom card fields
-        const cardFields = paypal.CardFields({
+        // Initialize hosted fields for card payments
+        paypal.HostedFields.render({
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'capture',
@@ -2747,24 +2747,44 @@
                     }]
                 });
             },
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
+            styles: {
+                'input': {
+                    'font-size': '16px',
+                    'font-family': 'Arial',
+                    'color': '#3a3a3a'
+                },
+                'input.invalid': {
+                    'color': '#e53a40'
+                }
+            },
+            fields: {
+                number: {
+                    selector: '#card-number',
+                    placeholder: 'Card Number'
+                },
+                cvv: {
+                    selector: '#card-cvv',
+                    placeholder: 'CVV'
+                },
+                expirationDate: {
+                    selector: '#card-expiry',
+                    placeholder: 'MM/YY'
+                }
+            }
+        }).then(function(hostedFields) {
+            document.querySelector('#submit-card-single').addEventListener('click', function(event) {
+                event.preventDefault();
+                hostedFields.submit().then(function(payload) {
+                    // Payment successful
                     showSuccessMessage('Payment successful! Redirecting to tutorial...');
                     setTimeout(() => {
                         window.location.href = 'tutorial1.html';
                     }, 1500);
+                }).catch(function(err) {
+                    showErrorMessage('Please check your card details and try again.');
                 });
-            },
-            onError: function(err) {
-                console.error('Card Error:', err);
-                showErrorMessage('Payment processing error. Please try again.');
-            }
+            });
         });
-
-        cardFields.NameField().render('#card-name');
-        cardFields.NumberField().render('#card-number');
-        cardFields.ExpiryField().render('#card-expiry');
-        cardFields.CVVField().render('#card-cvv');
     });
 </script>
 </body>
