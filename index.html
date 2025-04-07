@@ -59,7 +59,7 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility"></script>
     <style>
         :root {
             --primary-color: #1a1a1a;
@@ -1787,7 +1787,7 @@
 }
 
     </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -2662,6 +2662,7 @@
                 shape: 'rect',
                 label: 'pay'
             },
+            fundingSource: paypal.FUNDING.PAYPAL,
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'CAPTURE',
@@ -2687,21 +2688,7 @@
                         },
                         description: 'Single AI Tutorial Access',
                         soft_descriptor: 'AI TUTORIAL'
-                    }],
-                    payment_source: {
-                        card: {
-                            stored_credential: {
-                                payment_initiator: 'CUSTOMER',
-                                payment_type: 'ONE_TIME',
-                                usage: 'FIRST'
-                            },
-                            attributes: {
-                                verification: {
-                                    method: 'SCA_ALWAYS'
-                                }
-                            }
-                        }
-                    }
+                    }]
                 });
             },
             onApprove: function(data, actions) {
@@ -2714,33 +2701,60 @@
                     })
                     .catch(function(error) {
                         console.error('Capture Error:', error);
-                        if (error.message.includes('INSTRUMENT_DECLINED')) {
-                            showErrorMessage('Card declined. Please try a different card.');
-                        } else if (error.message.includes('PAYMENT_SOURCE_DECLINED')) {
-                            showErrorMessage('Payment declined. Please check your card details.');
-                        } else if (error.message.includes('PAYER_ACTION_REQUIRED')) {
-                            showErrorMessage('Additional verification required. Please try again.');
-                        } else {
-                            showErrorMessage('Payment error. Please try again or use a different payment method.');
-                        }
+                        handlePaymentError(error);
                     });
             },
-            onError: function(err) {
-                console.error('PayPal Error:', err);
-                if (err.message.includes('INVALID_RESOURCE_ID')) {
-                    showErrorMessage('Session expired. Please refresh and try again.');
-                } else if (err.message.includes('CURRENCY_NOT_SUPPORTED')) {
-                    showErrorMessage('Currency not supported. Please contact support.');
-                } else if (err.message.includes('VALIDATION_ERROR')) {
-                    showErrorMessage('Please check your card information and try again.');
-                } else {
-                    showErrorMessage('Payment processing error. Please try again.');
-                }
-            },
+            onError: handlePaymentError,
             onCancel: function() {
                 showErrorMessage('Payment cancelled.');
             }
         }).render('#single-tutorial-paypal-button');
+
+        // Add Venmo button for single tutorial (mobile only)
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            paypal.Buttons({
+                fundingSource: paypal.FUNDING.VENMO,
+                style: {
+                    layout: 'vertical',
+                    shape: 'rect',
+                    color: 'blue'
+                },
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        intent: 'CAPTURE',
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW',
+                            brand_name: 'AI Hustle Hub'
+                        },
+                        purchase_units: [{
+                            amount: {
+                                value: '14.99',
+                                currency_code: 'USD'
+                            },
+                            description: 'Single AI Tutorial Access'
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture()
+                        .then(function(details) {
+                            showSuccessMessage('Payment successful! Redirecting to tutorial...');
+                            setTimeout(() => {
+                                window.location.href = 'tutorial1.html';
+                            }, 1500);
+                        })
+                        .catch(function(error) {
+                            console.error('Capture Error:', error);
+                            handlePaymentError(error);
+                        });
+                },
+                onError: handlePaymentError,
+                onCancel: function() {
+                    showErrorMessage('Payment cancelled.');
+                }
+            }).render('#single-tutorial-paypal-button');
+        }
 
         // Initialize PayPal button for all tutorials
         paypal.Buttons({
@@ -2750,6 +2764,7 @@
                 shape: 'rect',
                 label: 'pay'
             },
+            fundingSource: paypal.FUNDING.PAYPAL,
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'CAPTURE',
@@ -2775,21 +2790,7 @@
                         },
                         description: 'Complete AI Side Hustles Bundle',
                         soft_descriptor: 'AI BUNDLE'
-                    }],
-                    payment_source: {
-                        card: {
-                            stored_credential: {
-                                payment_initiator: 'CUSTOMER',
-                                payment_type: 'ONE_TIME',
-                                usage: 'FIRST'
-                            },
-                            attributes: {
-                                verification: {
-                                    method: 'SCA_ALWAYS'
-                                }
-                            }
-                        }
-                    }
+                    }]
                 });
             },
             onApprove: function(data, actions) {
@@ -2802,33 +2803,80 @@
                     })
                     .catch(function(error) {
                         console.error('Capture Error:', error);
-                        if (error.message.includes('INSTRUMENT_DECLINED')) {
-                            showErrorMessage('Card declined. Please try a different card.');
-                        } else if (error.message.includes('PAYMENT_SOURCE_DECLINED')) {
-                            showErrorMessage('Payment declined. Please check your card details.');
-                        } else if (error.message.includes('PAYER_ACTION_REQUIRED')) {
-                            showErrorMessage('Additional verification required. Please try again.');
-                        } else {
-                            showErrorMessage('Payment error. Please try again or use a different payment method.');
-                        }
+                        handlePaymentError(error);
                     });
             },
-            onError: function(err) {
-                console.error('PayPal Error:', err);
-                if (err.message.includes('INVALID_RESOURCE_ID')) {
-                    showErrorMessage('Session expired. Please refresh and try again.');
-                } else if (err.message.includes('CURRENCY_NOT_SUPPORTED')) {
-                    showErrorMessage('Currency not supported. Please contact support.');
-                } else if (err.message.includes('VALIDATION_ERROR')) {
-                    showErrorMessage('Please check your card information and try again.');
-                } else {
-                    showErrorMessage('Payment processing error. Please try again.');
-                }
-            },
+            onError: handlePaymentError,
             onCancel: function() {
                 showErrorMessage('Payment cancelled.');
             }
         }).render('#all-tutorials-paypal-button');
+
+        // Add Venmo button for all tutorials (mobile only)
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            paypal.Buttons({
+                fundingSource: paypal.FUNDING.VENMO,
+                style: {
+                    layout: 'vertical',
+                    shape: 'rect',
+                    color: 'blue'
+                },
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        intent: 'CAPTURE',
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW',
+                            brand_name: 'AI Hustle Hub'
+                        },
+                        purchase_units: [{
+                            amount: {
+                                value: '24.99',
+                                currency_code: 'USD'
+                            },
+                            description: 'Complete AI Side Hustles Bundle'
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture()
+                        .then(function(details) {
+                            showSuccessMessage('Payment successful! Redirecting to tutorials...');
+                            setTimeout(() => {
+                                window.location.href = 'tutorial1.html';
+                            }, 1500);
+                        })
+                        .catch(function(error) {
+                            console.error('Capture Error:', error);
+                            handlePaymentError(error);
+                        });
+                },
+                onError: handlePaymentError,
+                onCancel: function() {
+                    showErrorMessage('Payment cancelled.');
+                }
+            }).render('#all-tutorials-paypal-button');
+        }
+
+        // Helper function for handling payment errors
+        function handlePaymentError(error) {
+            console.error('Payment Error:', error);
+            if (error.message.includes('INSTRUMENT_DECLINED')) {
+                showErrorMessage('Payment declined. Please try a different payment method.');
+            } else if (error.message.includes('PAYMENT_SOURCE_DECLINED')) {
+                showErrorMessage('Payment declined. Please check your details.');
+            } else if (error.message.includes('PAYER_ACTION_REQUIRED')) {
+                showErrorMessage('Additional verification required. Please try again.');
+            } else if (error.message.includes('INVALID_RESOURCE_ID')) {
+                showErrorMessage('Session expired. Please refresh and try again.');
+            } else if (error.message.includes('CURRENCY_NOT_SUPPORTED')) {
+                showErrorMessage('Currency not supported. Please contact support.');
+            } else if (error.message.includes('VALIDATION_ERROR')) {
+                showErrorMessage('Please check your payment information.');
+            } else {
+                showErrorMessage('Payment error. Please try again.');
+            }
+        }
     });
 </script>
 
