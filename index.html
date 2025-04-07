@@ -2586,11 +2586,28 @@
                     application_context: {
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
-                        brand_name: 'AI Hustle Hub'
+                        brand_name: 'AI Hustle Hub',
+                        landing_page: 'NO_PREFERENCE',
+                        payment_method: {
+                            payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
+                            payer_selected: 'PAYPAL'
+                        }
+                    },
+                    payment_source: {
+                        card: {
+                            name: 'Card Payment',
+                            attributes: {
+                                verification_support: ['RISK_EVALUATION'],
+                                vault: {
+                                    store_in_vault: 'ON_SUCCESS'
+                                }
+                            }
+                        }
                     },
                     purchase_units: [{
                         amount: {
-                            value: '14.99'
+                            value: '14.99',
+                            currency_code: 'USD'
                         },
                         description: 'Single AI Tutorial Access'
                     }]
@@ -2627,11 +2644,28 @@
                     application_context: {
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
-                        brand_name: 'AI Hustle Hub'
+                        brand_name: 'AI Hustle Hub',
+                        landing_page: 'NO_PREFERENCE',
+                        payment_method: {
+                            payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
+                            payer_selected: 'PAYPAL'
+                        }
+                    },
+                    payment_source: {
+                        card: {
+                            name: 'Card Payment',
+                            attributes: {
+                                verification_support: ['RISK_EVALUATION'],
+                                vault: {
+                                    store_in_vault: 'ON_SUCCESS'
+                                }
+                            }
+                        }
                     },
                     purchase_units: [{
                         amount: {
-                            value: '24.99'
+                            value: '24.99',
+                            currency_code: 'USD'
                         },
                         description: 'Complete AI Side Hustles Bundle'
                     }]
