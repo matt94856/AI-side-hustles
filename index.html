@@ -42,7 +42,7 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,payment-fields&disable-funding=credit,card"></script>
     <style>
         :root {
             --primary-color: #1a1a1a;
@@ -1705,7 +1705,7 @@
 
 
     </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,payment-fields&disable-funding=credit,card"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -2587,22 +2587,7 @@
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
                         brand_name: 'AI Hustle Hub',
-                        landing_page: 'NO_PREFERENCE',
-                        payment_method: {
-                            payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
-                            payer_selected: 'PAYPAL'
-                        }
-                    },
-                    payment_source: {
-                        card: {
-                            name: 'Card Payment',
-                            attributes: {
-                                verification_support: ['RISK_EVALUATION'],
-                                vault: {
-                                    store_in_vault: 'ON_SUCCESS'
-                                }
-                            }
-                        }
+                        landing_page: 'NO_PREFERENCE'
                     },
                     purchase_units: [{
                         amount: {
@@ -2645,22 +2630,7 @@
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
                         brand_name: 'AI Hustle Hub',
-                        landing_page: 'NO_PREFERENCE',
-                        payment_method: {
-                            payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
-                            payer_selected: 'PAYPAL'
-                        }
-                    },
-                    payment_source: {
-                        card: {
-                            name: 'Card Payment',
-                            attributes: {
-                                verification_support: ['RISK_EVALUATION'],
-                                vault: {
-                                    store_in_vault: 'ON_SUCCESS'
-                                }
-                            }
-                        }
+                        landing_page: 'NO_PREFERENCE'
                     },
                     purchase_units: [{
                         amount: {
@@ -2687,6 +2657,43 @@
                 showErrorMessage('Payment cancelled.');
             }
         }).render('#all-tutorials-paypal-button');
+
+        // Initialize custom card fields
+        const cardFields = paypal.CardFields({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    intent: 'capture',
+                    application_context: {
+                        shipping_preference: 'NO_SHIPPING',
+                        user_action: 'PAY_NOW',
+                        brand_name: 'AI Hustle Hub'
+                    },
+                    purchase_units: [{
+                        amount: {
+                            value: '14.99',
+                            currency_code: 'USD'
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    showSuccessMessage('Payment successful! Redirecting to tutorial...');
+                    setTimeout(() => {
+                        window.location.href = 'tutorial1.html';
+                    }, 1500);
+                });
+            },
+            onError: function(err) {
+                console.error('Card Error:', err);
+                showErrorMessage('Payment processing error. Please try again.');
+            }
+        });
+
+        cardFields.NameField().render('#card-name');
+        cardFields.NumberField().render('#card-number');
+        cardFields.ExpiryField().render('#card-expiry');
+        cardFields.CVVField().render('#card-cvv');
     });
 </script>
 </body>
