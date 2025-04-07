@@ -1703,6 +1703,63 @@
     }
 }
 
+/* Add these styles after your existing CSS */
+.payment-methods {
+    margin-top: 20px;
+}
+
+.card-payment-form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background: #fff;
+}
+
+.card-field {
+    height: 40px;
+    margin-bottom: 15px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.card-field-row {
+    display: flex;
+    gap: 15px;
+}
+
+.card-field-row .card-field {
+    flex: 1;
+}
+
+.card-submit-button {
+    width: 100%;
+    padding: 12px;
+    background: #2d82c7;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-submit-button:hover {
+    background: #4a9de7;
+}
+
+/* Add forced-colors-mode support */
+@media (forced-colors: active) {
+    .card-field {
+        forced-color-adjust: none;
+    }
+    .card-submit-button {
+        forced-color-adjust: none;
+    }
+}
 
     </style>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,payment-fields&disable-funding=credit,card"></script>
@@ -2302,23 +2359,37 @@
                     <h3>Single Tutorial</h3>
                     <p class="price">$14.99</p>
                     <p class="description">Access this specific tutorial</p>
-                    <!-- Enhanced desktop recommendation for mobile devices -->
-                    <div class="desktop-recommendation">
-                        <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend completing checkout on a desktop computer
+                    <div class="payment-methods">
+                        <div id="single-tutorial-paypal-button"></div>
+                        <div class="card-payment-form">
+                            <div id="card-name" class="card-field"></div>
+                            <div id="card-number" class="card-field"></div>
+                            <div class="card-field-row">
+                                <div id="card-expiry" class="card-field"></div>
+                                <div id="card-cvv" class="card-field"></div>
+                            </div>
+                            <button id="submit-card-single" class="card-submit-button">Pay with Card</button>
+                        </div>
                     </div>
-                    <div id="single-tutorial-paypal-button"></div>
                 </div>
                 <div class="pricing-card featured">
                     <h3>All Tutorials</h3>
                     <p class="price">$24.99</p>
                     <p class="description">Access all tutorials (Save 87%)</p>
-                    <!-- Enhanced desktop recommendation for mobile devices -->
-                    <div class="desktop-recommendation">
-                        <i class="fas fa-desktop"></i> For the best purchasing experience, we recommend completing checkout on a desktop computer
+                    <div class="payment-methods">
+                        <div id="all-tutorials-paypal-button"></div>
+                        <div class="card-payment-form">
+                            <div id="card-name-all" class="card-field"></div>
+                            <div id="card-number-all" class="card-field"></div>
+                            <div class="card-field-row">
+                                <div id="card-expiry-all" class="card-field"></div>
+                                <div id="card-cvv-all" class="card-field"></div>
+                            </div>
+                            <button id="submit-card-all" class="card-submit-button">Pay with Card</button>
+                        </div>
+                    </div>
                 </div>
-                    <div id="all-tutorials-paypal-button"></div>
             </div>
-        </div>
     </div>
     </div>
     <!-- Footer -->
