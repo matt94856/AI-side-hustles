@@ -13,6 +13,14 @@
 </script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" name="viewport"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no"/>
+<meta name="instagram:card" content="summary_large_image"/>
+<meta name="instagram:title" content="AI Hustle Hub - Learn How to Make Money with AI"/>
+<meta name="instagram:description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting."/>
+<meta name="instagram:image" content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png"/>
     <title>AI Hustle Hub - Learn How to Make Money with AI</title>
 <meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="description"/>
     <!-- Open Graph Meta Tags -->
@@ -1712,130 +1720,74 @@
     }
 }
 
-/* Add these mobile-specific styles after your existing CSS */
-
-/* Instagram/Facebook In-App Browser Fixes */
-@media screen and (max-width: 100vh) {
-    /* Fix content cutoff in social media browsers */
-    .hero-content {
-        padding-top: max(env(safe-area-inset-top) + 60px, 80px);
-        padding-bottom: max(env(safe-area-inset-bottom) + 60px, 80px);
+/* Mobile and Social Media App Optimizations */
+@media screen and (max-width: 767px) {
+    /* Safe area insets for notched devices */
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+        -webkit-text-size-adjust: 100%;
     }
 
-    /* Fix PayPal button display on mobile */
-    .pricing-card {
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-
-    /* Ensure buttons are tappable */
-    .enroll-now,
-    .bundle-cta,
-    .primary-cta {
-        min-height: 44px;
-        padding: 12px 20px;
-        margin: 10px 0;
-    }
-
-    /* Fix modal display on mobile */
-    .modal-content {
-        width: 95%;
-        max-height: 90vh;
+    /* Fix for social media in-app browsers */
+    .modal {
+        position: fixed;
+        top: env(safe-area-inset-top);
+        bottom: env(safe-area-inset-bottom);
+        left: env(safe-area-inset-left);
+        right: env(safe-area-inset-right);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        margin: 20px auto;
-        padding: 15px;
     }
 
-    /* Improve readability on mobile */
-    .tutorial-description,
-    .section-description,
-    .faq-answer p {
-        font-size: 16px;
-        line-height: 1.6;
-    }
-
-    /* Fix countdown timer on mobile */
-    .countdown-section {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        padding: 8px;
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    /* Optimize images for mobile */
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-}
-
-/* Social Media Browser Optimizations */
-@supports (-webkit-touch-callout: none) {
+    /* PayPal button container fixes */
     #single-tutorial-paypal-button,
     #all-tutorials-paypal-button {
-        width: 100% !important;
         min-height: 45px;
+        margin: 10px 0;
+        width: 100% !important;
     }
 
-    .modal {
-        -webkit-overflow-scrolling: touch;
-        position: fixed;
+    /* Prevent content from being hidden under keyboard */
+    .modal-content {
+        padding-bottom: 60px;
     }
 
-    button {
-        -webkit-tap-highlight-color: transparent;
-    }
-}
-
-/* Mobile-specific adjustments */
-@media only screen and (max-width: 767px) {
-    .desktop-only {
-        display: none !important;
-    }
-
-    .tutorial-grid,
-    .features-grid,
-    .bundle-content {
-        grid-template-columns: 1fr !important;
-        gap: 20px;
-    }
-
-    h1 { font-size: 2rem !important; }
-    h2 { font-size: 1.8rem !important; }
-    h3 { font-size: 1.5rem !important; }
-
-    .container {
-        padding-left: max(15px, env(safe-area-inset-left));
-        padding-right: max(15px, env(safe-area-inset-right));
-    }
-}
-    </style>
-
-    <!-- Add before closing body tag -->
-    <script>
-        // Fix viewport height for mobile browsers
-        function fixViewportHeight() {
-            let vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
+    /* Fix for Instagram/Facebook in-app browser */
+    @supports (-webkit-touch-callout: none) {
+        .hero {
+            min-height: -webkit-fill-available;
         }
+        
+        .modal {
+            min-height: -webkit-fill-available;
+        }
+    }
+}
 
-        window.addEventListener('resize', fixViewportHeight);
-        window.addEventListener('orientationchange', fixViewportHeight);
-        fixViewportHeight();
+/* Fix for PayPal buttons in social media browsers */
+@media screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 0) {
+    .paypal-button-container {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+}
 
-        // Detect social media browsers
-        document.addEventListener('DOMContentLoaded', function() {
-            if (navigator.userAgent.includes('Instagram') || 
-                navigator.userAgent.includes('FBAN') || 
-                navigator.userAgent.includes('FBAV')) {
-                document.body.classList.add('social-media-browser');
-            }
-        });
-    </script>
+/* Prevent horizontal scroll on mobile */
+@media screen and (max-width: 767px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+}
+
+    </style>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -1975,6 +1927,38 @@
 </div>
             </div>
             <div class="tutorial-grid">
+                <!-- Tutorial Card 3 -->
+                <div class="tutorial-card">
+                    <div class="tutorial-header">
+                        <i class="fas fa-pen-fancy tutorial-icon"></i>
+                        <span class="completion-time"><i class="far fa-clock"></i> 3-5 hours</span>
+                    </div>
+                    <h3>Content Creation with AI</h3>
+<div class="income-potential">
+<span>Monthly Income Potential:</span>
+<strong>$800-$7,500</strong>
+</div>
+                    <div class="tutorial-details">
+<p class="tutorial-description">The step-by-step system to create subscription content that pays you $27-$97 per subscriber monthly while AI does 95% of the work.</p>
+                        <div class="key-learnings">
+                            <h4>What You'll Learn:</h4>
+                            <ul>
+<li><i class="fas fa-check"></i> Our "Unfair Advantage" content positioning system</li>
+<li><i class="fas fa-check"></i> The 3-part AI prompt framework for viral content</li>
+<li><i class="fas fa-check"></i> How to scale to 1000+ subscribers without hiring anyone</li>
+<li><i class="fas fa-check"></i> Automated content distribution that works while you sleep</li>
+                            </ul>
+                        </div>
+                        <div class="course-structure">
+<p><strong>System Includes:</strong> 5 modules, 15 lessons, 3 implementation plans, 12 content templates</p>
+<p><strong>Results Timeline:</strong> First subscribers in 14-21 days</p>
+                        </div>
+                    </div>
+<button class="enroll-now" onclick="checkPaymentStatus(3)">
+<span>START CREATING TODAY</span>
+<i class="fas fa-arrow-right"></i>
+</button>
+                </div>
                 <!-- Tutorial Card 1 -->
                 <div class="tutorial-card">
                     <div class="tutorial-header">
@@ -2037,38 +2021,6 @@
                     </div>
 <button class="enroll-now" onclick="checkPaymentStatus(2)">
 <span>BECOME AN AFFILIATE MARKETER</span>
-<i class="fas fa-arrow-right"></i>
-</button>
-                </div>
-                <!-- Tutorial Card 3 -->
-                <div class="tutorial-card">
-                    <div class="tutorial-header">
-                        <i class="fas fa-pen-fancy tutorial-icon"></i>
-                        <span class="completion-time"><i class="far fa-clock"></i> 3-5 hours</span>
-                    </div>
-                    <h3>Content Creation with AI</h3>
-<div class="income-potential">
-<span>Monthly Income Potential:</span>
-<strong>$800-$7,500</strong>
-</div>
-                    <div class="tutorial-details">
-<p class="tutorial-description">The step-by-step system to create subscription content that pays you $27-$97 per subscriber monthly while AI does 95% of the work.</p>
-                        <div class="key-learnings">
-                            <h4>What You'll Learn:</h4>
-                            <ul>
-<li><i class="fas fa-check"></i> Our "Unfair Advantage" content positioning system</li>
-<li><i class="fas fa-check"></i> The 3-part AI prompt framework for viral content</li>
-<li><i class="fas fa-check"></i> How to scale to 1000+ subscribers without hiring anyone</li>
-<li><i class="fas fa-check"></i> Automated content distribution that works while you sleep</li>
-                            </ul>
-                        </div>
-                        <div class="course-structure">
-<p><strong>System Includes:</strong> 5 modules, 15 lessons, 3 implementation plans, 12 content templates</p>
-<p><strong>Results Timeline:</strong> First subscribers in 14-21 days</p>
-                        </div>
-                    </div>
-<button class="enroll-now" onclick="checkPaymentStatus(3)">
-<span>START CREATING TODAY</span>
 <i class="fas fa-arrow-right"></i>
 </button>
                 </div>
@@ -2878,6 +2830,59 @@
             }
         }).render('#all-tutorials-paypal-button');
     });
+</script>
+
+<script>
+    // Mobile and social media browser optimizations
+    document.addEventListener('DOMContentLoaded', function() {
+        // Detect social media in-app browser
+        const isSocialMediaBrowser = /Instagram|FBAV|FBAN|Line|KAKAOTALK|NAVER|zalo|LinkedInApp/.test(navigator.userAgent);
+        
+        if (isSocialMediaBrowser) {
+            // Add class to body for social media specific styles
+            document.body.classList.add('social-media-browser');
+            
+            // Ensure proper viewport height
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // Update viewport height on resize
+            window.addEventListener('resize', () => {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            });
+        }
+
+        // Fix for PayPal button rendering in social media browsers
+        const paypalButtons = document.querySelectorAll('[id$="-paypal-button"]');
+        paypalButtons.forEach(button => {
+            if (isSocialMediaBrowser) {
+                button.style.transform = 'translateZ(0)';
+                button.style.webkitTransform = 'translateZ(0)';
+            }
+        });
+
+        // Prevent double-tap zoom on buttons in iOS
+        const allButtons = document.querySelectorAll('button, .enroll-now, .bundle-cta');
+        allButtons.forEach(button => {
+            button.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                this.click();
+            });
+        });
+
+        // Handle mobile keyboard appearance
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                setTimeout(() => {
+                    window.scrollTo(0, window.scrollY);
+                }, 50);
+            });
+        });
+    });
+
+    // Existing script code remains unchanged...
 </script>
 </body>
 </html> 
