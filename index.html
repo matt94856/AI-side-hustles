@@ -59,7 +59,7 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility,marks,messages&enable-funding=venmo,card"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility&enable-funding=venmo&disable-funding=card"></script>
     <style>
         :root {
             --primary-color: #1a1a1a;
@@ -1787,7 +1787,7 @@
 }
 
     </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility,marks,messages&enable-funding=venmo,card"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD&components=buttons,funding-eligibility&enable-funding=venmo&disable-funding=card"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -2654,56 +2654,15 @@
 
     // Initialize PayPal buttons when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize PayPal button for single tutorial
-        paypal.Buttons({
-            style: {
-                layout: 'vertical',
-                color: 'blue',
-                shape: 'rect',
-                label: 'paypal'
-            },
-            fundingSource: undefined, // Allow all funding sources
-            createOrder: function(data, actions) {
-                return actions.order.create({
-                    intent: 'CAPTURE',
-                    application_context: {
-                        shipping_preference: 'NO_SHIPPING',
-                        user_action: 'PAY_NOW',
-                        brand_name: 'AI Hustle Hub'
-                    },
-                    purchase_units: [{
-                        amount: {
-                            value: '14.99',
-                            currency_code: 'USD'
-                        },
-                        description: 'Single AI Tutorial Access'
-                    }]
-                });
-            },
-            onApprove: function(data, actions) {
-                return actions.order.capture()
-                    .then(function(details) {
-                        showSuccessMessage('Payment successful! Redirecting to tutorial...');
-                        setTimeout(() => {
-                            window.location.href = 'tutorial1.html';
-                        }, 1500);
-                    })
-                    .catch(function(error) {
-                        console.error('Capture Error:', error);
-                        handlePaymentError(error);
-                    });
-            },
-            onError: handlePaymentError,
-            onCancel: function() {
-                showErrorMessage('Payment cancelled.');
-            }
-        }).render('#single-tutorial-paypal-button');
+        // Function to check if device is mobile
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
 
-        // Initialize PayPal button for all tutorials
+        // Initialize PayPal buttons for single tutorial
         paypal.Buttons({
             style: {
                 layout: 'vertical',
-                color: 'blue',
                 shape: 'rect',
                 label: 'paypal'
             },
