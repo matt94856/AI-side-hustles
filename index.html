@@ -1758,7 +1758,7 @@
     /* Instagram-specific fixes for hero section */
     @media screen and (max-width: 767px) {
         .hero-content {
-            padding-top: max(120px, env(safe-area-inset-top) + 80px) !important;
+            padding-top: max(80px, env(safe-area-inset-top) + 40px) !important;
             min-height: 100vh;
             min-height: -webkit-fill-available;
             display: flex;
@@ -1769,7 +1769,7 @@
         /* Specific fix for Instagram browser */
         @supports (-webkit-touch-callout: none) {
             .hero-content {
-                padding-top: max(150px, env(safe-area-inset-top) + 100px) !important;
+                padding-top: max(100px, env(safe-area-inset-top) + 60px) !important;
             }
 
             .hero h1 {
@@ -1781,7 +1781,7 @@
 
         /* Force content to be visible in social media browsers */
         .social-media-browser .hero-content {
-            padding-top: max(150px, env(safe-area-inset-top) + 100px) !important;
+            padding-top: max(100px, env(safe-area-inset-top) + 60px) !important;
             height: auto !important;
             min-height: 100vh;
             min-height: -webkit-fill-available;
