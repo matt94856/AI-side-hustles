@@ -2130,10 +2130,6 @@
 </div>
 <p class="price-save">You Save: <span>$175.00 (87%)</span></p>
 </div>
-<!-- Desktop recommendation for mobile devices -->
-<div class="desktop-recommendation">
-<i class="fas fa-desktop"></i> For the best purchasing experience, we recommend using a desktop computer.
-                        </div>
 <button class="bundle-cta" onclick="checkPaymentStatus('all')">
 <span>GET INSTANT ACCESS NOW</span>
 <i class="fas fa-arrow-right"></i>
@@ -2483,15 +2479,7 @@
                 // Add PayPal checkout event listeners for mobile
                 document.querySelectorAll('.pricing-card').forEach(card => {
                     card.addEventListener('click', function() {
-                        // Highlight desktop recommendation when user clicks near the PayPal buttons
-                        const recommendation = this.querySelector('.desktop-recommendation');
-                        if (recommendation) {
-                            recommendation.style.transform = 'scale(1.05)';
-                            recommendation.style.transition = 'transform 0.3s ease';
-                            setTimeout(() => {
-                                recommendation.style.transform = 'scale(1)';
-                            }, 1000);
-                        }
+                        // Handle click event without desktop recommendation
                     });
                 });
             }
