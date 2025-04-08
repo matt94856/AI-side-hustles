@@ -3,59 +3,127 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HMQMSRP3M4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HMQMSRP3M4');
-</script>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" name="viewport"/>
-<meta name="mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no"/>
-<meta name="instagram:card" content="summary_large_image"/>
-<meta name="instagram:title" content="AI Hustle Hub - Learn How to Make Money with AI"/>
-<meta name="instagram:description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting."/>
-<meta name="instagram:image" content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png"/>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HMQMSRP3M4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HMQMSRP3M4');
+    </script>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" name="viewport"/>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Defer non-critical scripts -->
+    <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script defer src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
+    
+    <!-- Add preconnect for external domains -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://www.paypal.com">
+    
+    <!-- Add DNS prefetch for critical domains -->
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//www.paypal.com">
+    
+    <!-- Add resource hints for critical resources -->
+    <link rel="prefetch" href="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png" as="image">
+    
+    <!-- Add critical CSS inline -->
+    <style>
+        /* Critical CSS for above-the-fold content */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            z-index: 2;
+            padding: 0 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-weight: 800;
+        }
+        
+        /* Mobile-specific critical styles */
+        @media screen and (max-width: 767px) {
+            .hero-content {
+                padding-top: max(40px, env(safe-area-inset-top) + 20px) !important;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+    
+    <!-- Rest of the head content remains unchanged -->
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no"/>
+    <meta name="instagram:card" content="summary_large_image"/>
+    <meta name="instagram:title" content="AI Hustle Hub - Learn How to Make Money with AI"/>
+    <meta name="instagram:description" content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting."/>
+    <meta name="instagram:image" content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png"/>
     <title>AI Hustle Hub - Learn How to Make Money with AI</title>
-<meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="description"/>
+    <meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="description"/>
     <!-- Open Graph Meta Tags -->
-<meta content="AI Hustle Hub - Learn How to Make Money with AI" property="og:title"/>
-<meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." property="og:description"/>
-<meta content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png" property="og:image"/>
-<meta content="1200" property="og:image:width"/>
-<meta content="630" property="og:image:height"/>
-<meta content="https://premiumwebcreators.com" property="og:url"/>
-<meta content="website" property="og:type"/>
-<meta content="AI Money Guide" property="og:site_name"/>
-<meta content="en_US" property="og:locale"/>
+    <meta content="AI Hustle Hub - Learn How to Make Money with AI" property="og:title"/>
+    <meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." property="og:description"/>
+    <meta content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png" property="og:image"/>
+    <meta content="1200" property="og:image:width"/>
+    <meta content="630" property="og:image:height"/>
+    <meta content="https://premiumwebcreators.com" property="og:url"/>
+    <meta content="website" property="og:type"/>
+    <meta content="AI Money Guide" property="og:site_name"/>
+    <meta content="en_US" property="og:locale"/>
     <!-- Twitter Card Meta Tags -->
-<meta content="summary_large_image" name="twitter:card"/>
-<meta content="AI Hustle Hub - Learn How to Make Money with AI" name="twitter:title"/>
-<meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="twitter:description"/>
-<meta content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png" name="twitter:image"/>
-<meta content="@AIHustleHub" name="twitter:site"/>
-<meta content="@AIHustleHub" name="twitter:creator"/>
+    <meta content="summary_large_image" name="twitter:card"/>
+    <meta content="AI Hustle Hub - Learn How to Make Money with AI" name="twitter:title"/>
+    <meta content="Discover the 5 best ways to earn money using artificial intelligence. Learn AI-powered freelancing, affiliate marketing, content creation, digital products, and consulting." name="twitter:description"/>
+    <meta content="https://raw.githubusercontent.com/matt94856/AI-side-hustles/main/AI_logo.png" name="twitter:image"/>
+    <meta content="@AIHustleHub" name="twitter:site"/>
+    <meta content="@AIHustleHub" name="twitter:creator"/>
     <!-- Additional Meta Tags for Better Link Preview -->
-<meta content="#1a1a1a" name="theme-color"/>
-<meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="telephone=no" name="format-detection"/>
-<meta content="yes" name="mobile-web-app-capable"/>
-<meta content="AI Hustle Hub" name="apple-mobile-web-app-title"/>
-<!-- Additional Meta Tags for Social Media In-App Browsers -->
-<meta content="yes" name="apple-mobile-web-app-capable"/>
-<meta content="yes" name="apple-touch-fullscreen"/>
-<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="no" name="msapplication-tap-highlight"/>
-<meta content="telephone=no,date=no,address=no,email=no,url=no" name="format-detection"/>
-<link href="style.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
+    <meta content="#1a1a1a" name="theme-color"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta content="yes" name="mobile-web-app-capable"/>
+    <meta content="AI Hustle Hub" name="apple-mobile-web-app-title"/>
+    <!-- Additional Meta Tags for Social Media In-App Browsers -->
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="no" name="msapplication-tap-highlight"/>
+    <meta content="telephone=no,date=no,address=no,email=no,url=no" name="format-detection"/>
+    <link href="style.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- PayPal SDK -->
@@ -1797,7 +1865,6 @@
         }
     }
     </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -2397,9 +2464,9 @@
                     <p class="price">$24.99</p>
                     <p class="description">Access all tutorials (Save 87%)</p>
                     <div id="all-tutorials-paypal-button"></div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
     <!-- Footer -->
     <footer>
@@ -2874,5 +2941,136 @@
 
     // Existing script code remains unchanged...
 </script>
+
+    <!-- Optimize script loading -->
+    <script>
+        // Load non-critical scripts after page load
+        window.addEventListener('load', function() {
+            // Load scripts that aren't needed immediately
+            const scripts = [
+                'https://identity.netlify.com/v1/netlify-identity-widget.js',
+                'https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD'
+            ];
+            
+            scripts.forEach(function(src) {
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = true;
+                document.body.appendChild(script);
+            });
+        });
+
+        // Optimize mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            let lastScrollTop = 0;
+            
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                });
+            }
+            
+            // Debounce scroll handler for better performance
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                if (window.innerWidth < 768) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        
+                        if (scrollTop > lastScrollTop && scrollTop > 60) {
+                            document.querySelector('.navbar').classList.add('hidden');
+                            navLinks.classList.remove('active');
+                        } else {
+                            document.querySelector('.navbar').classList.remove('hidden');
+                        }
+                        
+                        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+                    }, 10);
+                }
+            }, {passive: true});
+        });
+
+        // Optimize countdown timer
+        let countdownInterval;
+        document.addEventListener('DOMContentLoaded', function() {
+            const countDownDate = new Date();
+            countDownDate.setHours(countDownDate.getHours() + 24);
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+                
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                const hoursElement = document.getElementById("hours");
+                const minutesElement = document.getElementById("minutes");
+                const secondsElement = document.getElementById("seconds");
+                
+                if (hoursElement) hoursElement.textContent = hours < 10 ? "0" + hours : hours;
+                if (minutesElement) minutesElement.textContent = minutes < 10 ? "0" + minutes : minutes;
+                if (secondsElement) secondsElement.textContent = seconds < 10 ? "0" + seconds : seconds;
+                
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    if (hoursElement) hoursElement.textContent = "00";
+                    if (minutesElement) minutesElement.textContent = "00";
+                    if (secondsElement) secondsElement.textContent = "00";
+                }
+            }
+            
+            // Update immediately and then every second
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        });
+
+        // Optimize FAQ accordion
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    item.classList.toggle('active');
+                });
+            });
+        });
+
+        // Optimize mobile and social media browser detection
+        document.addEventListener('DOMContentLoaded', function() {
+            const isSocialMediaBrowser = /Instagram|FBAV|FBAN|Line|KAKAOTALK|NAVER|zalo|LinkedInApp/.test(navigator.userAgent);
+            
+            if (isSocialMediaBrowser) {
+                document.body.classList.add('social-media-browser');
+                
+                // Optimize viewport height calculation
+                function updateViewportHeight() {
+                    const vh = window.innerHeight * 0.01;
+                    document.documentElement.style.setProperty('--vh', `${vh}px`);
+                }
+                
+                updateViewportHeight();
+                window.addEventListener('resize', updateViewportHeight);
+                
+                // Optimize PayPal button rendering
+                const paypalButtons = document.querySelectorAll('[id$="-paypal-button"]');
+                paypalButtons.forEach(button => {
+                    button.style.transform = 'translateZ(0)';
+                    button.style.webkitTransform = 'translateZ(0)';
+                });
+            }
+        });
+    </script>
 </body>
 </html> 
