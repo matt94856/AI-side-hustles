@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   if (typeof netlifyIdentity !== "undefined") {
-    netlifyIdentity.on("init", user => {
+    typeof netlifyIdentity !== 'undefined' && netlifyIdentity.on("init", user => {
       const isLoggedIn = !!user;
       const paywallButtons = document.querySelectorAll(
         ".enroll-course-btn, .instant-access-btn, .premium-access-btn, .enroll-now, .bundle-cta"
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
     });
-    netlifyIdentity.init();
+    if (typeof netlifyIdentity !== 'undefined') netlifyIdentity.init();
   }
 });
 
@@ -424,7 +424,7 @@ async function ensureSupabaseInitialized() {
     
     try {
         // Get the current user from Netlify Identity
-        const user = netlifyIdentity.currentUser();
+        const user = (typeof netlifyIdentity !== 'undefined' ? netlifyIdentity.currentUser() : null);
         
         // Initialize Supabase with the user's token if available
         supabase = window.supabase.createClient(
@@ -453,7 +453,7 @@ async function ensureSupabaseInitialized() {
 
 // Add event listener for Netlify Identity token refresh
 if (typeof netlifyIdentity !== 'undefined') {
-    netlifyIdentity.on('tokenRefreshed', user => {
+    typeof netlifyIdentity !== 'undefined' && netlifyIdentity.on('tokenRefreshed', user => {
         if (supabase && user) {
             // Update Supabase headers with new token
             supabase.realtime.setAuth(user.token.access_token);
@@ -463,7 +463,7 @@ if (typeof netlifyIdentity !== 'undefined') {
 
 async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
     try {
-        const user = netlifyIdentity.currentUser();
+        const user = (typeof netlifyIdentity !== 'undefined' ? netlifyIdentity.currentUser() : null);
         if (!user) {
             throw new Error('User not authenticated');
         }
@@ -537,7 +537,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
 // Add function to sync purchases from server
 async function syncPurchasesFromServer() {
     try {
-        const user = netlifyIdentity.currentUser();
+        const user = (typeof netlifyIdentity !== 'undefined' ? netlifyIdentity.currentUser() : null);
         if (!user) {
             console.error('Cannot sync: User not authenticated');
             return;
@@ -1044,7 +1044,7 @@ document.head.appendChild(styleSheet);
 // Update the checkPurchaseStatus function to work with the new table structure
 async function checkPurchaseStatus(userId, tutorialId) {
     try {
-        const user = netlifyIdentity.currentUser();
+        const user = (typeof netlifyIdentity !== 'undefined' ? netlifyIdentity.currentUser() : null);
         if (!user) {
             return false;
         }
@@ -1106,4 +1106,57 @@ async function checkPurchaseStatus(userId, tutorialId) {
         console.error('Error checking purchase status:', error);
         return false;
     }
-} 
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.netlifyIdentity) {
+    typeof netlifyIdentity !== 'undefined' && netlifyIdentity.on("init", () => {
+      supabaseUtils.syncUserPurchases();
+    });
+  } else {
+    console.warn("Netlify Identity is not available.");
+  }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const buttons = document.querySelectorAll(".enroll-now, .read-more, .start-course");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", async function (e) {
+      e.preventDefault();
+
+      const user = (typeof netlifyIdentity !== 'undefined') ? netlifyIdentity.currentUser() : null;
+
+      if (!user) {
+        // Redirect to login if not logged in
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Extract the tutorial ID from a data attribute or href
+      const tutorialId = this.dataset.tutorialId || this.getAttribute("data-tutorial-id");
+
+      if (!tutorialId) {
+        console.warn("No tutorial ID found on button.");
+        return;
+      }
+
+      const hasAccess = await supabaseUtils.checkPurchaseStatus(tutorialId);
+
+      if (hasAccess) {
+        // User has access, go to course
+        window.location.href = `/tutorials/${tutorialId}.html`;
+      } else {
+        // No access, trigger paywall modal
+        const modal = document.querySelector("#paywallModal");
+        if (modal) {
+          modal.classList.add("open");
+        } else {
+          alert("Please purchase access to this course.");
+        }
+      }
+    });
+  });
+});
