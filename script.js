@@ -654,7 +654,7 @@ function initializePayPal() {
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: '14.99',
+                                value: '7.99',
                                 currency_code: 'USD'
                             },
                             description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
