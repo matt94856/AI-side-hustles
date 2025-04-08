@@ -1786,6 +1786,49 @@
     }
 }
 
+    /* Existing styles remain unchanged */
+
+    /* Instagram-specific fixes for hero section */
+    @media screen and (max-width: 767px) {
+        .hero-content {
+            padding-top: max(120px, env(safe-area-inset-top) + 80px) !important;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* Specific fix for Instagram browser */
+        @supports (-webkit-touch-callout: none) {
+            .hero-content {
+                padding-top: max(150px, env(safe-area-inset-top) + 100px) !important;
+            }
+
+            .hero h1 {
+                margin-top: 0;
+                font-size: calc(2rem + 2vw);
+                line-height: 1.2;
+            }
+        }
+
+        /* Force content to be visible in social media browsers */
+        .social-media-browser .hero-content {
+            padding-top: max(150px, env(safe-area-inset-top) + 100px) !important;
+            height: auto !important;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+        }
+    }
+
+    /* Ensure hero section is always visible */
+    @media screen and (max-width: 767px) and (-webkit-min-device-pixel-ratio: 0) {
+        .hero {
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            height: auto !important;
+        }
+    }
     </style>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>  <script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&currency=USD"></script>
 </head>
