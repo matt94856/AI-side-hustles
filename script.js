@@ -595,7 +595,46 @@ function initializePayPal() {
 
     if (typeof paypal !== 'undefined') {
         if (singleTutorialButton) {
+            
+    const isMobile = window.innerWidth <= 768;
+
+    const fundingSources = [paypal.FUNDING.CARD];
+    if (isMobile && paypal.FUNDING.VENMO) {
+        fundingSources.push(paypal.FUNDING.VENMO);
+    }
+
+    fundingSources.forEach(fundingSource => {
+        const target = fundingSource === paypal.FUNDING.CARD ? '#singleTutorialButton' : '#venmoButton';
+
+        if (document.querySelector(target)) {
             paypal.Buttons({
+                fundingSource: fundingSource,
+                style: fundingSource === paypal.FUNDING.CARD ? { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' } : {},
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: fundingSource === paypal.FUNDING.CARD ? '7.99' : '7.99',
+                                currency_code: 'USD'
+                            },
+                            description: fundingSource === paypal.FUNDING.CARD ? `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}` : 'Single Tutorial Access via Venmo'
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        handlePaymentSuccess(currentTutorialId, 'single', details);
+                    });
+                },
+                onError: function(err) {
+                    console.error('Payment error:', err);
+                    showMessage('There was an error with your payment method. Please try another or contact support.', 'error');
+                }
+            }).render(target);
+        }
+    });
+
+    paypal.Buttons({
                 createOrder: function(data, actions) {
                     return actions.order.create({
                         purchase_units: [{
