@@ -1160,3 +1160,43 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+
+// --- Dynamic login/logout button update in navbar ---
+function updateNavbarForLoggedInUser(user) {
+  const loginButton = document.querySelector(".login-btn");
+  if (loginButton) {
+    loginButton.textContent = "Logout";
+    loginButton.onclick = () => netlifyIdentity.logout();
+  }
+}
+
+function updateNavbarForLoggedOutUser() {
+  const loginButton = document.querySelector(".login-btn");
+  if (loginButton) {
+    loginButton.textContent = "Login";
+    loginButton.onclick = () => netlifyIdentity.open("login");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof netlifyIdentity !== "undefined") {
+    netlifyIdentity.on("login", user => {
+      updateNavbarForLoggedInUser(user);
+    });
+
+    netlifyIdentity.on("logout", () => {
+      updateNavbarForLoggedOutUser();
+    });
+
+    netlifyIdentity.on("init", user => {
+      if (user) {
+        updateNavbarForLoggedInUser(user);
+      } else {
+        updateNavbarForLoggedOutUser();
+      }
+    });
+
+    netlifyIdentity.init();
+  }
+});
