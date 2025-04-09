@@ -285,9 +285,6 @@ function checkPaymentStatus(tutorialId) {
     } else {
         showMessage('Please purchase access to view this tutorial', 'info');
         
-        if (isMobile) {
-            showMobileDisclaimer();
-        }
         
         showModal(tutorialId);
     }
