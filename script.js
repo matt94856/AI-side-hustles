@@ -153,10 +153,7 @@ function showModal(tutorialId) {
         previewContent.innerHTML = tutorialPreviews[tutorialId].content.replace(/\n/g, '<br>');
     }
     
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-        showMobileDisclaimer();
-    }
+    
     
     modal.style.display = 'block';
 }
