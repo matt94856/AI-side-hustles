@@ -296,40 +296,6 @@ function checkPaymentStatus(tutorialId) {
     }
 }
 
-function showMobileDisclaimer() {
-    const existingDisclaimer = document.querySelector('.mobile-disclaimer');
-    if (existingDisclaimer) {
-        existingDisclaimer.remove();
-    }
-    
-    const disclaimer = document.createElement('div');
-    disclaimer.className = 'mobile-disclaimer';
-    disclaimer.innerHTML = `
-        <div class="disclaimer-content">
-            <i class="fas fa-desktop"></i>
-            <p>For the best purchasing experience, we recommend completing your purchase on a desktop computer.</p>
-            <button class="disclaimer-close"><i class="fas fa-times"></i></button>
-        </div>
-    `;
-    
-    document.body.appendChild(disclaimer);
-    
-    const closeBtn = disclaimer.querySelector('.disclaimer-close');
-    closeBtn.addEventListener('click', function() {
-        disclaimer.remove();
-    });
-    
-    setTimeout(() => {
-        if (document.body.contains(disclaimer)) {
-            disclaimer.classList.add('fade-out');
-            setTimeout(() => {
-                if (document.body.contains(disclaimer)) {
-                    disclaimer.remove();
-                }
-            }, 1000);
-        }
-    }, 10000);
-}
 
 let courseProgress = {
     currentModule: 1,
