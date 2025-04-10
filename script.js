@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function (e) {
           if (!isLoggedIn) {
             e.preventDefault();
+            // Store the current page URL and any tutorial ID
             const currentPage = window.location.pathname;
             const tutorialId = this.getAttribute('onclick')?.match(/checkPaymentStatus\((\d+)\)/)?.[1] || 'all';
             sessionStorage.setItem('redirectTo', currentPage);
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+// Tutorial Preview Content
 const tutorialPreviews = {
     1: {
         title: "AI-Powered Freelancing",
@@ -116,11 +118,13 @@ Recommended AI Tools:
     }
 };
 
+// PayPal Integration
 let paypalButtons = {
     singleTutorial: null,
     allTutorials: null
 };
 
+// Modal Functions
 let modal = null;
 let closeBtn = null;
 let currentTutorialId = null;
@@ -133,6 +137,7 @@ function initializeModal() {
         closeBtn.onclick = closeModal;
     }
     
+    // Add window click handler
     window.onclick = function(event) {
         if (event.target == modal) {
             closeModal();
@@ -145,6 +150,7 @@ function showModal(tutorialId) {
     
     currentTutorialId = tutorialId;
     
+    // Update preview content
     const previewTitle = document.getElementById('previewTitle');
     const previewContent = document.getElementById('previewContent');
     
@@ -153,7 +159,11 @@ function showModal(tutorialId) {
         previewContent.innerHTML = tutorialPreviews[tutorialId].content.replace(/\n/g, '<br>');
     }
     
-    
+    // Check if on mobile
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        showMobileDisclaimer();
+    }
     
     modal.style.display = 'block';
 }
@@ -164,6 +174,7 @@ function closeModal() {
     currentTutorialId = null;
 }
 
+// Payment Status Functions
 function checkPaymentStatus() {
     const paymentData = JSON.parse(localStorage.getItem('paymentData'));
     if (!paymentData) return false;
@@ -184,6 +195,7 @@ function enableAccessToAllTutorials() {
     }
 }
 
+// Message Display Function
 function showMessage(message, type = 'info') {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${type}`;
@@ -195,6 +207,7 @@ function showMessage(message, type = 'info') {
     }, 5000);
 }
 
+// Mobile Menu Toggle
 const mobileMenuBtn = document.querySelector('.mobile-menu');
 const navLinks = document.querySelector('.nav-links');
 
@@ -202,6 +215,7 @@ mobileMenuBtn.addEventListener('click', () => {
     navLinks.classList.toggle('active');
 });
 
+// Smooth Scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -211,6 +225,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+// Intersection Observer for Animations
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -223,9 +238,12 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.tutorial-card, .testimonial-card, .faq-item').forEach((el) => observer.observe(el));
 
+// Move closeBtn.onclick and window.onclick inside DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize modal first
     initializeModal();
     
+    // Check if we need to show the paywall modal
     const showPaywallFor = sessionStorage.getItem('showPaywallFor');
     if (showPaywallFor) {
         sessionStorage.removeItem('showPaywallFor');
@@ -244,9 +262,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Initialize quizzes first
     console.log('Starting quiz initialization...');
     initializeQuizzes();
     
+    // Then initialize other functionality
     initializePayPal();
     loadProgress();
     initializeLessons();
@@ -256,6 +276,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateProgressBar();
 });
 
+// Function to enable access to premium content
 function enableAccess(tutorialId) {
     const tutorialPages = {
         1: 'tutorial1.html',
@@ -273,11 +294,13 @@ function enableAccess(tutorialId) {
     }
 }
 
+// Function to check payment status and enable access
 function checkPaymentStatus(tutorialId) {
     const paymentStatus = localStorage.getItem('paymentStatus');
     const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
     const allAccess = localStorage.getItem('allAccess') === 'true';
     
+    // Check if on mobile
     const isMobile = window.innerWidth <= 768;
 
     if (allAccess || purchasedTutorials.includes(tutorialId)) {
@@ -285,12 +308,57 @@ function checkPaymentStatus(tutorialId) {
     } else {
         showMessage('Please purchase access to view this tutorial', 'info');
         
+        // Show mobile disclaimer if on mobile
+        if (isMobile) {
+            showMobileDisclaimer();
+        }
         
         showModal(tutorialId);
     }
 }
 
+// Function to show mobile disclaimer
+function showMobileDisclaimer() {
+    // Remove any existing disclaimer
+    const existingDisclaimer = document.querySelector('.mobile-disclaimer');
+    if (existingDisclaimer) {
+        existingDisclaimer.remove();
+    }
+    
+    // Create disclaimer element
+    const disclaimer = document.createElement('div');
+    disclaimer.className = 'mobile-disclaimer';
+    disclaimer.innerHTML = `
+        <div class="disclaimer-content">
+            <i class="fas fa-desktop"></i>
+            <p>For the best purchasing experience, we recommend completing your purchase on a desktop computer.</p>
+            <button class="disclaimer-close"><i class="fas fa-times"></i></button>
+        </div>
+    `;
+    
+    // Add to body
+    document.body.appendChild(disclaimer);
+    
+    // Add close button functionality
+    const closeBtn = disclaimer.querySelector('.disclaimer-close');
+    closeBtn.addEventListener('click', function() {
+        disclaimer.remove();
+    });
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        if (document.body.contains(disclaimer)) {
+            disclaimer.classList.add('fade-out');
+            setTimeout(() => {
+                if (document.body.contains(disclaimer)) {
+                    disclaimer.remove();
+                }
+            }, 1000);
+        }
+    }, 10000);
+}
 
+// Course Progress Tracking
 let courseProgress = {
     currentModule: 1,
     completedLessons: new Set(),
@@ -298,6 +366,7 @@ let courseProgress = {
     assignments: {}
 };
 
+// Load progress from localStorage if available
 function loadProgress() {
     const savedProgress = localStorage.getItem('courseProgress');
     if (savedProgress) {
@@ -307,6 +376,7 @@ function loadProgress() {
     }
 }
 
+// Save progress to localStorage
 function saveProgress() {
     const progressToSave = {
         ...courseProgress,
@@ -315,6 +385,7 @@ function saveProgress() {
     localStorage.setItem('courseProgress', JSON.stringify(progressToSave));
 }
 
+// Update progress bar
 function updateProgressBar() {
     const lessons = document.querySelectorAll('.lesson').length;
     const quizzes = document.querySelectorAll('.module-quiz').length;
@@ -337,6 +408,7 @@ function updateProgressBar() {
     }
 }
 
+// Initialize Supabase client
 let supabase;
 let supabaseInitAttempts = 0;
 const MAX_INIT_ATTEMPTS = 10;
@@ -351,8 +423,10 @@ async function ensureSupabaseInitialized() {
     supabaseInitAttempts++;
     
     try {
+        // Get the current user from Netlify Identity
         const user = netlifyIdentity.currentUser();
         
+        // Initialize Supabase with the user's token if available
         supabase = window.supabase.createClient(
             'https://tdxpostwbmpnsikjftvy.supabase.co',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0',
@@ -377,9 +451,11 @@ async function ensureSupabaseInitialized() {
     }
 }
 
+// Add event listener for Netlify Identity token refresh
 if (typeof netlifyIdentity !== 'undefined') {
     netlifyIdentity.on('tokenRefreshed', user => {
         if (supabase && user) {
+            // Update Supabase headers with new token
             supabase.realtime.setAuth(user.token.access_token);
         }
     });
@@ -394,6 +470,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
 
         console.log('Processing purchase:', { tutorialId, type, transactionDetails });
 
+        // Prepare purchase data to match table structure
         const purchaseData = {
             user_id: user.id,
             tutorial_id: type === 'all' ? null : parseInt(tutorialId),
@@ -405,6 +482,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
 
         console.log('Sending purchase data:', purchaseData);
 
+        // Save to backend
         const response = await fetch('/.netlify/functions/supabaseHandler', {
             method: 'POST',
             headers: {
@@ -430,6 +508,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             throw new Error(result.error || result.details || `HTTP error! status: ${response.status}`);
         }
 
+        // Store PayPal transaction details in localStorage for reference
         localStorage.setItem('lastTransaction', JSON.stringify({
             id: transactionDetails.id,
             amount: transactionDetails.purchase_units[0].amount.value,
@@ -438,19 +517,24 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             create_time: transactionDetails.create_time
         }));
 
+        // Update local state
         grantLocalAccess(type, tutorialId, transactionDetails);
 
+        // Trigger sync across devices
         await syncPurchasesFromServer();
         
         return true;
     } catch (error) {
         console.error('Error in savePurchaseToDatabase:', error);
+        // Show error to user
         showMessage(`Error saving purchase: ${error.message}. Please contact support if the problem persists.`, 'error');
+        // Still grant access locally as a fallback
         grantLocalAccess(type, tutorialId, transactionDetails);
         return false;
     }
 }
 
+// Add function to sync purchases from server
 async function syncPurchasesFromServer() {
     try {
         const user = netlifyIdentity.currentUser();
@@ -485,10 +569,12 @@ async function syncPurchasesFromServer() {
             throw new Error('Failed to sync purchases');
         }
 
+        // Update local storage with synced data
         const purchases = result.data || [];
         const purchasedTutorials = purchases.map(p => p.tutorial_id);
         localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
 
+        // Check for all-access
         const hasAllAccess = purchases.some(p => p.all_access);
         if (hasAllAccess) {
             localStorage.setItem('allAccess', 'true');
@@ -501,12 +587,16 @@ async function syncPurchasesFromServer() {
     }
 }
 
+// Add periodic sync
 document.addEventListener('DOMContentLoaded', () => {
+    // Initial sync
     syncPurchasesFromServer();
     
+    // Sync every 5 minutes
     setInterval(syncPurchasesFromServer, 5 * 60 * 1000);
 });
 
+// Helper function to grant local access
 function grantLocalAccess(type, tutorialId, transactionDetails) {
     if (type === 'all') {
         localStorage.setItem('allAccess', 'true');
@@ -523,6 +613,7 @@ function grantLocalAccess(type, tutorialId, transactionDetails) {
     }
 }
 
+// Update the payment success handler
 function handlePaymentSuccess(tutorialId, type, transactionDetails) {
     savePurchaseToDatabase(tutorialId, type, transactionDetails)
         .then(success => {
@@ -538,6 +629,7 @@ function handlePaymentSuccess(tutorialId, type, transactionDetails) {
         })
         .catch(error => {
             console.error('Error in payment processing:', error);
+            // Still grant access even if there's an error
             grantLocalAccess(type, tutorialId, transactionDetails);
             if (type === 'all') {
                 window.location.href = 'index.html#tutorials';
@@ -547,6 +639,7 @@ function handlePaymentSuccess(tutorialId, type, transactionDetails) {
         });
 }
 
+// Update the PayPal success handlers
 function initializePayPal() {
     const singleTutorialButton = document.querySelector('#singleTutorialButton');
     const allTutorialsButton = document.querySelector('#allTutorialsButton');
@@ -554,47 +647,9 @@ function initializePayPal() {
     if (!singleTutorialButton && !allTutorialsButton) return;
 
     if (typeof paypal !== 'undefined') {
+        // Single Tutorial Button
         if (singleTutorialButton) {
-            
-    const isMobile = window.innerWidth <= 768;
-
-    const fundingSources = [paypal.FUNDING.CARD];
-    if (isMobile && paypal.FUNDING.VENMO) {
-        fundingSources.push(paypal.FUNDING.VENMO);
-    }
-
-    fundingSources.forEach(fundingSource => {
-        const target = fundingSource === paypal.FUNDING.CARD ? '#singleTutorialButton' : '#venmoButton';
-
-        if (document.querySelector(target)) {
             paypal.Buttons({
-                fundingSource: fundingSource,
-                style: fundingSource === paypal.FUNDING.CARD ? { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' } : {},
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: fundingSource === paypal.FUNDING.CARD ? '7.99' : '7.99',
-                                currency_code: 'USD'
-                            },
-                            description: fundingSource === paypal.FUNDING.CARD ? `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}` : 'Single Tutorial Access via Venmo'
-                        }]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        handlePaymentSuccess(currentTutorialId, 'single', details);
-                    });
-                },
-                onError: function(err) {
-                    console.error('Payment error:', err);
-                    showMessage('There was an error with your payment method. Please try another or contact support.', 'error');
-                }
-            }).render(target);
-        }
-    });
-
-    paypal.Buttons({
                 createOrder: function(data, actions) {
                     return actions.order.create({
                         purchase_units: [{
@@ -622,6 +677,7 @@ function initializePayPal() {
                     console.error('Payment error:', err);
                     let errorMessage = 'There was an error processing your payment. ';
                     
+                    // Add specific guidance for card errors
                     if (err.message && err.message.includes('card')) {
                         errorMessage += 'Please try a different card or payment method. Some cards may not be supported.';
                     } else {
@@ -636,6 +692,7 @@ function initializePayPal() {
             }).render('#singleTutorialButton');
         }
 
+        // All Tutorials Button
         if (allTutorialsButton) {
             paypal.Buttons({
                 createOrder: function(data, actions) {
@@ -665,6 +722,7 @@ function initializePayPal() {
                     console.error('Payment error:', err);
                     let errorMessage = 'There was an error processing your payment. ';
                     
+                    // Add specific guidance for card errors
                     if (err.message && err.message.includes('card')) {
                         errorMessage += 'Please try a different card or payment method. Some cards may not be supported.';
                     } else {
@@ -681,9 +739,11 @@ function initializePayPal() {
     }
 }
 
+// Quiz Functionality
 function initializeQuizzes() {
     console.log('Starting quiz initialization...');
     
+    // Get all quiz forms
     const quizForms = document.querySelectorAll('.quiz-form');
     console.log(`Found ${quizForms.length} quiz forms on the page`);
     
@@ -698,6 +758,7 @@ function initializeQuizzes() {
         }
     }
     
+    // Initialize each quiz form
     quizForms.forEach((form, index) => {
         try {
             const options = form.querySelectorAll('.quiz-option');
@@ -741,10 +802,12 @@ function initializeQuizzes() {
     });
 }
 
+// Lesson Completion Tracking
 function initializeLessons() {
     const lessons = document.querySelectorAll('.lesson');
     
     lessons.forEach((lesson, index) => {
+        // Add completion checkbox
         const header = lesson.querySelector('h3');
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -765,15 +828,18 @@ function initializeLessons() {
     });
 }
 
+// Assignment Submission
 function initializeAssignments() {
     const assignments = document.querySelectorAll('.module-assignment');
     
     assignments.forEach((assignment, index) => {
         const assignmentId = `assignment-${index}`;
         
+        // Create assignment tracker
         const tracker = document.createElement('div');
         tracker.className = 'assignment-tracker';
         
+        // Create task list
         const tasks = assignment.querySelectorAll('li');
         const taskList = document.createElement('div');
         taskList.className = 'assignment-tasks';
@@ -802,6 +868,7 @@ function initializeAssignments() {
                 }
                 courseProgress.assignments[assignmentId].tasks[taskIndex] = checkbox.checked;
                 
+                // Check if all tasks are completed
                 const allTasksCompleted = Array.from(taskList.querySelectorAll('input[type="checkbox"]'))
                     .every(cb => cb.checked);
                 
@@ -816,6 +883,7 @@ function initializeAssignments() {
             });
         });
         
+        // Add file upload for deliverables
         const uploadSection = document.createElement('div');
         uploadSection.className = 'assignment-upload';
         uploadSection.innerHTML = `
@@ -825,10 +893,12 @@ function initializeAssignments() {
             <div class="upload-status"></div>
         `;
         
+        // Add everything to the assignment
         tracker.appendChild(taskList);
         tracker.appendChild(uploadSection);
         assignment.appendChild(tracker);
         
+        // Handle file selection
         const fileInput = uploadSection.querySelector('input[type="file"]');
         const uploadButton = uploadSection.querySelector('.upload-btn');
         const uploadStatus = uploadSection.querySelector('.upload-status');
@@ -838,6 +908,7 @@ function initializeAssignments() {
         });
         
         uploadButton.addEventListener('click', () => {
+            // Simulate file upload
             uploadStatus.textContent = 'Uploading...';
             setTimeout(() => {
                 uploadStatus.textContent = 'Files uploaded successfully!';
@@ -852,6 +923,7 @@ function initializeAssignments() {
     });
 }
 
+// Mobile Menu Toggle
 function initializeMobileMenu() {
     const mobileMenuButton = document.querySelector('.mobile-menu');
     const navLinks = document.querySelector('.nav-links');
@@ -863,6 +935,7 @@ function initializeMobileMenu() {
     }
 }
 
+// Smooth Scrolling
 function initializeSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -874,6 +947,7 @@ function initializeSmoothScrolling() {
     });
 }
 
+// Add styles for new elements
 const styles = `
     .lesson-checkbox {
         margin-left: 1rem;
@@ -962,10 +1036,12 @@ const styles = `
     }
 `;
 
+// Add styles to document
 const styleSheet = document.createElement('style');
 styleSheet.textContent = styles;
 document.head.appendChild(styleSheet); 
 
+// Update the checkPurchaseStatus function to work with the new table structure
 async function checkPurchaseStatus(userId, tutorialId) {
     try {
         const user = netlifyIdentity.currentUser();
@@ -973,6 +1049,7 @@ async function checkPurchaseStatus(userId, tutorialId) {
             return false;
         }
 
+        // Call Netlify Function to check all-access
         const allAccessResponse = await fetch('/.netlify/functions/supabaseHandler', {
             method: 'POST',
             headers: {
@@ -999,6 +1076,7 @@ async function checkPurchaseStatus(userId, tutorialId) {
             }
         }
 
+        // If no all-access, check specific tutorial
         const tutorialResponse = await fetch('/.netlify/functions/supabaseHandler', {
             method: 'POST',
             headers: {
@@ -1028,4 +1106,4 @@ async function checkPurchaseStatus(userId, tutorialId) {
         console.error('Error checking purchase status:', error);
         return false;
     }
-}
+} 
