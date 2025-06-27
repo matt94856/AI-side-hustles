@@ -8,7 +8,7 @@
     <script>
         // Check if user can access this module
         window.addEventListener('load', function() {
-            const module4Progress = JSON.parse(localStorage.getItem('module4Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial2_module4Progress')) || [];
             if (module4Progress.length < 4) {
                 alert('Please complete Module 4 before accessing this module.');
                 window.location.href = 'tutorial2-module4.html';

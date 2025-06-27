@@ -8,7 +8,7 @@
     <script>
         // Check if user can access this module
         window.addEventListener('load', function() {
-            const module6Progress = JSON.parse(localStorage.getItem('module6Progress')) || [];
+            const module6Progress = JSON.parse(localStorage.getItem('tutorial2_module6Progress')) || [];
             if (module6Progress.length < 4) {
                 alert('Please complete Module 6 before accessing this module.');
                 window.location.href = 'tutorial2-module6.html';
@@ -19,12 +19,12 @@
         function handleNavigation(moduleNumber) {
             if (moduleNumber === 1) return true; // Module 1 is always accessible
             
-            const prevModuleProgress = JSON.parse(localStorage.getItem(`module${moduleNumber-1}Progress`)) || [];
+            const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial2_module${moduleNumber-1}Progress`)) || [];
             if (prevModuleProgress.length < 4) {
                 alert(`Please complete Module ${moduleNumber-1} before accessing Module ${moduleNumber}.`);
                 // Get the last completed module or default to module 1
                 for (let i = moduleNumber-1; i >= 1; i--) {
-                    const progress = JSON.parse(localStorage.getItem(`module${i}Progress`)) || [];
+                    const progress = JSON.parse(localStorage.getItem(`tutorial2_module${i}Progress`)) || [];
                     if (i === 1 || progress.length === 4) {
                         window.location.href = `tutorial2-module${i}.html`;
                         break;
