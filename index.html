@@ -2700,11 +2700,22 @@
                 showSuccessMessage('Processing your payment...');
                 return actions.order.capture()
                     .then(function(details) {
-                        console.log('Payment successful:', details);
-                        showSuccessMessage('Payment successful! Redirecting to tutorial...');
-                        setTimeout(() => {
-                            window.location.href = 'tutorial1.html';
-                        }, 1500);
+                        // Save purchase to database
+                        savePurchaseToDatabase('single', details)
+                            .then(function(success) {
+                                if (success) {
+                                    showSuccessMessage('Payment successful! Redirecting to tutorial...');
+                                    setTimeout(() => {
+                                        window.location.href = 'tutorial1.html';
+                                    }, 1500);
+                                } else {
+                                    showErrorMessage('Payment succeeded but there was an error saving your purchase. Please contact support.');
+                                }
+                            })
+                            .catch(function(error) {
+                                console.error('Error saving purchase:', error);
+                                showErrorMessage('Payment succeeded but there was an error saving your purchase. Please contact support.');
+                            });
                     })
                     .catch(function(error) {
                         console.error('Capture Error:', error);
@@ -2770,11 +2781,22 @@
                 showSuccessMessage('Processing your payment...');
                 return actions.order.capture()
                     .then(function(details) {
-                        console.log('Payment successful:', details);
-                        showSuccessMessage('Payment successful! Redirecting to tutorials...');
-                        setTimeout(() => {
-                            window.location.href = 'tutorial1.html';
-                        }, 1500);
+                        // Save purchase to database
+                        savePurchaseToDatabase('all', details)
+                            .then(function(success) {
+                                if (success) {
+                                    showSuccessMessage('Payment successful! Redirecting to tutorials...');
+                                    setTimeout(() => {
+                                        window.location.href = 'tutorial1.html';
+                                    }, 1500);
+                                } else {
+                                    showErrorMessage('Payment succeeded but there was an error saving your purchase. Please contact support.');
+                                }
+                            })
+                            .catch(function(error) {
+                                console.error('Error saving purchase:', error);
+                                showErrorMessage('Payment succeeded but there was an error saving your purchase. Please contact support.');
+                            });
                     })
                     .catch(function(error) {
                         console.error('Capture Error:', error);

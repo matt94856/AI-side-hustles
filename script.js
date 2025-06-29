@@ -385,7 +385,7 @@ if (typeof netlifyIdentity !== 'undefined') {
     });
 }
 
-async function savePurchaseToDatabase(tutorialId, type) {
+async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
     try {
         const user = netlifyIdentity.currentUser();
         if (!user) throw new Error('User not authenticated');
@@ -408,12 +408,12 @@ async function savePurchaseToDatabase(tutorialId, type) {
         const result = await response.json();
         if (!result.success) throw new Error(result.error || 'Failed to save purchase');
 
-        grantLocalAccess(type, tutorialId);
+        grantLocalAccess(type, tutorialId, transactionDetails);
         await syncPurchasesFromServer();
         return true;
     } catch (error) {
         showMessage(`Error saving purchase: ${error.message}`, 'error');
-        grantLocalAccess(type, tutorialId);
+        grantLocalAccess(type, tutorialId, transactionDetails);
         return false;
     }
 }
@@ -446,24 +446,28 @@ async function syncPurchasesFromServer() {
     }
 }
 
-function grantLocalAccess(type, tutorialId) {
+function grantLocalAccess(type, tutorialId, transactionDetails) {
     if (type === 'all') {
         localStorage.setItem('allAccess', 'true');
         localStorage.setItem('paymentDate', new Date().getTime().toString());
-        localStorage.setItem('transactionId', transactionDetails.id);
+        if (transactionDetails && transactionDetails.id) {
+            localStorage.setItem('transactionId', transactionDetails.id);
+        }
     } else {
         const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
         if (!purchasedTutorials.includes(tutorialId)) {
             purchasedTutorials.push(tutorialId);
             localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
             localStorage.setItem('paymentDate', new Date().getTime().toString());
-            localStorage.setItem('transactionId', transactionDetails.id);
+            if (transactionDetails && transactionDetails.id) {
+                localStorage.setItem('transactionId', transactionDetails.id);
+            }
         }
     }
 }
 
 function handlePaymentSuccess(tutorialId, type, transactionDetails) {
-    savePurchaseToDatabase(tutorialId, type)
+    savePurchaseToDatabase(tutorialId, type, transactionDetails)
         .then(success => {
             if (success) {
                 if (type === 'all') {
@@ -477,7 +481,7 @@ function handlePaymentSuccess(tutorialId, type, transactionDetails) {
         })
         .catch(error => {
             console.error('Error in payment processing:', error);
-            grantLocalAccess(type, tutorialId);
+            grantLocalAccess(type, tutorialId, transactionDetails);
             if (type === 'all') {
                 window.location.href = 'index.html#tutorials';
             } else {
