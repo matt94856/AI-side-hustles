@@ -64,7 +64,7 @@ exports.handler = async (event) => {
       };
     }
 
-    console.log('📦 Request:', { action, table, userId: user.id });
+    console.log('📦 Request:', { action, table, userId: user.id, data });
 
     let result;
 
@@ -75,6 +75,7 @@ exports.handler = async (event) => {
           .select('*')
           .eq('user_id', user.id)
           .eq('status', 'completed');
+        console.log('getPurchases result:', result);
         break;
 
       case 'upsertPurchase':
@@ -115,6 +116,10 @@ exports.handler = async (event) => {
           .eq('all_access', data.all_access)
           .single();
 
+        if (existingPurchase.error) {
+          console.error('Error checking for existing purchase:', existingPurchase.error);
+        }
+
         if (existingPurchase.data) {
           console.log('🔄 Purchase exists, updating...');
           result = await supabase
@@ -129,11 +134,13 @@ exports.handler = async (event) => {
               updated_at: new Date().toISOString()
             })
             .eq('id', existingPurchase.data.id);
+          console.log('Update result:', result);
         } else {
           console.log('🆕 Creating new purchase...');
           result = await supabase
             .from(table)
             .insert(insertData);
+          console.log('Insert result:', result);
         }
 
         if (result.error) {
@@ -168,6 +175,7 @@ exports.handler = async (event) => {
           .eq('tutorial_id', data.tutorial_id)
           .eq('status', 'completed')
           .single();
+        console.log('verifyPurchase result:', result);
         break;
 
       case 'getAllAccess':
@@ -178,6 +186,7 @@ exports.handler = async (event) => {
           .eq('all_access', true)
           .eq('status', 'completed')
           .single();
+        console.log('getAllAccess result:', result);
         break;
 
       default:
