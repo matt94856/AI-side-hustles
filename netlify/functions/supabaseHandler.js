@@ -73,7 +73,8 @@ exports.handler = async (event) => {
         result = await supabase
           .from(table)
           .select('*')
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .eq('status', 'completed');
         break;
 
       case 'upsertPurchase':
@@ -88,23 +89,52 @@ exports.handler = async (event) => {
 
         console.log('🧾 Upserting purchase:', data);
 
-        // Ensure all necessary fields are present
+        // Prepare data according to the database schema
         const insertData = {
           user_id: data.user_id,
-          tutorial_id: data.tutorial_id ?? null,
+          tutorial_id: data.tutorial_id,
           all_access: data.all_access || false,
           status: data.status || 'completed',
+          amount: data.amount,
+          currency: data.currency || 'USD',
+          payment_provider: data.payment_provider || 'paypal',
+          payment_id: data.payment_id,
+          sync_status: data.sync_status || 'synced',
           created_at: data.created_at || new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          transaction_d: data.transaction_d || null
+          updated_at: new Date().toISOString()
         };
 
-        result = await supabase
+        console.log('📝 Insert data:', insertData);
+
+        // First check if purchase already exists
+        const existingPurchase = await supabase
           .from(table)
-          .upsert(insertData, {
-            onConflict: insertData.all_access ? 'user_id,all_access' : 'user_id,tutorial_id',
-            ignoreDuplicates: false
-          });
+          .select('*')
+          .eq('user_id', data.user_id)
+          .eq('tutorial_id', data.tutorial_id)
+          .eq('all_access', data.all_access)
+          .single();
+
+        if (existingPurchase.data) {
+          console.log('🔄 Purchase exists, updating...');
+          result = await supabase
+            .from(table)
+            .update({
+              status: data.status,
+              amount: data.amount,
+              currency: data.currency,
+              payment_provider: data.payment_provider,
+              payment_id: data.payment_id,
+              sync_status: data.sync_status,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', existingPurchase.data.id);
+        } else {
+          console.log('🆕 Creating new purchase...');
+          result = await supabase
+            .from(table)
+            .insert(insertData);
+        }
 
         if (result.error) {
           console.error('❌ Supabase upsert error:', result.error);
@@ -136,6 +166,7 @@ exports.handler = async (event) => {
           .select('*')
           .eq('user_id', user.id)
           .eq('tutorial_id', data.tutorial_id)
+          .eq('status', 'completed')
           .single();
         break;
 
@@ -145,6 +176,7 @@ exports.handler = async (event) => {
           .select('*')
           .eq('user_id', user.id)
           .eq('all_access', true)
+          .eq('status', 'completed')
           .single();
         break;
 
