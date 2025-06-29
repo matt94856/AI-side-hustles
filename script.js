@@ -555,47 +555,27 @@ function initializePayPal() {
 
     if (typeof paypal !== 'undefined') {
         if (singleTutorialButton) {
-            // Enhanced PayPal button with multiple payment methods
+            // PayPal button for single tutorial
             paypal.Buttons({
                 style: {
                     layout: 'vertical',
                     color: 'blue',
                     shape: 'rect',
-                    label: 'pay',
-                    height: 50
+                    label: 'pay'
                 },
-                // Enable all funding sources for maximum acceptance
-                fundingSource: undefined,
                 createOrder: function(data, actions) {
                     return actions.order.create({
-                        intent: 'CAPTURE',
-                        application_context: {
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW',
-                            brand_name: 'AI Hustle Hub',
-                            landing_page: 'LOGIN',
-                            payment_method: {
-                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
-                                standard_entry_class_code: 'WEB'
-                            }
-                        },
                         purchase_units: [{
                             amount: {
                                 value: '7.99',
-                                currency_code: 'USD',
-                                breakdown: {
-                                    item_total: {
-                                        currency_code: 'USD',
-                                        value: '7.99'
-                                    }
-                                }
+                                currency_code: 'USD'
                             },
-                            description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`,
-                            soft_descriptor: 'AI HUSTLE HUB',
-                            custom_id: `single_tutorial_${Date.now()}`,
-                            invoice_id: `INV-single-${Date.now()}`,
-                            reference_id: `REF-single-${Date.now()}`
-                        }]
+                            description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
+                        }],
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW'
+                        }
                     });
                 },
                 onApprove: function(data, actions) {
@@ -614,55 +594,32 @@ function initializePayPal() {
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
-                },
-                onInit: function(data, actions) {
-                    console.log('PayPal button initialized with funding sources:', data.fundingSources);
                 }
             }).render('#singleTutorialButton');
         }
 
         if (allTutorialsButton) {
-            // Enhanced PayPal button for all tutorials
+            // PayPal button for all tutorials
             paypal.Buttons({
                 style: {
                     layout: 'vertical',
                     color: 'blue',
                     shape: 'rect',
-                    label: 'pay',
-                    height: 50
+                    label: 'pay'
                 },
-                // Enable all funding sources for maximum acceptance
-                fundingSource: undefined,
                 createOrder: function(data, actions) {
                     return actions.order.create({
-                        intent: 'CAPTURE',
-                        application_context: {
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW',
-                            brand_name: 'AI Hustle Hub',
-                            landing_page: 'LOGIN',
-                            payment_method: {
-                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
-                                standard_entry_class_code: 'WEB'
-                            }
-                        },
                         purchase_units: [{
                             amount: {
                                 value: '24.99',
-                                currency_code: 'USD',
-                                breakdown: {
-                                    item_total: {
-                                        currency_code: 'USD',
-                                        value: '24.99'
-                                    }
-                                }
+                                currency_code: 'USD'
                             },
-                            description: 'Access to All 5 AI Money-Making Tutorials',
-                            soft_descriptor: 'AI HUSTLE HUB',
-                            custom_id: `all_tutorials_${Date.now()}`,
-                            invoice_id: `INV-all-${Date.now()}`,
-                            reference_id: `REF-all-${Date.now()}`
-                        }]
+                            description: 'Access to All 5 AI Money-Making Tutorials'
+                        }],
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW'
+                        }
                     });
                 },
                 onApprove: function(data, actions) {
@@ -681,9 +638,6 @@ function initializePayPal() {
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
-                },
-                onInit: function(data, actions) {
-                    console.log('PayPal button initialized with funding sources:', data.fundingSources);
                 }
             }).render('#allTutorialsButton');
         }
