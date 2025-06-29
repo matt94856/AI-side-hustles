@@ -412,7 +412,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
             updated_at: new Date().toISOString()
         };
 
-        console.log('Sending purchase data:', purchaseData);
+        console.log('Calling upsertPurchase with:', purchaseData);
 
         const response = await fetch('/.netlify/functions/supabaseHandler', {
             method: 'POST',
@@ -426,13 +426,13 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
                     token: user.token.access_token
                 },
                 action: 'upsertPurchase',
-                table: 'purchases', // Changed from 'user_purchases' to 'purchases'
+                table: 'purchases',
                 data: purchaseData
             })
         });
 
         const result = await response.json();
-        console.log('Backend response:', result);
+        console.log('upsertPurchase response:', result);
 
         if (!response.ok) {
             console.error('Server error:', result);
@@ -440,6 +440,7 @@ async function savePurchaseToDatabase(tutorialId, type, transactionDetails) {
         }
 
         if (!result.success) {
+            showMessage(`Error saving purchase: ${result.error || 'Unknown error'}`, 'error');
             throw new Error(result.error || 'Failed to save purchase');
         }
 
