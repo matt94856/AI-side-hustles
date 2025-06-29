@@ -988,55 +988,54 @@ async function checkPurchaseStatus(userId, tutorialId) {
         }
 
         console.log('Checking purchase status for user:', user.id, 'tutorial:', tutorialId);
+        console.log('User data:', { id: user.id, email: user.email });
+
+        // Ensure user has required data
+        if (!user.id || !user.email) {
+            console.error('User missing required data:', { id: user.id, email: user.email });
+            return checkLocalPurchaseStatus(tutorialId);
+        }
+
+        // Get all purchases for the user
+        const requestBody = {
+            user: {
+                id: user.id,
+                email: user.email
+            },
+            action: 'getPurchases'
+        };
+        
+        console.log('Request body:', requestBody);
 
         const response = await fetch('/.netlify/functions/supabaseHandler', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user.token.access_token}`
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                user: {
-                    id: user.id,
-                    token: user.token.access_token
-                },
-                action: 'verifyPurchase',
-                table: 'purchases',
-                data: { tutorial_id: tutorialId }
-            })
+            body: JSON.stringify(requestBody)
         });
 
+        console.log('Response status:', response.status);
         const result = await response.json();
         console.log('Purchase status check result:', result);
 
         if (response.ok && result.success && result.data) {
-            console.log('Purchase found in database');
-            return true;
-        }
-
-        // Check for all access
-        const allAccessResponse = await fetch('/.netlify/functions/supabaseHandler', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user.token.access_token}`
-            },
-            body: JSON.stringify({
-                user: {
-                    id: user.id,
-                    token: user.token.access_token
-                },
-                action: 'getAllAccess',
-                table: 'purchases'
-            })
-        });
-
-        const allAccessResult = await allAccessResponse.json();
-        console.log('All access check result:', allAccessResult);
-
-        if (allAccessResponse.ok && allAccessResult.success && allAccessResult.data) {
-            console.log('User has all access');
-            return true;
+            const purchases = result.data;
+            console.log('All purchases:', purchases);
+            
+            // Check for all access
+            const hasAllAccess = purchases.some(p => p.all_access === true);
+            if (hasAllAccess) {
+                console.log('User has all access');
+                return true;
+            }
+            
+            // Check for specific tutorial access
+            const hasTutorialAccess = purchases.some(p => p.tutorial_id === tutorialId);
+            if (hasTutorialAccess) {
+                console.log('Purchase found in database for tutorial:', tutorialId);
+                return true;
+            }
         }
 
         console.log('No purchase found, checking local storage');
