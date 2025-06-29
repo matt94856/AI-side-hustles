@@ -58,8 +58,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap" rel="stylesheet"/>
 <!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&amp;currency=USD"></script>
+<!-- Enhanced PayPal SDK with multiple payment methods -->
+<script src="https://www.paypal.com/sdk/js?client-id=AX6xkdJVByAeHykBdruW3JfGNu4mL9K7UKIvU5LMZ6sqbWr2PpbHNY_myDxyjKnn0xcXlyFlgx6IAgkr&amp;currency=USD&amp;components=buttons,funding-eligibility&amp;enable-funding=card,venmo,paylater,applepay,googlepay&amp;intent=capture"></script>
 <style>
         :root {
             --primary-color: #1a1a1a;
@@ -2653,14 +2653,17 @@
 
     // Initialize PayPal buttons when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize PayPal button for single tutorial
+        // Initialize PayPal button for single tutorial with enhanced payment options
         paypal.Buttons({
             style: {
                 layout: 'vertical',
                 color: 'blue',
                 shape: 'rect',
-                label: 'pay'
+                label: 'pay',
+                height: 50
             },
+            // Enable all funding sources for maximum acceptance
+            fundingSource: undefined,
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'CAPTURE',
@@ -2668,6 +2671,7 @@
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
                         brand_name: 'AI Hustle Hub',
+                        landing_page: 'LOGIN',
                         payment_method: {
                             payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
                             standard_entry_class_code: 'WEB'
@@ -2685,27 +2689,18 @@
                             }
                         },
                         description: 'Single AI Tutorial Access',
-                        soft_descriptor: 'AI TUTORIAL'
-                    }],
-                    payment_source: {
-                        card: {
-                            stored_credential: {
-                                payment_initiator: 'CUSTOMER',
-                                payment_type: 'ONE_TIME',
-                                usage: 'FIRST'
-                            },
-                            attributes: {
-                                verification: {
-                                    method: 'SCA_ALWAYS'
-                                }
-                            }
-                        }
-                    }
+                        soft_descriptor: 'AI HUSTLE HUB',
+                        custom_id: `single_tutorial_${Date.now()}`,
+                        invoice_id: `INV-single-${Date.now()}`,
+                        reference_id: `REF-single-${Date.now()}`
+                    }]
                 });
             },
             onApprove: function(data, actions) {
+                showSuccessMessage('Processing your payment...');
                 return actions.order.capture()
                     .then(function(details) {
+                        console.log('Payment successful:', details);
                         showSuccessMessage('Payment successful! Redirecting to tutorial...');
                         setTimeout(() => {
                             window.location.href = 'tutorial1.html';
@@ -2713,42 +2708,32 @@
                     })
                     .catch(function(error) {
                         console.error('Capture Error:', error);
-                        if (error.message.includes('INSTRUMENT_DECLINED')) {
-                            showErrorMessage('Card declined. Please try a different card.');
-                        } else if (error.message.includes('PAYMENT_SOURCE_DECLINED')) {
-                            showErrorMessage('Payment declined. Please check your card details.');
-                        } else if (error.message.includes('PAYER_ACTION_REQUIRED')) {
-                            showErrorMessage('Additional verification required. Please try again.');
-                        } else {
-                            showErrorMessage('Payment error. Please try again or use a different payment method.');
-                        }
+                        handlePaymentError(error);
                     });
             },
             onError: function(err) {
                 console.error('PayPal Error:', err);
-                if (err.message.includes('INVALID_RESOURCE_ID')) {
-                    showErrorMessage('Session expired. Please refresh and try again.');
-                } else if (err.message.includes('CURRENCY_NOT_SUPPORTED')) {
-                    showErrorMessage('Currency not supported. Please contact support.');
-                } else if (err.message.includes('VALIDATION_ERROR')) {
-                    showErrorMessage('Please check your card information and try again.');
-                } else {
-                    showErrorMessage('Payment processing error. Please try again.');
-                }
+                handlePaymentError(err);
             },
             onCancel: function() {
-                showErrorMessage('Payment cancelled.');
+                showErrorMessage('Payment cancelled. You can try again when you\'re ready.');
+            },
+            onInit: function(data, actions) {
+                console.log('PayPal button initialized with funding sources:', data.fundingSources);
             }
         }).render('#single-tutorial-paypal-button');
 
-        // Initialize PayPal button for all tutorials
+        // Initialize PayPal button for all tutorials with enhanced payment options
         paypal.Buttons({
             style: {
                 layout: 'vertical',
                 color: 'blue',
                 shape: 'rect',
-                label: 'pay'
+                label: 'pay',
+                height: 50
             },
+            // Enable all funding sources for maximum acceptance
+            fundingSource: undefined,
             createOrder: function(data, actions) {
                 return actions.order.create({
                     intent: 'CAPTURE',
@@ -2756,6 +2741,7 @@
                         shipping_preference: 'NO_SHIPPING',
                         user_action: 'PAY_NOW',
                         brand_name: 'AI Hustle Hub',
+                        landing_page: 'LOGIN',
                         payment_method: {
                             payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
                             standard_entry_class_code: 'WEB'
@@ -2773,27 +2759,18 @@
                             }
                         },
                         description: 'Complete AI Side Hustles Bundle',
-                        soft_descriptor: 'AI BUNDLE'
-                    }],
-                    payment_source: {
-                        card: {
-                            stored_credential: {
-                                payment_initiator: 'CUSTOMER',
-                                payment_type: 'ONE_TIME',
-                                usage: 'FIRST'
-                            },
-                            attributes: {
-                                verification: {
-                                    method: 'SCA_ALWAYS'
-                                }
-                            }
-                        }
-                    }
+                        soft_descriptor: 'AI HUSTLE HUB',
+                        custom_id: `all_tutorials_${Date.now()}`,
+                        invoice_id: `INV-all-${Date.now()}`,
+                        reference_id: `REF-all-${Date.now()}`
+                    }]
                 });
             },
             onApprove: function(data, actions) {
+                showSuccessMessage('Processing your payment...');
                 return actions.order.capture()
                     .then(function(details) {
+                        console.log('Payment successful:', details);
                         showSuccessMessage('Payment successful! Redirecting to tutorials...');
                         setTimeout(() => {
                             window.location.href = 'tutorial1.html';
@@ -2801,34 +2778,74 @@
                     })
                     .catch(function(error) {
                         console.error('Capture Error:', error);
-                        if (error.message.includes('INSTRUMENT_DECLINED')) {
-                            showErrorMessage('Card declined. Please try a different card.');
-                        } else if (error.message.includes('PAYMENT_SOURCE_DECLINED')) {
-                            showErrorMessage('Payment declined. Please check your card details.');
-                        } else if (error.message.includes('PAYER_ACTION_REQUIRED')) {
-                            showErrorMessage('Additional verification required. Please try again.');
-                        } else {
-                            showErrorMessage('Payment error. Please try again or use a different payment method.');
-                        }
+                        handlePaymentError(error);
                     });
             },
             onError: function(err) {
                 console.error('PayPal Error:', err);
-                if (err.message.includes('INVALID_RESOURCE_ID')) {
-                    showErrorMessage('Session expired. Please refresh and try again.');
-                } else if (err.message.includes('CURRENCY_NOT_SUPPORTED')) {
-                    showErrorMessage('Currency not supported. Please contact support.');
-                } else if (err.message.includes('VALIDATION_ERROR')) {
-                    showErrorMessage('Please check your card information and try again.');
-                } else {
-                    showErrorMessage('Payment processing error. Please try again.');
-                }
+                handlePaymentError(err);
             },
             onCancel: function() {
-                showErrorMessage('Payment cancelled.');
+                showErrorMessage('Payment cancelled. You can try again when you\'re ready.');
+            },
+            onInit: function(data, actions) {
+                console.log('PayPal button initialized with funding sources:', data.fundingSources);
             }
         }).render('#all-tutorials-paypal-button');
     });
+
+    // Enhanced error handling function
+    function handlePaymentError(error) {
+        let errorMessage = 'Payment processing error. ';
+        let suggestion = '';
+
+        if (error.message) {
+            const message = error.message.toLowerCase();
+            
+            if (message.includes('instrument_declined') || message.includes('card_declined')) {
+                errorMessage = 'Card declined. ';
+                suggestion = 'Please try a different card or payment method. Some banks may block PayPal transactions.';
+            } else if (message.includes('payment_source_declined')) {
+                errorMessage = 'Payment method declined. ';
+                suggestion = 'Please check your card details or try a different payment method.';
+            } else if (message.includes('payer_action_required')) {
+                errorMessage = 'Additional verification required. ';
+                suggestion = 'Please complete the verification process and try again.';
+            } else if (message.includes('invalid_resource_id')) {
+                errorMessage = 'Session expired. ';
+                suggestion = 'Please refresh the page and try again.';
+            } else if (message.includes('currency_not_supported')) {
+                errorMessage = 'Currency not supported. ';
+                suggestion = 'Please contact support for assistance.';
+            } else if (message.includes('validation_error')) {
+                errorMessage = 'Invalid payment information. ';
+                suggestion = 'Please check your card details and try again.';
+            } else if (message.includes('insufficient_funds')) {
+                errorMessage = 'Insufficient funds. ';
+                suggestion = 'Please try a different card or payment method.';
+            } else if (message.includes('expired_card')) {
+                errorMessage = 'Card expired. ';
+                suggestion = 'Please use a different card with a valid expiration date.';
+            } else if (message.includes('invalid_cvv')) {
+                errorMessage = 'Invalid security code. ';
+                suggestion = 'Please check your card\'s security code and try again.';
+            } else {
+                suggestion = 'Please try again or contact support if the problem persists.';
+            }
+        } else {
+            suggestion = 'Please try again or contact support if the problem persists.';
+        }
+
+        showErrorMessage(errorMessage + suggestion);
+        
+        // Log error for debugging
+        console.error('Payment error details:', {
+            message: error.message,
+            code: error.code,
+            details: error.details,
+            timestamp: new Date().toISOString()
+        });
+    }
 </script>
 <script>
     // Mobile and social media browser optimizations

@@ -555,130 +555,192 @@ function initializePayPal() {
 
     if (typeof paypal !== 'undefined') {
         if (singleTutorialButton) {
-            
-    const isMobile = window.innerWidth <= 768;
-
-    const fundingSources = [paypal.FUNDING.CARD];
-    if (isMobile && paypal.FUNDING.VENMO) {
-        fundingSources.push(paypal.FUNDING.VENMO);
-    }
-
-    fundingSources.forEach(fundingSource => {
-        const target = fundingSource === paypal.FUNDING.CARD ? '#singleTutorialButton' : '#venmoButton';
-
-        if (document.querySelector(target)) {
+            // Enhanced PayPal button with multiple payment methods
             paypal.Buttons({
-                fundingSource: fundingSource,
-                style: fundingSource === paypal.FUNDING.CARD ? { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay' } : {},
+                style: {
+                    layout: 'vertical',
+                    color: 'blue',
+                    shape: 'rect',
+                    label: 'pay',
+                    height: 50
+                },
+                // Enable all funding sources for maximum acceptance
+                fundingSource: undefined,
                 createOrder: function(data, actions) {
                     return actions.order.create({
+                        intent: 'CAPTURE',
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW',
+                            brand_name: 'AI Hustle Hub',
+                            landing_page: 'LOGIN',
+                            payment_method: {
+                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
+                                standard_entry_class_code: 'WEB'
+                            }
+                        },
                         purchase_units: [{
                             amount: {
-                                value: fundingSource === paypal.FUNDING.CARD ? '7.99' : '7.99',
-                                currency_code: 'USD'
+                                value: '7.99',
+                                currency_code: 'USD',
+                                breakdown: {
+                                    item_total: {
+                                        currency_code: 'USD',
+                                        value: '7.99'
+                                    }
+                                }
                             },
-                            description: fundingSource === paypal.FUNDING.CARD ? `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}` : 'Single Tutorial Access via Venmo'
+                            description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`,
+                            soft_descriptor: 'AI HUSTLE HUB',
+                            custom_id: `single_tutorial_${Date.now()}`,
+                            invoice_id: `INV-single-${Date.now()}`,
+                            reference_id: `REF-single-${Date.now()}`
                         }]
                     });
                 },
                 onApprove: function(data, actions) {
+                    showMessage('Processing your payment...', 'info');
                     return actions.order.capture().then(function(details) {
-                        handlePaymentSuccess(currentTutorialId, 'single', details);
-                    });
-                },
-                onError: function(err) {
-                    console.error('Payment error:', err);
-                    showMessage('There was an error with your payment method. Please try another or contact support.', 'error');
-                }
-            }).render(target);
-        }
-    });
-
-    paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: '7.99',
-                                currency_code: 'USD'
-                            },
-                            description: `Single Tutorial Access: ${tutorialPreviews[currentTutorialId].title}`
-                        }],
-                        application_context: {
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW'
-                        }
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
+                        console.log('Payment successful:', details);
                         handlePaymentSuccess(currentTutorialId, 'single', details);
                     }).catch(function(err) {
                         console.error('Capture error:', err);
-                        showMessage('There was an error processing your payment. Please try again.', 'error');
+                        handlePaymentError(err);
                     });
                 },
                 onError: function(err) {
                     console.error('Payment error:', err);
-                    let errorMessage = 'There was an error processing your payment. ';
-                    
-                    if (err.message && err.message.includes('card')) {
-                        errorMessage += 'Please try a different card or payment method. Some cards may not be supported.';
-                    } else {
-                        errorMessage += 'Please try again or contact support if the problem persists.';
-                    }
-                    
-                    showMessage(errorMessage, 'error');
+                    handlePaymentError(err);
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
+                },
+                onInit: function(data, actions) {
+                    console.log('PayPal button initialized with funding sources:', data.fundingSources);
                 }
             }).render('#singleTutorialButton');
         }
 
         if (allTutorialsButton) {
+            // Enhanced PayPal button for all tutorials
             paypal.Buttons({
+                style: {
+                    layout: 'vertical',
+                    color: 'blue',
+                    shape: 'rect',
+                    label: 'pay',
+                    height: 50
+                },
+                // Enable all funding sources for maximum acceptance
+                fundingSource: undefined,
                 createOrder: function(data, actions) {
                     return actions.order.create({
+                        intent: 'CAPTURE',
+                        application_context: {
+                            shipping_preference: 'NO_SHIPPING',
+                            user_action: 'PAY_NOW',
+                            brand_name: 'AI Hustle Hub',
+                            landing_page: 'LOGIN',
+                            payment_method: {
+                                payee_preferred: 'IMMEDIATE_PAYMENT_REQUIRED',
+                                standard_entry_class_code: 'WEB'
+                            }
+                        },
                         purchase_units: [{
                             amount: {
                                 value: '24.99',
-                                currency_code: 'USD'
+                                currency_code: 'USD',
+                                breakdown: {
+                                    item_total: {
+                                        currency_code: 'USD',
+                                        value: '24.99'
+                                    }
+                                }
                             },
-                            description: 'Access to All 5 AI Money-Making Tutorials'
-                        }],
-                        application_context: {
-                            shipping_preference: 'NO_SHIPPING',
-                            user_action: 'PAY_NOW'
-                        }
+                            description: 'Access to All 5 AI Money-Making Tutorials',
+                            soft_descriptor: 'AI HUSTLE HUB',
+                            custom_id: `all_tutorials_${Date.now()}`,
+                            invoice_id: `INV-all-${Date.now()}`,
+                            reference_id: `REF-all-${Date.now()}`
+                        }]
                     });
                 },
                 onApprove: function(data, actions) {
+                    showMessage('Processing your payment...', 'info');
                     return actions.order.capture().then(function(details) {
+                        console.log('Payment successful:', details);
                         handlePaymentSuccess(null, 'all', details);
                     }).catch(function(err) {
                         console.error('Capture error:', err);
-                        showMessage('There was an error processing your payment. Please try again.', 'error');
+                        handlePaymentError(err);
                     });
                 },
                 onError: function(err) {
                     console.error('Payment error:', err);
-                    let errorMessage = 'There was an error processing your payment. ';
-                    
-                    if (err.message && err.message.includes('card')) {
-                        errorMessage += 'Please try a different card or payment method. Some cards may not be supported.';
-                    } else {
-                        errorMessage += 'Please try again or contact support if the problem persists.';
-                    }
-                    
-                    showMessage(errorMessage, 'error');
+                    handlePaymentError(err);
                 },
                 onCancel: function() {
                     showMessage('Payment cancelled. You can try again when you\'re ready.', 'info');
+                },
+                onInit: function(data, actions) {
+                    console.log('PayPal button initialized with funding sources:', data.fundingSources);
                 }
             }).render('#allTutorialsButton');
         }
     }
+}
+
+// Enhanced error handling function
+function handlePaymentError(error) {
+    let errorMessage = 'Payment processing error. ';
+    let suggestion = '';
+
+    if (error.message) {
+        const message = error.message.toLowerCase();
+        
+        if (message.includes('instrument_declined') || message.includes('card_declined')) {
+            errorMessage = 'Card declined. ';
+            suggestion = 'Please try a different card or payment method. Some banks may block PayPal transactions.';
+        } else if (message.includes('payment_source_declined')) {
+            errorMessage = 'Payment method declined. ';
+            suggestion = 'Please check your card details or try a different payment method.';
+        } else if (message.includes('payer_action_required')) {
+            errorMessage = 'Additional verification required. ';
+            suggestion = 'Please complete the verification process and try again.';
+        } else if (message.includes('invalid_resource_id')) {
+            errorMessage = 'Session expired. ';
+            suggestion = 'Please refresh the page and try again.';
+        } else if (message.includes('currency_not_supported')) {
+            errorMessage = 'Currency not supported. ';
+            suggestion = 'Please contact support for assistance.';
+        } else if (message.includes('validation_error')) {
+            errorMessage = 'Invalid payment information. ';
+            suggestion = 'Please check your card details and try again.';
+        } else if (message.includes('insufficient_funds')) {
+            errorMessage = 'Insufficient funds. ';
+            suggestion = 'Please try a different card or payment method.';
+        } else if (message.includes('expired_card')) {
+            errorMessage = 'Card expired. ';
+            suggestion = 'Please use a different card with a valid expiration date.';
+        } else if (message.includes('invalid_cvv')) {
+            errorMessage = 'Invalid security code. ';
+            suggestion = 'Please check your card\'s security code and try again.';
+        } else {
+            suggestion = 'Please try again or contact support if the problem persists.';
+        }
+    } else {
+        suggestion = 'Please try again or contact support if the problem persists.';
+    }
+
+    showMessage(errorMessage + suggestion, 'error');
+    
+    // Log error for debugging
+    console.error('Payment error details:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        timestamp: new Date().toISOString()
+    });
 }
 
 function initializeQuizzes() {
