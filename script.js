@@ -525,7 +525,14 @@ function initializePayPal() {
                     showMessage('Processing your payment...', 'info');
                     return actions.order.capture().then(function(details) {
                         console.log('Payment successful:', details);
-                        handlePaymentSuccess(currentTutorialId, 'single', details);
+                        // Get tutorialId from URL for single tutorial purchase
+                        let tutorialId = currentTutorialId;
+                        if (!tutorialId) {
+                            // Fallback: extract from URL if not set
+                            const match = window.location.pathname.match(/tutorial(\d+)\.html/);
+                            if (match) tutorialId = parseInt(match[1]);
+                        }
+                        handlePaymentSuccess(tutorialId, 'single', details);
                     }).catch(function(err) {
                         console.error('Capture error:', err);
                         handlePaymentError(err);
