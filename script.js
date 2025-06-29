@@ -164,7 +164,7 @@ function closeModal() {
     currentTutorialId = null;
 }
 
-function checkPaymentStatus() {
+function checkLocalPaymentStatus() {
     const paymentData = JSON.parse(localStorage.getItem('paymentData'));
     if (!paymentData) return false;
     return true; // Always return true if payment data exists (lifetime access)
@@ -226,6 +226,17 @@ document.querySelectorAll('.tutorial-card, .testimonial-card, .faq-item').forEac
 document.addEventListener('DOMContentLoaded', function() {
     initializeModal();
     
+    // Sync purchases from server if user is authenticated
+    const user = netlifyIdentity.currentUser();
+    if (user) {
+        console.log('User authenticated, syncing purchases from server...');
+        syncPurchasesFromServer().then(() => {
+            console.log('Purchases synced from server');
+        }).catch(error => {
+            console.error('Error syncing purchases:', error);
+        });
+    }
+    
     const showPaywallFor = sessionStorage.getItem('showPaywallFor');
     if (showPaywallFor) {
         sessionStorage.removeItem('showPaywallFor');
@@ -273,7 +284,35 @@ function enableAccess(tutorialId) {
     }
 }
 
-function checkPaymentStatus(tutorialId) {
+// Wrapper function for onclick handlers to call async checkPaymentStatus
+function handlePaymentCheck(tutorialId) {
+    checkPaymentStatus(tutorialId).catch(error => {
+        console.error('Error checking payment status:', error);
+        showMessage('Error checking access. Please try again.', 'error');
+    });
+}
+
+async function checkPaymentStatus(tutorialId) {
+    const user = netlifyIdentity.currentUser();
+    
+    if (user) {
+        // User is authenticated, check database first
+        console.log('User authenticated, checking database for tutorial:', tutorialId);
+        const hasAccess = await checkPurchaseStatus(user.id, tutorialId);
+        
+        if (hasAccess) {
+            console.log('Access granted from database');
+            enableAccess(tutorialId);
+            return;
+        } else {
+            console.log('No access found in database, showing paywall');
+            showMessage('Please purchase access to view this tutorial', 'info');
+            showModal(tutorialId);
+            return;
+        }
+    }
+    
+    // Fallback to localStorage for non-authenticated users
     const paymentStatus = localStorage.getItem('paymentStatus');
     const purchasedTutorials = JSON.parse(localStorage.getItem('purchasedTutorials') || '[]');
     const allAccess = localStorage.getItem('allAccess') === 'true';
@@ -284,8 +323,6 @@ function checkPaymentStatus(tutorialId) {
         enableAccess(tutorialId);
     } else {
         showMessage('Please purchase access to view this tutorial', 'info');
-        
-        
         showModal(tutorialId);
     }
 }
@@ -382,6 +419,16 @@ if (typeof netlifyIdentity !== 'undefined') {
         if (supabase && user) {
             supabase.realtime.setAuth(user.token.access_token);
         }
+    });
+    
+    // Listen for login events to sync purchases
+    netlifyIdentity.on('login', user => {
+        console.log('User logged in, syncing purchases...');
+        syncPurchasesFromServer().then(() => {
+            console.log('Purchases synced after login');
+        }).catch(error => {
+            console.error('Error syncing purchases after login:', error);
+        });
     });
 }
 
