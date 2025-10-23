@@ -2,34 +2,54 @@
 // Targeting SMBs with professional functionality
 
 console.log('🚀 Script.js loaded successfully!');
+console.log('🔍 Script version:', 'main-website-v1');
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('📄 DOM Content Loaded - Starting initialization...');
     
-    // Initialize all components
-    initializeNavigation();
-    initializeAuth();
-    initializeModals();
-    initializeCourseInteractions();
-    initializeAnimations();
-    initializeMobileMenu();
-    
-    // Initialize Netlify Identity when it's available
-    function initNetlifyIdentity() {
-        console.log('🔄 Checking for Netlify Identity...');
-        if (typeof netlifyIdentity !== 'undefined') {
-            console.log('✅ Netlify Identity found, initializing...');
-            netlifyIdentity.init();
-            setupAuthHandlers();
-            console.log('✅ Netlify Identity initialized successfully');
-        } else {
-            console.log('⏳ Netlify Identity not ready, retrying...');
-            // Retry after a short delay if Netlify Identity isn't loaded yet
-            setTimeout(initNetlifyIdentity, 100);
+    try {
+        // Initialize all components
+        console.log('🔧 Initializing navigation...');
+        initializeNavigation();
+        
+        console.log('🔧 Initializing authentication...');
+        initializeAuth();
+        
+        console.log('🔧 Initializing modals...');
+        initializeModals();
+        
+        console.log('🔧 Initializing course interactions...');
+        initializeCourseInteractions();
+        
+        console.log('🔧 Initializing animations...');
+        initializeAnimations();
+        
+        console.log('🔧 Initializing mobile menu...');
+        initializeMobileMenu();
+        
+        console.log('✅ All components initialized successfully');
+        
+        // Initialize Netlify Identity when it's available
+        function initNetlifyIdentity() {
+            console.log('🔄 Checking for Netlify Identity...');
+            if (typeof netlifyIdentity !== 'undefined') {
+                console.log('✅ Netlify Identity found, initializing...');
+                netlifyIdentity.init();
+                setupAuthHandlers();
+                console.log('✅ Netlify Identity initialized successfully');
+            } else {
+                console.log('⏳ Netlify Identity not ready, retrying...');
+                // Retry after a short delay if Netlify Identity isn't loaded yet
+                setTimeout(initNetlifyIdentity, 100);
+            }
         }
+        
+        initNetlifyIdentity();
+        
+    } catch (error) {
+        console.error('❌ Error during initialization:', error);
+        console.error('❌ Error stack:', error.stack);
     }
-    
-    initNetlifyIdentity();
 });
 
 // Navigation functionality
