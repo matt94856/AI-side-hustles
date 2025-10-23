@@ -35,8 +35,8 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body);
     const { user, action, data, accessToken } = body;
 
-    // For user operations, we need either Netlify Identity user data OR Supabase access token
-    if (action !== 'webhook' && !user && !accessToken) {
+    // For internal operations, we don't need user authentication
+    if (action !== 'webhook' && action !== 'internal' && !user && !accessToken) {
       return {
         statusCode: 401,
         headers,
@@ -51,6 +51,48 @@ exports.handler = async (event) => {
     if (action === 'webhook' || action === 'internal') {
       // Use service role for webhooks and internal operations
       supabaseClient = supabaseService;
+      
+      // Handle internal user creation/sync
+      if (action === 'internal' && user && user.id) {
+        // Check if user exists
+        const { data: existingUser, error: userError } = await supabaseService
+          .from('users')
+          .select('id')
+          .eq('id', user.id)
+          .single();
+
+        if (userError && userError.code !== 'PGRST116') {
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({ error: 'User lookup failed' })
+          };
+        }
+
+        if (!existingUser) {
+          // Create user in Supabase users table
+          const { error: createError } = await supabaseService
+            .from('users')
+            .insert({
+              id: user.id,
+              email: user.email
+            });
+
+          if (createError) {
+            return {
+              statusCode: 500,
+              headers,
+              body: JSON.stringify({ error: 'User creation failed' })
+            };
+          }
+        }
+
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({ success: true, message: 'User synced successfully' })
+        };
+      }
     } else {
       // Use anon client for user operations (enforces RLS)
       supabaseClient = supabaseAnon;

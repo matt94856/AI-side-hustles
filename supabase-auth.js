@@ -36,32 +36,26 @@ class SupabaseAuth {
         if (!this.supabase || !netlifyUser) return null;
 
         try {
-            // Check if user exists in Supabase users table
-            const { data: existingUser, error: userError } = await this.supabase
-                .from('users')
-                .select('id')
-                .eq('id', netlifyUser.id)
-                .single();
+            // Use Netlify function to create/sync user (uses service role key)
+            const response = await fetch('/.netlify/functions/supabaseHandler', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'internal', // Use internal action to trigger service role client
+                    user: { 
+                        id: netlifyUser.id, 
+                        email: netlifyUser.email 
+                    }
+                })
+            });
 
-            if (userError && userError.code !== 'PGRST116') {
-                console.error('Error checking user:', userError);
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                console.error('Failed to sync Netlify user with Supabase:', result.error);
                 return null;
             }
 
-            if (!existingUser) {
-                // Create user in Supabase users table
-                const { error: createError } = await this.supabase
-                    .from('users')
-                    .insert({
-                        id: netlifyUser.id,
-                        email: netlifyUser.email
-                    });
-
-                if (createError) {
-                    console.error('Error creating user:', createError);
-                    return null;
-                }
-            }
+            console.log('Netlify user synced with Supabase users table');
 
             // Return the user data for RLS context
             return {
@@ -78,18 +72,25 @@ class SupabaseAuth {
         if (!this.supabase) return [];
 
         try {
-            const { data, error } = await this.supabase
-                .from('purchases')
-                .select('*');
+            // Use Netlify function to get user purchases (uses service role for RLS bypass)
+            const response = await fetch('/.netlify/functions/supabaseHandler', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'getPurchases',
+                    user: { id: userId }
+                })
+            });
 
-            if (error) {
-                console.error('Error fetching purchases:', error);
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                console.error('Failed to get user purchases:', result.error);
                 return [];
             }
 
-            return data || [];
+            return result.data || [];
         } catch (error) {
-            console.error('Error in getUserPurchases:', error);
+            console.error('Error fetching user purchases:', error);
             return [];
         }
     }
@@ -98,21 +99,26 @@ class SupabaseAuth {
         if (!this.supabase) return false;
 
         try {
-            const { error } = await this.supabase
-                .from('purchases')
-                .upsert(purchaseData, { 
-                    onConflict: 'user_id,tutorial_id,all_access',
-                    ignoreDuplicates: false 
-                });
+            // Use Netlify function to add purchase (uses service role for RLS bypass)
+            const response = await fetch('/.netlify/functions/supabaseHandler', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'addPurchase',
+                    user: { id: purchaseData.user_id },
+                    data: purchaseData
+                })
+            });
 
-            if (error) {
-                console.error('Error adding purchase:', error);
+            const result = await response.json();
+            if (!response.ok || !result.success) {
+                console.error('Failed to add purchase:', result.error);
                 return false;
             }
 
             return true;
         } catch (error) {
-            console.error('Error in addPurchase:', error);
+            console.error('Error adding purchase:', error);
             return false;
         }
     }
