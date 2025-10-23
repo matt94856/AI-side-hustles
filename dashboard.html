@@ -583,14 +583,25 @@
             if (typeof netlifyIdentity !== 'undefined') {
                 netlifyIdentity.init();
                 
-                netlifyIdentity.on('init', user => {
+                netlifyIdentity.on('init', async (user) => {
                     if (user) {
                         currentUser = user;
-                        loadUserData();
+                        await loadUserData();
                     } else {
                         // Redirect to login if not authenticated
                         window.location.href = 'index.html';
                     }
+                });
+                
+                // Handle login events (in case user logs in while on dashboard)
+                netlifyIdentity.on('login', async (user) => {
+                    currentUser = user;
+                    await loadUserData();
+                });
+                
+                // Handle logout events
+                netlifyIdentity.on('logout', () => {
+                    window.location.href = 'index.html';
                 });
             } else {
                 // Fallback for development
@@ -611,9 +622,9 @@
             });
         }
 
-        function loadUserData() {
+        async function loadUserData() {
             updateUserInfo();
-            loadUserCourses();
+            await loadUserCourses();
             loadAllCourses();
             loadRecommendations();
             updateStats();
@@ -637,41 +648,49 @@
                 return;
             }
 
-            // Sync Netlify Identity with Supabase
-            const supabaseUser = await window.supabaseAuth.syncNetlifyIdentityWithSupabase(user);
-            if (!supabaseUser) {
-                // Fallback to local storage
-                loadUserCoursesFromLocalStorage();
-                return;
-            }
-
-            // Load from Supabase using RLS
             try {
+                // Sync Netlify Identity with Supabase
+                const supabaseUser = await window.supabaseAuth.syncNetlifyIdentityWithSupabase(user);
+                if (!supabaseUser) {
+                    console.error('Failed to sync user with Supabase');
+                    loadUserCoursesFromLocalStorage();
+                    return;
+                }
+
+                // Load from Supabase using RLS
                 const purchases = await window.supabaseAuth.getUserPurchases(user.id);
                 
                 // Convert purchases to course data
-                userCourses = purchases.map(purchase => {
+                userCourses = [];
+                
+                purchases.forEach(purchase => {
                     if (purchase.all_access) {
-                        // User has all access - return all courses
-                        return Object.values(courseData).map(course => ({
-                            ...course,
-                            enrolled: true,
-                            progress: 0
-                        }));
+                        // User has all access - add all courses
+                        Object.values(courseData).forEach(course => {
+                            userCourses.push({
+                                ...course,
+                                enrolled: true,
+                                progress: 0
+                            });
+                        });
                     } else {
                         // User has specific course access
                         const courseId = getCourseIdFromTutorialId(purchase.tutorial_id);
                         const course = courseData[courseId];
                         if (course) {
-                            return {
+                            userCourses.push({
                                 ...course,
                                 enrolled: true,
                                 progress: 0
-                            };
+                            });
                         }
                     }
-                    return null;
-                }).filter(Boolean).flat();
+                });
+
+                // Remove duplicates
+                userCourses = userCourses.filter((course, index, self) => 
+                    index === self.findIndex(c => c.id === course.id)
+                );
 
                 // Also check local storage for progress data
                 const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
@@ -679,6 +698,12 @@
                     ...course,
                     progress: courseProgress[course.id] || course.progress
                 }));
+
+                // Update local storage for consistency
+                const purchasedCourses = userCourses.map(course => course.id);
+                localStorage.setItem('enrolledCourses', JSON.stringify(purchasedCourses));
+                
+                console.log('Loaded user courses from Supabase:', userCourses.length, 'courses');
 
             } catch (error) {
                 console.error('Error loading user courses from Supabase:', error);
@@ -719,11 +744,15 @@
         }
 
         function loadAllCourses() {
-            allCourses = Object.values(courseData).map(course => ({
-                ...course,
-                enrolled: userCourses.some(uc => uc.id === course.id),
-                progress: userCourses.find(uc => uc.id === course.id)?.progress || 0
-            }));
+            allCourses = Object.values(courseData).map(course => {
+                const userCourse = userCourses.find(uc => uc.id === course.id);
+                return {
+                    ...course,
+                    enrolled: !!userCourse,
+                    progress: userCourse?.progress || 0,
+                    owned: !!userCourse
+                };
+            });
 
             renderAllCourses();
         }
@@ -751,16 +780,16 @@
 
         function createCourseCard(course, isMyCourse) {
             const status = course.progress === 100 ? 'completed' : 
-                          course.enrolled ? 'enrolled' : 'locked';
+                          course.enrolled || course.owned ? 'enrolled' : 'locked';
             
             const statusText = course.progress === 100 ? 'Completed' : 
-                              course.enrolled ? 'Enrolled' : 'Not Enrolled';
+                              course.enrolled || course.owned ? 'Owned' : 'Not Purchased';
 
             const buttonText = course.progress === 100 ? 'View Certificate' :
-                              course.enrolled ? 'Continue Learning' : 'Enroll Now';
+                              course.enrolled || course.owned ? 'Start Learning' : 'Buy Now';
 
             const buttonAction = course.progress === 100 ? `viewCertificate('${course.id}')` :
-                                course.enrolled ? `continueCourse('${course.id}')` : `enrollCourse('${course.id}')`;
+                                course.enrolled || course.owned ? `continueCourse('${course.id}')` : `purchaseCourse('${course.id}')`;
 
             return `
                 <div class="course-card">
@@ -771,7 +800,7 @@
                     <h3 class="course-title">${course.title}</h3>
                     <p class="course-description">${course.description}</p>
                     
-                    ${course.enrolled ? `
+                    ${course.enrolled || course.owned ? `
                         <div class="course-progress">
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: ${course.progress}%"></div>
@@ -861,6 +890,27 @@
                 content.classList.remove('active');
             });
             document.getElementById(tabId).classList.add('active');
+        }
+
+        function purchaseCourse(courseId) {
+            // Redirect to checkout page with course selection
+            sessionStorage.setItem('selectedCourse', courseId);
+            window.location.href = 'checkout.html';
+        }
+
+        function continueCourse(courseId) {
+            // Redirect to course page
+            window.location.href = `course-${courseId}.html`;
+        }
+
+        function viewCertificate(courseId) {
+            // Show certificate modal or redirect to certificate page
+            alert(`Certificate for ${courseId} course`);
+        }
+
+        function viewCourseDetails(courseId) {
+            // Show course details modal
+            alert(`Course details for ${courseId}`);
         }
 
         function enrollCourse(courseId) {

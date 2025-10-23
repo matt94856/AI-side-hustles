@@ -79,10 +79,21 @@ function initializeAuth() {
 
 function setupAuthHandlers() {
     // Handle login state changes
-    netlifyIdentity.on('login', user => {
+    netlifyIdentity.on('login', async (user) => {
         console.log('User logged in:', user);
-        updateAuthUI(true);
+        
+        // Close any open modals immediately
         closeAllModals();
+        
+        // Update UI
+        updateAuthUI(true);
+        
+        // Sync with Supabase and load user data
+        try {
+            await syncUserDataAfterLogin(user);
+        } catch (error) {
+            console.error('Error syncing user data after login:', error);
+        }
         
         // Redirect to dashboard or intended page
         const redirectTo = sessionStorage.getItem('redirectTo');
@@ -100,11 +111,26 @@ function setupAuthHandlers() {
     netlifyIdentity.on('logout', () => {
         console.log('User logged out');
         updateAuthUI(false);
+        
+        // Clear local storage
+        localStorage.removeItem('user');
+        localStorage.removeItem('purchasedCourses');
+        localStorage.removeItem('allAccess');
+        localStorage.removeItem('courseProgress');
+        localStorage.removeItem('enrolledCourses');
+        
+        // Redirect to homepage
+        window.location.href = 'index.html';
     });
     
     // Check initial auth state
     const user = netlifyIdentity.currentUser();
     updateAuthUI(!!user);
+    
+    // If user is already logged in, sync their data
+    if (user) {
+        syncUserDataAfterLogin(user);
+    }
 }
 
 function updateAuthUI(isLoggedIn) {
@@ -407,6 +433,70 @@ document.addEventListener('DOMContentLoaded', async () => {
     await window.supabaseAuth.init();
 });
 
+// Sync user data after login
+async function syncUserDataAfterLogin(user) {
+    try {
+        // Sync Netlify Identity with Supabase
+        const supabaseUser = await window.supabaseAuth.syncNetlifyIdentityWithSupabase(user);
+        if (!supabaseUser) {
+            console.error('Failed to sync user with Supabase');
+            return;
+        }
+
+        // Load user purchases from Supabase
+        const purchases = await window.supabaseAuth.getUserPurchases(user.id);
+        
+        // Update local storage with Supabase data
+        const purchasedCourses = [];
+        let hasAllAccess = false;
+        
+        purchases.forEach(purchase => {
+            if (purchase.all_access) {
+                hasAllAccess = true;
+                // Add all courses for all-access
+                purchasedCourses.push('marketing', 'social-media', 'automation', 'content-creation', 'analytics');
+            } else {
+                // Add specific course
+                const courseType = getCourseTypeFromTutorialId(purchase.tutorial_id);
+                if (courseType && !purchasedCourses.includes(courseType)) {
+                    purchasedCourses.push(courseType);
+                }
+            }
+        });
+
+        // Update local storage
+        localStorage.setItem('user', JSON.stringify({
+            id: user.id,
+            email: user.email
+        }));
+        localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
+        localStorage.setItem('allAccess', hasAllAccess.toString());
+        
+        // Also update enrolledCourses for dashboard compatibility
+        localStorage.setItem('enrolledCourses', JSON.stringify(purchasedCourses));
+        
+        console.log('User data synced successfully:', {
+            purchasedCourses,
+            hasAllAccess,
+            purchasesCount: purchases.length
+        });
+        
+    } catch (error) {
+        console.error('Error syncing user data:', error);
+    }
+}
+
+function getCourseTypeFromTutorialId(tutorialId) {
+    const tutorialIdMap = {
+        1: 'marketing',
+        2: 'social-media', 
+        3: 'automation',
+        4: 'content-creation',
+        5: 'analytics'
+    };
+    return tutorialIdMap[tutorialId] || null;
+}
+
 function checkCourseAccess(courseType) {
     return new Promise(async (resolve) => {
         const user = netlifyIdentity.currentUser();
@@ -415,14 +505,7 @@ function checkCourseAccess(courseType) {
             return;
         }
 
-        // Sync Netlify Identity with Supabase
-        const supabaseUser = await window.supabaseAuth.syncNetlifyIdentityWithSupabase(user);
-        if (!supabaseUser) {
-            resolve(false);
-            return;
-        }
-
-        // Check local storage first
+        // Check local storage first (should be synced after login)
         const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses') || '[]');
         const hasAllAccess = localStorage.getItem('allAccess') === 'true';
 
@@ -431,13 +514,15 @@ function checkCourseAccess(courseType) {
             return;
         }
 
-        // Check with Supabase using RLS
+        // If not in local storage, try to sync and check again
         try {
-            const accessResult = await window.supabaseAuth.checkCourseAccess(
-                user.id, 
-                getCourseId(courseType)
-            );
-            resolve(accessResult.hasAccess);
+            await syncUserDataAfterLogin(user);
+            
+            // Check again after sync
+            const updatedPurchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses') || '[]');
+            const updatedAllAccess = localStorage.getItem('allAccess') === 'true';
+            
+            resolve(updatedAllAccess || updatedPurchasedCourses.includes(courseType));
         } catch (error) {
             console.error('Error checking course access:', error);
             resolve(false);
