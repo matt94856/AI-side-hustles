@@ -1,0 +1,21 @@
+{
+  "name": "ai-hustle-hub",
+  "version": "1.0.0",
+  "description": "AI Money-Making Guide Website",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install",
+    "postinstall": "cd netlify/functions && npm install"
+  },
+  "dependencies": {
+    "@netlify/functions": "^2.0.0",
+    "@supabase/supabase-js": "^2.39.7",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "netlify-cli": "^12.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: AI Consulting Foundations - AI Hustle Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .top-nav {
+            background: var(--gradient-primary);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link i {
+            font-size: 1.2rem;
+        }
+
+        .module-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .module-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .lesson-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lesson-title i {
+            color: var(--accent-color);
+        }
+
+        .lesson-content {
+            margin-bottom: 2rem;
+        }
+
+        .practical-exercise {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .quiz-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--accent-color);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+            display: block;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            display: block;
+        }
+
+        .progress-section {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .next-lesson {
+            display: inline-flex;
+            align-items: center;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .next-lesson:hover {
+            transform: translateY(-2px);
+        }
+
+        .next-lesson i {
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .module-content {
+                padding: 1rem;
+            }
+
+            .module-title {
+                font-size: 2rem;
+            }
+
+            .progress-section {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <a href="tutorial5.html" class="nav-link">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="tutorial5-module1.html" class="nav-link active">
+            <i class="fas fa-brain"></i>
+            Module 1
+        </a>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(2)" class="nav-link">
+            <i class="fas fa-cogs"></i>
+            Module 2
+        </a>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(3)" class="nav-link">
+            <i class="fas fa-users"></i>
+            Module 3
+        </a>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(4)" class="nav-link">
+            <i class="fas fa-file-invoice-dollar"></i>
+            Module 4
+        </a>
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(5)" class="nav-link">
+            <i class="fas fa-chart-line"></i>
+            Module 5
+        </a>
+        <a href="javascript:void(0)" onclick="handleTutorialCompletion()" class="nav-link">
+            <i class="fas fa-check-circle"></i>
+            Complete
+        </a>
+    </nav>
+
+    <div class="module-content">
+        <div class="module-header">
+            <h1 class="module-title">Module 1: AI Consulting Foundations</h1>
+            <p class="module-description">Understand the fundamentals of AI consulting, including the types of services you can offer and the skills required to succeed.</p>
+        </div>
+
+        <div class="lesson-section">
+            <h2 class="lesson-title">
+                <i class="fas fa-lightbulb"></i>
+                Lesson 1: Understanding AI Consulting
+            </h2>
+            <div class="lesson-content">
+                <h3>What is AI Consulting?</h3>
+                <p>AI consulting involves helping businesses identify, implement, and optimize artificial intelligence solutions to solve specific business problems. As an AI consultant, you'll guide organizations through their AI transformation journey.</p>
+                
+                <h3>Key Areas of AI Consulting:</h3>
+                <ul>
+                    <li>Strategy Development</li>
+                    <li>Solution Architecture</li>
+                    <li>Implementation Support</li>
+                    <li>Training and Change Management</li>
+                    <li>Performance Optimization</li>
+                </ul>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Research and identify three successful AI consulting firms. Analyze their service offerings, target markets, and unique value propositions. Create a comparison table highlighting their strengths and specializations.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>Which of the following is NOT typically a primary role of an AI consultant?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">Analyzing business requirements</div>
+                            <div class="quiz-option">Recommending AI solutions</div>
+                            <div class="quiz-option" data-correct="true">Writing production code</div>
+                            <div class="quiz-option">Creating implementation roadmaps</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section">
+            <h2 class="lesson-title">
+                <i class="fas fa-tools"></i>
+                Lesson 2: Essential Skills and Tools
+            </h2>
+            <div class="lesson-content">
+                <h3>Core Competencies:</h3>
+                <ul>
+                    <li>Business Analysis</li>
+                    <li>AI/ML Understanding</li>
+                    <li>Project Management</li>
+                    <li>Communication Skills</li>
+                    <li>Problem-Solving</li>
+                </ul>
+
+                <h3>Key Tools for AI Consultants:</h3>
+                <ul>
+                    <li>AI Assessment Frameworks</li>
+                    <li>Project Management Tools</li>
+                    <li>Documentation Platforms</li>
+                    <li>Analytics Tools</li>
+                    <li>Collaboration Software</li>
+                </ul>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Create a personal skills assessment matrix. Rate yourself on each core competency and identify areas for improvement. Develop a learning plan to address skill gaps.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>Which skill is most critical for an AI consultant when dealing with non-technical stakeholders?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">Programming</div>
+                            <div class="quiz-option" data-correct="true">Communication</div>
+                            <div class="quiz-option">Database Design</div>
+                            <div class="quiz-option">Algorithm Development</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section">
+            <h2 class="lesson-title">
+                <i class="fas fa-chart-pie"></i>
+                Lesson 3: Market Analysis and Opportunities
+            </h2>
+            <div class="lesson-content">
+                <h3>Market Segments:</h3>
+                <ul>
+                    <li>Enterprise Organizations</li>
+                    <li>Small and Medium Businesses</li>
+                    <li>Startups</li>
+                    <li>Industry-Specific Niches</li>
+                </ul>
+
+                <h3>Common Client Needs:</h3>
+                <ul>
+                    <li>Process Automation</li>
+                    <li>Data Analytics</li>
+                    <li>Customer Experience Enhancement</li>
+                    <li>Decision Support Systems</li>
+                </ul>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Choose a specific market segment and conduct detailed research on their AI needs. Create a presentation outlining potential consulting opportunities and challenges in serving this market.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>Which market segment typically has the highest demand for AI consulting services?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Enterprise Organizations</div>
+                            <div class="quiz-option">Small Businesses</div>
+                            <div class="quiz-option">Individual Entrepreneurs</div>
+                            <div class="quiz-option">Non-profit Organizations</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lesson-section">
+            <h2 class="lesson-title">
+                <i class="fas fa-rocket"></i>
+                Lesson 4: Getting Started
+            </h2>
+            <div class="lesson-content">
+                <h3>Initial Steps:</h3>
+                <ul>
+                    <li>Define Your Service Offerings</li>
+                    <li>Choose Your Target Market</li>
+                    <li>Build Your Knowledge Base</li>
+                    <li>Create a Business Plan</li>
+                    <li>Develop Your Brand</li>
+                </ul>
+
+                <h3>Setting Up Your Practice:</h3>
+                <ul>
+                    <li>Legal Requirements</li>
+                    <li>Professional Insurance</li>
+                    <li>Business Infrastructure</li>
+                    <li>Online Presence</li>
+                </ul>
+
+                <div class="practical-exercise">
+                    <h3>Practical Exercise</h3>
+                    <p>Create a detailed business plan for your AI consulting practice. Include your service offerings, target market, pricing strategy, and marketing plan. Submit your plan for review.</p>
+                </div>
+
+                <div class="quiz-section">
+                    <h3>Knowledge Check</h3>
+                    <div class="quiz-question">
+                        <p>What should be the first step when starting an AI consulting practice?</p>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="true">Defining your service offerings</div>
+                            <div class="quiz-option">Creating a website</div>
+                            <div class="quiz-option">Setting up social media</div>
+                            <div class="quiz-option">Buying office space</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="javascript:void(0)" onclick="handleModuleNavigation(2)" class="next-lesson">
+            Continue to Module 2
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <div class="progress-section">
+        <h3>Module Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p><span class="completed-count">0</span>/4 Lessons Complete</p>
+    </div>
+
+    <script>
+        let module1Progress = JSON.parse(localStorage.getItem('tutorial5_module1Progress')) || [];
+        const totalLessons = 4;
+        const progressFill = document.querySelector('.progress-fill');
+        const completedCount = document.querySelector('.completed-count');
+
+        function updateProgress() {
+            const completedLessons = module1Progress.length;
+            const percentage = (completedLessons / totalLessons) * 100;
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedLessons;
+
+            // Update tutorial progress
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                completed: false
+            };
+
+            try {
+                const savedProgress = localStorage.getItem('tutorial5Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            // Mark module as complete if all lessons are done
+            tutorialProgress.module1 = completedLessons >= totalLessons;
+            localStorage.setItem('tutorial5Progress', JSON.stringify(tutorialProgress));
+        }
+
+        // Handle quiz interactions
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const questionContainer = this.closest('.quiz-question');
+                const feedback = questionContainer.querySelector('.quiz-feedback');
+                
+                        if (this.classList.contains('selected')) return;
+                        
+                        // Remove selection from other options
+                questionContainer.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected', 'correct', 'incorrect');
+                        });
+                        
+                        this.classList.add('selected');
+                        
+                        const isCorrect = this.hasAttribute('data-correct');
+                        feedback.textContent = isCorrect ? 'Correct!' : 'Try again';
+                        feedback.className = 'quiz-feedback ' + (isCorrect ? 'correct' : 'incorrect');
+                        
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                    const lessonNumber = this.closest('.lesson-section').querySelector('.lesson-title').textContent.match(/Lesson (\d+)/)[1];
+                    if (!module1Progress.includes(lessonNumber)) {
+                        module1Progress.push(lessonNumber);
+                        localStorage.setItem('tutorial5_module1Progress', JSON.stringify(module1Progress));
+                                updateProgress();
+                            }
+                        } else {
+                            this.classList.add('incorrect');
+                        }
+                });
+            });
+
+        function handleModuleNavigation(targetModule) {
+            // Get current progress
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                completed: false
+            };
+
+            try {
+                const savedProgress = localStorage.getItem('tutorial5Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            // Check if navigation should be allowed
+            const currentModule = 1; // This is Module 1
+            const previousModuleComplete = targetModule === 1 || tutorialProgress[`module${targetModule - 1}`];
+
+            if (previousModuleComplete || tutorialProgress[`module${targetModule}`]) {
+                // Allow navigation to next module or any completed module
+                window.location.href = `tutorial5-module${targetModule}.html`;
+            } else {
+                // Keep user on current module
+                alert('Please complete the previous module first.');
+                window.location.href = `tutorial5-module${currentModule}.html`;
+            }
+        }
+
+        function handleTutorialCompletion() {
+            let tutorialProgress = {
+                module1: false,
+                module2: false,
+                module3: false,
+                module4: false,
+                module5: false,
+                completed: false
+            };
+
+            try {
+                const savedProgress = localStorage.getItem('tutorial5Progress');
+                if (savedProgress) {
+                    tutorialProgress = JSON.parse(savedProgress);
+                }
+            } catch (e) {
+                console.error('Error loading progress:', e);
+            }
+
+            const allModulesComplete = Object.values(tutorialProgress).slice(0, 5).every(value => value);
+            
+            if (allModulesComplete) {
+                window.location.href = 'tutorial5.html';
+            } else {
+                alert('Please complete all modules before completing the tutorial.');
+                window.location.href = 'tutorial5-module1.html';
+            }
+        }
+
+            // Initialize progress on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+        });
+    </script>
+
+<script>
+  const user = netlifyIdentity && netlifyIdentity.currentUser();
+  if (user) {
+    user.jwt().then(token => {
+      fetch("/.netlify/functions/saveProgress", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          tutorialId: 5,
+          moduleId: 1,
+          completed: true
+        })
+      });
+    });
+  }
+</script>
+
+</body>
+</html> 

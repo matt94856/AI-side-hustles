@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transform your small business with AI-driven marketing, automation, and content creation. Learn from industry experts and boost your efficiency by 80%.">
+    <meta name="keywords" content="AI training, business automation, AI marketing, small business AI, AI content creation, business efficiency, AI tools for business">
+    <meta name="author" content="Premium Web Creators">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://premiumwebcreators.com/">
+    <meta property="og:title" content="Grow Your Business with AI-Driven Marketing & Automation">
+    <meta property="og:description" content="Transform your small business with AI-driven marketing, automation, and content creation. Learn from industry experts and boost your efficiency by 80%.">
+    <meta property="og:image" content="https://premiumwebcreators.com/AI_logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://premiumwebcreators.com/">
+    <meta property="twitter:title" content="Grow Your Business with AI-Driven Marketing & Automation">
+    <meta property="twitter:description" content="Transform your small business with AI-driven marketing, automation, and content creation. Learn from industry experts and boost your efficiency by 80%.">
+    <meta property="twitter:image" content="https://premiumwebcreators.com/AI_logo.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Premium Web Creators",
+        "description": "AI training courses for small and medium businesses",
+        "url": "https://premiumwebcreators.com",
+        "logo": "https://premiumwebcreators.com/AI_logo.png",
+        "sameAs": [
+            "https://twitter.com/premiumwebcreators",
+            "https://linkedin.com/company/premiumwebcreators"
+        ],
+        "offers": {
+            "@type": "Offer",
+            "name": "AI Business Training Courses",
+            "description": "Comprehensive AI training for business growth",
+            "price": "97",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+
+    <title>Grow Your Business with AI-Driven Marketing & Automation | Premium Web Creators</title>
+    <link rel="canonical" href="https://premiumwebcreators.com/">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Supabase Auth -->
+    <script src="supabase-auth.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="AI_logo.png" alt="Premium Web Creators AI Logo" class="logo-img">
+                <span class="logo-text">Premium Web Creators</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#courses">Courses</a>
+                <a href="#testimonials">Success Stories</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faq">FAQ</a>
+                <a href="#" id="loginBtn" class="btn-secondary">Sign In</a>
+                <a href="#" id="signupBtn" class="btn-primary">Start Learning AI</a>
+            </div>
+            <div class="mobile-menu" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🚀</span>
+                    <span>Join 10,000+ businesses already using AI</span>
+                </div>
+                <h1 class="hero-title">
+                    Grow Your Business with 
+                    <span class="gradient-text">AI-Driven Marketing</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Transform your small business with proven AI strategies. Learn automation, content creation, and marketing techniques that boost efficiency by 80% and increase revenue by 300%.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">80%</span>
+                        <span class="stat-label">Efficiency Boost</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">300%</span>
+                        <span class="stat-label">Revenue Increase</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Businesses Trained</span>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <button class="btn-primary btn-large" id="heroSignupBtn">
+                        <span>Start Learning AI</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4.167 10h11.666M10 4.167L15.833 10 10 15.833" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="btn-secondary btn-large" id="watchDemoBtn">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M8.333 6.667L13.333 10l-5 3.333V6.667z" fill="currentColor"/>
+                        </svg>
+                        <span>Watch Demo</span>
+                    </button>
+                </div>
+                <div class="hero-guarantee">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 18.333a8.333 8.333 0 100-16.666 8.333 8.333 0 000 16.666zM7.5 10l2.5 2.5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>30-day money-back guarantee</span>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-container">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Business Automation Dashboard" class="hero-img">
+                    <div class="floating-card card-1">
+                        <div class="card-icon">📈</div>
+                        <div class="card-content">
+                            <span class="card-title">Revenue Up</span>
+                            <span class="card-value">+300%</span>
+                        </div>
+                    </div>
+                    <div class="floating-card card-2">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-content">
+                            <span class="card-title">Time Saved</span>
+                            <span class="card-value">80%</span>
+                        </div>
+                    </div>
+                    <div class="floating-card card-3">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-content">
+                            <span class="card-title">ROI</span>
+                            <span class="card-value">1,200%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="container">
+            <p class="social-proof-text">Trusted by businesses worldwide</p>
+            <div class="company-logos">
+                <div class="logo-item">Microsoft</div>
+                <div class="logo-item">Google</div>
+                <div class="logo-item">Amazon</div>
+                <div class="logo-item">Shopify</div>
+                <div class="logo-item">HubSpot</div>
+                <div class="logo-item">Salesforce</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Are You Losing Business to AI-Powered Competitors?</h2>
+                <p class="section-subtitle">Don't let your competitors gain the AI advantage while you're left behind</p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">😰</div>
+                    <h3>Manual Work is Killing Your Growth</h3>
+                    <p>Spending hours on repetitive tasks that AI can do in minutes, limiting your time for strategic growth.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📉</div>
+                    <h3>Marketing Costs Are Skyrocketing</h3>
+                    <p>Traditional marketing methods are expensive and inefficient compared to AI-driven campaigns.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⏰</div>
+                    <h3>Content Creation Takes Forever</h3>
+                    <p>Creating quality content manually is time-consuming and doesn't scale with your business needs.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🎯</div>
+                    <h3>Missing Out on Customer Insights</h3>
+                    <p>Without AI analytics, you're making decisions based on guesswork instead of data-driven insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h2>Transform Your Business with AI in Just 30 Days</h2>
+                    <p class="solution-subtitle">Our proven AI training program has helped 10,000+ businesses automate their operations, boost efficiency, and increase revenue by 300%.</p>
+                    <div class="solution-benefits">
+                        <div class="benefit-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Automate 80% of repetitive tasks</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Create content 10x faster with AI</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Increase marketing ROI by 300%</span>
+                        </div>
+                        <div class="benefit-item">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Make data-driven decisions instantly</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary btn-large" id="solutionSignupBtn">
+                        <span>Start Your AI Transformation</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4.167 10h11.666M10 4.167L15.833 10 10 15.833" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="solution-image">
+                    <div class="solution-image-container">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Business Dashboard" class="solution-img">
+                        <div class="solution-overlay">
+                            <div class="overlay-stat">
+                                <span class="stat-number">80%</span>
+                                <span class="stat-label">Time Saved</span>
+                            </div>
+                            <div class="overlay-stat">
+                                <span class="stat-number">300%</span>
+                                <span class="stat-label">Revenue Growth</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses-section" id="courses">
+        <div class="container">
+            <div class="section-header">
+                <h2>Master AI for Every Aspect of Your Business</h2>
+                <p class="section-subtitle">Comprehensive training modules designed specifically for small and medium businesses</p>
+            </div>
+            <div class="courses-grid">
+                <div class="course-card" data-category="marketing">
+                    <div class="course-header">
+                        <div class="course-icon">🎯</div>
+                        <div class="course-badge">Most Popular</div>
+                    </div>
+                    <h3 class="course-title">AI in Marketing</h3>
+                    <p class="course-description">Master AI-powered marketing strategies that generate 300% more leads and convert prospects into customers.</p>
+                    <div class="course-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Automated lead generation</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Personalized campaigns</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>ROI optimization</span>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <span class="course-duration">4 weeks</span>
+                        <span class="course-level">Beginner</span>
+                    </div>
+                    <button class="btn-primary course-btn" data-course="marketing">Enroll Now</button>
+                </div>
+
+                <div class="course-card" data-category="social-media">
+                    <div class="course-header">
+                        <div class="course-icon">📱</div>
+                    </div>
+                    <h3 class="course-title">AI for Social Media</h3>
+                    <p class="course-description">Create viral content and manage multiple platforms with AI tools that save 10 hours per week.</p>
+                    <div class="course-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Content automation</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Multi-platform management</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Engagement optimization</span>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <span class="course-duration">3 weeks</span>
+                        <span class="course-level">Beginner</span>
+                    </div>
+                    <button class="btn-primary course-btn" data-course="social-media">Enroll Now</button>
+                </div>
+
+                <div class="course-card" data-category="automation">
+                    <div class="course-header">
+                        <div class="course-icon">⚡</div>
+                    </div>
+                    <h3 class="course-title">AI Automation</h3>
+                    <p class="course-description">Automate repetitive tasks and workflows to save 20+ hours per week and focus on growth.</p>
+                    <div class="course-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Workflow automation</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Process optimization</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Time management</span>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <span class="course-duration">5 weeks</span>
+                        <span class="course-level">Intermediate</span>
+                    </div>
+                    <button class="btn-primary course-btn" data-course="automation">Enroll Now</button>
+                </div>
+
+                <div class="course-card" data-category="content-creation">
+                    <div class="course-header">
+                        <div class="course-icon">✍️</div>
+                    </div>
+                    <h3 class="course-title">AI Content Creation</h3>
+                    <p class="course-description">Generate high-quality content 10x faster with AI tools for blogs, emails, and marketing materials.</p>
+                    <div class="course-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Blog post generation</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Email marketing</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>SEO optimization</span>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <span class="course-duration">4 weeks</span>
+                        <span class="course-level">Beginner</span>
+                    </div>
+                    <button class="btn-primary course-btn" data-course="content-creation">Enroll Now</button>
+                </div>
+
+                <div class="course-card" data-category="analytics">
+                    <div class="course-header">
+                        <div class="course-icon">📊</div>
+                    </div>
+                    <h3 class="course-title">AI Analytics & Insights</h3>
+                    <p class="course-description">Make data-driven decisions with AI-powered analytics that predict trends and optimize performance.</p>
+                    <div class="course-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Predictive analytics</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Performance tracking</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Trend analysis</span>
+                        </div>
+                    </div>
+                    <div class="course-meta">
+                        <span class="course-duration">3 weeks</span>
+                        <span class="course-level">Intermediate</span>
+                    </div>
+                    <button class="btn-primary course-btn" data-course="analytics">Enroll Now</button>
+                </div>
+
+                <div class="course-card bundle-card" data-category="bundle">
+                    <div class="course-header">
+                        <div class="course-icon">🎁</div>
+                        <div class="course-badge bundle-badge">Best Value</div>
+                    </div>
+                    <h3 class="course-title">Complete AI Business Bundle</h3>
+                    <p class="course-description">Get all 5 courses plus exclusive bonuses. Save $200 and get lifetime access to all future updates.</p>
+                    <div class="course-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>All 5 AI courses</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Exclusive AI tools</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Lifetime updates</span>
+                        </div>
+                    </div>
+                    <div class="course-pricing">
+                        <div class="price-original">$497</div>
+                        <div class="price-current">$297</div>
+                        <div class="price-save">Save $200</div>
+                    </div>
+                    <button class="btn-primary course-btn bundle-btn" data-course="bundle">Get Complete Bundle</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Success Stories from Real Businesses</h2>
+                <p class="section-subtitle">See how AI transformed these companies</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">"</div>
+                        <p>"This AI training program completely transformed our marketing. We went from spending 40 hours a week on content creation to just 4 hours. Our revenue increased by 350% in the first quarter!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Sarah Johnson">
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>CEO, TechStart Solutions</p>
+                            <div class="author-stats">
+                                <span class="stat">350% revenue increase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">"</div>
+                        <p>"The automation course saved us 25 hours per week. We can now focus on strategic growth instead of getting bogged down in repetitive tasks. ROI was achieved in just 2 weeks!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Mike Chen">
+                        </div>
+                        <div class="author-info">
+                            <h4>Mike Chen</h4>
+                            <p>Founder, Digital Marketing Pro</p>
+                            <div class="author-stats">
+                                <span class="stat">25 hours saved weekly</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">"</div>
+                        <p>"Our social media engagement increased by 400% after implementing the AI strategies. We're now generating 10x more leads with half the effort. This course paid for itself in the first month."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Emily Rodriguez">
+                        </div>
+                        <div class="author-info">
+                            <h4>Emily Rodriguez</h4>
+                            <p>Marketing Director, GrowthCo</p>
+                            <div class="author-stats">
+                                <span class="stat">400% engagement boost</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2>Choose Your AI Transformation Plan</h2>
+                <p class="section-subtitle">Flexible pricing options for businesses of all sizes</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Individual Course</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">97</span>
+                        </div>
+                        <p class="price-description">Perfect for focused learning</p>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>One complete course</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Lifetime access</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Certificate of completion</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>30-day money-back guarantee</span>
+                        </div>
+                    </div>
+                    <button class="btn-secondary pricing-btn" data-plan="individual">Choose Course</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-header">
+                        <div class="popular-badge">Most Popular</div>
+                        <h3>Complete Bundle</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">297</span>
+                        </div>
+                        <div class="price-comparison">
+                            <span class="original-price">$497</span>
+                            <span class="savings">Save $200</span>
+                        </div>
+                        <p class="price-description">Everything you need to transform your business</p>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>All 5 AI courses</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Exclusive AI tools & templates</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Private community access</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Lifetime updates & support</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>1-on-1 consultation call</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary pricing-btn" data-plan="bundle">Get Complete Bundle</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Team License</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">497</span>
+                        </div>
+                        <p class="price-description">For teams of 5+ people</p>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Everything in Complete Bundle</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Up to 10 team members</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Team progress tracking</span>
+                        </div>
+                        <div class="feature-item">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/>
+                            </svg>
+                            <span>Priority support</span>
+                        </div>
+                    </div>
+                    <button class="btn-secondary pricing-btn" data-plan="team">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about our AI training program</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>How quickly will I see results?</h3>
+                    <p>Most students see immediate improvements within the first week. By the end of the first month, you'll have automated 60-80% of your repetitive tasks and increased your marketing efficiency significantly.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Do I need technical experience?</h3>
+                    <p>Not at all! Our courses are designed for complete beginners. We start with the basics and gradually build up to advanced techniques. No coding or technical background required.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What AI tools will I learn?</h3>
+                    <p>You'll master industry-leading tools including ChatGPT, Midjourney, Zapier, HubSpot AI, Google Analytics AI, and many more. We provide step-by-step tutorials for each tool.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is there ongoing support?</h3>
+                    <p>Yes! You get lifetime access to our private community, regular Q&A sessions, and email support. Plus, all courses are updated regularly with the latest AI developments.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I get a refund if I'm not satisfied?</h3>
+                    <p>Absolutely! We offer a 30-day money-back guarantee. If you're not completely satisfied with the results, we'll refund your investment, no questions asked.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How long do I have access to the courses?</h3>
+                    <p>You get lifetime access to all courses, including future updates and new content. There are no recurring fees or subscription costs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Business with AI?</h2>
+                <p>Join 10,000+ businesses that have already automated their operations and increased revenue by 300%. Don't let your competitors get ahead.</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary btn-large" id="finalSignupBtn">
+                        <span>Start Learning AI Today</span>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4.167 10h11.666M10 4.167L15.833 10 10 15.833" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <div class="cta-guarantee">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M10 18.333a8.333 8.333 0 100-16.666 8.333 8.333 0 000 16.666zM7.5 10l2.5 2.5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>30-day money-back guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="AI_logo.png" alt="Premium Web Creators AI Logo" class="footer-logo">
+                        <span class="footer-brand-text">Premium Web Creators</span>
+                    </div>
+                    <p class="footer-description">Empowering businesses with AI-driven solutions for growth and efficiency.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M18.333 2.5H1.667C1.208 2.5.833 2.875.833 3.333v13.334c0 .458.375.833.834.833h16.666c.459 0 .834-.375.834-.833V3.333c0-.458-.375-.833-.834-.833zM5.833 15.833H3.333V8.333h2.5v7.5zM4.583 7.292a1.458 1.458 0 110-2.917 1.458 1.458 0 010 2.917zM16.667 15.833h-2.5v-3.75c0-.875-.167-1.75-1.25-1.75-1.25 0-1.458.958-1.458 1.75v3.75H8.958V8.333h2.5v1.042h.042c.333-.625 1.167-1.292 2.375-1.292 2.542 0 3.042 1.667 3.042 3.833v3.917z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M18.333 5.5c-.75.333-1.5.583-2.333.667.833-.5 1.5-1.25 1.833-2.167-.75.417-1.583.75-2.5.917-.75-.833-1.833-1.25-3-1.25-2.25 0-4.083 1.833-4.083 4.083 0 .333.042.667.125.917-3.417-.167-6.417-1.833-8.417-4.333-.333.583-.5 1.25-.5 2 0 1.417.708 2.667 1.75 3.417-.625-.042-1.25-.208-1.75-.5v.042c0 2 1.417 3.667 3.25 4-.333.083-.667.167-1.042.167-.25 0-.5-.042-.75-.083.5 1.583 1.917 2.75 3.625 2.792-1.333 1.042-3 1.667-4.833 1.667-.333 0-.625-.042-.917-.083 1.75 1.125 3.833 1.75 6.083 1.75 7.25 0 11.25-6 11.25-11.25 0-.167 0-.333-.008-.5.75-.542 1.417-1.208 1.958-1.958z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm4.5 7.5c0 .25-.25.5-.5.5h-1.5v1.5c0 .25-.25.5-.5.5s-.5-.25-.5-.5V8h-1.5c-.25 0-.5-.25-.5-.5s.25-.5.5-.5h1.5V5.5c0-.25.25-.5.5-.5s.5.25.5.5V7h1.5c.25 0 .5.25.5.5z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Courses</h4>
+                    <ul>
+                        <li><a href="#courses">AI in Marketing</a></li>
+                        <li><a href="#courses">AI for Social Media</a></li>
+                        <li><a href="#courses">AI Automation</a></li>
+                        <li><a href="#courses">AI Content Creation</a></li>
+                        <li><a href="#courses">AI Analytics</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Free AI Tools</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Premium Web Creators. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sign-up Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Start Your AI Transformation</h2>
+                <button class="close-modal" id="closeSignupModal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Join 10,000+ businesses already using AI to grow</p>
+                <form class="signup-form" id="signupForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company Name (Optional)</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Create Free Account</button>
+                    <p class="form-footer">Already have an account? <a href="#" id="showLoginForm">Sign in</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <button class="close-modal" id="closeLoginModal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Sign in to continue your AI learning journey</p>
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Sign In</button>
+                    <p class="form-footer">Don't have an account? <a href="#" id="showSignupForm">Create one</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Preview Modal -->
+    <div class="modal" id="coursePreviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="previewTitle">Course Preview</h2>
+                <button class="close-modal" id="closePreviewModal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="previewContent"></div>
+                <div class="preview-cta">
+                    <button class="btn-primary btn-large" id="enrollFromPreview">Enroll Now - $97</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

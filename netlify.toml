@@ -1,0 +1,152 @@
+[build]
+  publish = "."
+  command = "echo 'Static site - no build required'"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Redirect rules for SEO and user experience
+[[redirects]]
+  from = "/courses"
+  to = "/index.html#courses"
+  status = 301
+
+[[redirects]]
+  from = "/testimonials"
+  to = "/index.html#testimonials"
+  status = 301
+
+[[redirects]]
+  from = "/pricing"
+  to = "/index.html#pricing"
+  status = 301
+
+[[redirects]]
+  from = "/faq"
+  to = "/index.html#faq"
+  status = 301
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.jpeg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.gif"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML files - shorter cache for updates
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Netlify Functions
+[functions]
+  directory = "netlify/functions"
+
+# Form handling
+[forms]
+  [forms.contact]
+    name = "Contact Form"
+    action = "/thank-you"
+    method = "POST"
+    [forms.contact.fields.name]
+      required = true
+    [forms.contact.fields.email]
+      required = true
+    [forms.contact.fields.message]
+      required = true
+
+# Environment variables (set in Netlify dashboard)
+# SUPABASE_URL = "your-supabase-url"
+# SUPABASE_ANON_KEY = "your-anon-key"
+# SUPABASE_SERVICE_ROLE_KEY = "your-service-role-key"
+# WEBHOOK_SECRET = "your-webhook-secret"
+
+# Edge functions for better performance
+[[edge_functions]]
+  function = "supabaseHandler"
+  path = "/.netlify/functions/supabaseHandler"
+
+# Sitemap generation
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+  [plugins.inputs]
+    buildDir = "."
+    exclude = ["/admin/*", "/private/*"]
+
+# Image optimization
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  [plugins.inputs]
+    output_path = "lighthouse-report.html"
+
+# Performance optimizations
+[[plugins]]
+  package = "netlify-plugin-minify-html"
+  [plugins.inputs]
+    minifyHTML = true
+    minifyCSS = true
+    minifyJS = true
+    removeComments = true
+    removeEmptyAttributes = true
+    removeRedundantAttributes = true
+    collapseWhitespace = true
+    conservativeCollapse = true
+    preserveLineBreaks = false
+    removeAttributeQuotes = false
+    removeEmptyElements = false
+    removeOptionalTags = false
+    removeScriptTypeAttributes = true
+    removeStyleLinkTypeAttributes = true
+    sortAttributes = true
+    sortClassName = true
+    useShortDoctype = true

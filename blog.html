@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Business Blog - Learn how to use AI for marketing, automation, content creation, and business growth. Expert insights and practical tips for small businesses.">
+    <meta name="keywords" content="AI business blog, AI marketing tips, business automation, AI content creation, small business AI, AI tools for business">
+    <meta name="author" content="Premium Web Creators">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://premiumwebcreators.com/blog.html">
+    <meta property="og:title" content="AI Business Blog | Premium Web Creators">
+    <meta property="og:description" content="Learn how to use AI for marketing, automation, content creation, and business growth. Expert insights and practical tips for small businesses.">
+    <meta property="og:image" content="https://premiumwebcreators.com/AI_logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://premiumwebcreators.com/blog.html">
+    <meta property="twitter:title" content="AI Business Blog | Premium Web Creators">
+    <meta property="twitter:description" content="Learn how to use AI for marketing, automation, content creation, and business growth. Expert insights and practical tips for small businesses.">
+    <meta property="twitter:image" content="https://premiumwebcreators.com/AI_logo.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "AI Business Blog",
+        "description": "Expert insights on AI for business growth, marketing automation, and content creation",
+        "url": "https://premiumwebcreators.com/blog.html",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Premium Web Creators",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://premiumwebcreators.com/AI_logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://premiumwebcreators.com/blog.html"
+        }
+    }
+    </script>
+
+    <title>AI Business Blog | Premium Web Creators</title>
+    <link rel="canonical" href="https://premiumwebcreators.com/blog.html">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Blog Specific Styles -->
+    <style>
+        .blog-page {
+            min-height: 100vh;
+            background: var(--background-light);
+            padding-top: 80px;
+        }
+        
+        .blog-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: var(--spacing-16) 0;
+            text-align: center;
+        }
+        
+        .blog-hero h1 {
+            font-size: var(--font-size-5xl);
+            font-weight: 800;
+            margin-bottom: var(--spacing-4);
+            color: white;
+        }
+        
+        .blog-hero p {
+            font-size: var(--font-size-xl);
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .blog-content {
+            padding: var(--spacing-16) 0;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-8);
+        }
+        
+        .blog-posts {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-8);
+        }
+        
+        .blog-post {
+            background: white;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-normal);
+        }
+        
+        .blog-post:hover {
+            transform: translateY(-5px);
+        }
+        
+        .blog-post-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .blog-post-content {
+            padding: var(--spacing-6);
+        }
+        
+        .blog-post-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-4);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+        
+        .blog-post-category {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-1) var(--spacing-3);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: var(--font-size-xs);
+        }
+        
+        .blog-post-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-3);
+            line-height: 1.3;
+        }
+        
+        .blog-post-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .blog-post-title a:hover {
+            color: var(--primary-color);
+        }
+        
+        .blog-post-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .blog-post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            transition: color var(--transition-fast);
+        }
+        
+        .read-more:hover {
+            color: var(--primary-dark);
+        }
+        
+        .blog-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-6);
+        }
+        
+        .sidebar-widget {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .sidebar-widget h3 {
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+            font-size: var(--font-size-lg);
+        }
+        
+        .search-form {
+            display: flex;
+            gap: var(--spacing-2);
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: var(--spacing-3);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .search-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: var(--spacing-3) var(--spacing-4);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+        
+        .search-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .category-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .category-list li {
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .category-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-2) 0;
+            transition: color var(--transition-fast);
+        }
+        
+        .category-list a:hover {
+            color: var(--primary-color);
+        }
+        
+        .category-count {
+            background: var(--background-dark);
+            color: var(--text-secondary);
+            padding: var(--spacing-1) var(--spacing-2);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-xs);
+        }
+        
+        .recent-posts {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .recent-post {
+            display: flex;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-4);
+            padding-bottom: var(--spacing-4);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .recent-post:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .recent-post-image {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            flex-shrink: 0;
+        }
+        
+        .recent-post-content h4 {
+            margin: 0 0 var(--spacing-1) 0;
+            font-size: var(--font-size-sm);
+            line-height: 1.4;
+        }
+        
+        .recent-post-content a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        
+        .recent-post-content a:hover {
+            color: var(--primary-color);
+        }
+        
+        .recent-post-date {
+            font-size: var(--font-size-xs);
+            color: var(--text-light);
+        }
+        
+        .newsletter-signup {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .newsletter-signup h3 {
+            color: white;
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .newsletter-signup p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--spacing-4);
+            font-size: var(--font-size-sm);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-3);
+        }
+        
+        .newsletter-input {
+            padding: var(--spacing-3);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+        
+        .newsletter-btn {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: var(--spacing-3);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform var(--transition-fast);
+        }
+        
+        .newsletter-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--spacing-2);
+            margin-top: var(--spacing-8);
+        }
+        
+        .pagination-btn {
+            padding: var(--spacing-2) var(--spacing-4);
+            border: 2px solid var(--border-color);
+            background: white;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+        
+        .pagination-btn:hover,
+        .pagination-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-6);
+            }
+            
+            .blog-hero h1 {
+                font-size: var(--font-size-4xl);
+            }
+            
+            .blog-post-image {
+                height: 200px;
+            }
+            
+            .search-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="AI_logo.png" alt="Premium Web Creators AI Logo" class="logo-img">
+                <span class="logo-text">Premium Web Creators</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#courses">Courses</a>
+                <a href="blog.html">Blog</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="#" id="loginBtn" class="btn-secondary">Sign In</a>
+                <a href="#" id="signupBtn" class="btn-primary">Start Learning AI</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Hero -->
+    <section class="blog-hero">
+        <div class="container">
+            <h1>AI Business Blog</h1>
+            <p>Expert insights, practical tips, and real-world strategies to help your business thrive with AI</p>
+        </div>
+    </section>
+
+    <!-- Blog Content -->
+    <div class="blog-content">
+        <div class="container">
+            <div class="blog-grid">
+                <!-- Blog Posts -->
+                <div class="blog-posts">
+                    <!-- Featured Post -->
+                    <article class="blog-post">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Marketing Automation" class="blog-post-image">
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <span class="blog-post-category">Marketing</span>
+                                <span>December 15, 2024</span>
+                                <span>5 min read</span>
+                            </div>
+                            <h2 class="blog-post-title">
+                                <a href="blog-post-ai-marketing-automation.html">How AI Marketing Automation Can Increase Your ROI by 300%</a>
+                            </h2>
+                            <p class="blog-post-excerpt">
+                                Discover the proven strategies that helped 10,000+ businesses automate their marketing and boost revenue by 300%. Learn how to implement AI-powered campaigns that work 24/7.
+                            </p>
+                            <div class="blog-post-footer">
+                                <a href="blog-post-ai-marketing-automation.html" class="read-more">
+                                    Read More
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Regular Posts -->
+                    <article class="blog-post">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Content Creation" class="blog-post-image">
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <span class="blog-post-category">Content</span>
+                                <span>December 12, 2024</span>
+                                <span>4 min read</span>
+                            </div>
+                            <h2 class="blog-post-title">
+                                <a href="blog-post-ai-content-creation.html">10 AI Tools That Will Transform Your Content Creation Process</a>
+                            </h2>
+                            <p class="blog-post-excerpt">
+                                Stop spending hours on content creation. These AI tools will help you produce 10x more content in half the time, from blog posts to social media updates.
+                            </p>
+                            <div class="blog-post-footer">
+                                <a href="blog-post-ai-content-creation.html" class="read-more">
+                                    Read More
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-post">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Business Automation" class="blog-post-image">
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <span class="blog-post-category">Automation</span>
+                                <span>December 10, 2024</span>
+                                <span>6 min read</span>
+                            </div>
+                            <h2 class="blog-post-title">
+                                <a href="blog-post-business-automation.html">The Complete Guide to Business Process Automation with AI</a>
+                            </h2>
+                            <p class="blog-post-excerpt">
+                                Learn how to identify and automate repetitive tasks in your business. Save 20+ hours per week and focus on what matters most - growing your business.
+                            </p>
+                            <div class="blog-post-footer">
+                                <a href="blog-post-business-automation.html" class="read-more">
+                                    Read More
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-post">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="AI Analytics" class="blog-post-image">
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <span class="blog-post-category">Analytics</span>
+                                <span>December 8, 2024</span>
+                                <span>5 min read</span>
+                            </div>
+                            <h2 class="blog-post-title">
+                                <a href="blog-post-ai-analytics.html">Making Data-Driven Decisions with AI Analytics</a>
+                            </h2>
+                            <p class="blog-post-excerpt">
+                                Stop guessing what your customers want. Learn how AI analytics can predict trends, optimize performance, and help you make smarter business decisions.
+                            </p>
+                            <div class="blog-post-footer">
+                                <a href="blog-post-ai-analytics.html" class="read-more">
+                                    Read More
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="blog-post">
+                        <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Social Media AI" class="blog-post-image">
+                        <div class="blog-post-content">
+                            <div class="blog-post-meta">
+                                <span class="blog-post-category">Social Media</span>
+                                <span>December 5, 2024</span>
+                                <span>4 min read</span>
+                            </div>
+                            <h2 class="blog-post-title">
+                                <a href="blog-post-social-media-ai.html">AI-Powered Social Media: Boost Engagement by 400%</a>
+                            </h2>
+                            <p class="blog-post-excerpt">
+                                Discover the AI tools and strategies that helped businesses increase their social media engagement by 400%. Learn how to create viral content and manage multiple platforms effortlessly.
+                            </p>
+                            <div class="blog-post-footer">
+                                <a href="blog-post-social-media-ai.html" class="read-more">
+                                    Read More
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <a href="#" class="pagination-btn">Previous</a>
+                        <a href="#" class="pagination-btn active">1</a>
+                        <a href="#" class="pagination-btn">2</a>
+                        <a href="#" class="pagination-btn">3</a>
+                        <a href="#" class="pagination-btn">Next</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="blog-sidebar">
+                    <!-- Search Widget -->
+                    <div class="sidebar-widget">
+                        <h3>Search Articles</h3>
+                        <form class="search-form">
+                            <input type="text" class="search-input" placeholder="Search for AI tips...">
+                            <button type="submit" class="search-btn">Search</button>
+                        </form>
+                    </div>
+
+                    <!-- Categories Widget -->
+                    <div class="sidebar-widget">
+                        <h3>Categories</h3>
+                        <ul class="category-list">
+                            <li><a href="#">AI Marketing <span class="category-count">12</span></a></li>
+                            <li><a href="#">Content Creation <span class="category-count">8</span></a></li>
+                            <li><a href="#">Business Automation <span class="category-count">15</span></a></li>
+                            <li><a href="#">AI Analytics <span class="category-count">6</span></a></li>
+                            <li><a href="#">Social Media AI <span class="category-count">9</span></a></li>
+                            <li><a href="#">AI Tools <span class="category-count">11</span></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Recent Posts Widget -->
+                    <div class="sidebar-widget">
+                        <h3>Recent Posts</h3>
+                        <ul class="recent-posts">
+                            <li class="recent-post">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="AI Marketing" class="recent-post-image">
+                                <div class="recent-post-content">
+                                    <h4><a href="#">How AI Marketing Automation Can Increase Your ROI by 300%</a></h4>
+                                    <div class="recent-post-date">Dec 15, 2024</div>
+                                </div>
+                            </li>
+                            <li class="recent-post">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Content Creation" class="recent-post-image">
+                                <div class="recent-post-content">
+                                    <h4><a href="#">10 AI Tools That Will Transform Your Content Creation Process</a></h4>
+                                    <div class="recent-post-date">Dec 12, 2024</div>
+                                </div>
+                            </li>
+                            <li class="recent-post">
+                                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Business Automation" class="recent-post-image">
+                                <div class="recent-post-content">
+                                    <h4><a href="#">The Complete Guide to Business Process Automation with AI</a></h4>
+                                    <div class="recent-post-date">Dec 10, 2024</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter Signup Widget -->
+                    <div class="sidebar-widget newsletter-signup">
+                        <h3>Get AI Tips Weekly</h3>
+                        <p>Join 10,000+ business owners getting the latest AI insights delivered to their inbox.</p>
+                        <form class="newsletter-form">
+                            <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                            <button type="submit" class="newsletter-btn">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="AI_logo.png" alt="Premium Web Creators AI Logo" class="footer-logo">
+                        <span class="footer-brand-text">Premium Web Creators</span>
+                    </div>
+                    <p class="footer-description">Empowering businesses with AI-driven solutions for growth and efficiency.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Blog Categories</h4>
+                    <ul>
+                        <li><a href="#">AI Marketing</a></li>
+                        <li><a href="#">Content Creation</a></li>
+                        <li><a href="#">Business Automation</a></li>
+                        <li><a href="#">AI Analytics</a></li>
+                        <li><a href="#">Social Media AI</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Free AI Tools</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Premium Web Creators. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeBlog();
+        });
+
+        function initializeBlog() {
+            // Initialize Netlify Identity
+            if (typeof netlifyIdentity !== 'undefined') {
+                netlifyIdentity.init();
+                setupAuthHandlers();
+            }
+
+            // Setup search functionality
+            const searchForm = document.querySelector('.search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', handleSearch);
+            }
+
+            // Setup newsletter signup
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', handleNewsletterSignup);
+            }
+        }
+
+        function setupAuthHandlers() {
+            netlifyIdentity.on('login', user => {
+                console.log('User logged in:', user);
+                updateAuthUI(true);
+            });
+            
+            netlifyIdentity.on('logout', () => {
+                console.log('User logged out');
+                updateAuthUI(false);
+            });
+            
+            // Check initial auth state
+            const user = netlifyIdentity.currentUser();
+            updateAuthUI(!!user);
+        }
+
+        function updateAuthUI(isLoggedIn) {
+            const signupBtn = document.getElementById('signupBtn');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (isLoggedIn) {
+                if (signupBtn) {
+                    signupBtn.textContent = 'Dashboard';
+                    signupBtn.href = 'dashboard.html';
+                }
+                if (loginBtn) {
+                    loginBtn.textContent = 'Sign Out';
+                    loginBtn.onclick = () => netlifyIdentity.logout();
+                }
+            } else {
+                if (signupBtn) {
+                    signupBtn.textContent = 'Start Learning AI';
+                    signupBtn.href = '#';
+                    signupBtn.onclick = (e) => {
+                        e.preventDefault();
+                        netlifyIdentity.open('signup');
+                    };
+                }
+                if (loginBtn) {
+                    loginBtn.textContent = 'Sign In';
+                    loginBtn.onclick = (e) => {
+                        e.preventDefault();
+                        netlifyIdentity.open('login');
+                    };
+                }
+            }
+        }
+
+        function handleSearch(e) {
+            e.preventDefault();
+            const searchTerm = e.target.querySelector('.search-input').value;
+            if (searchTerm.trim()) {
+                // Implement search functionality
+                console.log('Searching for:', searchTerm);
+                // You could redirect to a search results page or filter posts
+            }
+        }
+
+        function handleNewsletterSignup(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('.newsletter-input').value;
+            
+            if (email.trim()) {
+                // Show success message
+                showMessage('Thanks for subscribing! Check your email for confirmation.', 'success');
+                e.target.querySelector('.newsletter-input').value = '';
+                
+                // Here you would typically send the email to your newsletter service
+                console.log('Newsletter signup:', email);
+            }
+        }
+
+        function showMessage(message, type = 'info') {
+            const messageEl = document.createElement('div');
+            messageEl.className = `message message-${type}`;
+            messageEl.textContent = message;
+            messageEl.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                z-index: 2000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(messageEl);
+            
+            setTimeout(() => {
+                messageEl.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

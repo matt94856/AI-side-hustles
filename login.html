@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-HMQMSRP3M4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HMQMSRP3M4');
+</script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' https://tdxpostwbmpnsikjftvy.supabase.co https://premiumwebcreators.com; style-src 'self' https: 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self' https: https://tdxpostwbmpnsikjftvy.supabase.co https://premiumwebcreators.com;" http-equiv="Content-Security-Policy"/>
+<meta content="nosniff" http-equiv="X-Content-Type-Options"/>
+<meta content="1; mode=block" http-equiv="X-XSS-Protection"/>
+<meta content="strict-origin-when-cross-origin" http-equiv="Referrer-Policy"/>
+<title>AI Hustle Hub - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+<script src="supabaseUtils.js"></script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #1E3A8A;
+            background: #fff;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #D1D5DB;
+        }
+        .back-home {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #C0C6D9;
+            text-decoration: none;
+        }
+        .back-home:hover {
+            text-decoration: underline;
+        }
+        .welcome-message {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .welcome-message p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<h1>Welcome to AI Hustle Hub</h1>
+<div class="welcome-message">
+<p>Before you start learning, please create a free account to:</p>
+<p>• Access all our premium AI money-making courses</p>
+<p>• Track your learning progress</p>
+<p>• Get exclusive updates and resources</p>
+<p>• Save your account history</p>
+</div>
+<button class="btn" onclick="netlifyIdentity.open('login')">Log In</button>
+<button class="btn" onclick="netlifyIdentity.open('signup')">Sign Up</button>
+<a class="back-home" href="index.html">← Back to Home</a>
+</div>
+<script>
+        // Initialize Supabase client with auth configuration
+        const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
+        
+        // Initialize Supabase with auth configuration
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true,
+                storage: window.localStorage
+            }
+        });
+
+        // Update Supabase auth headers when Netlify Identity token refreshes
+        netlifyIdentity.on('login', user => {
+            if (supabase && user) {
+                console.log('Setting Supabase session with Netlify token');
+                user.jwt().then(token => {
+                    supabase.auth.setSession(token)
+                        .then(response => {
+                            console.log('Supabase session set successfully:', response);
+                        })
+                        .catch(error => {
+                            console.error('Error setting Supabase session:', error);
+                        });
+                });
+            }
+        });
+
+        // Handle token refresh
+        netlifyIdentity.on('refresh', user => {
+            if (supabase && user) {
+                console.log('Refreshing Supabase session');
+                user.jwt().then(token => {
+                    supabase.auth.setSession(token)
+                        .then(response => {
+                            console.log('Supabase session refreshed successfully:', response);
+                        })
+                        .catch(error => {
+                            console.error('Error refreshing Supabase session:', error);
+                        });
+                });
+            }
+        });
+
+        // Handle logout
+        netlifyIdentity.on('logout', () => {
+            if (supabase) {
+                console.log('Clearing Supabase session');
+                supabase.auth.signOut()
+                    .then(() => {
+                        console.log('Supabase session cleared successfully');
+                    })
+                    .catch(error => {
+                        console.error('Error clearing Supabase session:', error);
+                    });
+            }
+        });
+
+        // Rate limiting
+        const loginAttempts = new Map();
+        const MAX_ATTEMPTS = 5;
+        const BLOCK_DURATION = 15 * 60 * 1000; // 15 minutes
+
+        function checkRateLimit(userId) {
+            const now = Date.now();
+            const attempts = loginAttempts.get(userId) || { count: 0, timestamp: now };
+            
+            if (attempts.count >= MAX_ATTEMPTS) {
+                if (now - attempts.timestamp < BLOCK_DURATION) {
+                    const remainingTime = Math.ceil((BLOCK_DURATION - (now - attempts.timestamp)) / 1000 / 60);
+                    throw new Error(`Too many login attempts. Please try again in ${remainingTime} minutes.`);
+                }
+                // Reset attempts after block duration
+                attempts.count = 0;
+                attempts.timestamp = now;
+            }
+            
+            attempts.count++;
+            loginAttempts.set(userId, attempts);
+        }
+
+        // Input validation
+        function validateInput(input) {
+            // Remove any potential XSS or injection attempts
+            return input.replace(/[<>'"]/g, '');
+        }
+
+        async function checkPurchaseStatus(userId, tutorialId) {
+            try {
+                // Validate inputs
+                userId = validateInput(userId);
+                tutorialId = validateInput(tutorialId);
+
+                // Check rate limit
+                checkRateLimit(userId);
+
+                // Check for all-access first
+                const { data: allAccessData, error: allAccessError } = await supabase
+                    .from('user_purchases')
+                    .select('all_access')
+                    .eq('user_id', userId)
+                    .eq('all_access', true)
+                    .single();
+
+                if (allAccessError && allAccessError.code !== 'PGRST116') {
+                    console.error('Error checking all-access:', allAccessError);
+                    throw allAccessError;
+                }
+
+                if (allAccessData) {
+                    return true;
+                }
+
+                // If no all-access, check specific tutorial
+                const { data: tutorialData, error: tutorialError } = await supabase
+                    .from('user_purchases')
+                    .select('tutorial_id')
+                    .eq('user_id', userId)
+                    .eq('tutorial_id', tutorialId)
+                    .single();
+
+                if (tutorialError && tutorialError.code !== 'PGRST116') {
+                    console.error('Error checking tutorial access:', tutorialError);
+                    throw tutorialError;
+                }
+
+                return !!tutorialData;
+            } catch (error) {
+                console.error('Error checking purchase status:', error);
+                return false;
+            }
+        }
+
+        async function handleAuthRedirect(user) {
+            try {
+                // Validate user object
+                if (!user || !user.id) {
+                    throw new Error('Invalid user data');
+                }
+
+                // Get stored redirect information
+                const redirectTo = sessionStorage.getItem('redirectTo');
+                const tutorialId = sessionStorage.getItem('tutorialId');
+                
+                // Clear stored data
+                sessionStorage.removeItem('redirectTo');
+                sessionStorage.removeItem('tutorialId');
+                
+                if (redirectTo && tutorialId) {
+                    // Validate redirect URL to prevent open redirect vulnerabilities
+                    if (!redirectTo.startsWith(window.location.origin) && !redirectTo.startsWith('/')) {
+                        throw new Error('Invalid redirect URL');
+                    }
+
+                    // Check purchase status from Supabase
+                    const hasAccess = await checkPurchaseStatus(user.id, parseInt(tutorialId));
+                    
+                    if (hasAccess) {
+                        window.location.href = redirectTo;
+                    } else {
+                        // If no purchase, redirect to the paywall modal
+                        window.location.href = 'index.html';
+                        // Store the tutorial ID to show the correct paywall
+                        sessionStorage.setItem('showPaywallFor', tutorialId);
+                    }
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                console.error('Error during auth redirect:', error);
+            window.location.href = 'index.html';
+            }
+        }
+
+        // Add event listeners with error handling
+        netlifyIdentity.on('login', (user) => {
+            try {
+                handleAuthRedirect(user);
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login. Please try again.');
+            }
+        });
+
+        netlifyIdentity.on('signup', (user) => {
+            try {
+                handleAuthRedirect(user);
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('An error occurred during signup. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

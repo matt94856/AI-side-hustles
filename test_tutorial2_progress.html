@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Tutorial 2 Progress</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Tutorial 2 Progress Tracking</h1>
+    
+    <div class="test-section">
+        <h2>Current Progress Status</h2>
+        <div id="progress-status"></div>
+        <button onclick="checkProgress()">Check Progress</button>
+        <button onclick="clearProgress()">Clear All Progress</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Module Completion</h2>
+        <button onclick="completeModule1()">Complete Module 1</button>
+        <button onclick="completeModule2()">Complete Module 2</button>
+        <button onclick="completeModule3()">Complete Module 3</button>
+        <button onclick="completeModule4()">Complete Module 4</button>
+        <button onclick="completeModule5()">Complete Module 5</button>
+        <button onclick="completeModule6()">Complete Module 6</button>
+        <button onclick="completeModule7()">Complete Module 7</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Navigation</h2>
+        <button onclick="testNavigation()">Test Navigation Logic</button>
+        <div id="navigation-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>LocalStorage Contents</h2>
+        <button onclick="showLocalStorage()">Show LocalStorage</button>
+        <pre id="localstorage-content"></pre>
+    </div>
+
+    <script>
+        function checkProgress() {
+            const statusDiv = document.getElementById('progress-status');
+            let html = '<h3>Module Progress:</h3>';
+            
+            for (let i = 1; i <= 7; i++) {
+                const progress = JSON.parse(localStorage.getItem(`tutorial2_module${i}Progress`)) || [];
+                const isComplete = progress.length === 4;
+                const status = isComplete ? '✅ Complete' : `❌ Incomplete (${progress.length}/4)`;
+                html += `<p><strong>Module ${i}:</strong> ${status}</p>`;
+            }
+            
+            const tutorialProgress = JSON.parse(localStorage.getItem('tutorial2Progress')) || {};
+            html += `<h3>Tutorial Progress:</h3>`;
+            html += `<p><strong>Overall:</strong> ${tutorialProgress.completed ? '✅ Complete' : '❌ Incomplete'}</p>`;
+            
+            statusDiv.innerHTML = html;
+        }
+        
+        function clearProgress() {
+            for (let i = 1; i <= 7; i++) {
+                localStorage.removeItem(`tutorial2_module${i}Progress`);
+                localStorage.removeItem(`tutorial2_module${i}LessonProgress`);
+            }
+            localStorage.removeItem('tutorial2Progress');
+            alert('All progress cleared!');
+            checkProgress();
+        }
+        
+        function completeModule1() {
+            const progress = ['lesson1', 'lesson2', 'lesson3', 'lesson4'];
+            localStorage.setItem('tutorial2_module1Progress', JSON.stringify(progress));
+            alert('Module 1 completed!');
+            checkProgress();
+        }
+        
+        function completeModule2() {
+            const progress = ['lesson1', 'lesson2', 'lesson3', 'lesson4'];
+            localStorage.setItem('tutorial2_module2Progress', JSON.stringify(progress));
+            alert('Module 2 completed!');
+            checkProgress();
+        }
+        
+        function completeModule3() {
+            const progress = ['lesson1', 'lesson2', 'lesson3', 'lesson4'];
+            localStorage.setItem('tutorial2_module3Progress', JSON.stringify(progress));
+            alert('Module 3 completed!');
+            checkProgress();
+        }
+        
+        function completeModule4() {
+            const progress = ['lesson1', 'lesson2', 'lesson3', 'lesson4'];
+            localStorage.setItem('tutorial2_module4Progress', JSON.stringify(progress));
+            alert('Module 4 completed!');
+            checkProgress();
+        }
+        
+        function completeModule5() {
+            const progress = ['lesson1', 'lesson2', 'lesson3', 'lesson4'];
+            localStorage.setItem('tutorial2_module5Progress', JSON.stringify(progress));
+            alert('Module 5 completed!');
+            checkProgress();
+        }
+        
+        function completeModule6() {
+            const progress = ['lesson1', 'lesson2', 'lesson3', 'lesson4'];
+            localStorage.setItem('tutorial2_module6Progress', JSON.stringify(progress));
+            alert('Module 6 completed!');
+            checkProgress();
+        }
+        
+        function completeModule7() {
+            const progress = ['lesson1', 'lesson2', 'lesson3', 'lesson4'];
+            localStorage.setItem('tutorial2_module7Progress', JSON.stringify(progress));
+            alert('Module 7 completed!');
+            checkProgress();
+        }
+        
+        function testNavigation() {
+            const resultsDiv = document.getElementById('navigation-results');
+            let html = '<h3>Navigation Test Results:</h3>';
+            
+            // Test the handleNavigation function logic
+            for (let moduleNumber = 2; moduleNumber <= 7; moduleNumber++) {
+                const prevModuleProgress = JSON.parse(localStorage.getItem(`tutorial2_module${moduleNumber-1}Progress`)) || [];
+                const canAccess = prevModuleProgress.length === 4;
+                const status = canAccess ? '✅ Can Access' : '❌ Cannot Access';
+                html += `<p><strong>Module ${moduleNumber}:</strong> ${status} (Previous module has ${prevModuleProgress.length}/4 lessons)</p>`;
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        function showLocalStorage() {
+            const contentDiv = document.getElementById('localstorage-content');
+            const allData = {};
+            
+            for (let i = 1; i <= 7; i++) {
+                const moduleProgress = localStorage.getItem(`tutorial2_module${i}Progress`);
+                const lessonProgress = localStorage.getItem(`tutorial2_module${i}LessonProgress`);
+                if (moduleProgress) allData[`tutorial2_module${i}Progress`] = JSON.parse(moduleProgress);
+                if (lessonProgress) allData[`tutorial2_module${i}LessonProgress`] = JSON.parse(lessonProgress);
+            }
+            
+            const tutorialProgress = localStorage.getItem('tutorial2Progress');
+            if (tutorialProgress) allData.tutorial2Progress = JSON.parse(tutorialProgress);
+            
+            contentDiv.textContent = JSON.stringify(allData, null, 2);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkProgress();
+        });
+    </script>
+</body>
+</html> 

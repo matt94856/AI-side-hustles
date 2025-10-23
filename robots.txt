@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Allow all search engines to crawl the site
+Disallow: /dashboard.html
+Disallow: /checkout.html
+Disallow: /netlify/
+Disallow: /.netlify/
+
+# Sitemap location
+Sitemap: https://premiumwebcreators.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1

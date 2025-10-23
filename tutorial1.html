@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HMQMSRP3M4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HMQMSRP3M4');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Hustle Hub - AI-Powered Freelancing Course</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #4a90e2;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-primary: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .brand i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+        }
+
+        .brand h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .header-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .course-progress {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+            margin: -3rem auto 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .module-card.completed {
+            border: 2px solid #4CAF50;
+        }
+
+        .module-card.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .module-card.locked {
+            opacity: 0.7;
+        }
+
+        .module-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .module-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .module-status.completed {
+            color: #4CAF50;
+        }
+
+        .module-status.locked {
+            color: #999;
+        }
+
+        .module-link {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
+        }
+
+        .module-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .module-card.locked .module-link {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .modules-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .brand h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .resources-banner {
+            max-width: 1000px;
+            margin: 0 auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .resources-content {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .resources-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .resources-text {
+            flex-grow: 1;
+        }
+
+        .resources-text h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .resources-text p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .resources-button {
+            background: var(--gradient-accent);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .resources-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .resources-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+            
+            .resources-text {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="completion-banner" id="completionBanner">
+        <h2><i class="fas fa-trophy"></i> Congratulations!</h2>
+        <p>You've completed all modules in the AI-Powered Freelancing course!</p>
+        <a href="#" class="certificate-button" onclick="generateCertificate(1); return false;">
+            <i class="fas fa-certificate"></i> Generate Certificate
+        </a>
+                            </div>
+
+    <header class="header">
+        <div class="brand">
+            <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <i class="fas fa-robot"></i>
+                <h1>AI Hustle Hub</h1>
+            </a>
+                                    </div>
+        <p class="header-description">
+            Learn how to leverage AI tools to offer high-quality freelancing services that clients will pay premium prices for. Master the art of AI-powered freelancing and scale your income.
+        </p>
+    </header>
+
+    <div class="course-progress">
+        <h3>Course Progress</h3>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+                            </div>
+        <p><span class="completed-count">0</span>/4 Modules Complete</p>
+                    </div>
+
+    <div class="resources-banner">
+        <div class="resources-content">
+            <i class="fas fa-book-open resources-icon"></i>
+            <div class="resources-text">
+                <h3>Exclusive Resources</h3>
+                <p>Access premium tools, templates, and strategies to accelerate your AI freelancing success</p>
+                            </div>
+            <a href="tutorial1-resources.html" class="resources-button">View Resources</a>
+                        </div>
+                    </div>
+
+    <div class="modules-grid">
+        <div class="module-card active">
+            <i class="fas fa-laptop module-icon"></i>
+            <i class="fas fa-spinner module-status"></i>
+            <h2 class="module-title">Module 1: Introduction to AI Freelancing</h2>
+            <p class="module-description">Learn the fundamentals of AI-powered freelancing, explore the market opportunities, and identify the skills needed to succeed in this growing field.</p>
+            <a href="tutorial1-module1.html" class="module-link">Start Module</a>
+                    </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-tools module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 2: Essential AI Tools</h2>
+            <p class="module-description">Master the core AI tools that will enhance your freelancing services, including ChatGPT, Midjourney, and specialized AI solutions for different niches.</p>
+            <a href="tutorial1-module2.html" class="module-link">Start Module</a>
+                            </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-store module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 3: Building Your Service Portfolio</h2>
+            <p class="module-description">Create a compelling portfolio showcasing your AI-enhanced services, set competitive pricing, and position yourself effectively in the market.</p>
+            <a href="tutorial1-module3.html" class="module-link">Start Module</a>
+                    </div>
+
+        <div class="module-card locked">
+            <i class="fas fa-users module-icon"></i>
+            <i class="fas fa-lock module-status locked"></i>
+            <h2 class="module-title">Module 4: Client Acquisition & Retention</h2>
+            <p class="module-description">Discover proven strategies for finding and retaining high-paying clients, delivering exceptional service, and scaling your freelance business.</p>
+            <a href="tutorial1-module4.html" class="module-link">Start Module</a>
+                </div>
+            </div>
+
+    <script src="certificate.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check progress of each module
+            const module1Progress = JSON.parse(localStorage.getItem('tutorial1_module1Progress')) || [];
+            const module2Progress = JSON.parse(localStorage.getItem('tutorial1_module2Progress')) || [];
+            const module3Progress = JSON.parse(localStorage.getItem('tutorial1_module3Progress')) || [];
+            const module4Progress = JSON.parse(localStorage.getItem('tutorial1_module4Progress')) || [];
+            
+            // Count completed modules (a module is complete when all 4 lessons are done)
+            const completedModules = [
+                module1Progress.length === 4,
+                module2Progress.length === 4,
+                module3Progress.length === 4,
+                module4Progress.length === 4
+            ].filter(Boolean);
+            
+            // Update progress bar
+            const progressFill = document.querySelector('.progress-fill');
+            const completedCount = document.querySelector('.completed-count');
+            const totalModules = 4;
+            const percentage = (completedModules.length / totalModules) * 100;
+            
+            progressFill.style.width = `${percentage}%`;
+            completedCount.textContent = completedModules.length;
+
+            // Update module cards based on completion
+            document.querySelectorAll('.module-card').forEach((card, index) => {
+                const moduleProgress = JSON.parse(localStorage.getItem(`tutorial1_module${index + 1}Progress`)) || [];
+                const isCompleted = moduleProgress.length === 4;
+                const prevModuleProgress = index === 0 ? [1, 2, 3, 4] : JSON.parse(localStorage.getItem(`tutorial1_module${index}Progress`)) || [];
+                const isPrevCompleted = index === 0 || prevModuleProgress.length === 4;
+                
+                const moduleLink = card.querySelector('.module-link');
+                if (isCompleted) {
+                    card.classList.remove('locked', 'active');
+                    card.classList.add('completed');
+                    card.querySelector('.module-status').className = 'module-status completed fas fa-check-circle';
+                    moduleLink.textContent = 'Review Module';
+                    moduleLink.href = `tutorial1-module${index + 1}.html`;
+                } else if (isPrevCompleted) {
+                    card.classList.remove('locked', 'completed');
+                    card.classList.add('active');
+                    card.querySelector('.module-status').className = 'module-status fas fa-spinner';
+                    moduleLink.textContent = index === 0 ? 'Start Module' : 'Continue Learning';
+                    moduleLink.href = `tutorial1-module${index + 1}.html`;
+                } else {
+                    card.classList.remove('active', 'completed');
+                    card.classList.add('locked');
+                    card.querySelector('.module-status').className = 'module-status locked fas fa-lock';
+                    moduleLink.textContent = 'Complete Previous Modules';
+                    moduleLink.href = '#';
+                    moduleLink.onclick = function(e) {
+                        e.preventDefault();
+                        alert('Please complete the previous module first.');
+                    };
+                }
+            });
+
+            // Store tutorial progress in localStorage for tracking completion
+            const tutorialProgress = {
+                module1: module1Progress.length === 4,
+                module2: module2Progress.length === 4,
+                module3: module3Progress.length === 4,
+                module4: module4Progress.length === 4,
+                completed: false
+            };
+            
+            // Mark the tutorial as completed if all modules are done
+            if (tutorialProgress.module1 && tutorialProgress.module2 && tutorialProgress.module3 && tutorialProgress.module4) {
+                tutorialProgress.completed = true;
+                
+                // Show completion banner
+                const banner = document.getElementById('completionBanner');
+                if (banner) {
+                    banner.classList.add('visible');
+                    
+                    // Start confetti if available
+                    if (typeof completionCelebration !== 'undefined' && completionCelebration.startConfetti) {
+                        setTimeout(() => {
+                            completionCelebration.startConfetti();
+                        }, 500);
+                    }
+                }
+            }
+            
+            localStorage.setItem('tutorial1Progress', JSON.stringify(tutorialProgress));
+        });
+    </script>
+
+<script>
+  // Wait for both DOMContentLoaded and netlifyIdentity to be available
+  function initializeWithNetlifyIdentity() {
+    if (typeof netlifyIdentity === 'undefined') {
+      setTimeout(initializeWithNetlifyIdentity, 100);
+                            return;
+                        }
+
+    const user = netlifyIdentity.currentUser();
+    if (user) {
+      user.jwt().then(token => {
+        fetch("/.netlify/functions/getProgress?tutorialId=1", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.indexOf("application/json") !== -1) {
+            return res.json();
+          }
+          throw new TypeError("Received non-JSON response from server");
+        })
+        .then(data => {
+          if (data && Array.isArray(data.completedModules)) {
+            data.completedModules.forEach(moduleId => {
+              const moduleEl = document.getElementById(`module-${moduleId}`);
+              if (moduleEl) {
+                moduleEl.classList.add("unlocked");
+              }
+            });
+          }
+        })
+        .catch(error => {
+          console.warn('Error fetching progress:', error);
+          // Continue with local storage data if server sync fails
+          const localProgress = JSON.parse(localStorage.getItem('tutorial1Progress') || '{}');
+          if (localProgress) {
+            Object.keys(localProgress).forEach(key => {
+              if (localProgress[key] === true && key.startsWith('module')) {
+                const moduleNum = key.replace('module', '');
+                const moduleEl = document.getElementById(`module-${moduleNum}`);
+                if (moduleEl) {
+                  moduleEl.classList.add("unlocked");
+                }
+              }
+            });
+          }
+        });
+      });
+    }
+  }
+
+  // Start initialization when DOM is loaded
+  document.addEventListener("DOMContentLoaded", initializeWithNetlifyIdentity);
+    </script>
+
+    <script>
+        // Initialize Supabase client with auth configuration
+        const supabaseUrl = 'https://tdxpostwbmpnsikjftvy.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRkeHBvc3R3Ym1wbnNpa2pmdHZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyMDk5MzAsImV4cCI6MjA1ODc4NTkzMH0.-_azSsbF2xre1qQr7vppVoKzHAJRuzIgHzlutAMtmW0'
+        
+        // Initialize Supabase with auth configuration
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey, {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true,
+                storage: window.localStorage
+            }
+        });
+
+        // Update Supabase auth headers when Netlify Identity token refreshes
+        netlifyIdentity.on('login', user => {
+            if (supabase && user) {
+                console.log('Setting Supabase session with Netlify token');
+                user.jwt().then(token => {
+                    supabase.auth.setSession(token)
+                        .then(response => {
+                            console.log('Supabase session set successfully:', response);
+                        })
+                        .catch(error => {
+                            console.error('Error setting Supabase session:', error);
+                        });
+                        });
+                    }
+                });
+
+        // Handle token refresh
+        netlifyIdentity.on('refresh', user => {
+            if (supabase && user) {
+                console.log('Refreshing Supabase session');
+                user.jwt().then(token => {
+                    supabase.auth.setSession(token)
+                        .then(response => {
+                            console.log('Supabase session refreshed successfully:', response);
+                        })
+                        .catch(error => {
+                            console.error('Error refreshing Supabase session:', error);
+                        });
+                });
+            }
+        });
+
+        // Handle logout
+        netlifyIdentity.on('logout', () => {
+            if (supabase) {
+                console.log('Clearing Supabase session');
+                supabase.auth.signOut()
+                    .then(() => {
+                        console.log('Supabase session cleared successfully');
+                    })
+                    .catch(error => {
+                        console.error('Error clearing Supabase session:', error);
+                    });
+            }
+        });
+    </script>
+
+</body>
+</html> 
