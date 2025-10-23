@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Flow Test - Premium Web Creators</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        .test-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-header {
+            background: #3b82f6;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .test-button {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #059669;
+        }
+        .test-button.secondary {
+            background: #6b7280;
+        }
+        .test-button.secondary:hover {
+            background: #4b5563;
+        }
+        .console-output {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-pass { background: #10b981; }
+        .status-fail { background: #ef4444; }
+        .status-pending { background: #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🧪 Login Flow Test Suite</h1>
+            <p>Comprehensive testing of authentication and course loading functionality</p>
+        </div>
+        
+        <div>
+            <button class="test-button" onclick="runAllTests()">🚀 Run All Tests</button>
+            <button class="test-button secondary" onclick="clearConsole()">🗑️ Clear Console</button>
+            <button class="test-button secondary" onclick="testLogin()">🔐 Test Login</button>
+            <button class="test-button secondary" onclick="testLogout()">🚪 Test Logout</button>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h3>Test Status:</h3>
+            <div id="testStatus">
+                <div><span class="status-indicator status-pending"></span>Netlify Identity</div>
+                <div><span class="status-indicator status-pending"></span>Supabase Auth</div>
+                <div><span class="status-indicator status-pending"></span>Netlify Functions</div>
+                <div><span class="status-indicator status-pending"></span>Auth Buttons</div>
+                <div><span class="status-indicator status-pending"></span>JavaScript Errors</div>
+                <div><span class="status-indicator status-pending"></span>Dashboard Page</div>
+                <div><span class="status-indicator status-pending"></span>Login Flow</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h3>Console Output:</h3>
+            <div id="consoleOutput" class="console-output">Ready to run tests... Click "Run All Tests" to begin.</div>
+        </div>
+    </div>
+
+    <!-- Include Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Include Supabase Auth -->
+    <script src="supabase-auth.js"></script>
+    
+    <!-- Include Test Script -->
+    <script src="test-login-flow.js"></script>
+    
+    <script>
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.join(' ');
+            consoleOutput.textContent += message + '\n';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        // Test functions
+        function clearConsole() {
+            consoleOutput.textContent = '';
+            console.log('Console cleared. Ready for new tests.');
+        }
+        
+        function testLogin() {
+            console.log('\n🔐 Testing Login Process...');
+            if (typeof netlifyIdentity !== 'undefined') {
+                netlifyIdentity.open('login');
+                console.log('✅ Netlify Identity login modal opened');
+            } else {
+                console.log('❌ Netlify Identity not available');
+            }
+        }
+        
+        function testLogout() {
+            console.log('\n🚪 Testing Logout Process...');
+            if (typeof netlifyIdentity !== 'undefined') {
+                const user = netlifyIdentity.currentUser();
+                if (user) {
+                    netlifyIdentity.logout();
+                    console.log('✅ User logged out');
+                } else {
+                    console.log('ℹ️ No user currently logged in');
+                }
+            } else {
+                console.log('❌ Netlify Identity not available');
+            }
+        }
+        
+        // Initialize Netlify Identity
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                console.log('🔧 Netlify Identity initialized');
+                if (user) {
+                    console.log('👤 User already logged in:', user.email);
+                } else {
+                    console.log('👤 No user logged in');
+                }
+            });
+            
+            window.netlifyIdentity.on("login", user => {
+                console.log('✅ User logged in successfully:', user.email);
+                console.log('🔄 Testing course loading...');
+                testCourseLoading(user);
+            });
+            
+            window.netlifyIdentity.on("logout", () => {
+                console.log('🚪 User logged out');
+            });
+            
+            window.netlifyIdentity.init();
+        }
+        
+        // Test course loading after login
+        async function testCourseLoading(user) {
+            try {
+                if (window.supabaseAuth) {
+                    await window.supabaseAuth.init();
+                    const purchases = await window.supabaseAuth.getUserPurchases(user.id);
+                    console.log('📚 User courses loaded:', purchases.length, 'purchases');
+                    
+                    if (purchases.length > 0) {
+                        console.log('✅ Course loading test PASSED');
+                    } else {
+                        console.log('ℹ️ No courses found (user may not have purchased any yet)');
+                    }
+                } else {
+                    console.log('❌ Supabase Auth not available');
+                }
+            } catch (error) {
+                console.log('❌ Course loading test FAILED:', error.message);
+            }
+        }
+        
+        // Auto-run tests on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 Login Flow Test Suite Loaded');
+            console.log('================================');
+            console.log('Click "Run All Tests" to begin comprehensive testing');
+        });
+    </script>
+</body>
+</html>
