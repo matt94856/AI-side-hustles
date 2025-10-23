@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize Netlify Identity
     if (typeof netlifyIdentity !== 'undefined') {
-        netlifyIdentity.init();
+    netlifyIdentity.init();
         setupAuthHandlers();
     }
 });
@@ -40,12 +40,16 @@ function initializeNavigation() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            const href = this.getAttribute('href');
+            // Only process if href is not just '#'
+            if (href && href !== '#') {
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             }
         });
     });
@@ -64,7 +68,8 @@ function initializeAuth() {
         if (btn) {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                openSignupModal();
+                // Use Netlify Identity modal directly
+                netlifyIdentity.open('signup');
             });
         }
     });
@@ -72,7 +77,8 @@ function initializeAuth() {
     if (loginBtn) {
         loginBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            openLoginModal();
+            // Use Netlify Identity modal directly
+            netlifyIdentity.open('login');
         });
     }
 }
@@ -153,14 +159,14 @@ function updateAuthUI(isLoggedIn) {
             signupBtn.href = '#';
             signupBtn.onclick = (e) => {
                 e.preventDefault();
-                openSignupModal();
+                netlifyIdentity.open('signup');
             };
         }
         if (loginBtn) {
             loginBtn.textContent = 'Sign In';
             loginBtn.onclick = (e) => {
                 e.preventDefault();
-                openLoginModal();
+                netlifyIdentity.open('login');
             };
         }
     }
@@ -216,7 +222,7 @@ function initializeModals() {
     
     if (showSignupForm) {
         showSignupForm.addEventListener('click', (e) => {
-            e.preventDefault();
+        e.preventDefault();
             closeLoginModalHandler();
             openSignupModal();
         });
@@ -304,9 +310,6 @@ function handleSignup(e) {
 function handleLogin(e) {
     e.preventDefault();
     
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    
     // Show loading state
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
@@ -314,6 +317,7 @@ function handleLogin(e) {
     submitBtn.disabled = true;
     
     // Use Netlify Identity for login
+    // This will open the Netlify Identity modal
     netlifyIdentity.open('login');
     
     // Reset button state after a delay
@@ -348,15 +352,15 @@ function handleCourseEnrollment(e) {
     e.preventDefault();
     
     const courseType = e.target.getAttribute('data-course');
-    const user = netlifyIdentity.currentUser();
+        const user = netlifyIdentity.currentUser();
     
-    if (!user) {
+        if (!user) {
         // Store course selection and redirect to signup
         sessionStorage.setItem('selectedCourse', courseType);
         openSignupModal();
-        return;
-    }
-    
+            return;
+        }
+
     // User is logged in, proceed with enrollment
     enrollInCourse(courseType);
 }
@@ -402,11 +406,11 @@ function enrollInCourse(courseType) {
         if (hasAccess) {
             // Redirect to course
             window.location.href = `course-${courseType}.html`;
-        } else {
+                } else {
             // Show purchase flow
             initiatePurchase(courseType);
-        }
-    });
+            }
+        });
 }
 
 function initiatePurchase(plan) {
@@ -455,7 +459,7 @@ async function syncUserDataAfterLogin(user) {
                 hasAllAccess = true;
                 // Add all courses for all-access
                 purchasedCourses.push('marketing', 'social-media', 'automation', 'content-creation', 'analytics');
-            } else {
+                    } else {
                 // Add specific course
                 const courseType = getCourseTypeFromTutorialId(purchase.tutorial_id);
                 if (courseType && !purchasedCourses.includes(courseType)) {
@@ -502,17 +506,17 @@ function checkCourseAccess(courseType) {
         const user = netlifyIdentity.currentUser();
         if (!user) {
             resolve(false);
-            return;
-        }
-
+                return;
+            }
+            
         // Check local storage first (should be synced after login)
         const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses') || '[]');
         const hasAllAccess = localStorage.getItem('allAccess') === 'true';
 
         if (hasAllAccess || purchasedCourses.includes(courseType)) {
             resolve(true);
-            return;
-        }
+                return;
+            }
 
         // If not in local storage, try to sync and check again
         try {
