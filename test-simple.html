@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Test - Premium Web Creators</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        .test-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #2563eb;
+        }
+        .console-output {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Login Test Page</h1>
+        <p>This page tests the basic functionality of Netlify Identity and button clicks.</p>
+        
+        <div>
+            <button class="test-button" id="testLoginBtn">🔐 Test Login</button>
+            <button class="test-button" id="testSignupBtn">🚀 Test Signup</button>
+            <button class="test-button" onclick="testScriptLoading()">📜 Test Script Loading</button>
+            <button class="test-button" onclick="clearConsole()">🗑️ Clear Console</button>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h3>Console Output:</h3>
+            <div id="consoleOutput" class="console-output">Ready to test... Click buttons above to see results.</div>
+        </div>
+    </div>
+
+    <!-- Include Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <script>
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const message = args.join(' ');
+            consoleOutput.textContent += message + '\n';
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        // Test functions
+        function clearConsole() {
+            consoleOutput.textContent = '';
+            console.log('Console cleared. Ready for new tests.');
+        }
+        
+        function testScriptLoading() {
+            console.log('📜 Testing script loading...');
+            console.log('✅ This script is running');
+            console.log('✅ Console.log is working');
+            console.log('✅ DOM manipulation is working');
+        }
+        
+        // Test button click handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM Content Loaded');
+            
+            const testLoginBtn = document.getElementById('testLoginBtn');
+            const testSignupBtn = document.getElementById('testSignupBtn');
+            
+            if (testLoginBtn) {
+                testLoginBtn.addEventListener('click', function() {
+                    console.log('🔐 Test Login button clicked');
+                    if (typeof netlifyIdentity !== 'undefined') {
+                        console.log('✅ Netlify Identity is available');
+                        netlifyIdentity.open('login');
+                        console.log('✅ Netlify Identity login modal opened');
+                    } else {
+                        console.log('❌ Netlify Identity is not available');
+                    }
+                });
+            } else {
+                console.log('❌ Test Login button not found');
+            }
+            
+            if (testSignupBtn) {
+                testSignupBtn.addEventListener('click', function() {
+                    console.log('🚀 Test Signup button clicked');
+                    if (typeof netlifyIdentity !== 'undefined') {
+                        console.log('✅ Netlify Identity is available');
+                        netlifyIdentity.open('signup');
+                        console.log('✅ Netlify Identity signup modal opened');
+                    } else {
+                        console.log('❌ Netlify Identity is not available');
+                    }
+                });
+            } else {
+                console.log('❌ Test Signup button not found');
+            }
+            
+            // Initialize Netlify Identity
+            if (typeof netlifyIdentity !== 'undefined') {
+                console.log('🔄 Initializing Netlify Identity...');
+                netlifyIdentity.init();
+                console.log('✅ Netlify Identity initialized');
+                
+                netlifyIdentity.on('init', user => {
+                    console.log('🔧 Netlify Identity init event fired');
+                    if (user) {
+                        console.log('👤 User already logged in:', user.email);
+                    } else {
+                        console.log('👤 No user logged in');
+                    }
+                });
+                
+                netlifyIdentity.on('login', user => {
+                    console.log('✅ User logged in:', user.email);
+                });
+                
+                netlifyIdentity.on('logout', () => {
+                    console.log('🚪 User logged out');
+                });
+            } else {
+                console.log('❌ Netlify Identity script not loaded');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,7 +1,11 @@
 // Modern AI Business Training Website JavaScript
 // Targeting SMBs with professional functionality
 
+console.log('🚀 Script.js loaded successfully!');
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 DOM Content Loaded - Starting initialization...');
+    
     // Initialize all components
     initializeNavigation();
     initializeAuth();
@@ -92,7 +96,7 @@ function initializeAuth() {
     [signupBtn, heroSignupBtn, solutionSignupBtn, finalSignupBtn].forEach(btn => {
         if (btn) {
             btn.addEventListener('click', (e) => {
-                e.preventDefault();
+        e.preventDefault();
                 console.log('🚀 Signup button clicked, opening Netlify Identity...');
                 if (typeof netlifyIdentity !== 'undefined') {
                     netlifyIdentity.open('signup');
@@ -141,7 +145,7 @@ function setupAuthHandlers() {
             sessionStorage.removeItem('redirectTo');
             sessionStorage.removeItem('tutorialId');
             window.location.href = redirectTo;
-        } else {
+    } else {
             window.location.href = 'dashboard.html';
         }
     });
@@ -219,9 +223,9 @@ function initializeModals() {
         coursePreviewModal.addEventListener('click', (e) => {
             if (e.target === coursePreviewModal) {
                 closeModal(coursePreviewModal);
-            }
-        });
-    }
+        }
+    });
+}
 }
 
 // Removed custom modal functions - using Netlify Identity instead
