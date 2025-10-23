@@ -132,22 +132,20 @@
 # Performance optimizations
 [[plugins]]
   package = "netlify-plugin-minify-html"
-  [plugins.inputs]
-    minifierOptions = { 
-      collapseWhitespace = true,
-      conservativeCollapse = true,
-      removeComments = true,
-      removeEmptyAttributes = true,
-      removeRedundantAttributes = true,
-      preserveLineBreaks = false,
-      removeAttributeQuotes = false,
-      removeEmptyElements = false,
-      removeOptionalTags = false,
-      removeScriptTypeAttributes = true,
-      removeStyleLinkTypeAttributes = true,
-      sortAttributes = true,
-      sortClassName = true,
-      useShortDoctype = true,
-      minifyCSS = true,
-      minifyJS = true
-    }
+  [plugins.inputs.minifierOptions]
+    collapseWhitespace = true
+    conservativeCollapse = true
+    removeComments = true
+    removeEmptyAttributes = true
+    removeRedundantAttributes = true
+    preserveLineBreaks = false
+    removeAttributeQuotes = false
+    removeEmptyElements = false
+    removeOptionalTags = false
+    removeScriptTypeAttributes = true
+    removeStyleLinkTypeAttributes = true
+    sortAttributes = true
+    sortClassName = true
+    useShortDoctype = true
+    minifyCSS = true
+    minifyJS = true
