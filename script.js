@@ -10,11 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAnimations();
     initializeMobileMenu();
     
-    // Initialize Netlify Identity
-    if (typeof netlifyIdentity !== 'undefined') {
-    netlifyIdentity.init();
-        setupAuthHandlers();
+    // Initialize Netlify Identity when it's available
+    function initNetlifyIdentity() {
+        if (typeof netlifyIdentity !== 'undefined') {
+            netlifyIdentity.init();
+            setupAuthHandlers();
+        } else {
+            // Retry after a short delay if Netlify Identity isn't loaded yet
+            setTimeout(initNetlifyIdentity, 100);
+        }
     }
+    
+    initNetlifyIdentity();
 });
 
 // Navigation functionality
@@ -41,14 +48,18 @@ function initializeNavigation() {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const href = this.getAttribute('href');
-            // Only process if href is not just '#'
-            if (href && href !== '#') {
-                const target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            // Only process if href is not just '#' and has a valid target
+            if (href && href !== '#' && href.length > 1) {
+                try {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                } catch (error) {
+                    console.warn('Invalid selector:', href);
                 }
             }
         });
