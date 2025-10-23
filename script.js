@@ -12,10 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize Netlify Identity when it's available
     function initNetlifyIdentity() {
+        console.log('🔄 Checking for Netlify Identity...');
         if (typeof netlifyIdentity !== 'undefined') {
+            console.log('✅ Netlify Identity found, initializing...');
             netlifyIdentity.init();
             setupAuthHandlers();
+            console.log('✅ Netlify Identity initialized successfully');
         } else {
+            console.log('⏳ Netlify Identity not ready, retrying...');
             // Retry after a short delay if Netlify Identity isn't loaded yet
             setTimeout(initNetlifyIdentity, 100);
         }
@@ -68,19 +72,33 @@ function initializeNavigation() {
 
 // Authentication functionality
 function initializeAuth() {
+    console.log('🔧 Initializing authentication...');
+    
     const signupBtn = document.getElementById('signupBtn');
     const loginBtn = document.getElementById('loginBtn');
     const heroSignupBtn = document.getElementById('heroSignupBtn');
     const solutionSignupBtn = document.getElementById('solutionSignupBtn');
     const finalSignupBtn = document.getElementById('finalSignupBtn');
     
+    console.log('📋 Found buttons:', {
+        signupBtn: !!signupBtn,
+        loginBtn: !!loginBtn,
+        heroSignupBtn: !!heroSignupBtn,
+        solutionSignupBtn: !!solutionSignupBtn,
+        finalSignupBtn: !!finalSignupBtn
+    });
+    
     // Add click handlers for all signup buttons
     [signupBtn, heroSignupBtn, solutionSignupBtn, finalSignupBtn].forEach(btn => {
         if (btn) {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Use Netlify Identity modal directly
-                netlifyIdentity.open('signup');
+                console.log('🚀 Signup button clicked, opening Netlify Identity...');
+                if (typeof netlifyIdentity !== 'undefined') {
+                    netlifyIdentity.open('signup');
+                } else {
+                    console.error('❌ Netlify Identity not available');
+                }
             });
         }
     });
@@ -88,19 +106,22 @@ function initializeAuth() {
     if (loginBtn) {
         loginBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Use Netlify Identity modal directly
-            netlifyIdentity.open('login');
+            console.log('🔐 Login button clicked, opening Netlify Identity...');
+            if (typeof netlifyIdentity !== 'undefined') {
+                netlifyIdentity.open('login');
+            } else {
+                console.error('❌ Netlify Identity not available');
+            }
         });
     }
+    
+    console.log('✅ Authentication initialization complete');
 }
 
 function setupAuthHandlers() {
     // Handle login state changes
     netlifyIdentity.on('login', async (user) => {
         console.log('User logged in:', user);
-        
-        // Close any open modals immediately
-        // closeAllModals(); // Removed - using Netlify Identity instead
         
         // Update UI
         updateAuthUI(true);
