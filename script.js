@@ -89,7 +89,7 @@ function setupAuthHandlers() {
         console.log('User logged in:', user);
         
         // Close any open modals immediately
-        closeAllModals();
+        // closeAllModals(); // Removed - using Netlify Identity instead
         
         // Update UI
         updateAuthUI(true);
@@ -156,7 +156,7 @@ function updateAuthUI(isLoggedIn) {
     } else {
         if (signupBtn) {
             signupBtn.textContent = 'Start Learning AI';
-            signupBtn.href = '#';
+            signupBtn.href = 'javascript:void(0)';
             signupBtn.onclick = (e) => {
                 e.preventDefault();
                 netlifyIdentity.open('signup');
@@ -174,33 +174,7 @@ function updateAuthUI(isLoggedIn) {
 
 // Modal functionality
 function initializeModals() {
-    // Signup modal
-    const signupModal = document.getElementById('signupModal');
-    const closeSignupModal = document.getElementById('closeSignupModal');
-    const signupForm = document.getElementById('signupForm');
-    
-    if (closeSignupModal) {
-        closeSignupModal.addEventListener('click', closeSignupModalHandler);
-    }
-    
-    if (signupForm) {
-        signupForm.addEventListener('submit', handleSignup);
-    }
-    
-    // Login modal
-    const loginModal = document.getElementById('loginModal');
-    const closeLoginModal = document.getElementById('closeLoginModal');
-    const loginForm = document.getElementById('loginForm');
-    
-    if (closeLoginModal) {
-        closeLoginModal.addEventListener('click', closeLoginModalHandler);
-    }
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
-    
-    // Course preview modal
+    // Course preview modal only (custom auth modals removed)
     const coursePreviewModal = document.getElementById('coursePreviewModal');
     const closePreviewModal = document.getElementById('closePreviewModal');
     
@@ -208,73 +182,24 @@ function initializeModals() {
         closePreviewModal.addEventListener('click', closePreviewModalHandler);
     }
     
-    // Form switching
-    const showLoginForm = document.getElementById('showLoginForm');
-    const showSignupForm = document.getElementById('showSignupForm');
-    
-    if (showLoginForm) {
-        showLoginForm.addEventListener('click', (e) => {
-            e.preventDefault();
-            closeSignupModalHandler();
-            openLoginModal();
+    // Close modal when clicking outside
+    if (coursePreviewModal) {
+        coursePreviewModal.addEventListener('click', (e) => {
+            if (e.target === coursePreviewModal) {
+                closeModal(coursePreviewModal);
+            }
         });
     }
-    
-    if (showSignupForm) {
-        showSignupForm.addEventListener('click', (e) => {
-        e.preventDefault();
-            closeLoginModalHandler();
-            openSignupModal();
-        });
-    }
-    
-    // Close modals when clicking outside
-    [signupModal, loginModal, coursePreviewModal].forEach(modal => {
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal(modal);
-                }
-            });
-        }
-    });
 }
 
-function openSignupModal() {
-    const modal = document.getElementById('signupModal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeSignupModalHandler() {
-    const modal = document.getElementById('signupModal');
-    closeModal(modal);
-}
-
-function openLoginModal() {
-    const modal = document.getElementById('loginModal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeLoginModalHandler() {
-    const modal = document.getElementById('loginModal');
-    closeModal(modal);
-}
+// Removed custom modal functions - using Netlify Identity instead
 
 function closePreviewModalHandler() {
     const modal = document.getElementById('coursePreviewModal');
     closeModal(modal);
 }
 
-function closeAllModals() {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => closeModal(modal));
-}
+// Removed closeAllModals function - using Netlify Identity instead
 
 function closeModal(modal) {
     if (modal) {
@@ -284,48 +209,7 @@ function closeModal(modal) {
 }
 
 // Form handling
-function handleSignup(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const company = document.getElementById('company').value;
-    
-    // Show loading state
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Creating Account...';
-    submitBtn.disabled = true;
-    
-    // Use Netlify Identity for signup
-    netlifyIdentity.open('signup');
-    
-    // Reset button state after a delay
-    setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
-}
-
-function handleLogin(e) {
-    e.preventDefault();
-    
-    // Show loading state
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Signing In...';
-    submitBtn.disabled = true;
-    
-    // Use Netlify Identity for login
-    // This will open the Netlify Identity modal
-    netlifyIdentity.open('login');
-    
-    // Reset button state after a delay
-    setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
-}
+// Removed handleSignup and handleLogin functions - using Netlify Identity instead
 
 // Course interactions
 function initializeCourseInteractions() {
