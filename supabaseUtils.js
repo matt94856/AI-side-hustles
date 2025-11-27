@@ -49,8 +49,9 @@ const supabaseUtils = {
                 throw new Error(result.error);
             }
 
-            // Update local storage
-            const purchasedTutorials = result.purchases.map(p => p.tutorial_id);
+            // Update local storage – backend returns `{ success, data }`
+            const purchases = result.data || [];
+            const purchasedTutorials = purchases.map(p => p.tutorial_id);
             localStorage.setItem('purchasedTutorials', JSON.stringify(purchasedTutorials));
             
             console.log('Successfully synced purchases:', purchasedTutorials);
@@ -93,7 +94,8 @@ const supabaseUtils = {
             }
 
             const result = await response.json();
-            return result.length > 0;
+            const purchases = result.data || [];
+            return purchases.length > 0;
         } catch (error) {
             console.error('Error checking purchase status:', error);
             return false;

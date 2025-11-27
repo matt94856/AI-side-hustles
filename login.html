@@ -23,6 +23,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js"></script>
 <script src="supabaseUtils.js"></script>
+<script src="supabase-auth.js"></script>
 <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -243,6 +244,9 @@
                     throw new Error('Invalid user data');
                 }
 
+                // First, attach any pending guest purchase to this freshly-authenticated user
+                await attachPendingPurchaseIfExists(user);
+
                 // Get stored redirect information
                 const redirectTo = sessionStorage.getItem('redirectTo');
                 const tutorialId = sessionStorage.getItem('tutorialId');
@@ -269,11 +273,68 @@
                         sessionStorage.setItem('showPaywallFor', tutorialId);
                     }
                 } else {
-                    window.location.href = 'index.html';
+                    // If there is no specific redirect, prefer dashboard when a purchase just occurred
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const returnTo = urlParams.get('return_to');
+                    if (returnTo) {
+                        window.location.href = returnTo;
+                    } else {
+                        window.location.href = 'index.html';
+                    }
                 }
             } catch (error) {
                 console.error('Error during auth redirect:', error);
             window.location.href = 'index.html';
+            }
+        }
+
+        async function attachPendingPurchaseIfExists(user) {
+            try {
+                const raw = localStorage.getItem('pendingPurchase');
+                if (!raw) return;
+
+                const pending = JSON.parse(raw);
+                if (!pending || !pending.tutorial_id) {
+                    localStorage.removeItem('pendingPurchase');
+                    return;
+                }
+
+                // Ensure Supabase + Netlify Identity user are synced
+                if (window.supabaseAuth && typeof window.supabaseAuth.syncNetlifyIdentityWithSupabase === 'function') {
+                    await window.supabaseAuth.syncNetlifyIdentityWithSupabase(user);
+                }
+
+                const purchaseData = {
+                    user_id: user.id,
+                    tutorial_id: pending.tutorial_id,
+                    all_access: pending.courseType === 'bundle',
+                    amount: pending.amount,
+                    currency: pending.currency || 'USD',
+                    payment_provider: pending.payment_provider || 'paypal',
+                    payment_id: pending.payment_id,
+                    transaction_details: pending.transaction_details
+                };
+
+                if (window.supabaseAuth && typeof window.supabaseAuth.addPurchase === 'function') {
+                    const ok = await window.supabaseAuth.addPurchase(purchaseData);
+                    if (ok) {
+                        // Mirror enrollment locally for immediate dashboard experience
+                        const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+                        const courseType = pending.courseType;
+                        if (courseType === 'bundle') {
+                            localStorage.setItem('allAccess', 'true');
+                            localStorage.setItem('enrolledCourses', JSON.stringify(['marketing', 'social-media', 'automation', 'content-creation', 'analytics']));
+                        } else if (courseType && !enrolledCourses.includes(courseType)) {
+                            enrolledCourses.push(courseType);
+                            localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses));
+                        }
+                        localStorage.removeItem('pendingPurchase');
+                    }
+                } else {
+                    console.warn('supabaseAuth not available to attach pending purchase');
+                }
+            } catch (error) {
+                console.error('Error attaching pending purchase:', error);
             }
         }
 

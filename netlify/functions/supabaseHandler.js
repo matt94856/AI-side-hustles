@@ -94,7 +94,10 @@ exports.handler = async (event) => {
         };
       }
     } else {
-      // Use anon client for user operations (enforces RLS)
+      // For most user-facing operations we want to scope by the calling user.
+      // Use the anon client by default (RLS), but we will override for specific
+      // actions like getPurchases where we intentionally use the service role
+      // with an explicit user_id filter.
       supabaseClient = supabaseAnon;
       
       // Set the user session for RLS enforcement
@@ -141,9 +144,20 @@ exports.handler = async (event) => {
 
     // Execute the requested action
     if (action === 'getPurchases') {
-      result = await supabaseClient
+      // Always use the service client here but explicitly filter by user_id
+      // so we only ever return purchases for the authenticated user.
+      if (!user || !user.id) {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ error: 'User ID is required for getPurchases' })
+        };
+      }
+
+      result = await supabaseService
         .from('purchases')
-        .select('*');
+        .select('*')
+        .eq('user_id', user.id);
     } else if (action === 'addPurchase') {
       if (!user || !user.id) {
         return {
@@ -166,7 +180,10 @@ exports.handler = async (event) => {
       if (data.payment_id) purchaseData.payment_id = data.payment_id;
       if (data.transaction_details) purchaseData.transaction_details = data.transaction_details;
 
-      result = await supabaseClient
+      // Use service client for trusted server-side writes so we are not
+      // dependent on any client-side auth/session and can enforce our own
+      // user_id scoping and validation.
+      result = await supabaseService
         .from('purchases')
         .upsert(purchaseData, { 
           onConflict: 'user_id,tutorial_id,all_access',
@@ -214,7 +231,7 @@ exports.handler = async (event) => {
       };
     }
 
-    if (result.error) {
+    if (result && result.error) {
       return {
         statusCode: 500,
         headers,
@@ -230,6 +247,19 @@ exports.handler = async (event) => {
 
   } catch (error) {
     console.error('Supabase handler error:', error);
+
+    try {
+      if (process.env.SENTRY_DSN) {
+        const Sentry = require('@sentry/node');
+        if (!Sentry.getCurrentHub().getClient()) {
+          Sentry.init({ dsn: process.env.SENTRY_DSN });
+        }
+        Sentry.captureException(error);
+      }
+    } catch (sentryError) {
+      console.error('Error reporting to Sentry:', sentryError);
+    }
+
     return {
       statusCode: 500,
       headers,

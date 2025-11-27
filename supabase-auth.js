@@ -33,6 +33,9 @@ class SupabaseAuth {
     }
 
     async syncNetlifyIdentityWithSupabase(netlifyUser) {
+        // Ensure Supabase client is ready (safe no-op if already initialized)
+        await this.init();
+
         if (!this.supabase || !netlifyUser) return null;
 
         try {
@@ -69,62 +72,39 @@ class SupabaseAuth {
     }
 
     async getUserPurchases(userId) {
-        if (!this.supabase) return [];
+        // Ensure Supabase client is initialized before making any related calls
+        await this.init();
 
         try {
-            // Use Netlify function to get user purchases (uses service role for RLS bypass)
-            const response = await fetch('/.netlify/functions/supabaseHandler', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    action: 'getPurchases',
-                    user: { id: userId }
-                })
-            });
-
-            const result = await response.json();
-            if (!response.ok || !result.success) {
-                console.error('Failed to get user purchases:', result.error);
-                return [];
+            if (!window.apiClient || typeof window.apiClient.getPurchases !== 'function') {
+                throw new Error('API client not available');
             }
 
-            return result.data || [];
+            const purchases = await window.apiClient.getPurchases(userId);
+            return purchases || [];
         } catch (error) {
-            console.error('Error fetching user purchases:', error);
+            console.error('Error fetching user purchases via API client:', error);
             return [];
         }
     }
 
     async addPurchase(purchaseData) {
-        if (!this.supabase) return false;
+        await this.init();
 
         try {
-            // Use Netlify function to add purchase (uses service role for RLS bypass)
-            const response = await fetch('/.netlify/functions/supabaseHandler', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    action: 'addPurchase',
-                    user: { id: purchaseData.user_id },
-                    data: purchaseData
-                })
-            });
-
-            const result = await response.json();
-            if (!response.ok || !result.success) {
-                console.error('Failed to add purchase:', result.error);
-                return false;
+            if (!window.apiClient || typeof window.apiClient.addPurchase !== 'function') {
+                throw new Error('API client not available');
             }
 
-            return true;
+            return await window.apiClient.addPurchase(purchaseData);
         } catch (error) {
-            console.error('Error adding purchase:', error);
+            console.error('Error adding purchase via API client:', error);
             return false;
         }
     }
 
     async checkCourseAccess(userId, courseId) {
-        if (!this.supabase) return false;
+        await this.init();
 
         try {
             // Check for all access first

@@ -112,7 +112,7 @@ exports.handler = async (event) => {
       };
     }
 
-    if (result.error) {
+    if (result && result.error) {
       return {
         statusCode: 500,
         headers,
@@ -128,6 +128,19 @@ exports.handler = async (event) => {
 
   } catch (error) {
     console.error('Webhook handler error:', error);
+
+    try {
+      if (process.env.SENTRY_DSN) {
+        const Sentry = require('@sentry/node');
+        if (!Sentry.getCurrentHub().getClient()) {
+          Sentry.init({ dsn: process.env.SENTRY_DSN });
+        }
+        Sentry.captureException(error);
+      }
+    } catch (sentryError) {
+      console.error('Error reporting webhook error to Sentry:', sentryError);
+    }
+
     return {
       statusCode: 500,
       headers,

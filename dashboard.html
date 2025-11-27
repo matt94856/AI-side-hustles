@@ -366,6 +366,75 @@
             background: #dc2626;
             transform: translateY(-2px);
         }
+
+        .onboarding-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .onboarding-modal.active {
+            display: flex;
+        }
+
+        .onboarding-content {
+            background: #fff;
+            border-radius: var(--radius-2xl);
+            max-width: 640px;
+            width: 100%;
+            padding: var(--spacing-8);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .onboarding-steps {
+            display: flex;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-4);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .onboarding-step {
+            flex: 1;
+            padding-bottom: var(--spacing-1);
+            border-bottom: 2px solid var(--border-light);
+            text-align: center;
+        }
+
+        .onboarding-step.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .checklist {
+            margin-top: var(--spacing-6);
+            background: white;
+            padding: var(--spacing-6);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-2) 0;
+        }
+
+        .checklist-item input {
+            width: 18px;
+            height: 18px;
+        }
+
+        .checklist-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
         
         @media (max-width: 768px) {
             .dashboard-nav {
@@ -454,6 +523,68 @@
             </div>
         </div>
 
+        <!-- Onboarding Modal -->
+        <div class="onboarding-modal" id="onboardingModal" aria-hidden="true">
+            <div class="onboarding-content" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+                <div class="onboarding-steps">
+                    <div class="onboarding-step active" id="step1Label">1. Choose your goal</div>
+                    <div class="onboarding-step" id="step2Label">2. Recommended start</div>
+                    <div class="onboarding-step" id="step3Label">3. Weekly rhythm</div>
+                </div>
+                <h2 id="onboardingTitle">Let’s personalize your AI learning plan</h2>
+                <p id="onboardingDescription">Answer 3 quick questions so we can recommend the best starting point.</p>
+
+                <div id="onboardingStep1">
+                    <p>What’s your primary goal with AI right now?</p>
+                    <div class="courses-grid">
+                        <button class="course-card" type="button" onclick="setOnboardingGoal('leads')">
+                            <div class="course-icon">🎯</div>
+                            <h3 class="course-title">Get more leads & customers</h3>
+                            <p class="course-description">Use AI to attract and convert more of the right people.</p>
+                        </button>
+                        <button class="course-card" type="button" onclick="setOnboardingGoal('time')">
+                            <div class="course-icon">⚡</div>
+                            <h3 class="course-title">Save time with automation</h3>
+                            <p class="course-description">Free up hours every week by automating repetitive tasks.</p>
+                        </button>
+                        <button class="course-card" type="button" onclick="setOnboardingGoal('content')">
+                            <div class="course-icon">✍️</div>
+                            <h3 class="course-title">Create content faster</h3>
+                            <p class="course-description">Produce high-quality content 10x faster with AI tools.</p>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="onboardingStep2" style="display:none;">
+                    <h3 id="recommendedCourseTitle">Your recommended starting course</h3>
+                    <p id="recommendedCourseDescription"></p>
+                    <button class="btn-primary" id="startRecommendedBtn">Start this course</button>
+                </div>
+
+                <div id="onboardingStep3" style="display:none;">
+                    <h3>Set your weekly learning rhythm</h3>
+                    <p>Consistency beats intensity. How much time can you realistically commit each week?</p>
+                    <div class="courses-grid">
+                        <button class="course-card" type="button" onclick="setStudyFrequency('light')">
+                            <h3 class="course-title">Light: 2 hours / week</h3>
+                            <p class="course-description">Perfect if you’re busy but want steady progress.</p>
+                        </button>
+                        <button class="course-card" type="button" onclick="setStudyFrequency('standard')">
+                            <h3 class="course-title">Standard: 4 hours / week</h3>
+                            <p class="course-description">Ideal for seeing results within the first month.</p>
+                        </button>
+                        <button class="course-card" type="button" onclick="setStudyFrequency('intensive')">
+                            <h3 class="course-title">Intensive: 6+ hours / week</h3>
+                            <p class="course-description">For fast‑track implementation and transformation.</p>
+                        </button>
+                    </div>
+                    <div style="margin-top: var(--spacing-6); text-align:right;">
+                        <button class="btn-primary" type="button" onclick="completeOnboarding()">Finish Setup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Dashboard Content -->
         <div class="dashboard-content">
             <div class="container">
@@ -467,6 +598,21 @@
 
                 <!-- My Courses Tab -->
                 <div class="tab-content active" id="my-courses">
+                    <div class="checklist" id="activationChecklist">
+                        <h3>Getting Started Checklist</h3>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="cl-start-course">
+                            <label class="checklist-label" for="cl-start-course">Start your first lesson</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="cl-join-community">
+                            <label class="checklist-label" for="cl-join-community">Join the private community / email list</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="cl-finish-module1">
+                            <label class="checklist-label" for="cl-finish-module1">Finish Module 1 of your primary course</label>
+                        </div>
+                    </div>
                     <div class="courses-grid" id="myCoursesGrid">
                         <!-- Courses will be loaded dynamically -->
                     </div>
@@ -497,6 +643,9 @@
 
                 <!-- Certificates Tab -->
                 <div class="tab-content" id="certificates">
+                    <div id="certificatesList">
+                        <!-- Completed course certificates will be rendered here -->
+                    </div>
                     <div class="empty-state" id="certificatesEmpty">
                         <div class="empty-state-icon">🏆</div>
                         <h3>No Certificates Yet</h3>
@@ -514,6 +663,12 @@
         let currentUser = null;
         let userCourses = [];
         let allCourses = [];
+        let isLoading = false;
+        let onboardingState = {
+            goal: null,
+            recommendedCourseId: null,
+            studyFrequency: null
+        };
 
         // Course data
         const courseData = {
@@ -588,7 +743,8 @@
                         currentUser = user;
                         await loadUserData();
                     } else {
-                        // Redirect to login if not authenticated
+                        // If the user is not authenticated, send them to the marketing page
+                        // but do NOT break the page in case of transient identity issues.
                         window.location.href = 'index.html';
                     }
                 });
@@ -611,6 +767,7 @@
 
             // Setup tab switching
             setupTabs();
+            hydrateChecklist();
             
             // Setup logout
             document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -628,6 +785,8 @@
             loadAllCourses();
             loadRecommendations();
             updateStats();
+            renderCertificates();
+            maybeShowOnboarding();
         }
 
         function updateUserInfo() {
@@ -828,6 +987,17 @@
             
             // Simple recommendation logic based on enrolled courses
             const recommendations = generateRecommendations();
+
+            if (!recommendations.length) {
+                recommendationsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✨</div>
+                        <h3>You're all caught up</h3>
+                        <p>You've already enrolled in all available courses. Watch for new releases soon.</p>
+                    </div>
+                `;
+                return;
+            }
             
             recommendationsList.innerHTML = recommendations.map(rec => `
                 <div class="recommendation-item">
@@ -837,6 +1007,41 @@
                         <p>${rec.reason}</p>
                     </div>
                     <button class="btn-primary" onclick="enrollCourse('${rec.courseId}')">Enroll</button>
+                </div>
+            `).join('');
+        }
+
+        function renderCertificates() {
+            const certificatesListEl = document.getElementById('certificatesList');
+            const emptyStateEl = document.getElementById('certificatesEmpty');
+
+            const completedCourses = userCourses.filter(c => c.progress === 100);
+
+            if (!completedCourses.length) {
+                certificatesListEl.innerHTML = '';
+                emptyStateEl.style.display = 'block';
+                return;
+            }
+
+            emptyStateEl.style.display = 'none';
+            certificatesListEl.innerHTML = completedCourses.map(course => `
+                <div class="course-card">
+                    <div class="course-header">
+                        <div class="course-icon">🏆</div>
+                        <div class="course-status completed">Certificate</div>
+                    </div>
+                    <h3 class="course-title">${course.title}</h3>
+                    <p class="course-description">
+                        Congratulations! You have completed this course and earned a certificate of completion.
+                    </p>
+                    <div class="course-actions">
+                        <button class="course-btn primary" onclick="viewCertificate('${course.id}')">
+                            View Certificate
+                        </button>
+                        <button class="course-btn secondary" onclick="continueCourse('${course.id}')">
+                            Review Course
+                        </button>
+                    </div>
                 </div>
             `).join('');
         }
@@ -866,6 +1071,69 @@
             document.getElementById('certificates').textContent = userCourses.filter(c => c.progress === 100).length;
         }
 
+        function maybeShowOnboarding() {
+            const hasSeen = localStorage.getItem('dashboardOnboardingCompleted');
+            if (hasSeen === 'true') return;
+
+            const modal = document.getElementById('onboardingModal');
+            if (modal) {
+                modal.classList.add('active');
+                modal.setAttribute('aria-hidden', 'false');
+            }
+        }
+
+        function setOnboardingGoal(goal) {
+            onboardingState.goal = goal;
+
+            // Map goals to recommended starter course
+            let courseId = 'marketing';
+            if (goal === 'time') courseId = 'automation';
+            if (goal === 'content') courseId = 'content-creation';
+
+            onboardingState.recommendedCourseId = courseId;
+
+            const course = courseData[courseId];
+            document.getElementById('recommendedCourseTitle').textContent = `Start with: ${course.title}`;
+            document.getElementById('recommendedCourseDescription').textContent = course.description;
+
+            document.getElementById('onboardingStep1').style.display = 'none';
+            document.getElementById('onboardingStep2').style.display = 'block';
+            document.getElementById('step1Label').classList.remove('active');
+            document.getElementById('step2Label').classList.add('active');
+
+            document.getElementById('startRecommendedBtn').onclick = function () {
+                // If user already has access, continue; otherwise send to checkout
+                const owned = userCourses.some(c => c.id === courseId);
+                if (owned) {
+                    continueCourse(courseId);
+                } else {
+                    window.location.href = `checkout.html?course=${courseId}`;
+                }
+            };
+        }
+
+        function setStudyFrequency(freq) {
+            onboardingState.studyFrequency = freq;
+
+            // Persist preference for potential future use (e.g., reminders)
+            localStorage.setItem('studyFrequency', freq);
+
+            document.getElementById('onboardingStep2').style.display = 'none';
+            document.getElementById('onboardingStep3').style.display = 'block';
+            document.getElementById('step2Label').classList.remove('active');
+            document.getElementById('step3Label').classList.add('active');
+        }
+
+        function completeOnboarding() {
+            localStorage.setItem('dashboardOnboardingCompleted', 'true');
+            const modal = document.getElementById('onboardingModal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+            }
+            showMessage('Your AI learning plan is set. Let’s get started!', 'success');
+        }
+
         function setupTabs() {
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -875,6 +1143,23 @@
                     const tabId = button.getAttribute('data-tab');
                     switchTab(tabId);
                 });
+            });
+        }
+
+        function hydrateChecklist() {
+            const saved = JSON.parse(localStorage.getItem('dashboardChecklist') || '{}');
+            ['cl-start-course', 'cl-join-community', 'cl-finish-module1'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el && typeof saved[id] === 'boolean') {
+                    el.checked = saved[id];
+                }
+                if (el) {
+                    el.addEventListener('change', () => {
+                        const current = JSON.parse(localStorage.getItem('dashboardChecklist') || '{}');
+                        current[id] = el.checked;
+                        localStorage.setItem('dashboardChecklist', JSON.stringify(current));
+                    });
+                }
             });
         }
 

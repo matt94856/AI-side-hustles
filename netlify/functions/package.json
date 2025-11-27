@@ -4,6 +4,7 @@
   "description": "Netlify Functions for AI Hustle Hub",
   "dependencies": {
     "@supabase/supabase-js": "^2.39.7",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "@sentry/node": "^7.120.0"
   }
 } 
