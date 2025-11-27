@@ -112,17 +112,12 @@ function initializeAuth() {
         finalSignupBtn: !!finalSignupBtn
     });
     
-    // Add click handlers for all signup buttons
+    // Add click handlers for all signup buttons – send users to the dedicated login/onboarding page
     [signupBtn, heroSignupBtn, solutionSignupBtn, finalSignupBtn].forEach(btn => {
         if (btn) {
             btn.addEventListener('click', (e) => {
-        e.preventDefault();
-                console.log('🚀 Signup button clicked, opening Netlify Identity...');
-                if (typeof netlifyIdentity !== 'undefined') {
-                    netlifyIdentity.open('signup');
-                } else {
-                    console.error('❌ Netlify Identity not available');
-                }
+                e.preventDefault();
+                window.location.href = 'login.html';
             });
         }
     });
@@ -130,12 +125,7 @@ function initializeAuth() {
     if (loginBtn) {
         loginBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log('🔐 Login button clicked, opening Netlify Identity...');
-            if (typeof netlifyIdentity !== 'undefined') {
-                netlifyIdentity.open('login');
-            } else {
-                console.error('❌ Netlify Identity not available');
-            }
+            window.location.href = 'login.html';
         });
     }
     
@@ -203,26 +193,28 @@ function updateAuthUI(isLoggedIn) {
         if (signupBtn) {
             signupBtn.textContent = 'Dashboard';
             signupBtn.href = 'dashboard.html';
-            signupBtn.onclick = null;
         }
         if (loginBtn) {
             loginBtn.textContent = 'Sign Out';
-            loginBtn.onclick = () => netlifyIdentity.logout();
+            loginBtn.onclick = (e) => {
+                e.preventDefault();
+                if (typeof netlifyIdentity !== 'undefined') {
+                    netlifyIdentity.logout();
+                } else {
+                    window.location.href = 'index.html';
+                }
+            };
         }
     } else {
         if (signupBtn) {
             signupBtn.textContent = 'Start Learning AI';
-            signupBtn.href = 'javascript:void(0)';
-            signupBtn.onclick = (e) => {
-                e.preventDefault();
-                netlifyIdentity.open('signup');
-            };
+            signupBtn.href = 'login.html';
         }
         if (loginBtn) {
             loginBtn.textContent = 'Sign In';
             loginBtn.onclick = (e) => {
                 e.preventDefault();
-                netlifyIdentity.open('login');
+                window.location.href = 'login.html';
             };
         }
     }
@@ -290,36 +282,35 @@ function initializeCourseInteractions() {
 
 function handleCourseEnrollment(e) {
     e.preventDefault();
-    
-    const courseType = e.target.getAttribute('data-course');
-        const user = netlifyIdentity.currentUser();
-    
-        if (!user) {
-        // Store course selection and redirect to signup
-        sessionStorage.setItem('selectedCourse', courseType);
-        openSignupModal();
-            return;
-        }
 
-    // User is logged in, proceed with enrollment
-    enrollInCourse(courseType);
+    const target = e.currentTarget || e.target;
+    const courseType = target.getAttribute('data-course') || 'marketing';
+
+    // Always send users into the checkout flow; checkout handles guest vs logged-in logic.
+    window.location.href = `checkout.html?course=${encodeURIComponent(courseType)}`;
 }
 
 function handlePricingSelection(e) {
     e.preventDefault();
     
-    const plan = e.target.getAttribute('data-plan');
-    const user = netlifyIdentity.currentUser();
-    
-    if (!user) {
-        // Store plan selection and redirect to signup
-        sessionStorage.setItem('selectedPlan', plan);
-        openSignupModal();
-        return;
+    const target = e.currentTarget || e.target;
+    const plan = target.getAttribute('data-plan');
+
+    if (plan === 'bundle') {
+        // Directly to bundle checkout
+        window.location.href = 'checkout.html?course=bundle';
+    } else if (plan === 'individual') {
+        // Scroll to courses section so the user can choose a specific course
+        const coursesSection = document.getElementById('courses');
+        if (coursesSection) {
+            coursesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            window.location.href = '#courses';
+        }
+    } else if (plan === 'team') {
+        // Contact Sales via email
+        window.location.href = 'mailto:support@premiumwebcreators.com?subject=Team%20Plan%20Inquiry&body=Hi%20Premium%20Web%20Creators%2C%0D%0A%0D%0AI%27m%20interested%20in%20a%20team%20license%20for%20your%20AI%20courses.%20Please%20share%20pricing%20and%20details.%0D%0A';
     }
-    
-    // User is logged in, proceed with purchase
-    initiatePurchase(plan);
 }
 
 function handleWatchDemo() {
@@ -761,21 +752,10 @@ const coursePreviews = {
 };
 
 // Add course preview functionality
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('course-btn')) {
-        const courseType = e.target.getAttribute('data-course');
-        const preview = coursePreviews[courseType];
-        
-        if (preview) {
-            showCoursePreview(preview.title, preview.content);
-        }
-    }
-});
+// (Preview via separate triggers can be added later without interfering with purchase CTAs)
 
 // Export functions for global access
 window.AIBusinessTraining = {
-    openSignupModal,
-    openLoginModal,
     enrollInCourse,
     checkCourseAccess,
     showMessage
