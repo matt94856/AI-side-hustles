@@ -1,21 +1,29 @@
 {
-  "name": "ai-hustle-hub",
+  "name": "premium-web-creators",
   "version": "1.0.0",
-  "description": "AI Money-Making Guide Website",
+  "description": "Premium Web Creators – AI training platform",
   "main": "index.js",
   "scripts": {
-    "build": "npm install",
-    "postinstall": "cd netlify/functions && npm install"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "postinstall": "cd netlify/functions && npm install || echo \"functions deps already installed\""
   },
   "dependencies": {
     "@netlify/functions": "^2.0.0",
+    "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.39.7",
-    "node-fetch": "^2.6.7"
+    "next": "14.2.5",
+    "node-fetch": "^2.6.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "netlify-cli": "^12.0.0"
+    "@types/react": "19.2.7",
+    "netlify-cli": "^12.0.0",
+    "typescript": "^5.5.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
-} 
+}

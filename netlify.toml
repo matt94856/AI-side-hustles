@@ -1,6 +1,6 @@
 [build]
-  publish = "."
-  command = "echo 'Static site - no build required'"
+  publish = ".next"
+  command = "npm install && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -8,23 +8,39 @@
 # Redirect rules for SEO and user experience
 [[redirects]]
   from = "/courses"
-  to = "/index.html#courses"
+  to = "/courses.html"
   status = 301
 
 [[redirects]]
   from = "/testimonials"
-  to = "/index.html#testimonials"
+  to = "/success-stories.html"
   status = 301
 
 [[redirects]]
   from = "/pricing"
-  to = "/index.html#pricing"
+  to = "/pricing.html"
   status = 301
 
 [[redirects]]
   from = "/faq"
-  to = "/index.html#faq"
+  to = "/faq.html"
   status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/help"
+  to = "/help-center.html"
+  status = 301
+
+# Gate all tutorial pages through a serverless function that enforces auth + purchases
+[[redirects]]
+  from = "/tutorial*"
+  to = "/.netlify/functions/tutorialGate?path=:splat"
+  status = 200
 
 # Security headers
 [[headers]]
@@ -35,6 +51,8 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self' https:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval' https://identity.netlify.com https://www.paypal.com https://www.googletagmanager.com https://www.google-analytics.com https://tdxpostwbmpnsikjftvy.supabase.co; style-src 'self' https: 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https: data:; connect-src 'self' https://identity.netlify.com https://www.paypal.com https://tdxpostwbmpnsikjftvy.supabase.co https://premiumwebcreators.com https://www.google-analytics.com https://www.googletagmanager.com; frame-src 'self' https://www.paypal.com"
 
 # Cache static assets
 [[headers]]
@@ -149,3 +167,6 @@
     useShortDoctype = true
     minifyCSS = true
     minifyJS = true
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
